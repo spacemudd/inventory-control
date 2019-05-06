@@ -29,7 +29,8 @@ class JobOrderService
             'remark',
             'location_id',
             'time_start',
-            'time_end'
+            'time_end',
+            'quotation_id'
         ));
 
         $jobOrder = JobOrder::create($jobData);

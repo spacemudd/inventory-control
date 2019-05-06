@@ -5,14 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\JobOrder;
 use App\Services\JobOrderService;
 use App\Http\Requests\JobOrderRequest;
+use App\Services\StockService;
 
 class JobOrderController extends Controller
 {
     protected $service;
 
-    public function __construct(JobOrderService $service)
+    private $stockService;
+
+    public function __construct(JobOrderService $service, StockService $stockService)
     {
         $this->service = $service;
+        $this->stockService = $stockService;
     }
     /**
      * Display a listing of the resource.
@@ -43,6 +47,7 @@ class JobOrderController extends Controller
      */
     public function store(JobOrderRequest $request)
     {
+        $this->stockService->addOut($request);
         $jobOrder = $this->service->save($request);
         $this->service->addTechniciansTo($jobOrder, $request->technicians);
 
