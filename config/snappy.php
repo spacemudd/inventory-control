@@ -20,19 +20,15 @@
 if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
     $base_path_pdf = base_path('app/bin/win/wkhtmltopdf.exe');
 
-     // there's no image on win - fallback is composer. linux binary.
+    // there's no image on win - fallback is composer. linux binary.
     $base_path_image = base_path('vendor/h4cc/wkhtmltoimage-amd64/bin/wkhtmltoimage-amd64');
-
 } else {
-
-    $base_path_pdf = base_path('vendor/h4cc/wkhtmltopdf-amd64/bin/wkhtmltopdf-amd64');
-    $base_path_image = base_path('vendor/h4cc/wkhtmltoimage-amd64/bin/wkhtmltoimage-amd64');
-
+    $base_path_pdf ='/usr/local/bin/wkhtmltopdf-amd64';
+    // $base_path_image = base_path('vendor/h4cc/wkhtmltoimage-amd64/bin/wkhtmltoimage-amd64');
+    $base_path_image = '/usr/local/bin/wkhtmltoimage-amd64';
 }
 
 return array(
-
-
     'pdf' => array(
         'enabled' => true,
         'binary'  => $base_path_pdf,
@@ -47,5 +43,4 @@ return array(
         'options' => array(),
         'env'     => array(),
     ),
-
 );
