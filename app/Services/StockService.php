@@ -11,16 +11,11 @@ class StockService
 
     public function addOut(Request $request)
     {
-        $quotation = Quotation::find($request->quotation_id);
-        $quotation = $quotation->load('items');
+        $quotation = Quotation::with('items')->findOrFail($request->quotation_id);
 
-        foreach ($quotation[0]->items as $item) {
+        foreach ($quotation->items as $item) {
             Stock::where('material_request_item_id', $item->material_request_item_id)->update(['out' =>  $item->qty]);
-
         }
-
-
-
     }
 
     /**
