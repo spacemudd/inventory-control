@@ -18,8 +18,8 @@ class CreateStockTable extends Migration
             $table->unsignedInteger('material_request_item_id');
             $table->foreign('material_request_item_id')->references('id')->on('material_request_items')->onDelete('set cascade');
             $table->string('description');
-            $table->string('in');
-            $table->string('out');
+            $table->integer('in');
+            $table->integer('out');
             $table->timestamps();
         });
     }
