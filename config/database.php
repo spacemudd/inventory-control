@@ -98,7 +98,7 @@ return [
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8',
-            'prefix' => 'pur_',
+            'prefix' => 'inv_',
         ],
 
         'mysql_itam' => [
