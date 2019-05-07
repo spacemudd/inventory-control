@@ -93,8 +93,6 @@ class JobOrderService
             ->setOption('margin-right', 10)
             ->setOption('margin-bottom', 20)
             ->setOption('orientation', 'portrait')
-            ->setOption('footer-html', view('pdf.job-order.footer'))
-            ->setOption('encoding', 'utf-8')
-            ->download('invoice.pdf');
+            ->stream();
     }
 }
