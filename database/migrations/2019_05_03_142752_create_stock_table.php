@@ -15,11 +15,7 @@ class CreateStockTable extends Migration
     {
         Schema::create('stock', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('material_request_item_id');
-            $table->foreign('material_request_item_id')->references('id')->on('material_request_items')->onDelete('set cascade');
             $table->string('description')->unique();
-            $table->integer('in');
-            $table->integer('out');
             $table->timestamps();
         });
     }

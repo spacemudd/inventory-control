@@ -73,9 +73,6 @@ class QuotationItemsController extends Controller
             ->getMinorAmount()
             ->toInt();
 
-        $this->stockService->addIn($request);
-
-
         return QuotationItem::create($request);
     }
 
