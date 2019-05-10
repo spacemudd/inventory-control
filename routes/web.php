@@ -36,6 +36,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::resource('material-requests', 'MaterialRequestsController');
         Route::post('material-requests/{id}/approve', 'MaterialRequestsController@approve')->name('material-requests.approve');
         Route::get('material-requests/{id}/excel', 'MaterialRequestsController@excel')->name('material-requests.excel');
+        Route::get('material-requests/{itemName}/search', 'MaterialRequestsController@searchItem');
 
         // Quotations
         Route::resource('quotations', 'QuotationsController');
@@ -307,7 +308,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::post('projects', 'Api\ProjectsController@store')->name('api.projects.store');
 
     // Material requests
-    Route::get('material-requests/approved-items', 'Api\MaterialRequestsController@indexWithApprovedItems')->name('api.material-requests.index-approved-items');
+    Route::get('material-requests/approved-items/{materialNumber}', 'Api\MaterialRequestsController@indexWithApprovedItems')->name('api.material-requests.index-approved-items');
     Route::get('material-requests/search/{itemName}', 'Api\MaterialRequestsController@returnSearchResult');
 
     // QSuppliers

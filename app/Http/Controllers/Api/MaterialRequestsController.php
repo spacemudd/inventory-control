@@ -8,8 +8,8 @@ use App\Http\Controllers\Controller;
 
 class MaterialRequestsController extends Controller
 {
-    public function indexWithApprovedItems()
+    public function indexWithApprovedItems($materialNumber)
     {
-        return MaterialRequest::approved()->with('items')->get();
+        return MaterialRequest::approved()->with('items')->where('number', $materialNumber)->get();
     }
 }

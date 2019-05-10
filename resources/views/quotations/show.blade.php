@@ -40,7 +40,7 @@
                               method="post"
                               class="is-inline">
                             @csrf
-                            <button class="button is-success is-small"
+                            <button id="quotationSaveItems" class="button is-success is-small"
                                     {!! $quotation->items()->count() ? '' : 'disabled' !!}
                                     type="submit">Save</button>
                         </form>
@@ -98,6 +98,7 @@
         <div class="box">
             {{-- TODO: Can-edit will be disabled when there is a PO attached to it? --}}
             <quotations-items-container
+                    material-number="{{ $quotation->material_request->number }}"
                     :can-edit="{{ $quotation->saved_at ? 'false' : 'true' }}"
                     :quotation-id.number="{{ $quotation->id }}">
             </quotations-items-container>

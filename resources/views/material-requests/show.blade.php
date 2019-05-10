@@ -39,7 +39,9 @@
                               method="post"
                               class="is-inline">
                             @csrf
-                            <button class="button is-success is-small" type="submit">Approve</button>
+                            <button class="button is-success is-small"
+                                  {!! $mRequest->items()->count() ? '' : 'disabled' !!}
+                                    type="submit" id="materialApprove">Approve</button>
                         </form>
                     @endif
                     <a href="{{ route('material-requests.excel', ['id' => $mRequest->id]) }}"
