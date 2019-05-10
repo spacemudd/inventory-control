@@ -5,11 +5,15 @@ namespace App\Http\Controllers\Api;
 use App\Models\MaterialRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\MaterialRequestItem;
 
 class MaterialRequestsController extends Controller
 {
     public function indexWithApprovedItems()
     {
-        return MaterialRequest::approved()->with('items')->get();
+
+        $response = MaterialRequest::approved()->with('items')->get();
+
+        return $response;
     }
 }

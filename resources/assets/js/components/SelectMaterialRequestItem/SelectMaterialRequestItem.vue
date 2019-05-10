@@ -1,12 +1,12 @@
 <template>
     <div class="select is-fullwidth">
-        <select ref="newItemDescription" class="select" v-model="selected" @change="selectItem(selected)">
+        <select ref="newItemDescription" class="select" v-model="selected" @change="selectItem(selected, quantity)">
             <option value=""></option>
             <optgroup v-if="request.items.length != 0"
                       v-for="request in data"
                       :label="request.number">
                 <option v-for="item in request.items"
-                        :value="item.id">
+                        :value="item">
                     {{ item.description }}
                 </option>
             </optgroup>
@@ -20,6 +20,7 @@
       return {
         data: [],
         selected: null,
+        quantity: null,
         isFetching: false
       }
     },
@@ -27,8 +28,9 @@
       this.getData();
     },
     methods: {
-      selectItem(item) {
-        this.$emit('input', item);
+      selectItem() {
+        this.$emit('input', this.selected.id);
+        this.$emit('quantity', this.selected.qty);
       },
       getData() {
         this.data = [];
