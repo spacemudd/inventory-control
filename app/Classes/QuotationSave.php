@@ -3,10 +3,13 @@
 namespace App\Classes;
 
 use App\Models\Quotation;
+use App\Services\StockService;
 use Illuminate\Support\Facades\DB;
 
 class QuotationSave
 {
+    protected $stockService;
+
     /**
      * @var \App\Models\MaterialRequest 
      */
@@ -14,19 +17,15 @@ class QuotationSave
 
     static public function new(Quotation $quotation): QuotationSave
     {
-        return new QuotationSave($quotation);
+        $service = app()->make(StockService::class);
+        return new QuotationSave($quotation, $service);
     }
 
-    /**
-     * MaterialRequestApproval constructor.
-     *
-     * @param \App\Models\Quotation $quotation
-     */
-    public function __construct(Quotation $quotation)
+    public function __construct(Quotation $quotation, StockService $stockService)
     {
+        $this->stockService = $stockService;
         $this->quotation = $quotation;
     }
-
     /**
      * Approve the material request.
      *
@@ -50,8 +49,10 @@ class QuotationSave
             $transaction = $this->quotation->vendor->journal->creditDollars($this->quotation->items()->sum('total_price_inc_vat'));
             $transaction->referencesObject($this->quotation);
 
-            // TODO: Add item to the stock control. (Also create table)
-            // TODO: Table: `Stock`
+            // Update stock status.
+            foreach ($this->quotation->items()->get() as $item) {
+                $this->stockService->addIn($item->description, $item->qty, $item);
+            }
         DB::commit();
 
         return $this->quotation;

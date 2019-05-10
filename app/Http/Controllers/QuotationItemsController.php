@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\MaterialRequestItem;
 use App\Models\Quotation;
 use App\Models\QuotationItem;
+use App\Services\StockService;
 use Brick\Math\RoundingMode;
 use Brick\Money\Context\CustomContext;
 use Brick\Money\Money;
@@ -12,6 +13,15 @@ use Illuminate\Http\Request;
 
 class QuotationItemsController extends Controller
 {
+
+    private $stockService;
+
+    public function __construct(StockService $stockService)
+    {
+        $this->stockService = $stockService;
+
+    }
+
     /**
      *
      * @param $id
@@ -79,5 +89,14 @@ class QuotationItemsController extends Controller
         return [
             'message' => 'Success',
         ];
+    }
+
+
+    public function getQuotations()
+    {
+        $quotations = Quotation::where('status', 1)->pluck('vendor_quotation_number', 'id');
+
+
+        return $quotations;
     }
 }

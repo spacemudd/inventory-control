@@ -51,7 +51,8 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::resource('purchase-requisitions', 'PurchaseRequisitionsController');
 
         // Purchase Requisitions Simple Items.
-        Route::resource('purchase-requisition.simple-items', 'PurchaseRequisitionSimpleItemsController');
+        Route::resource('purchase-requisition.simple-items', 'Api\PurchaseRequisitionSimpleItemsController');
+
 
         // Items.
         Route::get('items/browse', 'ItemController@browse')->name('items.browse');
@@ -191,6 +192,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::delete('material-requests/{material_request_id}/items/{id}', 'MaterialRequestItemsController@destroy');
 
     // Quotations items.
+    Route::get('quotations', 'QuotationItemsController@getQuotations');
     Route::get('quotations/{quotation_id}/items', 'QuotationItemsController@index');
     Route::post('quotations/{quotation_id}/items/store', 'QuotationItemsController@store');
     Route::delete('quotations/{quotation_id}/items/{id}', 'QuotationItemsController@delete');
@@ -231,7 +233,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     // Purchase Orders uploads.
     Route::post('purchase-orders/uploads', 'Api\PurchaseOrderUploadsController@store')->name('api.purchase-orders.uploads');
     Route::get('purchase-orders/uploads', 'Api\PurchaseOrderUploadsController@index')->name('api.purchase-orders.uploads');
-    Route::get('purchase-orders/uploads/{id}/download', 'Api\PurchaseOrdersUploadController@download')->name('api.purchase-orders.download');
+//    Route::get('purchase-orders/uploads/{id}/download', 'Api\PurchaseOrdersUploadController@download')->name('api.purchase-orders.download');
 
     // PO Items
     Route::post('purchase-orders/items/partial-edit', 'Api\PurchaseOrderItemController@partialUpdate');
@@ -306,6 +308,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
 
     // Material requests
     Route::get('material-requests/approved-items', 'Api\MaterialRequestsController@indexWithApprovedItems')->name('api.material-requests.index-approved-items');
+    Route::get('material-requests/search/{itemName}', 'Api\MaterialRequestsController@returnSearchResult');
 
     // QSuppliers
     Route::get('q-suppliers', 'Api\QSuppliersController@index');
