@@ -38,7 +38,7 @@ class StockService
 
             $stock->movement()->create([
                 'stockable_id' => optional($item)->id,
-                'stockable_type' => optional($item)->material_request_item_id,
+                'stockable_type' => $item ? get_class($item) : null,
                 'in' => $qty,
                 'out' => 0,
             ]);
