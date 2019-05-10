@@ -44,8 +44,22 @@
                         </tr>
                         <tr v-if="isAdding">
                             <td></td>
-                            <td @keyup.enter="saveNewItem">
-                                <b-input v-model="form.description" autofocus></b-input>
+                            <td @keyup.enter="saveNewItem" v-on:keyup="searchMyItems" id="searchNewItem">
+                                <b-autocomplete
+                                        v-model="form.description"
+                                        :data="searchInfo"
+                                        :loading="isLoading"
+                                        field="code"
+                                        @input="searchMyItems"
+                                        @select="getInfo">
+                                    <template slot="empty" v-if="!isLoading">No results found</template>
+                                    <template slot-scope="props">
+                                        <a class="dropdown-item">
+                                            {{ props.option }}
+                                        </a>
+                                    </template>
+                                </b-autocomplete>
+
                             </td>
                             <td><b-input type="numeric" v-model="form.qty"></b-input></td>
                             <td class="has-text-centered">
@@ -56,9 +70,11 @@
                                 </button>
                             </td>
                         </tr>
-                    <tr class="has-text-centered" v-if="items.length === 0">
-                        <td colspan="5"><p class="has-text-centered"><i>No items</i></p></td>
-                    </tr>
+
+                        <tr class="has-text-centered" v-if="items.length === 0" v-show="showItem">
+                            <td colspan="5"><p class="has-text-centered"><i>No items</i></p></td>
+                        </tr>
+
                     </tbody>
                 </table>
             </div>
@@ -83,7 +99,7 @@ export default {
         return {
             newItemModal: false,
             isAdding: false,
-
+            searchInfo: [],
             items: [],
 
             form: {
@@ -91,6 +107,9 @@ export default {
                 description: '',
                 qty: 1,
             },
+            shouldDelete: true,
+            showItem: true,
+            isLoading: false,
         }
     },
     computed: {
@@ -107,6 +126,28 @@ export default {
         this.getItems();
     },
     methods: {
+        searchMyItems() {
+            this.shouldDelete = true;
+            this.showItem = false;
+
+            if (this.form.description != null && this.form.description.length != 0) {
+
+                axios.get('material-requests/' + this.form.description + '/search').then(response => {
+                    this.searchInfo = response.data;
+                    console.log(this.searchInfo);
+                });
+
+            } else {
+                this.shouldDelete = false;
+                this.showItem = true
+            }
+
+        },
+
+        getInfo(info) {
+            this.shouldDelete = false;
+            this.form.description = info;
+        },
         getItems() {
             this.$startLoading('LOADING_ITEMS');
             axios.get(this.apiUrl() + `/material-requests/${this.materialRequestId}/items`)
@@ -124,6 +165,10 @@ export default {
                 .then((response) => {
                     this.items.splice(key-1, 1)
                     this.$endLoading('DELETE_MATERIAL_REQUEST_ITEM_'+key)
+
+                    if(this.items.length == 0) {
+                        document.getElementById("materialApprove").disabled = true;
+                    }
                 })
         },
         /**
@@ -143,6 +188,10 @@ export default {
                     this.form.description = '';
                     this.form.qty = 1;
                     this.$endLoading('SAVING_MATERIAL_REQUEST_ITEM');
+
+                    if(this.items.length > 0) {
+                        document.getElementById("materialApprove").disabled = false;
+                    }
                 })
                 .catch(error => {
                     alert(error.response.data.message);
@@ -152,3 +201,4 @@ export default {
     }
 }
 </script>
+

@@ -9,6 +9,7 @@ use App\Models\Location;
 use App\Models\MaterialRequest;
 use App\Services\MaterialRequestService;
 use Illuminate\Http\Request;
+use App\Models\MaterialRequestItem;
 
 class MaterialRequestsController extends Controller
 {
@@ -133,5 +134,19 @@ class MaterialRequestsController extends Controller
     public function allExcel()
     {
         return MaterialRequestExcelAll::new()->download();
+    }
+
+    /**
+     * @param $itemName
+     * @return false|string
+     */
+    public function searchItem($itemName)
+    {
+
+        $newItemName = trim($itemName);
+        $itemInformation = MaterialRequestItem::where('description', 'like', '%' . $newItemName . '%')->distinct()->pluck('description');
+
+
+        return json_encode($itemInformation);
     }
 }
