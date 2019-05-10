@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
-use App\Models\JobOrder;
+use PDF;
 use Carbon\Carbon;
+use App\Models\JobOrder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class JobOrderService
 {
@@ -62,19 +64,35 @@ class JobOrderService
         foreach ($techinians as &$tech) {
             unset($tech['employee']);
 
-            if($tech['time_start']) $tech['time_start'] = Carbon::parse($tech['time_start']);
-            if($tech['time_end']) $tech['time_end'] = Carbon::parse($tech['time_end']);
+            if ($tech['time_start']) {
+                $tech['time_start'] = Carbon::parse($tech['time_start']);
+            }
+            if ($tech['time_end']) {
+                $tech['time_end'] = Carbon::parse($tech['time_end']);
+            }
         }
 
         return $jobOrder->technicians()->sync($techinians);
     }
 
     /**
+     * Generate pdf
      *
-     * @param $id Job order id.
+     * @param JobOrder $jobOrder
+     * @return void
      */
-    public function streamPdf($id)
+    public function streamPdf(JobOrder $jobOrder)
     {
+        // return view('pdf.job-order.form', compact('jobOrder'));
 
+        $pdf = PDF::loadView('pdf.job-order.form', compact('jobOrder'));
+
+        return $pdf
+            ->setOption('margin-top', 10)
+            ->setOption('margin-left', 10)
+            ->setOption('margin-right', 10)
+            ->setOption('margin-bottom', 20)
+            ->setOption('orientation', 'portrait')
+            ->stream();
     }
 }

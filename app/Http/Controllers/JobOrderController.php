@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\JobOrder;
 use App\Services\JobOrderService;
 use App\Http\Requests\JobOrderRequest;
+use Illuminate\Queue\Jobs\Job;
 
 class JobOrderController extends Controller
 {
@@ -103,6 +104,7 @@ class JobOrderController extends Controller
      */
     public function streamPdf($id)
     {
-        return $this->service->streamPdf($id);
+        $jobOrder = JobOrder::where('job_order_number', $id)->firstOrFail();
+        return $this->service->streamPdf($jobOrder);
     }
 }

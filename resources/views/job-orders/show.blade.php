@@ -42,13 +42,17 @@
                             <button class="button is-success is-small" type="submit">Approve</button>
                         </form> --}}
                     @endif
-                    {{-- <a href="{{ route('job-orders.excel', $jobOrder) }}"
+                    <button @click="$store.commit('JobOrders/togglePreviewPdf')"
                        class="button has-icon is-small">
-                        <span class="icon"><i class="fa fa-file-excel-o"></i></span>
-                        <span>Excel</span>
-                    </a> --}}
+                        <span class="icon"><i class="fa fa-eye"></i></span>
+                        <span>PDF</span>
+                    </a>
                 </div>
             </div>
+
+            <preview-pdf-container url="{{ route('job-orders.pdf', $jobOrder) }}"
+                show-type="JobOrders/previewPdf">
+            </preview-pdf-container>
 
             <form class="form" style="margin-top:2rem">
                 @csrf
