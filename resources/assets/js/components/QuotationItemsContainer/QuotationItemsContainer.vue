@@ -49,7 +49,7 @@
                     <tr v-if="isAdding" @keyup.esc="clearNewItemForm" @keyup.enter="saveNewItem">
                         <td colspan="2">
                            <!-- <b-input ref="newItemDescription" size="is-small" v-model="form.description" autofocus></b-input> -->
-                            <select-material-request-items @quantity="quantityNumber" v-model="form.material_request_item_id"/>
+                            <select-material-request-items @quantity="quantityNumber" v-model="form.material_request_item_id" v-bind:materialNumber="materialNumber"/>
                         </td>
                         <td><b-input @keyup.enter="saveNewItem" size="is-small" type="number" v-model="form.unit_price"></b-input></td>
                         <td><b-input size="is-small" type="number" v-model="form.qty" class="quantity"></b-input></td>
@@ -92,6 +92,10 @@
         required: false,
         default: false
       },
+      materialNumber: {
+        type: String,
+        required: true
+      }
     },
     mounted() {
       this.getItems();
@@ -156,6 +160,10 @@
           .then((response) => {
             this.items.splice(key-1, 1)
             this.$endLoading('DELETE_QUOTATION_ITEM_'+key)
+            if(this.items.length == 0) {
+              document.getElementById("quotationSaveItems").disabled = true
+            }
+
           })
       },
       /**
@@ -187,6 +195,8 @@
             this.form.qty = 1;
             this.form.unit_price = 1;
             this.$endLoading('SAVING_QUOTATION_ITEM');
+            document.getElementById("quotationSaveItems").disabled = false
+
             //this.$refs.newItemDescription.focus();
           })
           .catch(error => {

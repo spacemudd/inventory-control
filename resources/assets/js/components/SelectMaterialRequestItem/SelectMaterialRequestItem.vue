@@ -16,6 +16,12 @@
 
 <script>
   export default {
+    props: {
+      materialNumber: {
+          type: String,
+          required: true
+      }
+    },
     data() {
       return {
         data: [],
@@ -38,7 +44,7 @@
 
         let vm = this;
 
-        axios.get(this.apiUrl() + '/material-requests/approved-items')
+        axios.get(this.apiUrl() + '/material-requests/approved-items/' + this.materialNumber)
           .then(response => {
             this.data = response.data;
             vm.$refs.newItemDescription.focus();

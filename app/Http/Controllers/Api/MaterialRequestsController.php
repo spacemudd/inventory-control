@@ -9,11 +9,8 @@ use App\Models\MaterialRequestItem;
 
 class MaterialRequestsController extends Controller
 {
-    public function indexWithApprovedItems()
+    public function indexWithApprovedItems($materialNumber)
     {
-
-        $response = MaterialRequest::approved()->with('items')->get();
-
-        return $response;
+        return MaterialRequest::approved()->with('items')->where('number', $materialNumber)->get();
     }
 }

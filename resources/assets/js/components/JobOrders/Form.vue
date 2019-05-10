@@ -35,7 +35,7 @@ e<template>
                             <b-input v-model="ext"></b-input>
                         </b-field>
                         <b-field label="Quotation">
-                            <b-select placeholder="Select Quotation" expanded="" required >
+                            <b-select placeholder="Select Quotation" expanded="" required v-model="quotation">
                                 <option
                                         v-for="(item, index) in quotations"
                                         :value="index"
@@ -252,7 +252,7 @@ e<template>
                 remark: '',
                 status: 'pending',
                 employee: null,
-
+                quotation: '',
                 costCenters: [],
                 costCenterSearchCode: '',
 
@@ -353,14 +353,15 @@ e<template>
                 data.location_id = this.location.id;
                 data.employee_id = this.employee.id;
                 data.cost_center_id = this.cost_center.id;
-                data.quotation_id = Object.keys(data.quotations);
+                data.quotation_id = this.quotation;
 
                 axios.post(this.baseUrl()+'/job-orders', data)
                     .then(response => {
                         this.$toast.open({
                             message: 'Success!',
                         });
-                        window.location.href = this.baseUrl()+'/job-orders';
+                        // window.location.href = this.baseUrl()+'/job-orders';
+                        console.log(this.response);
                     })
                     .catch(e => {
                         throw e;
