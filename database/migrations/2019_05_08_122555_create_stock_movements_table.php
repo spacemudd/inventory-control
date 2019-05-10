@@ -15,11 +15,11 @@ class CreateStockMovementsTable extends Migration
     {
         Schema::create('stock_movements', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedBigInteger('stock_id');
-            $table->foreign('stock_id')->references('id')->on('stocks');
-            $table->unsignedBigInteger('material_request_item_id')->nullable();
+            $table->unsignedInteger('stock_id');
+            $table->foreign('stock_id')->references('id')->on('stock');
+            $table->unsignedInteger('material_request_item_id')->nullable();
             $table->foreign('material_request_item_id')->references('id')->on('material_requests')->onDelete('set null');
-            $table->unsignedBigInteger('quotation_item_id')->nullable();
+            $table->unsignedInteger('quotation_item_id')->nullable();
             $table->foreign('quotation_item_id')->references('id')->on('quotation_items')->onDelete('set null');
             $table->integer('in');
             $table->integer('out');
