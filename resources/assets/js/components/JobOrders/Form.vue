@@ -360,8 +360,7 @@ e<template>
                         this.$toast.open({
                             message: 'Success!',
                         });
-                        // window.location.href = this.baseUrl()+'/job-orders';
-                        console.log(this.response);
+                        window.location.href = this.baseUrl()+'/job-orders';
                     })
                     .catch(e => {
                         throw e;
