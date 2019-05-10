@@ -34,6 +34,18 @@ e<template>
                         <b-field label="Ext">
                             <b-input v-model="ext"></b-input>
                         </b-field>
+                        <b-field label="Quotation">
+                            <b-select placeholder="Select Quotation" expanded="" required >
+                                <option
+                                        v-for="(item, index) in quotations"
+                                        :value="index"
+
+                                >
+                                    {{ item }}
+                                </option>
+
+                            </b-select>
+                        </b-field>
 
                        <b-field label="Job description">
                             <b-input v-model="job_description" maxlength="200" type="textarea"></b-input>
@@ -221,7 +233,9 @@ e<template>
 </template>
 
 <script>
+    import BSelect from "buefy/src/components/select/Select";
     export default {
+        components: {BSelect},
         data() {
             return {
                 date:  new Date(),
@@ -254,7 +268,8 @@ e<template>
                     employee: '',
                     time_start: null,
                     time_end: null,
-                }
+                },
+                quotations:[]
             }
         },
          computed: {
@@ -287,6 +302,7 @@ e<template>
             this.loadCostCenters();
             this.loadEmployees();
             this.loadLocations();
+            this.loadQuotations();
         },
         methods: {
             loadEmployees() {
@@ -310,6 +326,15 @@ e<template>
                     this.$endLoading('FETCHING_LOCATIONS');
                 })
             },
+
+            loadQuotations() {
+                this.$startLoading('FETCHING_LOCATIONS');
+                axios.get(this.apiUrl() + '/quotations').then(response => {
+                    console.log(response.data);
+                    this.quotations = response.data;
+                    this.$endLoading('FETCHING_LOCATIONS');
+                })
+            },
             emptyCostCenter() {
                 this.cost_center = null;
                 this.costCenterSearchCode = '';
@@ -328,6 +353,7 @@ e<template>
                 data.location_id = this.location.id;
                 data.employee_id = this.employee.id;
                 data.cost_center_id = this.cost_center.id;
+                data.quotation_id = Object.keys(data.quotations);
 
                 axios.post(this.baseUrl()+'/job-orders', data)
                     .then(response => {
