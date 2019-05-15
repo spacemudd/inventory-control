@@ -17,11 +17,11 @@ class CreateJobOrdersTable extends Migration
             $table->increments('id');
             $table->string('job_order_number');
             $table->unsignedInteger('employee_id');
-            $table->unsignedInteger('cost_center_id');
+            $table->unsignedInteger('cost_center_id')->nullable();
             $table->string('ext');
             $table->string('requested_through_type');
             $table->text('job_description');
-            $table->string('status');
+            $table->enum('status', ["draft", "approved", "pending", "completed"])->default("draft");
             $table->string('remark');
             $table->date('date');
             $table->dateTime('time_start');

@@ -11,10 +11,8 @@ use Illuminate\Support\Facades\DB;
 
 class StockService
 {
-
     public function addOut(Request $request)
     {
-
         $quotation = Quotation::with('items')->findOrFail($request->quotation_id);
 
         $stock = DB::transaction(function () use ($request, $quotation) {
@@ -30,7 +28,7 @@ class StockService
                     'out' => optional($item)->qty
                 ]);
             }
-            return $stock;
+            return $stock ?? 0;
         });
 
 
@@ -45,7 +43,7 @@ class StockService
      */
     public function addIn(string $description, int $qty, QuotationItem $item=null): Stock
     {
-        $stock = DB::transaction(function() use ($description, $qty, $item) {
+        $stock = DB::transaction(function () use ($description, $qty, $item) {
             $stock = Stock::firstOrCreate([
                 'description' => $description
             ]);
@@ -58,12 +56,9 @@ class StockService
             ]);
 
             return $stock;
-
         });
 
 
         return $stock;
     }
-
-
 }

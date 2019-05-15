@@ -34,13 +34,13 @@
                     <p class="is-uppercase"><b>Job Order details</b></p>
                 </div>
                 <div class="column is-6 has-text-right">
-                    @if (!$jobOrder->approved_at)
-                        {{-- <form action="{{ route('job-orders.approve', $jobOrder) }}"
-                              method="post"
-                              class="is-inline">
+                    @if (!$jobOrder->isApproved())
+                        <form action="{{ route('job-orders.approve',$jobOrder) }}"
+                            method="post"
+                            class="is-inline">
                             @csrf
-                            <button class="button is-success is-small" type="submit">Approve</button>
-                        </form> --}}
+                            <button class="button is-success is-small">Approve</button>
+                        </form>
                     @endif
                     <button @click="$store.commit('JobOrders/togglePreviewPdf')"
                        class="button has-icon is-small">
@@ -91,7 +91,7 @@
                         <label for="cost_center_id" class="label">Cost Center</label>
 
                         <div class="control">
-                            <input type="text" class="input" value="{{ $jobOrder->department->name }}" readonly>
+                            <input type="text" class="input" value="{{ optional($jobOrder->department)->code }}" readonly>
                         </div>
                     </div>
                 </div>

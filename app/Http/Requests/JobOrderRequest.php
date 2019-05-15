@@ -26,11 +26,10 @@ class JobOrderRequest extends FormRequest
     {
         return [
             'employee_id' => 'required|exists:employees,id',
-            'cost_center_id' => 'required|exists:departments,id',
+            'cost_center_id' => 'nullable|exists:departments,id',
             'ext' => 'required',
             'requested_through_type' => 'required',
             'job_description' => 'required|max:255',
-            'status' => 'required',
             'remark' => 'required',
             'date' => 'required|date',
             'time_start' => 'required',

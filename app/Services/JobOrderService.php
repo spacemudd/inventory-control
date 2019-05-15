@@ -77,6 +77,19 @@ class JobOrderService
     }
 
     /**
+     * Approve Job Order
+     *
+     * @param JobOrder $jobOrder
+     * @return bool
+     */
+    public function approve(JobOrder $jobOrder)
+    {
+        $jobOrder->status = JobOrder::APPROVED;
+
+        return $jobOrder->save();
+    }
+
+    /**
      * Generate pdf
      *
      * @param JobOrder $jobOrder
@@ -84,8 +97,6 @@ class JobOrderService
      */
     public function streamPdf(JobOrder $jobOrder)
     {
-        // return view('pdf.job-order.form', compact('jobOrder'));
-
         $pdf = PDF::loadView('pdf.job-order.form', compact('jobOrder'));
 
         return $pdf

@@ -111,4 +111,18 @@ class JobOrderController extends Controller
         $jobOrder = JobOrder::where('job_order_number', $id)->firstOrFail();
         return $this->service->streamPdf($jobOrder);
     }
+
+    /**
+     * Approve Job Order
+     *
+     * @param $id
+     */
+    public function approve($id)
+    {
+        $jobOrder = JobOrder::where('job_order_number', $id)->firstOrFail();
+
+        $this->service->approve($jobOrder);
+
+        return back();
+    }
 }

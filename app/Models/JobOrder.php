@@ -9,6 +9,11 @@ class JobOrder extends Model
 {
     use SoftDeletes;
 
+    const DRAFT = 'draft';
+    const APPROVED = 'approved';
+    const PENDING = 'pending';
+    const COMPLETED = 'completed';
+
     protected $fillable = [
         'job_order_number',
         'employee_id',
@@ -50,6 +55,10 @@ class JobOrder extends Model
 
 
     /** Accessors */
+    public function getStatusAttribute()
+    {
+        return ucfirst($this->attributes['status']);
+    }
 
 
     /** Relations */
@@ -78,5 +87,15 @@ class JobOrder extends Model
     public function getRouteKeyName()
     {
         return 'job_order_number';
+    }
+
+    /**
+     * Determine if order is approved
+     *
+     * @return boolean
+     */
+    public function isApproved()
+    {
+        return $this->attributes['status'] == self::APPROVED;
     }
 }
