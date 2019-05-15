@@ -63,7 +63,6 @@ class MaterialRequestsController extends Controller
         }
 
         $materialRequest = $this->service->save($request->except('_token'));
-
         return redirect()->route('material-requests.show', ['id' => $materialRequest->id]);
     }
 
