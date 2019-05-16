@@ -10,6 +10,7 @@ use App\Models\MaterialRequest;
 use App\Services\MaterialRequestService;
 use Illuminate\Http\Request;
 use App\Models\MaterialRequestItem;
+use Excel;
 
 class MaterialRequestsController extends Controller
 {
@@ -131,9 +132,11 @@ class MaterialRequestsController extends Controller
         return MaterialRequestExcel::find($id)->download();
     }
 
-    public function allExcel()
+    public function allExcel($type)
     {
-        return MaterialRequestExcelAll::new()->download();
+        $x = new MaterialRequestExcel;
+        $data = MaterialRequest::with('location', 'cost_center')->get();
+        $x->downloadMaterialRequests($data, $type);
     }
 
     /**

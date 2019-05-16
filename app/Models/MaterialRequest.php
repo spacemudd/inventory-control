@@ -44,7 +44,7 @@ class MaterialRequest extends Model
      * @var array
      */
     protected $appends = [
-        'can_edit',
+        'can_edit', 'status_name'
     ];
 
     /**
