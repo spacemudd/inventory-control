@@ -144,28 +144,25 @@ e<template>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="(material, i) in material_used">
-                                    <td>{{ material.name }}</td>
-                                    <td>{{ material.available }}</td>
+                                <!--<tr v-for="(material, i) in materials">
+                                    <td>{{ material.description }}</td>
+                                    <td>{{ material.onHandQuantity }}</td>
                                     <td>{{ material.quantity }}</td>
                                     <td>{{ material.technician }}</td>
-                                </tr>
-                                <tr v-if="isAddingMaterial">
-                                    <td @keyup.enter="addMaterial">
-                                        <input v-if="materialForm.name"
-                                               type="text"
-                                               class="input is-small"
-                                               :value="materialForm.name"
-                                               @click="emptyMaterial"
-                                               readonly>
-                                        <b-autocomplete v-else
-                                                        v-model="materialForm.name"
-                                                        field="code"
-                                                        :data="filteredMaterials"
-                                                        @select="option => materialForm.name = option"
-                                                        size="is-small"
-                                                        :loading="$isLoading('FETCHING_MATERIALS')">
-                                            <template slot="empty">No results found</template>
+                                </tr>-->
+                                <tr v-for="(material, i) in materials">
+                                    <td>
+                                        <b-autocomplete
+                                                size="is-small"
+                                                :data="material.material_options"
+                                                placeholder="Material"
+                                                field="description"
+                                                :loading="material.isFetching"
+                                                @input="asyncRequest($event, {url: 'search/stock', key_data: `materials.${i}.material_options`})"
+                                                @select="updateMaterialQty($event, i)">
+                                            <template slot-scope="props">
+                                                <p>{{ props.option.description }}</p>
+                                            </template>
                                         </b-autocomplete>
                                     </td>
                                     <td>
@@ -180,17 +177,17 @@ e<template>
                                         </b-input>
                                     </td>
                                     <td @keyup.enter="addTechnician">
-                                        <input v-if="technicianForm.employee"
+                                        <input v-if="materialForm.technician"
                                                type="text"
                                                class="input is-small"
-                                               :value="technicianForm.employee.code + ' - ' + technicianForm.employee.name"
-                                               @click="clearTechnician"
+                                               :value="materialForm.technician.code + ' - ' + materialForm.technician.name"
+                                               @click="clearMaterialTechnician"
                                                readonly>
                                         <b-autocomplete v-else
-                                                        v-model="technicianFormSearchCode"
+                                                        v-model="materialTechnicianSearchCode"
                                                         field="code"
                                                         :data="filteredEmployees"
-                                                        @select="option => technicianForm.employee = option"
+                                                        @select="option => materialForm.technician = option"
                                                         size="is-small"
                                                         :loading="$isLoading('FETCHING_EMPLOYEES')">
                                             <template slot="empty">No results found</template>
@@ -223,7 +220,7 @@ e<template>
                                     <td>{{ tech.time_start }}</td>
                                     <td>{{ tech.time_end }}</td>
                                 </tr>
-                                <tr v-if="isAddingTechnician">
+                                <tr>
                                     <td @keyup.enter="addTechnician">
                                         <input v-if="technicianForm.employee"
                                                type="text"
@@ -284,6 +281,7 @@ e<template>
 <script>
     import BSelect from "buefy/src/components/select/Select";
     import moment from 'moment';
+    import debounce from 'lodash/debounce';
 
     export default {
         components: {BSelect},
@@ -299,7 +297,6 @@ e<template>
                 job_description: '',
                 time_start: this.now(),
                 time_end: this.now(),
-                material_used: '',
                 remark: '',
                 employee: null,
                 quotation: '',
@@ -312,15 +309,24 @@ e<template>
                 locations: [],
                 locationSearchCode: '',
 
-                isAddingTechnician: true,
                 technicianFormSearchCode: '',
+                materialTechnicianSearchCode: '',
                 technicianForm: {
                     employee: '',
                     time_start: this.now(),
                     time_end: null,
                 },
 
-                materials: [],
+                materials: [
+                    {
+                        material_options: [],
+                        isFetching: false,
+                        description: '',
+                        onHandQuantity: 0,
+                        quantity: 1,
+                        technician: ''
+                    }
+                ],
                 materialSearchCode: '',
 
                 isAddingMaterial: true,
@@ -357,15 +363,7 @@ e<template>
                          .toLowerCase()
                          .indexOf(this.costCenterSearchCode.toLowerCase()) >= 0
                  })
-             },
-             filteredMaterials() {
-                 return this.materials.filter((option) => {
-                     return option.code
-                         .toString()
-                         .toLowerCase()
-                         .indexOf(this.materialSearchCode.toLowerCase()) >= 0
-                 })
-             },
+             }
          },
         mounted() {
             this.loadCostCenters();
@@ -374,6 +372,22 @@ e<template>
             this.loadQuotations();
         },
         methods: {
+            asyncRequest: debounce(function(q, data) {
+                if (!q.length) {
+                    this[data.key_data] = [];
+                    return;
+                }
+                this.isFetching = true;
+                axios.get(this.apiUrl() + `/${data.url}?q=${q}`).then(response => {
+                    this[data.key_data] = response.data;
+                    this.isFetching = false;
+                })
+            }, 500),
+
+            updateMaterialQty(option) {
+                console.log(option)
+            },
+
             now() {
                 return moment().format('HH:mm');
             },
@@ -470,6 +484,10 @@ e<template>
                     employee: '',
                     technician_id: ''
                 };
+            },
+            clearMaterialTechnician() {
+                this.materialTechnicianSearchCode = '';
+                this.materialForm.technician = '';
             },
             emptyMaterial() {
                 this.materialSearchCode = '';

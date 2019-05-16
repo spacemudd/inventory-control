@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\JobOrderItem;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -80,6 +81,11 @@ class JobOrder extends Model
     public function technicians()
     {
         return $this->belongsToMany(Employee::class, 'job_order_technician', 'job_order_id', 'technician_id');
+    }
+
+    public function items()
+    {
+        return $this->hasMany(JobOrderItem::class);
     }
 
 
