@@ -23,11 +23,11 @@
 <div class="columns is-multiline">
     <div class="column is-12">
         <div class="has-text-right">
-            <a href="{{ route('material-requests.create') }}" class="button is-primary is-small">Add new</a>
-            <a href="{{ route('material-requests.all-excel') }}" class="button is-small has-icon">
-                <span class="icon"><i class="fa fa-file-excel-o"></i></span>
-                <span>Excel</span>
-            </a>
+            <div>
+                <a href="{{ route('material-requests.create') }}" class="button is-primary is-small">Add new</a>
+                 <a href="{{ route('material-requests.all-excel', ['type' => 'csv']) }}" class="button is-small has-icon">Export CSV format</a>
+                 <a href="{{ route('material-requests.all-excel', ['type' => 'xlsx']) }}" class="button is-small has-icon">Export XLSX format</a>
+            </div>
         </div>
     </div>
     <div class="column">

@@ -33,7 +33,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::get('job-orders/{job_order_number}/pdf', 'JobOrderController@streamPdf')->name('job-orders.pdf');
 
         // Material requests
-        Route::get('material-requests/excel', 'MaterialRequestsController@allExcel')->name('material-requests.all-excel');
+        Route::get('material-requests/excel/{type}', 'MaterialRequestsController@allExcel')->name('material-requests.all-excel');
         Route::resource('material-requests', 'MaterialRequestsController');
         Route::post('material-requests/{id}/approve', 'MaterialRequestsController@approve')->name('material-requests.approve');
         Route::get('material-requests/{id}/excel', 'MaterialRequestsController@excel')->name('material-requests.excel');
