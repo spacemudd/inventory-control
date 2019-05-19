@@ -37,7 +37,6 @@ class JobOrderService
 
         $jobOrder = JobOrder::create($jobData);
 
-        // $this-
         return $jobOrder;
     }
 

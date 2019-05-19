@@ -6,6 +6,7 @@ use App\Models\JobOrder;
 use App\Services\JobOrderService;
 use App\Http\Requests\JobOrderRequest;
 use App\Services\StockService;
+use Illuminate\Support\Facades\DB;
 
 class JobOrderController extends Controller
 {
@@ -42,14 +43,15 @@ class JobOrderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\JobOrderRequest  $request
+     * @param \App\Http\Requests\JobOrderRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(JobOrderRequest $request)
     {
-        $this->stockService->addOut($request);
-        $jobOrder = $this->service->save($request);
-        $this->service->addTechniciansTo($jobOrder, $request->technicians);
+        DB::transaction(function() use ($request) {
+            $jobOrder = $this->service->save($request);
+            $this->service->addTechniciansTo($jobOrder, $request->technicians);
+        });
 
         return redirect()->route('job-orders.index');
     }
