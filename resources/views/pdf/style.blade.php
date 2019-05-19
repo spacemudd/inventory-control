@@ -5,6 +5,12 @@
         background-color: white;
         border-bottom: 2px solid #cbcbcb;
     }
+    body,html,p {
+        font-size: 14px;
+    }
+    p > b {
+        font-weight:bold;
+    }
     .big-font {
         font-size: 16px;
     }
@@ -18,6 +24,7 @@
     table {
         border-left: none;
         width: 100%;
+        font-size: 14px;
     }
     tr {
         page-break-inside: avoid;
@@ -58,5 +65,10 @@
 
     .tight-table tr td {
         padding: 0 5px;
+    }
+    .clearfix:after {
+        content: "";
+        display: table;
+        clear: both;
     }
 </style>
