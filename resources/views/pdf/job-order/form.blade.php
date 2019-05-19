@@ -113,9 +113,9 @@
                 </thead>
                 <tbody>
                 @foreach($jobOrder->technicians as $counter => $employee)
-                    <tr style="border-top:2px #cbcbcb solid;">
+                    <tr>
                         <td class="center">{{ ++$counter }}</td>
-                        <td rowspan="3">{{ $employee->name }}</td>
+                        <td>{{ $employee->name }}</td>
                         <td>{{ $employee->code }}</td>
                     </tr>
                 @endforeach
