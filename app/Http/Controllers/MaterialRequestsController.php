@@ -10,6 +10,7 @@ use App\Models\MaterialRequest;
 use App\Services\MaterialRequestService;
 use Illuminate\Http\Request;
 use App\Models\MaterialRequestItem;
+use Excel;
 
 class MaterialRequestsController extends Controller
 {
@@ -127,12 +128,20 @@ class MaterialRequestsController extends Controller
 
     public function excel($id)
     {
-        return MaterialRequestExcel::find($id)->download();
+
+        $mRequest = MaterialRequest::with('items')->find($id);
+
+        static $number = 1;
+
+        return View('pdf.material-request.materialRequestExcel', compact('mRequest', 'number', 'id'));
+
     }
 
-    public function allExcel()
+    public function allExcel($type)
     {
-        return MaterialRequestExcelAll::new()->download();
+        $x = new MaterialRequestExcel;
+        $data = MaterialRequest::with('location', 'cost_center')->get();
+        $x->downloadMaterialRequests($data, $type);
     }
 
     /**

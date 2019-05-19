@@ -5,12 +5,17 @@ namespace App\Classes;
 use App\Models\MaterialRequest;
 use App\Models\MaterialRequestItem;
 use Excel;
+use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
+use PhpOffice\PhpSpreadsheet\Cell\DefaultValueBinder;
 
 class MaterialRequestExcel
 {
     /**
      * @var
      */
+    protected $rows;
+
+    protected $materialRequests;
     protected $materialRequest;
 
     /**
@@ -19,29 +24,38 @@ class MaterialRequestExcel
     protected $fileName;
 
     protected $columns = [
-        'Code',
         'Location',
-        'Cost Center',
         'Item',
         'Quantity',
+        'Code',
+        'Location_Name',
+        'Cost Center',
+        'Status',
     ];
 
-    /**
-     * MaterialRequestExcel constructor.
-     *
-     * @param \App\Models\MaterialRequest $materialRequest
-     */
-    public function __construct(MaterialRequest $materialRequest)
+    protected $column = [
+        'Location',
+        'Item',
+        'Location_Name',
+        'Status',
+    ];
+
+    public function __construct(MaterialRequest $materialRequest = null)
     {
+
         $this->materialRequest = $materialRequest;
-        $this->fileName = str_slug($this->materialRequest->number);
+
+        if($materialRequest != null) {
+            $this->fileName = str_slug($this->materialRequest->number);
+        }
+
 
     }
 
     /**
      *
      * @param $id
-     * @return \App\Classes\MaterialRequestExcel
+     * @return MaterialRequestExcel
      */
     static public function find($id): MaterialRequestExcel
     {
@@ -60,7 +74,7 @@ class MaterialRequestExcel
             });
         });
 
-        return $excel->download();
+        return $excel->download('csv');
     }
 
     /**
@@ -76,6 +90,32 @@ class MaterialRequestExcel
             $this->materialRequest->cost_center->display_name,
             $item->description,
             $item->qty,
+        ];
+    }
+
+    public function downloadMaterialRequests($data, $type)
+    {
+        $excel = Excel::create($this->fileName, function($excel) use ($data){
+            $excel->sheet('mySheet', function($sheet) use ($data)
+            {
+                $sheet->appendRow($this->column);
+                $data->each(function($item) use ($sheet) {
+                    $sheet->appendRow($this->itemForCsv($item));
+                });
+            });
+        });
+
+        return $excel->download($type);
+    }
+
+    public function itemForCsv($item): array
+    {
+
+        return [
+            $item->number,
+            $item->location->name,
+            $item->cost_center->display_name,
+            $item->status_name,
         ];
     }
 }
