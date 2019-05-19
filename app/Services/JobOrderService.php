@@ -37,7 +37,6 @@ class JobOrderService
 
         $jobOrder = JobOrder::create($jobData);
 
-        // $this-
         return $jobOrder;
     }
 
@@ -99,12 +98,6 @@ class JobOrderService
     {
         $pdf = PDF::loadView('pdf.job-order.form', compact('jobOrder'));
 
-        return $pdf
-            ->setOption('margin-top', 10)
-            ->setOption('margin-left', 10)
-            ->setOption('margin-right', 10)
-            ->setOption('margin-bottom', 20)
-            ->setOption('orientation', 'portrait')
-            ->stream();
+        return $pdf->download('job-order.pdf');
     }
 }

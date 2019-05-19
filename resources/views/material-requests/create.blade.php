@@ -35,10 +35,8 @@
                     <label for="date" class="label">Date <span class="has-text-danger">*</span></label>
 
                     <p class="control">
-                        <input id="date" type="date" class="input {{ $errors->has('date') ? ' is-danger' : '' }}"
-                               name="date"
-                               value="{{ old('date') }}" required>
 
+                        <select-date-for-material-request></select-date-for-material-request>
                         @if ($errors->has('date'))
                             <span class="help is-danger">
                                 {{ $errors->first('date') }}

@@ -11,7 +11,7 @@ class MaterialRequestService
 {
     public function save(array $request)
     {
-        $date = Carbon::createFromFormat('Y-d-m', $request['date']);
+        $date = Carbon::createFromFormat('d-m-Y', $request['date']);
         $location = Location::where('id', $request['location_id'])->first();
 
         $request['number'] = $date->format('d-m-Y').' - '.$location->name;
@@ -36,11 +36,11 @@ class MaterialRequestService
      */
     public function checkNumberExists(string $date, int $locatio_id)
     {
-        $date = Carbon::createFromFormat('Y-d-m', $date);
+        $date = Carbon::createFromFormat('d-m-Y', $date);
         $location = Location::where('id', $locatio_id)->first();
-        $request['number'] = $date->format('d-m-Y').' - '.$location->name;
+        $number = $date->format('d-m-Y').' - '.$location->name;
 
-        return MaterialRequest::where('number', $request['number'])->exists();
+        return MaterialRequest::where('number', $number)->exists();
     }
 
     /**
