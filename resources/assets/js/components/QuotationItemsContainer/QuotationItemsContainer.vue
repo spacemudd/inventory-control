@@ -49,10 +49,10 @@
                     <tr v-if="isAdding" @keyup.esc="clearNewItemForm" @keyup.enter="saveNewItem">
                         <td colspan="2">
                            <!-- <b-input ref="newItemDescription" size="is-small" v-model="form.description" autofocus></b-input> -->
-                            <select-material-request-items v-model="form.material_request_item_id" v-bind:materialNumber="materialNumber"/>
+                            <select-material-request-items @quantity="quantityNumber" v-model="form.material_request_item_id" v-bind:materialNumber="materialNumber"/>
                         </td>
                         <td><b-input @keyup.enter="saveNewItem" size="is-small" type="number" v-model="form.unit_price"></b-input></td>
-                        <td><b-input size="is-small" type="number" v-model="form.qty"></b-input></td>
+                        <td><b-input size="is-small" type="number" v-model="form.qty" class="quantity"></b-input></td>
                         <td>
                             <input type="text" :value="form.qty * form.unit_price" class="input is-small" style="background-color: #d5d5d5;" readonly>
                         </td>
@@ -133,6 +133,9 @@
       }
     },
     methods: {
+      quantityNumber(quantity) {
+        this.form.qty = quantity;
+      },
       toMoney(money) {
         var formatter = new Intl.NumberFormat('en-SA', {
           style: 'currency',
