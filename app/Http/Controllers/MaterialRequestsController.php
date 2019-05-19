@@ -128,7 +128,13 @@ class MaterialRequestsController extends Controller
 
     public function excel($id)
     {
-        return MaterialRequestExcel::find($id)->download();
+
+        $mRequest = MaterialRequest::with('items')->find($id);
+
+        static $number = 1;
+
+        return View('pdf.material-request.materialRequestExcel', compact('mRequest', 'number', 'id'));
+
     }
 
     public function allExcel()
