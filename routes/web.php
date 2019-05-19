@@ -31,6 +31,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         // Job Orders
         Route::resource('job-orders', 'JobOrderController');
         Route::get('job-orders/{job_order_number}/pdf', 'JobOrderController@streamPdf')->name('job-orders.pdf');
+        Route::post('job-orders/{job_order_number}/approve', 'JobOrderController@approve')->name('job-orders.approve');
 
         // Material requests
         Route::get('material-requests/excel/{type}', 'MaterialRequestsController@allExcel')->name('material-requests.all-excel');
@@ -332,5 +333,6 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
         Route::get('saved-requisitions', 'Api\PurchaseRequisitionsController@searchSaved')->name('api.search-saved-requisitions');
         Route::get('projects', 'Api\ProjectsController@search')->name('api.search.projects');
         Route::get('material-requests-items', 'Api\MaterialRequestItemsController@search')->name('api.material-requests-items.search');
+        Route::get('stock', 'Api\StockController@search')->name('api.stock.search');
     });
 });

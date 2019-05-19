@@ -51,11 +51,11 @@
                             <td>{{ $jobOrder->date->format('d-m-Y') }}</td>
                             <td>{{ $jobOrder->employee->name }}</td>
                             <td>{{ $jobOrder->employee->code }}</td>
-                            <td>{{ $jobOrder->department->description }}</td>
+                            <td>{{ optional($jobOrder->department)->description }}</td>
                             <td>{{ $jobOrder->location->name }}</td>
                             <td>{{ $jobOrder->ext }}</td>
-                            <td>{{ $jobOrder->department->code }}</td>
-                            <td>{{ $jobOrder->requested_throught_type }}</td>
+                            <td>{{ optional($jobOrder->department)->code }}</td>
+                            <td>{{ $jobOrder->requested_through_type }}</td>
                             <td>{{ $jobOrder->status }}</td>
                             <td class="has-text-centered">
                                 <div class="buttons">

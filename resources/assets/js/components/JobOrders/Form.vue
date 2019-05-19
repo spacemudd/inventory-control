@@ -17,8 +17,7 @@ e<template>
                                             field="code"
                                             :data="filteredCostCenters"
                                             @select="option => cost_center = option"
-                                            :loading="$isLoading('FETCHING_COST_CENTERS')"
-                                            required>
+                                            :loading="$isLoading('FETCHING_COST_CENTERS')">
                                 <template slot="empty">No results found</template>
                             </b-autocomplete>
                             <!-- When selected -->
@@ -54,24 +53,10 @@ e<template>
                         <b-field label="Remark">
                             <b-input v-model="remark" maxlength="200" type="textarea"></b-input>
                         </b-field>
-
-                        <b-field label="Status">
-                            <div class="block">
-                                <b-radio v-model="status"
-                                    native-value="completed">
-                                    Completed
-                                </b-radio>
-                                <b-radio v-model="status"
-                                    native-value="pending">
-                                    Pending
-                                </b-radio>    
-                            </div>
-                        </b-field>
-
                     </div>
 
                     <div class="column">
-                        <b-field label="Employee">
+                        <b-field label="Requester">
                             <!-- If selected. -->
                             <b-autocomplete v-if="!employee"
                                             v-model="employeeSearchCode"
@@ -134,31 +119,96 @@ e<template>
                          <b-field label="Job duration">
                             <div class="columns">
                                 <div class="column">
-                                    <b-timepicker
-                                        v-model="time_start"
-                                        placeholder="Select start time"
-                                        hour-format="24">
-                                    </b-timepicker>
+                                    <b-input type="time"
+                                       v-model="time_start"
+                                        placeholder="Select start time">
+                                    </b-input>
                                 </div>
                                 <div class="column">
-                                    <b-timepicker
-                                        v-model="time_end"
-                                        placeholder="Select end time"
-                                        hour-format="24">
-                                    </b-timepicker>
+                                    <b-input type="time"
+                                       v-model="time_end"
+                                        placeholder="Select end time">
+                                    </b-input>
                                 </div>
                             </div>
                         </b-field>
 
-                        <b-field label="Materials used">
-                            <b-input v-model="material_used" maxlength="200" type="textarea"></b-input>
+                        <b-field label="Materials Used">
+                            <table class="table is-narrow is-size-7 is-fullwidth">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Available</th>
+                                        <th>Quantity</th>
+                                        <th>Technician</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <!--<tr v-for="(material, i) in materials">
+                                    <td>{{ material.description }}</td>
+                                    <td>{{ material.onHandQuantity }}</td>
+                                    <td>{{ material.quantity }}</td>
+                                    <td>{{ material.technician }}</td>
+                                </tr>-->
+                                <tr v-for="(material, i) in materials">
+                                    <td>
+                                        <b-autocomplete
+                                                size="is-small"
+                                                :data="material.material_options"
+                                                placeholder="Material"
+                                                field="description"
+                                                :loading="material.isFetching"
+                                                @input="asyncRequest($event, {url: 'search/stock', key_data: `materials.${i}.material_options`})"
+                                                @select="updateMaterialQty($event, i)">
+                                            <template slot-scope="props">
+                                                <p>{{ props.option.description }}</p>
+                                            </template>
+                                        </b-autocomplete>
+                                    </td>
+                                    <td>
+                                        <p v-text="materialForm.available"></p>
+                                    </td>
+                                    <td>
+                                        <b-input type="number"
+                                                min="1"
+                                                size="is-small"
+                                                v-model="materialForm.quantity"
+                                                placeholder="Select end time">
+                                        </b-input>
+                                    </td>
+                                    <td @keyup.enter="addTechnician">
+                                        <input v-if="materialForm.technician"
+                                               type="text"
+                                               class="input is-small"
+                                               :value="materialForm.technician.code + ' - ' + materialForm.technician.name"
+                                               @click="clearMaterialTechnician"
+                                               readonly>
+                                        <b-autocomplete v-else
+                                                        v-model="materialTechnicianSearchCode"
+                                                        field="code"
+                                                        :data="filteredEmployees"
+                                                        @select="option => materialForm.technician = option"
+                                                        size="is-small"
+                                                        :loading="$isLoading('FETCHING_EMPLOYEES')">
+                                            <template slot="empty">No results found</template>
+                                        </b-autocomplete>
+                                    </td>
+                                    <td class="has-text-centered">
+                                        <button class="button is-primary is-small"
+                                                :class="{'is-loading': $isLoading('SAVING_MATERIAL')}"
+                                                @click.prevent="addMaterial">
+                                            Add
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </b-field>
 
                         <b-field label="Technicians">
                             <table class="table is-narrow is-size-7 is-fullwidth">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>Employee</th>
                                         <th>Time start</th>
                                         <th>Time end</th>
@@ -166,19 +216,17 @@ e<template>
                                 </thead>
                                 <tbody>
                                 <tr v-for="(tech, index) in technicians">
-                                    <td>{{ ++index }}</td>
                                     <td>{{ tech.employee.code+' '+tech.employee.name }}</td>
                                     <td>{{ tech.time_start }}</td>
                                     <td>{{ tech.time_end }}</td>
                                 </tr>
-                                <tr v-if="isAddingTechnician">
-                                    <td></td>
+                                <tr>
                                     <td @keyup.enter="addTechnician">
                                         <input v-if="technicianForm.employee"
                                                type="text"
                                                class="input is-small"
                                                :value="technicianForm.employee.code + ' - ' + technicianForm.employee.name"
-                                               @click="emptyEmployee"
+                                               @click="clearTechnician"
                                                readonly>
                                         <b-autocomplete v-else
                                                         v-model="technicianFormSearchCode"
@@ -191,20 +239,18 @@ e<template>
                                         </b-autocomplete>
                                     </td>
                                     <td>
-                                        <b-timepicker
+                                        <b-input type="time"
+                                                size="is-small"
                                                 v-model="technicianForm.time_start"
-                                                placeholder="Select start time"
-                                                hour-format="24"
-                                                size="is-small">
-                                        </b-timepicker>
+                                                placeholder="Select start time">
+                                        </b-input>
                                     </td>
                                     <td>
-                                        <b-timepicker
+                                        <b-input type="time"
+                                                size="is-small"
                                                 v-model="technicianForm.time_end"
-                                                placeholder="Select end time"
-                                                hour-format="24"
-                                                size="is-small">
-                                        </b-timepicker>
+                                                placeholder="Select end time">
+                                        </b-input>
                                     </td>
                                     <td class="has-text-centered">
                                         <button class="button is-primary is-small"
@@ -234,6 +280,9 @@ e<template>
 
 <script>
     import BSelect from "buefy/src/components/select/Select";
+    import moment from 'moment';
+    import debounce from 'lodash/debounce';
+
     export default {
         components: {BSelect},
         data() {
@@ -246,11 +295,9 @@ e<template>
                 cost_center: '',
                 requested_through_type: 'email',
                 job_description: '',
-                time_start: new Date(),
-                time_end: new Date(),
-                material_used: '',
+                time_start: this.now(),
+                time_end: this.now(),
                 remark: '',
-                status: 'pending',
                 employee: null,
                 quotation: '',
                 costCenters: [],
@@ -262,12 +309,32 @@ e<template>
                 locations: [],
                 locationSearchCode: '',
 
-                isAddingTechnician: true,
                 technicianFormSearchCode: '',
+                materialTechnicianSearchCode: '',
                 technicianForm: {
                     employee: '',
-                    time_start: null,
+                    time_start: this.now(),
                     time_end: null,
+                },
+
+                materials: [
+                    {
+                        material_options: [],
+                        isFetching: false,
+                        description: '',
+                        onHandQuantity: 0,
+                        quantity: 1,
+                        technician: ''
+                    }
+                ],
+                materialSearchCode: '',
+
+                isAddingMaterial: true,
+                materialForm: {
+                    name: '',
+                    available: 0,
+                    quantity: 1,
+                    technician: ''
                 },
                 quotations:[]
             }
@@ -296,7 +363,7 @@ e<template>
                          .toLowerCase()
                          .indexOf(this.costCenterSearchCode.toLowerCase()) >= 0
                  })
-             },
+             }
          },
         mounted() {
             this.loadCostCenters();
@@ -305,6 +372,25 @@ e<template>
             this.loadQuotations();
         },
         methods: {
+            asyncRequest: debounce(function(q, data) {
+                if (!q.length) {
+                    this[data.key_data] = [];
+                    return;
+                }
+                this.isFetching = true;
+                axios.get(this.apiUrl() + `/${data.url}?q=${q}`).then(response => {
+                    this[data.key_data] = response.data;
+                    this.isFetching = false;
+                })
+            }, 500),
+
+            updateMaterialQty(option) {
+                console.log(option)
+            },
+
+            now() {
+                return moment().format('HH:mm');
+            },
             loadEmployees() {
                 this.$startLoading('FETCHING_EMPLOYEES');
                 axios.get(this.apiUrl() + '/employees').then(response => {
@@ -386,11 +472,26 @@ e<template>
                 let technicianForm = {
                     employee: '',
                     technician_id: '',
-                    time_start: null,
+                    time_start:  null,
                     time_end: null,
                 }
                 this.technicianForm = technicianForm;
-            }
+            },
+            clearTechnician() {
+                this.technicianFormSearchCode = '';
+                this.technicianForm = {
+                    ...this.technicianForm,
+                    employee: '',
+                    technician_id: ''
+                };
+            },
+            clearMaterialTechnician() {
+                this.materialTechnicianSearchCode = '';
+                this.materialForm.technician = '';
+            },
+            emptyMaterial() {
+                this.materialSearchCode = '';
+            },
         }
     }
 </script>

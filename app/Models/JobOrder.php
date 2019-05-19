@@ -2,12 +2,18 @@
 
 namespace App\Models;
 
+use App\JobOrderItem;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class JobOrder extends Model
 {
     use SoftDeletes;
+
+    const DRAFT = 'draft';
+    const APPROVED = 'approved';
+    const PENDING = 'pending';
+    const COMPLETED = 'completed';
 
     protected $fillable = [
         'job_order_number',
@@ -50,6 +56,10 @@ class JobOrder extends Model
 
 
     /** Accessors */
+    public function getStatusAttribute()
+    {
+        return ucfirst($this->attributes['status']);
+    }
 
 
     /** Relations */
@@ -73,10 +83,25 @@ class JobOrder extends Model
         return $this->belongsToMany(Employee::class, 'job_order_technician', 'job_order_id', 'technician_id');
     }
 
+    public function items()
+    {
+        return $this->hasMany(JobOrderItem::class);
+    }
+
 
     /** Model properties overrides */
     public function getRouteKeyName()
     {
         return 'job_order_number';
+    }
+
+    /**
+     * Determine if order is approved
+     *
+     * @return boolean
+     */
+    public function isApproved()
+    {
+        return $this->attributes['status'] == self::APPROVED;
     }
 }

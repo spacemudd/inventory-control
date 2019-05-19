@@ -13,8 +13,19 @@ class Stock extends Model
         'material_request_item_id',
     ];
 
+    protected $appends = [
+        'on_hand_quantity'
+    ];
+
     public function movement()
     {
         return $this->hasMany(StockMovement::class);
+    }
+
+    public function getOnHandQuantityAttribute()
+    {
+        $stockMovements = $this->movement()->get();
+
+        return $stockMovements->sum('in') - $stockMovements->sum('out');
     }
 }
