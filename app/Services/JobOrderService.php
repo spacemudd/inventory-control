@@ -92,12 +92,12 @@ class JobOrderService
      * Generate pdf
      *
      * @param JobOrder $jobOrder
-     * @return void
+     * @return \Illuminate\Http\Response
      */
     public function streamPdf(JobOrder $jobOrder)
     {
         $pdf = PDF::loadView('pdf.job-order.form', compact('jobOrder'));
 
-        return $pdf->download('job-order.pdf');
+        return $pdf->inline('job-order.pdf');
     }
 }

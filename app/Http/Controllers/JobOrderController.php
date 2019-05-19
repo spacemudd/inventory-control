@@ -106,7 +106,7 @@ class JobOrderController extends Controller
     /**
      *
      * @param $id
-     * @return mixed
+     * @return \Illuminate\Http\Response
      */
     public function streamPdf($id)
     {
