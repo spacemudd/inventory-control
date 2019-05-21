@@ -141,7 +141,7 @@ class MaterialRequestsController extends Controller
     {
         $x = new MaterialRequestExcel;
         $data = MaterialRequest::with('location', 'cost_center')->get();
-        $x->downloadMaterialRequests($data, $type);
+        return $x->downloadMaterialRequests($data, $type);
     }
 
     /**

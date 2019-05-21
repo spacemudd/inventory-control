@@ -45,8 +45,10 @@ class MaterialRequestExcel
 
         $this->materialRequest = $materialRequest;
 
-        if($materialRequest != null) {
+        if($materialRequest) {
             $this->fileName = str_slug($this->materialRequest->number);
+        } else {
+            $this->fileName = now()->format('Y-m-d').'-all-material-requests';
         }
 
 
