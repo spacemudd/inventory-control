@@ -33,7 +33,7 @@ class JobOrderRequest extends FormRequest
             'remark' => 'required',
             'date' => 'required|date',
             'time_start' => 'required',
-            'time_end' => 'required',
+            'time_end' => 'nullable',
             'location_id' => 'required|exists:locations,id',
         ];
     }

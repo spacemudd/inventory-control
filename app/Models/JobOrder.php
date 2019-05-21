@@ -51,7 +51,9 @@ class JobOrder extends Model
 
     public function setTimeEndAttribute($value)
     {
-        return $this->attributes['time_end'] = date('Y-m-d H:i:s', strtotime($this->date. ' '. $value));
+        if ($value) {
+            return $this->attributes['time_end'] = date('Y-m-d H:i:s', strtotime($this->date. ' '. $value));
+        }
     }
 
 

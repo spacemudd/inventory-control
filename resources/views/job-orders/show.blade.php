@@ -134,7 +134,7 @@
                                 <input class="input" type="time" value="{{ $jobOrder->time_start->format('H:i') }}" readonly></input>
                             </div>
                             <div class="column">
-                                <input class="input" type="time" value="{{ $jobOrder->time_end->format('H:i') }}" readonly></input>
+                                <input class="input" type="time" value="{{ optional($jobOrder->time_end)->format('H:i') }}" readonly></input>
                             </div>
                         </div>
                     </div>

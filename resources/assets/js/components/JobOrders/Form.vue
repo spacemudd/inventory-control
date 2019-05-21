@@ -296,7 +296,7 @@ e<template>
                 requested_through_type: 'email',
                 job_description: '',
                 time_start: this.now(),
-                time_end: this.now(),
+                time_end: null,
                 remark: '',
                 employee: null,
                 quotation: '',

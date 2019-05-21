@@ -35,6 +35,8 @@ class JobOrderService
             'quotation_id'
         ));
 
+        $jobData['status'] = 'draft';
+
         $jobOrder = JobOrder::create($jobData);
 
         return $jobOrder;
