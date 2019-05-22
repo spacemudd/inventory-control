@@ -96,6 +96,17 @@
 <div class="columns">
     <div class="column is-8 is-offset-2">
         <div class="box">
+            <add-material-request-items-container-quotations-item
+                    :quotation-item-id="{{ $quotation->items }}"
+                    :can-edit="{{ $mRequest->can_edit ? 'true' : 'false' }}"
+                    :material-request-id.number="{{ $mRequest->id }}">
+            </add-material-request-items-container-quotations-item>
+        </div>
+    </div>
+</div>
+<div class="columns">
+    <div class="column is-8 is-offset-2">
+        <div class="box">
             {{-- TODO: Can-edit will be disabled when there is a PO attached to it? --}}
             <quotations-items-container
                     material-number="{{ $quotation->material_request->number }}"

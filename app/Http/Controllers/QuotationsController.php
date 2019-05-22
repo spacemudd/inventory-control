@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MaterialRequest;
+use App\Models\MaterialRequestItem;
 use App\Models\Quotation;
 use App\Models\Vendor;
 use App\Services\QuotationsService;
@@ -71,8 +72,15 @@ class QuotationsController extends Controller
      */
     public function show($id)
     {
-        $quotation = Quotation::where('id', $id)->firstOrFail();
-        return view('quotations.show', compact('quotation'));
+        $quotation = Quotation::with('items')->where('id', $id)->firstOrFail();
+        $mRequest = MaterialRequest::with('items')->where('id', $quotation->material_request_id)->first();
+        return view('quotations.show', compact('quotation', 'mRequest'));
+    }
+
+    public function changeStatus($mRequestId)
+    {
+        $mRequest = MaterialRequestItem::find($mRequestId);
+        return json_encode($mRequest);
     }
 
     /**

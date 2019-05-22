@@ -260,6 +260,7 @@ Vue.component('select-date-for-material-request', require('./components/Material
 Vue.component('make-material-request-pdf', require('./components/MaterialRequestItemsContainer/MaterialRequestMakePdf.vue').default);
 
 Vue.component('quotations-items-container', require('./components/QuotationItemsContainer/QuotationItemsContainer.vue').default);
+Vue.component('add-material-request-items-container-quotations-item', require('./components/QuotationItemsContainer/AddMaterialRequestQoutationItem.vue').default);
 Vue.component('select-material-request-items', require('./components/SelectMaterialRequestItem/SelectMaterialRequestItem.vue').default);
 Vue.component('manage-quotation-suppliers-page', require('./components/ManageQuotationSuppliersPage/ManageQuotationSuppliersPage').default);
 

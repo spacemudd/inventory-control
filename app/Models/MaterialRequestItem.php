@@ -12,4 +12,9 @@ class MaterialRequestItem extends Model
         'description',
         'qty',
     ];
+
+    public function materialRequest()
+    {
+        return $this->belongsTo(MaterialRequest::class);
+    }
 }

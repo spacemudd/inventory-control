@@ -30,7 +30,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="(item, key) in items">
+                    <tr v-if="items.length > 0" v-for="(item, key) in items" :id="'mRequest_' + item.material_request_item_id">
                         <td>{{ ++key }}</td>
                         <td>{{ item.description }}</td>
                         <td class="has-text-right">{{ toMoney(item.unit_price) }}</td>
@@ -46,7 +46,30 @@
                             </button>
                         </td>
                     </tr>
-                    <tr v-if="isAdding" @keyup.esc="clearNewItemForm" @keyup.enter="saveNewItem">
+                    <tr v-for="(mrequest, key) in materialRequests" :id="'mRequest_'+mrequest.id" >
+                        <td>{{ ++key }}</td>
+                        <td>
+                            <input v-model="mrequest.description" type="text" readonly class="input is-small"/>
+                            <input v-model="mrequest.id" type="hidden"/>
+
+                            <!-- <b-input ref="newItemDescription" size="is-small" v-model="form.description" autofocus></b-input> -->
+<!--                            <input type="text" v-model="mrequest.description" readonly>-->
+                        </td>
+                        <td>
+                            <b-input @keyup.enter="saveRequest" size="is-small" type="number" v-model="mrequest.unit_price"></b-input></td>
+                        <td><b-input size="is-small" type="number" v-model="mrequest.qty"></b-input></td>
+                        <td>
+                            <input type="text" :value="mrequest.qty * mrequest.unit_price" class="input is-small" style="background-color: #d5d5d5;" readonly>
+                        </td>
+                        <td class="has-text-centered">
+                            <button class="button is-primary is-small saveButton"
+                                    :class="{'is-loading': $isLoading('SAVING_QUOTATION_ITEM')}"
+                                    @click="saveRequest(mrequest, key)">
+                                Save
+                            </button>
+                        </td>
+                    </tr>
+                    <tr v-if="isAdding"  @keyup.enter="saveNewItem">
                         <td colspan="2">
                            <!-- <b-input ref="newItemDescription" size="is-small" v-model="form.description" autofocus></b-input> -->
                             <select-material-request-items @quantity="quantityNumber" v-model="form.material_request_item_id" v-bind:materialNumber="materialNumber"/>
@@ -80,7 +103,10 @@
     </div>
 </template>
 
+
 <script>
+  import { EventBus } from '../../event-bus.js';
+
   export default {
     props: {
       quotationId: {
@@ -95,24 +121,32 @@
       materialNumber: {
         type: String,
         required: true
-      }
-    },
-    mounted() {
-      this.getItems();
+      },
     },
     data() {
       return {
         newItemModal: false,
         isAdding: false,
-
+        materialRequests: [],
         items: [],
-
         form: {
           material_request_item_id: '',
           qty: 1,
           unit_price: 1,
         },
       }
+    },
+    async mounted() {
+      await this.getItems();
+      EventBus.$on('mRequestItem', data => {
+        data.unit_price = 1;
+        this.materialRequests.push(data)
+      });
+      EventBus.$on('quotationItems', item => {
+        console.log(item);
+        item.unit_price = 1;
+        this.materialRequests.push(item)
+      });
     },
     computed: {
       showAttachItemToPoItemModal: {
@@ -149,22 +183,9 @@
           .then(response => {
             this.items = response.data;
             this.$endLoading('DELETING_ITEM');
+            EventBus.$emit('getQuotationItems', response.data);
           })
-      },
-      /**
-       * @param item Object
-       */
-      deleteItem(item, key) {
-        this.$startLoading('DELETE_QUOTATION_ITEM_'+key)
-        axios.delete(this.apiUrl() + `/quotations/${this.quotationId}/items/${item.id}`)
-          .then((response) => {
-            this.items.splice(key-1, 1)
-            this.$endLoading('DELETE_QUOTATION_ITEM_'+key)
-            if(this.items.length == 0) {
-              document.getElementById("quotationSaveItems").disabled = true
-            }
 
-          })
       },
       /**
        * Attach a Purchase Requisition item to a PO.
@@ -187,7 +208,6 @@
 
         this.$startLoading('SAVING_QUOTATION_ITEM');
         this.form.quotation_id = this.quotationId;
-
         axios.post(this.apiUrl() + `/quotations/`+this.quotationId+`/items/store`, this.form)
           .then(response => {
             this.items.push(response.data);
@@ -204,12 +224,49 @@
             this.$endLoading('SAVING_QUOTATION_ITEM');
           })
       },
+      /**
+       * @param item Object
+       */
+      deleteItem(item, key) {
+        var newItem = []
+        newItem.push(item)
+        EventBus.$emit('itemId', item);
+        this.$startLoading('DELETE_QUOTATION_ITEM_' + key)
+        axios.delete(this.apiUrl() + `/quotations/${this.quotationId}/items/${item.id}`)
+          .then((response) => {
+            this.items.splice(key - 1, 1);
+            console.log(newItem);
+            this.$endLoading('DELETE_QUOTATION_ITEM_' + key);
+          });
+
+      },
+
+      saveRequest(mrequest, key) {
+        if (!mrequest.description) {
+          alert('Please select an item from material requests');
+          return false;
+        }
+        this.materialRequests.splice(key - 1, 1);
+        this.$startLoading('SAVING_QUOTATION_ITEM');
+        mrequest.quotation_id = this.quotationId;
+        mrequest.material_request_item_id = mrequest.id;
+        axios.post(this.apiUrl() + `/quotations/`+this.quotationId+`/items/store`, mrequest)
+          .then(response => {
+            this.items.push(response.data);
+            this.$endLoading('SAVING_QUOTATION_ITEM');
+            document.getElementById("quotationSaveItems").disabled = false
+          })
+          .catch(error => {
+            alert(error.response.data.message);
+            this.$endLoading('SAVING_QUOTATION_ITEM');
+          })
+      },
       clearNewItemForm() {
         this.form.description = '';
         this.form.qty = 1;
         this.form.unit_price = 1;
         this.isAdding = false;
-      }
+      },
     }
   }
 </script>
