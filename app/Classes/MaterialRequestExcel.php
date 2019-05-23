@@ -22,7 +22,10 @@ class MaterialRequestExcel
      * @var string
      */
     protected $fileName;
-
+    protected $mRequestCol = [
+        'description',
+        'qty'
+    ];
     protected $columns = [
         'Location',
         'Item',
@@ -110,12 +113,35 @@ class MaterialRequestExcel
 
     public function itemForCsv($item): array
     {
-
         return [
             $item->number,
             $item->location->name,
             $item->cost_center->display_name,
             $item->status_name,
+        ];
+    }
+
+    public function downloadMaterialRequestExcel($data, $type)
+    {
+        $excel = Excel::create($this->fileName, function($excel) use ($data){
+            $excel->sheet('mySheet', function($sheet) use ($data)
+            {
+                $sheet->appendRow($this->mRequestCol);
+                $data->each(function($item) use ($sheet) {
+                    $sheet->appendRow($this->itemRequestForCsv($item));
+                });
+            });
+        });
+
+        return $excel->download($type);
+    }
+
+    public function itemRequestForCsv($item): array
+    {
+
+        return [
+            $item->description,
+            $item->qty,
         ];
     }
 }

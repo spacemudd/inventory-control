@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\MaterialRequest;
 use App\Models\MaterialRequestItem;
 use Illuminate\Http\Request;
+use App\Classes\MaterialRequestExcel;
 
 class MaterialRequestItemsController extends Controller
 {
@@ -18,6 +19,15 @@ class MaterialRequestItemsController extends Controller
         return MaterialRequest::where('id', $materialRequestId)
             ->firstOrFail()
             ->items;
+    }
+
+    public function makeExcel($id)
+    {
+
+        $type = 'xlsx';
+        $x = new MaterialRequestExcel;
+        $data = MaterialRequestItem::where('material_request_id', $id)->get();
+        $x->downloadMaterialRequestExcel($data, $type);
     }
 
     /**

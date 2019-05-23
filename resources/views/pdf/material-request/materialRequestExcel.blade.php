@@ -14,7 +14,7 @@
 </head>
 <body>
 <section align="center">
-    <img style="width: 150px;" src="{{ asset('img/brand/brand_pdf_logo.png') }}">
+    <img style="width: 100px;" src="<?php echo e(public_path('img/brand/brand_pdf_logo.png')); ?>">
 </section>
 <h2 align="center">PREMISES AND ADMINISTRATION DEPARTMENT</h2>
 <section class="mainSection">
@@ -112,8 +112,5 @@
                 </span>
     </div>
 </footer>
-@section('content')
-    <make-material-request-pdf :material-request-number="{{ $id }}"></make-material-request-pdf>
-@endsection
 </body>
 </html>
