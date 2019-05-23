@@ -201,6 +201,7 @@ Vue.component('datepicker', require('./components/Datepicker/Datepicker.vue').de
 Vue.component('clipboard', require('./components/CopyToClipboard/CopyToClipboard').default);
 Vue.component('select-employee', require('./components/SelectEmployee/SelectEmployee').default);
 Vue.component('select-department', require('./components/SelectDepartment/SelectDepartment').default);
+Vue.component('select-location', require('./components/SelectLocation/SelectLocation').default);
 Vue.component('purchase-requisition-items', require('./components/PurchaseRequisitionItems/PurchaseRequisitionItems').default);
 Vue.component('new-item-requisition-modal', require('./components/NewItemRequisitionModal/NewItemRequisitionModal').default);
 Vue.component('select-item-template', require('./components/SelectItemTemplate/SelectItemTemplate').default);

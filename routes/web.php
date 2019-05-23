@@ -27,6 +27,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
 
         // Locations
         Route::resource('locations', 'LocationsController');
+        Route::post('addNewLocations', 'newLocationsController@addLocation');
 
         // Job Orders
         Route::resource('job-orders', 'JobOrderController');
