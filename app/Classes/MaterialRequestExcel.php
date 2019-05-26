@@ -4,8 +4,8 @@ namespace App\Classes;
 
 use App\Models\MaterialRequest;
 use App\Models\MaterialRequestItem;
-use Excel;
 use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
+use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Cell\DefaultValueBinder;
 
 class MaterialRequestExcel
@@ -45,14 +45,13 @@ class MaterialRequestExcel
 
     public function __construct(MaterialRequest $materialRequest = null)
     {
-
         $this->materialRequest = $materialRequest;
 
-        if($materialRequest != null) {
+        if($materialRequest) {
             $this->fileName = str_slug($this->materialRequest->number);
+        } else {
+            $this->fileName = now()->format('Y-m-d').'-material-requests';
         }
-
-
     }
 
     /**

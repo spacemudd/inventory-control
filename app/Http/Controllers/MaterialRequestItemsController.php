@@ -21,13 +21,18 @@ class MaterialRequestItemsController extends Controller
             ->items;
     }
 
+    /**
+     *
+     * @param $id Material request ID.
+     * @return mixed
+     */
     public function makeExcel($id)
     {
-
         $type = 'xlsx';
-        $x = new MaterialRequestExcel;
-        $data = MaterialRequestItem::where('material_request_id', $id)->get();
-        $x->downloadMaterialRequestExcel($data, $type);
+        $materialRequest = MaterialRequest::find($id);
+        $data = $materialRequest->items;
+        $x = new MaterialRequestExcel($materialRequest);
+        return $x->downloadMaterialRequestExcel($data, $type);
     }
 
     /**
