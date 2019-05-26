@@ -42,6 +42,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
 
         // Quotations
         Route::resource('quotations', 'QuotationsController');
+        Route::get('makeQuotationItem/change/{itemId}', 'QuotationsController@changeStatus');
         Route::post('quotations/{id}/save', 'QuotationsController@save')->name('quotations.save');
 
         // QSuppliers

@@ -259,6 +259,7 @@ Vue.component('projects-create-modal-form', require('./components/ProjectsCreate
 Vue.component('material-request-items-container', require('./components/MaterialRequestItemsContainer/MaterialRequestItemsContainer.vue').default);
 Vue.component('select-date-for-material-request', require('./components/MaterialRequestItemsContainer/SelectDateForMaterialRequest.vue').default);
 Vue.component('quotations-items-container', require('./components/QuotationItemsContainer/QuotationItemsContainer.vue').default);
+Vue.component('add-material-request-items-container-quotations-item', require('./components/QuotationItemsContainer/AddMaterialRequestQoutationItem.vue').default);
 Vue.component('select-material-request-items', require('./components/SelectMaterialRequestItem/SelectMaterialRequestItem.vue').default);
 Vue.component('manage-quotation-suppliers-page', require('./components/ManageQuotationSuppliersPage/ManageQuotationSuppliersPage').default);
 
