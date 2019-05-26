@@ -27,6 +27,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
 
         // Locations
         Route::resource('locations', 'LocationsController');
+        Route::post('addNewLocations', 'newLocationsController@addLocation');
 
         // Job Orders
         Route::resource('job-orders', 'JobOrderController');
@@ -37,11 +38,12 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::get('material-requests/excel/{type}', 'MaterialRequestsController@allExcel')->name('material-requests.all-excel');
         Route::resource('material-requests', 'MaterialRequestsController');
         Route::post('material-requests/{id}/approve', 'MaterialRequestsController@approve')->name('material-requests.approve');
-        Route::get('material-requests/{id}/excel', 'MaterialRequestsController@excel')->name('material-requests.excel');
+        Route::get('material-requests/{id}/pdf', 'MaterialRequestsController@streamPdf')->name('material-requests.pdf');
         Route::get('material-requests/{itemName}/search', 'MaterialRequestsController@searchItem');
 
         // Quotations
         Route::resource('quotations', 'QuotationsController');
+        Route::get('makeQuotationItem/change/{itemId}', 'QuotationsController@changeStatus');
         Route::post('quotations/{id}/save', 'QuotationsController@save')->name('quotations.save');
 
         // QSuppliers
@@ -191,6 +193,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
 
     // Material requests items.
     Route::get('material-requests/{material_request_id}/items', 'MaterialRequestItemsController@index');
+    Route::get('material-requests/downloadExcel/{material_request_id}', 'MaterialRequestItemsController@makeExcel')->name('material-requests.downloadExcel');
     Route::post('material-requests/{material_request_id}/items/store', 'MaterialRequestItemsController@store');
     Route::delete('material-requests/{material_request_id}/items/{id}', 'MaterialRequestItemsController@destroy');
 

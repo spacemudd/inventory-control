@@ -45,7 +45,7 @@ class QuotationItemsController extends Controller
     {
         $request->validate([
            'quotation_id' => 'required|exists:quotations,id',
-           'material_request_item_id' => 'required|exists:material_request_items,id',
+           'material_request_item_id' => 'required|exists:material_request_items,id|unique:quotation_items,material_request_item_id',
            'qty' => 'required|numeric',
            'unit_price' => 'required|numeric',
         ]);
@@ -94,6 +94,7 @@ class QuotationItemsController extends Controller
 
     public function getQuotations()
     {
+
         $quotations = Quotation::where('status', 1)->pluck('vendor_quotation_number', 'id');
 
 

@@ -4,8 +4,8 @@ namespace App\Classes;
 
 use App\Models\MaterialRequest;
 use App\Models\MaterialRequestItem;
-use Excel;
 use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
+use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Cell\DefaultValueBinder;
 
 class MaterialRequestExcel
@@ -22,7 +22,10 @@ class MaterialRequestExcel
      * @var string
      */
     protected $fileName;
-
+    protected $mRequestCol = [
+        'description',
+        'qty'
+    ];
     protected $columns = [
         'Location',
         'Item',
@@ -42,7 +45,6 @@ class MaterialRequestExcel
 
     public function __construct(MaterialRequest $materialRequest = null)
     {
-
         $this->materialRequest = $materialRequest;
 
         if($materialRequest) {
@@ -50,8 +52,6 @@ class MaterialRequestExcel
         } else {
             $this->fileName = now()->format('Y-m-d').'-all-material-requests';
         }
-
-
     }
 
     /**
@@ -112,12 +112,35 @@ class MaterialRequestExcel
 
     public function itemForCsv($item): array
     {
-
         return [
             $item->number,
             $item->location->name,
             $item->cost_center->display_name,
             $item->status_name,
+        ];
+    }
+
+    public function downloadMaterialRequestExcel($data, $type)
+    {
+        $excel = Excel::create($this->fileName, function($excel) use ($data){
+            $excel->sheet('mySheet', function($sheet) use ($data)
+            {
+                $sheet->appendRow($this->mRequestCol);
+                $data->each(function($item) use ($sheet) {
+                    $sheet->appendRow($this->itemRequestForCsv($item));
+                });
+            });
+        });
+
+        return $excel->download($type);
+    }
+
+    public function itemRequestForCsv($item): array
+    {
+
+        return [
+            $item->description,
+            $item->qty,
         ];
     }
 }

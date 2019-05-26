@@ -48,6 +48,7 @@
                 <div class="field">
                     <label for="location" class="label">Location <span class="has-text-danger">*</span></label>
 
+
                     <div class="control">
                         <div class="select is-fullwidth{{ $errors->has('location') ? ' is-danger' : '' }}">
                             <select name="location_id" id="location" required>
@@ -56,8 +57,10 @@
                                 @endforeach
                             </select>
                         </div>
-                        <span class="help">Click here to <a target="_blank" href="{{ route('locations.create') }}">add new locations.</a></span>
-
+                        <span class="help">Click here to <a target="_blank" @click="$store.commit('Location/showNewModal', true)">add new locations.</a></span>
+                        <select-location name="location_id"
+                                         url="{{ route('locations.create') }}">
+                        </select-location>
                         @if ($errors->has('location'))
                             <span class="help is-danger">
                 	            {{ $errors->first('location') }}
