@@ -6,7 +6,8 @@
     <div style="width:100%;">
         <b-collapse :open="show">
             <loading-screen v-if="loading"
-                            style="min-height:450px;"></loading-screen>
+                            style="min-height:450px;">
+            </loading-screen>
             <iframe :src="url"
                     v-if="show"
                     @load="loaded"

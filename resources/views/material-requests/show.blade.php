@@ -44,11 +44,24 @@
                                     type="submit" id="materialApprove">Approve</button>
                         </form>
                     @endif
-                    <a href="{{ route('material-requests.excel', ['id' => $mRequest->id]) }}"
-                       class="button has-icon is-small">
+
+                    <a class="button has-icon is-small" href="{{ route('material-requests.downloadExcel', ['id' => $mRequest->id]) }}">
                         <span class="icon"><i class="fa fa-file-excel-o"></i></span>
                         <span>Excel</span>
                     </a>
+                        <a @click="$store.commit('JobOrders/togglePreviewPdf')"
+                           class="button has-icon is-small">
+                            <span class="icon"><i class="fa fa-eye"></i></span>
+                            <span>PDF</span>
+                        </a>
+                </div>
+            </div>
+
+            <div class="columns">
+                <div class="column is-12">
+                    <preview-pdf-container-for-material-request url="{{ $mRequest->id }}/pdf"
+                                                                show-type="JobOrders/previewPdf">
+                    </preview-pdf-container-for-material-request>
                 </div>
             </div>
 

@@ -11,6 +11,7 @@ use App\Services\MaterialRequestService;
 use Illuminate\Http\Request;
 use App\Models\MaterialRequestItem;
 use Excel;
+use PDF;
 
 class MaterialRequestsController extends Controller
 {
@@ -126,16 +127,6 @@ class MaterialRequestsController extends Controller
         return redirect()->route('material-requests.show', ['id' => $mRequest->id]);
     }
 
-    public function excel($id)
-    {
-
-        $mRequest = MaterialRequest::with('items')->find($id);
-
-        static $number = 1;
-
-        return View('pdf.material-request.materialRequestExcel', compact('mRequest', 'number', 'id'));
-
-    }
 
     public function allExcel($type)
     {
@@ -156,5 +147,16 @@ class MaterialRequestsController extends Controller
 
 
         return json_encode($itemInformation);
+    }
+
+    public function streamPdf($id)
+    {
+        $mRequest = MaterialRequest::with('items')->find($id);
+
+        static $number = 1;
+
+        $pdf = PDF::loadView('pdf.material-request.materialRequestExcel', compact('mRequest', 'number', 'id'));
+
+        return $pdf->inline('material-request.pdf');
     }
 }

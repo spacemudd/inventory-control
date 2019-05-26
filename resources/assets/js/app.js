@@ -230,6 +230,7 @@ Vue.component('select-purchase-requisition', require('./components/SelectPurchas
 Vue.component('purchase-order-items', require('./components/PurchaseOrderItems/PurchaseOrderItems').default);
 Vue.component('toggle-preview-purchase-order', require('./components/TogglePreviewPurchaseOrder/TogglePreviewPurchaseOrder').default);
 Vue.component('preview-pdf-container', require('./components/PreviewPdfContainer/PreviewPdfContainer').default);
+Vue.component('preview-pdf-container-for-material-request', require('./components/PreviewPdfContainer/PreviewPdfContainerForMaterialRequest').default);
 Vue.component('purchase-requisition-simple-items', require('./components/PurchaseRequisitionSimpleItems/PurchaseRequisitionSimpleItems').default);
 Vue.component('edit-pr-recommended-by-token', require('./components/EditPrRecommendedByToken/EditPrRecommendedByToken').default);
 Vue.component('edit-pr-itam-approved-by-token', require('./components/EditPrItamApprovedByToken/EditPrItamApprovedByToken').default);
@@ -256,10 +257,7 @@ Vue.component('projects-create-modal-form', require('./components/ProjectsCreate
 
 // @see https://stackoverflow.com/questions/49517519/failed-to-mount-component-template-or-render-function-not-defined-vue-dynamic
 Vue.component('material-request-items-container', require('./components/MaterialRequestItemsContainer/MaterialRequestItemsContainer.vue').default);
-
 Vue.component('select-date-for-material-request', require('./components/MaterialRequestItemsContainer/SelectDateForMaterialRequest.vue').default);
-Vue.component('make-material-request-pdf', require('./components/MaterialRequestItemsContainer/MaterialRequestMakePdf.vue').default);
-
 Vue.component('quotations-items-container', require('./components/QuotationItemsContainer/QuotationItemsContainer.vue').default);
 Vue.component('select-material-request-items', require('./components/SelectMaterialRequestItem/SelectMaterialRequestItem.vue').default);
 Vue.component('manage-quotation-suppliers-page', require('./components/ManageQuotationSuppliersPage/ManageQuotationSuppliersPage').default);
