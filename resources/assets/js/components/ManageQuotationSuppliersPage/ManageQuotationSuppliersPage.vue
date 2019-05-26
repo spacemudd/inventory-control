@@ -107,6 +107,8 @@
           })
       },
       selectSupplier(supplier) {
+        this.suppliersBalance = '';
+        this.getSupplierBalance(supplier);
         this.selectedSupplier = supplier;
         this.quotations = [];
         this.checkedRows = [];
