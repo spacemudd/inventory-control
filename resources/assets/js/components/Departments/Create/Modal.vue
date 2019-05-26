@@ -13,7 +13,6 @@
                         <div class="column is-6">
                             <div class="field">
                                 <label class="label">{{ $t('words.code') }} <span class="has-text-danger">*</span></label>
-
                                 <p class="control">
                                     <input v-model="code" class="input" required>
                                 </p>
