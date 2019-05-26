@@ -24,7 +24,7 @@ class CreateMaxNumbersTable extends Migration
     {
         Schema::create('max_numbers', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', 30)->unique();
+            $table->string('name')->unique();
             $table->unsignedMediumInteger('value');
             $table->timestamps();
         });
