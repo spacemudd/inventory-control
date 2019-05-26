@@ -22,19 +22,7 @@
 @section('content')
 
     <div class="columns">
-        <div class="column is-4">
-            <p class="title is-6">
-                <b>{{ trans('words.inactive') }} {{ trans('words.employees') }}</b>
-            </p>
-
-            <div class="notification is-warning">
-                <p class="subtitle is-7">
-                    <b>{{ $inactiveEmployees }}</b>
-                </p>
-            </div>
-        </div>
-
-        <div class="column is-4">
+       <div class="column is-4">
             <p class="title is-6">
                 <b>{{ trans('words.active') }} {{ trans('words.employees') }}</b>
             </p>
@@ -48,5 +36,35 @@
     </div>
 
     <employees :can-create.number="{{ Auth::user()->can('create-employees') ? '1' : '0' }}"></employees>
+
+
+    <div class="columns">
+        <div class="column is-12">
+            <table class="table is-fullwidth is-narrow is-size-7">
+            <thead>
+            <tr>
+            	<th>Code</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Staff Type</th>
+                <th>Contact Number</th>
+                <th>Email Address</th>
+            </tr>
+            </thead>
+            	<tbody>
+                    @foreach ($employees as $employee)
+                        <tr>
+                            <td>{{ $employee->code }}</td>
+                            <td>{{ $employee->name }}</td>
+                            <td>{{ optional($employee->department)->display_name }}</td>
+                            <td>{{ optional($employee->type)->name }}</td>
+                            <td>{{ $employee->phone }}</td>
+                            <td>{{ $employee->email }}</td>
+                        </tr>
+                    @endforeach
+            	</tbody>
+            </table>
+        </div>
+    </div>
 
 @endsection
