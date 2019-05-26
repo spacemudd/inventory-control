@@ -155,9 +155,8 @@ class MaterialRequestsController extends Controller
 
         static $number = 1;
 
-
         $pdf = PDF::loadView('pdf.material-request.materialRequestExcel', compact('mRequest', 'number', 'id'));
 
-        return $pdf->download('material-request.pdf');
+        return $pdf->inline('material-request.pdf');
     }
 }

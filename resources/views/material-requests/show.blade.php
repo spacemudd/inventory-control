@@ -54,9 +54,14 @@
                             <span class="icon"><i class="fa fa-eye"></i></span>
                             <span>PDF</span>
                         </a>
-                        <preview-pdf-container-for-material-request url="{{ $mRequest->id }}/pdf"
-                                               show-type="JobOrders/previewPdf">
-                        </preview-pdf-container-for-material-request>
+                </div>
+            </div>
+
+            <div class="columns">
+                <div class="column is-12">
+                    <preview-pdf-container-for-material-request url="{{ $mRequest->id }}/pdf"
+                                                                show-type="JobOrders/previewPdf">
+                    </preview-pdf-container-for-material-request>
                 </div>
             </div>
 
