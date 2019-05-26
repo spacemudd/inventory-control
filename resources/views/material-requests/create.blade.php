@@ -31,6 +31,24 @@
             <p class="is-uppercase"><b>Request details</b></p>
             <form class="form" action="{{ route('material-requests.store') }}" method="post" style="margin-top:2rem">
                 @csrf
+
+                <div class="field">
+                    <label for="number" class="label">Reference #</label>
+                    <input id="number"
+                           type="text"
+                           class="input {{ $errors->has('number') ? ' is-danger' : '' }}"
+                           placeholder="If left blank, reference will be automatically generated"
+                           name="number"
+                           value="{{ old('number') }}">
+                    <p class="control">
+                        @if ($errors->has('number'))
+                            <span class="help is-danger">
+                                {{ $errors->first('number') }}
+                            </span>
+                        @endif
+                    </p>
+                </div>
+
                 <div class="field">
                     <label for="date" class="label">Date <span class="has-text-danger">*</span></label>
 

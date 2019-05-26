@@ -55,13 +55,16 @@ class MaterialRequestsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'number' => 'nullable|string|max:255|unique:material_requests,number',
             'date' => 'required|date',
             'location_id' => 'required|numeric|exists:locations,id',
             'cost_center_id' => 'required|numeric|exists:departments,id',
         ]);
 
-        if ($this->service->checkNumberExists($request['date'], (int) $request['location_id'])) {
-            return 'Material request already exists!';
+        if (!$request->number) {
+            if ($this->service->checkNumberExists($request['date'], (int) $request['location_id'])) {
+                return 'Material request already exists!';
+            }
         }
 
         $materialRequest = $this->service->save($request->except('_token'));

@@ -14,7 +14,7 @@ class MaterialRequestService
         $date = Carbon::createFromFormat('d-m-Y', $request['date']);
         $location = Location::where('id', $request['location_id'])->first();
 
-        $request['number'] = $date->format('d-m-Y').' - '.$location->name;
+        $request['number'] = $request['number'] ?: $date->format('d-m-Y').' - '.$location->name;
         $request['date'] = $date;
         $request['status'] = MaterialRequest::PENDING; // Default status.
         $request['created_by_id'] = auth()->user()->id;

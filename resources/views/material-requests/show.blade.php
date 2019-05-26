@@ -65,40 +65,54 @@
                 </div>
             </div>
 
-            <form class="form" style="margin-top:2rem">
-                @csrf
-                <div class="field">
-                    <label for="date" class="label">Date</label>
-
-                    <p class="control">
-                        <input id="date" type="text" class="input" value="{{ $mRequest->date->format('d-m-Y') }}" readonly>
-
-                        @if ($errors->has('date'))
-                            <span class="help is-danger">
-                                {{ $errors->first('date') }}
-                            </span>
-                        @endif
-                    </p>
-                </div>
-
-                <div class="field">
-                    <label for="location" class="label">Location</label>
-
-                    <div class="control">
-                        <input type="text" class="input" value="{{ $mRequest->location->name }}" readonly>
+            <div class="columns is-multiline">
+                <div class="column is-6">
+                    <div class="field">
+                        <label for="number" class="label">Reference #</label>
+                        <input id="number"
+                               type="text"
+                               class="input"
+                               name="number"
+                               value="{{ $mRequest->number }}"
+                               readonly>
                     </div>
                 </div>
-
-                <div class="field">
+                <div class="column is-6">
                     <div class="field">
-                        <label for="cost_center_id" class="label">Cost Center</label>
+                        <label for="date" class="label">Date</label>
 
-                        <div class="control">
-                            <input type="text" class="input" value="{{ $mRequest->cost_center->display_name }}" readonly>
+                        <p class="control">
+                            <input id="date" type="text" class="input" value="{{ $mRequest->date->format('d-m-Y') }}" readonly>
+
+                            @if ($errors->has('date'))
+                                <span class="help is-danger">
+                                {{ $errors->first('date') }}
+                            </span>
+                            @endif
+                        </p>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <div class="field">
+                        <div class="field">
+                            <label for="cost_center_id" class="label">Cost Center</label>
+
+                            <div class="control">
+                                <input type="text" class="input" value="{{ $mRequest->cost_center->display_name }}" readonly>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </form>
+                <div class="column is-6">
+                    <div class="field">
+                        <label for="location" class="label">Location</label>
+
+                        <div class="control">
+                            <input type="text" class="input" value="{{ $mRequest->location->name }}" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
