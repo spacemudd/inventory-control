@@ -75,9 +75,9 @@
                         <select-location name="location_id"
                                          url="{{ route('locations.create') }}">
                         </select-location>
-                        @if ($errors->has('location'))
+                        @if ($errors->has('location_id'))
                             <span class="help is-danger">
-                	            {{ $errors->first('location') }}
+                	            {{ $errors->first('location_id') }}
                 	        </span>
                         @endif
                     </div>
