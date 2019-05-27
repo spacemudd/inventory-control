@@ -23,7 +23,7 @@ class CreateQuotationItemsTable extends Migration
             $table->foreign('material_request_item_id')->references('id')->on('material_request_items');
             $table->string('description');
             $table->integer('qty')->default(1)->comment('Pieces qty');
-            $table->integer('boxes_qty')->default(0)->comment('Boxes qty');
+            $table->integer('qty_boxes')->default(0)->comment('Boxes qty');
             $table->integer('unit_price');
             $table->integer('vat')->default(0);
             $table->integer('total_price_ex_vat');

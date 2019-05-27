@@ -21,7 +21,7 @@ class CreateMaterialRequestItemsTable extends Migration
             $table->foreign('item_id')->references('id')->on('items')->onDelete('SET NULL');
             $table->string('description');
             $table->unsignedInteger('qty')->default(1)->comment('Pieces qty');
-            $table->unsignedInteger('boxes_qty')->default(0)->comment('Boxes qty');
+            $table->unsignedInteger('qty_boxes')->default(0)->comment('Boxes qty');
             $table->timestamps(4);
         });
     }

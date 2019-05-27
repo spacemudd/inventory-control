@@ -11,6 +11,7 @@ class MaterialRequestItem extends Model
         'item_id',
         'description',
         'qty',
+        'qty_boxes',
     ];
 
     public function materialRequest()
