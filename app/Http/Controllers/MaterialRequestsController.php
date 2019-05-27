@@ -54,17 +54,28 @@ class MaterialRequestsController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'date' => 'required|date',
             'location_id' => 'required|numeric|exists:locations,id',
-            'cost_center_id' => 'required|numeric|exists:departments,id',
+            'cost_center_id' => 'required_without_all:department_code_number|numeric|exists:departments,id',
+            'department_code_number' => 'required_without_all:cost_center_id|numeric',
         ]);
 
         if ($this->service->checkNumberExists($request['date'], (int) $request['location_id'])) {
             return 'Material request already exists!';
         }
 
+        if(isset($request->department_code_number)):
+            $id = Department::insertGetId([
+                'code' => $request->department_code_number,
+                'description' => "default"
+            ]);
+            $request['cost_center_id'] = $id;
+        endif;
+
         $materialRequest = $this->service->save($request->except('_token'));
+
         return redirect()->route('material-requests.show', ['id' => $materialRequest->id]);
     }
 

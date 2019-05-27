@@ -11,6 +11,7 @@
         <!-- When searching -->
             <b-autocomplete
                     v-else
+                    name="department_code_number"
                     v-model="search"
                     :data="records"
                     :loading="isLoading"
