@@ -46,8 +46,8 @@
                             <div class="field">
                                 <label class="label">{{ $t('words.location') }} <span class="has-text-danger">*</span></label>
                                 <div class="control">
-                                    <select name="location_id" required class="input" @onchange="getLocationValue(this.value)" id="locationId">
-                                        <option v-for="(location, key) in locations" :value="location.id" class="input">{{ location.name }}</option>
+                                    <select name="location_id" class="input" @onchange="getLocationValue(this.value)" id="locationId">
+                                        <option v-for="(location, key) in locations" :value="location.id" class="input" required>{{ location.name }}</option>
                                     </select>
 <!--                                    <i class="fa fa-chevron-circle-down"></i>-->
                                 </div>
@@ -106,7 +106,7 @@
                 Object.assign(this.$data, initialState());
             },
             save() {
-              var locationId = $("#locationId").val();
+              var locationId = Number($("#locationId").val());
               this.isLoading = true;
                 axios.post(this.apiUrl() + '/departments', {
                     code: this.code,
