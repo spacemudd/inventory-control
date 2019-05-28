@@ -43,6 +43,7 @@ class QuotationItemsController extends Controller
      */
     public function store(Request $request)
     {
+//        dd($request);
         $request->validate([
            'quotation_id' => 'required|exists:quotations,id',
            'material_request_item_id' => 'required|exists:material_request_items,id|unique:quotation_items,material_request_item_id',
