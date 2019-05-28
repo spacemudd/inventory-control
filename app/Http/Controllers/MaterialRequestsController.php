@@ -54,7 +54,7 @@ class MaterialRequestsController extends Controller
      */
     public function store(Request $request)
     {
-
+//        dd($request->toArray());
         $request->validate([
             'date' => 'required|date',
             'location_id' => 'required|numeric|exists:locations,id',
@@ -67,9 +67,11 @@ class MaterialRequestsController extends Controller
         }
 
         if(isset($request->department_code_number)):
+            $locationName = Location::find($request->location_id);
             $id = Department::insertGetId([
                 'code' => $request->department_code_number,
-                'description' => "default"
+                'description' => $locationName->name,
+                'location_id' => $request->location_id
             ]);
             $request['cost_center_id'] = $id;
         endif;
