@@ -63,7 +63,7 @@ class DepartmentController extends Controller
         $data = request();
 
         $data->validate([
-            'location_id' => 'required|numeric|max:255',
+            'location_id' => 'nullable|numeric|max:255',
         ]);
 		$department = $this->service->store($data);
 
