@@ -48,6 +48,7 @@ class QuotationItemsController extends Controller
            'material_request_item_id' => 'required|exists:material_request_items,id|unique:quotation_items,material_request_item_id',
            'qty' => 'required|numeric',
            'unit_price' => 'required|numeric',
+           'qty_boxes' => 'nullable',
         ]);
 
         $request = $request->except('_token');
