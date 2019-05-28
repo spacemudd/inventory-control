@@ -109,6 +109,20 @@ class JobOrderService
     }
 
     /**
+     * Approve Job Order
+     *
+     * @param JobOrder $jobOrder
+     * @param $item_id
+     * @return bool
+     */
+    public function dispatchItem(JobOrder $jobOrder, $item_id)
+    {
+        $item = $jobOrder->items()->findOrFail($item_id);
+
+        return $item->update(['dispatched_at' => date('Y-m-d H:i:s')]);
+    }
+
+    /**
      * Generate pdf
      *
      * @param JobOrder $jobOrder
