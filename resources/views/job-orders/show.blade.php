@@ -199,4 +199,44 @@
     {{--</div>--}}
     {{--</div>--}}
     {{--</div>--}}
+
+<div class="column is-8 is-offset-2">
+    <div class="box">
+        <div class="columns">
+            <div class="column is-6">
+                <p class="is-uppercase"><b>Material Items</b></p>
+            </div>
+        </div>
+        <table class="table is-fullwidth is-bordered is-size-7">
+            <thead>
+            <tr>
+                <th width="50px" class="has-text-centered">#</th>
+                <th width="50px" class="has-text-right">Stock</th>
+                <th width="50px" class="has-text-right">Quantity</th>
+                <th width="50px" class="has-text-right">Technician</th>
+                <th width="50px">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+                @forelse($jobOrder->items as $i => $item)
+                    <tr>
+                        <td>{{ $i+1 }}</td>
+                        <td>{{ $item->stock->description }}</td>
+                        <td>{{ $item->qty }}</td>
+                        <td>{{ $item->technician->display_name }}</td>
+                        <td>
+                            <form action="{{ route('job-order.dispatch', compact('jobOrder', 'item')) }}">
+                                
+                            </form>
+                        </td>
+                    </tr>
+                @empty
+                    <tr class="has-text-centered">
+                        <td colspan="5"><p class="has-text-centered"><i>No items</i></p></td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+</div>
 @endsection

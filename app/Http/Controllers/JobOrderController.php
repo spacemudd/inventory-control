@@ -26,7 +26,7 @@ class JobOrderController extends Controller
      */
     public function index()
     {
-        $jobOrders = JobOrder::paginate(15);
+        $jobOrders = JobOrder::latest()->paginate(15);
         return view('job-orders.index', compact('jobOrders'));
     }
 
@@ -51,6 +51,7 @@ class JobOrderController extends Controller
         DB::transaction(function() use ($request) {
             $jobOrder = $this->service->save($request);
             $this->service->addTechniciansTo($jobOrder, $request->technicians);
+            $this->service->addMaterialsUsed($jobOrder, $request->materials);
         });
 
         return redirect()->route('job-orders.index');
@@ -64,7 +65,9 @@ class JobOrderController extends Controller
      */
     public function show(JobOrder $jobOrder)
     {
-        $jobOrder->load('technicians');
+        $jobOrder->load('technicians', 'items.stock', 'items.technician');
+
+//        dd($jobOrder);
         
         return view('job-orders.show', compact('jobOrder'));
     }

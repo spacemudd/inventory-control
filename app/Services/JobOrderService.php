@@ -74,14 +74,13 @@ class JobOrderService
      * Sync technicians to job order
      *
      * @param JobOrder $jobOrder
-     * @param array $techinians
+     * @param array $technicians
      * @return array
      */
-    public function addTechniciansTo(JobOrder $jobOrder, $techinians)
+    public function addTechniciansTo(JobOrder $jobOrder, $technicians)
     {
         $newArray = [];
-
-        foreach ($techinians as &$tech) {
+        foreach ($technicians as &$tech) {
             unset($tech['employee']);
 
             if ($tech['time_start']) {
@@ -102,7 +101,24 @@ class JobOrderService
         }
 
         return $jobOrder->technicians()->sync($newArray);
+    }
 
+
+    public function addMaterialsUsed(JobOrder $jobOrder, $materials)
+    {
+        $materials = collect($materials)->filter(function ($item) {
+            return isset($item['stock_id']) && isset($item['quantity']) && isset($item['technician']);
+        });
+
+        foreach ($materials as $material) {
+            $jobOrder->items()->create([
+                'stock_id'      => $material['stock_id'],
+                'technician_id' => $material['technician']['id'],
+                'qty'           => $material['quantity'],
+            ]);
+        }
+
+        return true;
     }
 
     /**

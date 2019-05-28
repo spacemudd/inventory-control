@@ -163,45 +163,51 @@ e<template>
                                                 field="description"
                                                 :loading="material.isFetching"
                                                 @input="asyncRequest($event, {url: 'search/stock', key_data: `materials.${i}.material_options`})"
-                                                @select="updateMaterialQty($event, i)">
+                                                @select="updateMaterialQty($event, material)">
                                             <template slot-scope="props">
                                                 <p>{{ props.option.description }}</p>
                                             </template>
                                         </b-autocomplete>
                                     </td>
                                     <td>
-                                        <p v-text="materialForm.available"></p>
+                                        <p v-text="material.onHandQuantity"></p>
                                     </td>
                                     <td>
                                         <b-input type="number"
-                                                min="1"
                                                 size="is-small"
-                                                v-model="materialForm.quantity"
+                                                :max="material.onHandQuantity"
+                                                v-model="material.quantity"
                                                 placeholder="Select end time">
                                         </b-input>
                                     </td>
-                                    <td @keyup.enter="addTechnician">
-                                        <input v-if="materialForm.technician"
+                                    <td @keyup.enter="addMaterial">
+                                        <input v-if="material.technician"
                                                type="text"
                                                class="input is-small"
-                                               :value="materialForm.technician.code + ' - ' + materialForm.technician.name"
+                                               :value="material.technician.code + ' - ' + material.technician.name"
                                                @click="clearMaterialTechnician"
                                                readonly>
                                         <b-autocomplete v-else
-                                                        v-model="materialTechnicianSearchCode"
+                                                        v-model="material.technicianSearchCode"
                                                         field="code"
                                                         :data="filteredEmployees"
-                                                        @select="option => materialForm.technician = option"
+                                                        @select="option => material.technician = option"
                                                         size="is-small"
                                                         :loading="$isLoading('FETCHING_EMPLOYEES')">
                                             <template slot="empty">No results found</template>
                                         </b-autocomplete>
                                     </td>
                                     <td class="has-text-centered">
-                                        <button class="button is-primary is-small"
+                                        <button v-if="materials.length == i+1" class="button is-primary is-small"
                                                 :class="{'is-loading': $isLoading('SAVING_MATERIAL')}"
                                                 @click.prevent="addMaterial">
-                                            Add
+                                            <span class="icon is-small"><i class="fa fa-plus"></i></span>
+                                        </button>
+                                        <button v-else
+                                                class="button is-danger is-small "
+                                                :class="{'is-loading': $isLoading('DELETING_ASSET_ISSUANCE')}"
+                                                @click.prevent="materials.splice(i, 1)">
+                                            <span class="icon is-small"><i class="fa fa-trash"></i></span>
                                         </button>
                                     </td>
                                 </tr>
@@ -315,7 +321,6 @@ e<template>
                 locationSearchCode: '',
 
                 technicianFormSearchCode: '',
-                materialTechnicianSearchCode: '',
                 technicianForm: {
                     employee: '',
                     time_start: this.now(),
@@ -327,9 +332,11 @@ e<template>
                         material_options: [],
                         isFetching: false,
                         description: '',
+                        stock_id: null,
                         onHandQuantity: 0,
-                        quantity: 1,
-                        technician: ''
+                        quantity: 0,
+                        technician: '',
+                        technicianSearchCode: '',
                     }
                 ],
                 materialSearchCode: '',
@@ -403,19 +410,20 @@ e<template>
         },
         methods: {
             asyncRequest: debounce(function(q, data) {
-                if (!q.length) {
-                    this[data.key_data] = [];
-                    return;
-                }
+                _.set(this, data.key_data, []);
                 this.isFetching = true;
                 axios.get(this.apiUrl() + `/${data.url}?q=${q}`).then(response => {
-                    this[data.key_data] = response.data;
                     this.isFetching = false;
+                    _.set(this, data.key_data, response.data);
                 })
-            }, 500),
+            }, 150),
 
-            updateMaterialQty(option) {
-                console.log(option)
+            updateMaterialQty(option, material) {
+                if (option) {
+                    _.set(material, 'onHandQuantity', option.on_hand_quantity);
+                    _.set(material, 'description', option.description);
+                    _.set(material, 'stock_id', option.id);
+                }
             },
 
             now() {
@@ -467,13 +475,14 @@ e<template>
                         this.$toast.open({
                             message: 'Success! Redirecting...',
                         });
-                        window.location.href = this.baseUrl()+'/job-orders';
+                        // window.location.href = this.baseUrl()+'/job-orders';
                     })
                     .catch(e => {
+                        alert(e.response.data.message);
                         throw e;
                     }).finally(() => {
-                    this.$endLoading('SAVING_JOB_ORDER');
-                })
+                        this.$endLoading('SAVING_JOB_ORDER');
+                    })
             },
             addTechnician() {
                 if (!this.technicianForm.addEmployees) {
@@ -487,6 +496,17 @@ e<template>
                 setTimeout(() => {
                     this.clearTechnicianForm();
                 }, 200);
+            },
+            addMaterial() {
+               this.materials.push({
+                    material_options: [],
+                    isFetching: false,
+                    description: '',
+                    onHandQuantity: 0,
+                    quantity: 0,
+                    technician: '',
+                    technicianSearchCode: ''
+                });
             },
             clearTechnicianForm() {
                 this.technicianFormSearchCode = '';
@@ -507,8 +527,7 @@ e<template>
                 };
             },
             clearMaterialTechnician() {
-                this.materialTechnicianSearchCode = '';
-                this.materialForm.technician = '';
+                this.materialForm.technicianSearchCode = '';
             },
             emptyMaterial() {
                 this.materialSearchCode = '';
