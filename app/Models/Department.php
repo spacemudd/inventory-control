@@ -20,7 +20,7 @@ class Department extends Model implements AuditableContract
 {
     use Auditable, SoftDeletes;
 
-    protected $fillable = ['code', 'description','head_department'];
+    protected $fillable = ['code', 'description','head_department','location_id'];
 
     protected $appends = ['department_human', 'link', 'edit_link', 'display_name'];
 

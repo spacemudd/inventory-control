@@ -11,6 +11,7 @@
         <!-- When searching -->
             <b-autocomplete
                     v-else
+                    name="department_code_number"
                     v-model="search"
                     :data="records"
                     :loading="isLoading"
@@ -59,6 +60,7 @@
           selectDepartment(department) {
             this.selected = department;
             this.$emit('selected', department);
+            $("#location").val('').prepend("<option value='"+department.location_id +"'>"+department.description +"</option>")
           },
             getData: debounce(function () {
                 this.records = []

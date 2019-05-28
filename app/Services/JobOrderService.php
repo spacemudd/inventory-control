@@ -36,7 +36,7 @@ class JobOrderService
         ));
 
         $jobData['status'] = 'draft';
-
+//        dd($jobData);
         $jobOrder = JobOrder::create($jobData);
 
         return $jobOrder;

@@ -10,6 +10,7 @@ export default {
         code: '',
         description: '',
         head_department: '',
+        location_id: '',
       },
     },
 

@@ -62,6 +62,9 @@ class DepartmentController extends Controller
 
         $data = request();
 
+        $data->validate([
+            'location_id' => 'required|numeric|max:255',
+        ]);
 		$department = $this->service->store($data);
 
 		if(request()->expectsJson()) {
