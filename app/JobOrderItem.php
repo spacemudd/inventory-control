@@ -35,4 +35,9 @@ class JobOrderItem extends Model
     {
         return $this->belongsTo(Employee::class, 'technician_id');
     }
+
+    public function isDispatched()
+    {
+        return ! is_null($this->dispatched_at);
+    }
 }

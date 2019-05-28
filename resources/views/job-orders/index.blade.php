@@ -40,6 +40,7 @@
             <th>CC</th>
             <th>Requested Though</th>
             <th>Status</th>
+            <th>Items</th>
             <th></th>
         </tr>
         </thead>
@@ -57,6 +58,10 @@
                             <td>{{ optional($jobOrder->department)->code }}</td>
                             <td>{{ $jobOrder->requested_through_type }}</td>
                             <td>{{ $jobOrder->status }}</td>
+                            <td>
+                                <p>{{ $jobOrder->dispatched_count }}-@lang('words.dispatched')</p>
+                                <p>{{ $jobOrder->un_dispatched_count }}-@lang('words.un-dispatched')</p>
+                            </td>
                             <td class="has-text-centered">
                                 <div class="buttons">
                                     <a href="{{ route('job-orders.show', $jobOrder) }}"

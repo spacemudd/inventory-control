@@ -394,4 +394,7 @@
         'item-catalog' => 'Item Catalog',
         'job-orders' => 'Job Orders',
         'cost-approvers' => 'Cost approvers',
+        'dispatch' => 'Dispatch',
+        'dispatched' => 'Dispatched',
+        'un-dispatched' => 'Undispatched',
 	];

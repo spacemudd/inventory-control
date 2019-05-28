@@ -225,9 +225,19 @@
                         <td>{{ $item->qty }}</td>
                         <td>{{ $item->technician->display_name }}</td>
                         <td>
-                            <form action="{{ route('job-order.dispatch', compact('jobOrder', 'item')) }}">
-                                
-                            </form>
+                            @if(! $item->isDispatched())
+                                <form action="{{ route('job-orders.dispatch-item', compact('jobOrder', 'item')) }}"
+                                      method="POST">
+                                    @csrf
+                                    <button type="submit" class="button is-small is-warning">
+                                        <span>@lang('words.dispatch')</span>
+                                    </button>
+                                </form>
+                            @else
+                                <button disabled class="button is-small is-info">
+                                    <span>@lang('words.dispatched')</span>
+                                </button>
+                            @endif
                         </td>
                     </tr>
                 @empty
