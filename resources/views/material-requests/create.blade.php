@@ -46,6 +46,20 @@
                 </div>
 
                 <div class="field">
+                    <div class="field">
+                        <label for="cost_center_id" class="label">Cost Center <span class="has-text-danger">*</span></label>
+
+                        <div class="control">
+                            <select-department name="cost_center_id"
+                                               url="{{ route('api.search.department') }}">
+                            </select-department>
+                            <p class="help">Click here to <a href="#" @click="$store.commit('Department/showNewModal', true)">add new department</a>.</p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="field">
                     <label for="location" class="label">Location <span class="has-text-danger">*</span></label>
 
 
@@ -61,24 +75,11 @@
                         <select-location name="location_id"
                                          url="{{ route('locations.create') }}">
                         </select-location>
-                        @if ($errors->has('location'))
+                        @if ($errors->has('location_id'))
                             <span class="help is-danger">
-                	            {{ $errors->first('location') }}
+                	            {{ $errors->first('location_id') }}
                 	        </span>
                         @endif
-                    </div>
-                </div>
-
-                <div class="field">
-                    <div class="field">
-                        <label for="cost_center_id" class="label">Cost Center <span class="has-text-danger">*</span></label>
-
-                        <div class="control">
-                            <select-department name="cost_center_id"
-                                               url="{{ route('api.search.department') }}">
-                            </select-department>
-                            <p class="help">Click here to <a href="#" @click="$store.commit('Department/showNewModal', true)">add new department</a>.</p>
-                        </div>
                     </div>
                 </div>
 

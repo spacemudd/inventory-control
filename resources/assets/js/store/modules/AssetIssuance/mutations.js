@@ -47,9 +47,9 @@ export default {
     updateReferenceNumber(state, number) {
         state.referenceNumber = number;
     },
-    updateIssuanceDate(state, date) {
-        state.issuanceDate = date;
-    },
+    // updateIssuanceDate(state, date) {
+    //     state.issuanceDate = date;
+    // },
     updateDetails(state, details) {
         state.details = details;
     },
