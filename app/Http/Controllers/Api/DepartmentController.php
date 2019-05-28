@@ -14,6 +14,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Department;
 use Illuminate\Http\Request;
+use App\Models\Location;
 
 use App\Clarimount\Service\DepartmentService;
 
@@ -63,8 +64,16 @@ class DepartmentController extends Controller
         $data = request();
 
         $data->validate([
-            'location_id' => 'nullable|numeric|max:255',
+            'location_id' => 'required|numeric|max:255',
         ]);
+
+        if($data->location_id == 0) {
+            $name = $data->description;
+            $id = Location::insertGetId(["name" => $name]);
+            $data['location_id'] = $id;
+        }
+
+
 		$department = $this->service->store($data);
 
 		if(request()->expectsJson()) {

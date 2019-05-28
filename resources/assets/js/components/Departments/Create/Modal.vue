@@ -47,7 +47,7 @@
                                 <label class="label">{{ $t('words.location') }} <span class="has-text-danger">*</span></label>
                                 <div class="control">
                                     <select name="location_id" class="input" @onchange="getLocationValue(this.value)" id="locationId">
-                                        <option v-for="(location, key) in locations" :value="location.id" class="input" required>{{ location.name }}</option>
+                                        <option v-for="(location, key) in locations" :value="location.id" class="input">{{ location.name }}</option>
                                     </select>
 <!--                                    <i class="fa fa-chevron-circle-down"></i>-->
                                 </div>
