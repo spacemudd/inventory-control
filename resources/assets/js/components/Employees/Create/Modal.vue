@@ -180,7 +180,7 @@
                 }).then(response => {
                     // this.isLoading = false;
                     // this.createdSuccess = true;
-                    // window.location = response.data.link;
+                    window.location.assign("/employees");
                   this.$toast.open({
                     type: 'is-success',
                     message: 'Success - ' + this.name,
