@@ -434,10 +434,17 @@ e<template>
                 this.locationSearchCode = '';
             },
             submitOrder() {
-                this.$startLoading('SAVING_JOB_ORDER');
+              this.$startLoading('SAVING_JOB_ORDER');
                 let data = this.$data;
                 data.location_id = this.location.id;
-                data.employee_id = this.employee.id;
+
+              if(this.employee == null){
+                  data.employeeName = this.employeeSearchCode;
+              }
+              else {
+                  data.employee_id = this.employee.id;
+              }
+
                 data.cost_center_id = this.cost_center.id;
                 data.quotation_id = this.quotation;
 

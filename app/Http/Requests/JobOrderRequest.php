@@ -25,7 +25,8 @@ class JobOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'employee_id' => 'required|exists:employees,id',
+            'employeeName' => 'required_without_all:employee_id',
+            'employee_id' => 'required_without_all:employeeName|exists:employees,id',
             'cost_center_id' => 'nullable|exists:departments,id',
             'ext' => 'required',
             'requested_through_type' => 'required',
