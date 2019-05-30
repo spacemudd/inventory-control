@@ -97,8 +97,7 @@ class QuotationItemsController extends Controller
     public function getQuotations()
     {
 
-        $quotations = Quotation::where('status', 1)->pluck('vendor_quotation_number', 'id');
-
+        $quotations = Quotation::where('status', 1)->select('vendor_quotation_number', 'id','vendor_id')->get();
 
         return $quotations;
     }

@@ -37,10 +37,10 @@ e<template>
                             <b-select placeholder="Select Quotation" expanded="" required v-model="quotation">
                                 <option
                                         v-for="(item, index) in quotations"
-                                        :value="index"
+                                        :value="item.id"
 
                                 >
-                                    {{ item }}
+                                    {{ item.vendor_quotation_number }} - {{ item.vendor_id }}
                                 </option>
 
                             </b-select>
