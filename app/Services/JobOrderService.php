@@ -19,7 +19,7 @@ class JobOrderService
      */
     public function save(Request $request)
     {
-//        dd($request->employee_id);
+
         if($request->employee_id == null){
             $toInsert = [
                 'code' => $request->employeeName,
@@ -79,18 +79,23 @@ class JobOrderService
      */
     public function addTechniciansTo(JobOrder $jobOrder, $techinians)
     {
+        $newArray = [];
         foreach ($techinians as &$tech) {
             unset($tech['employee']);
 
             if ($tech['time_start']) {
                 $tech['time_start'] = Carbon::parse($tech['time_start']);
+                $tech['time_start'] = $tech['time_start']->format('H:i:s');
             }
             if ($tech['time_end']) {
                 $tech['time_end'] = Carbon::parse($tech['time_end']);
+                $tech['time_end'] = $tech['time_end']->format('H:i:s');
             }
+            $newArray[] = ['job_order_id' => $jobOrder->id,'time_start' => $tech['time_start'],'time_end' => $tech['time_end']];
         }
 
-        return $jobOrder->technicians()->sync($techinians);
+        return $jobOrder->technicians()->sync($newArray);
+
     }
 
     /**
