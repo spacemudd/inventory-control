@@ -227,14 +227,16 @@ e<template>
                                                class="input is-small"
                                                :value="technicianForm.employee.code + ' - ' + technicianForm.employee.name"
                                                @click="clearTechnician"
-                                               readonly>
+                                               readonly
+                                               required>
                                         <b-autocomplete v-else
                                                         v-model="technicianFormSearchCode"
                                                         field="code"
                                                         :data="filteredEmployees"
                                                         @select="option => technicianForm.employee = option"
                                                         size="is-small"
-                                                        :loading="$isLoading('FETCHING_EMPLOYEES')">
+                                                        :loading="$isLoading('FETCHING_EMPLOYEES')"
+                                                        required>
                                             <template slot="empty">No results found</template>
                                         </b-autocomplete>
                                     </td>
@@ -242,7 +244,8 @@ e<template>
                                         <b-input type="time"
                                                 size="is-small"
                                                 v-model="technicianForm.time_start"
-                                                placeholder="Select start time">
+                                                placeholder="Select start time"
+                                                required>
                                         </b-input>
                                     </td>
                                     <td>
