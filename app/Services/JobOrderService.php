@@ -18,21 +18,6 @@ class JobOrderService
      */
     public function save(Request $request)
     {
-
-        if($request->employee_id == null){
-            $toInsert = [
-                'code' => $request->employeeName,
-                'department_id' => "null",
-                'staff_type_id' => "null",
-                'name' =>"null",
-                'email' => "null",
-                'phone' => "null",
-                'approver' => false,
-            ];
-
-            $request['employee_id'] = Employee::insertGetId($toInsert);
-        }
-
         $jobData = array_merge([
             'date' => date('Y-m-d', strtotime($request->date)),
             'job_order_number' => $this->generateJobNumber()
