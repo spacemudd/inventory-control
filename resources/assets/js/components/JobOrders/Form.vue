@@ -474,7 +474,7 @@ e<template>
                         this.$toast.open({
                             message: 'Success!',
                         });
-                        // window.location.href = this.baseUrl()+'/job-orders';
+                        window.location.href = this.baseUrl()+'/job-orders';
                     })
                     .catch(e => {
                         throw e;
