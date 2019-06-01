@@ -56,7 +56,7 @@ e<template>
                     </div>
 
                     <div class="column">
-                        <b-field label="Employee">
+                        <b-field label="Requester">
                             <!-- If selected. -->
                             <b-autocomplete v-if="!employee"
                                             v-model="employeeSearchCode"
