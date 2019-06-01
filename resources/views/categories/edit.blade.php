@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => $stock->description . ' - Edit'])
+@extends('layouts.app', ['title' => $category->name . ' - Edit'])
 
 
 @section('header')
@@ -11,13 +11,13 @@
 				</a>
 			</li>
 			<li>
-				<a href="{{ route('stock.index') }}">
-					<span class="icon is-small"><i class="fa fa-tags"></i></span>
-					<span>Stock</span>
+				<a href="{{ route('categories.index') }}">
+					<span class="icon is-small"><i class="fa fa-bookmark"></i></span>
+					<span>Categories</span>
 				</a>
 			</li>
 			<li class="is-active">
-				<a href="#">{{ $stock->description }} ({{ $stock->on_hand_quantity }})</a>
+				<a href="#">{{ $category->name }}</a>
 			</li>
 		</ul>
 	</nav>
@@ -35,69 +35,25 @@
 		</div>
 	@endif
 
-	<form method="post" action="{{ route('stock.update', ['id' => $stock->id]) }}">
+	<form method="post" action="{{ route('categories.update', ['id' => $category->id]) }}">
 		@csrf
 		<input type="hidden" name="_method" value="put">
 		<div class="columns is-multiline">
 			<div class="column is-4 is-offset-4">
 				<div class="field">
-					<label for="description" class="label">{{ trans('words.description') }} <span class="has-text-danger">*</span></label>
+					<label for="name" class="label">{{ trans('words.name') }} <span class="has-text-danger">*</span></label>
 
 					<p class="control">
 						<input id="description" type="text"
-							   class="input {{ $errors->has('description') ? ' is-danger' : '' }}"
-							   name="description"
-							   value="{{ old('description') }}"
+							   class="input {{ $errors->has('name') ? ' is-danger' : '' }}"
+							   name="name"
+							   value="{{ $category->name }}"
 							   autofocus
 							   required>
 
-						@if ($errors->has('description'))
+						@if ($errors->has('name'))
 							<span class="help is-danger">
-                                {{ $errors->first('description') }}
-                            </span>
-						@endif
-					</p>
-				</div>
-			</div>
-
-			<div class="column is-4 is-offset-4">
-				<div class="field">
-					<label for="available_quantity" class="label">Available quantity <span class="has-text-danger">*</span></label>
-					<p class="control">
-						<input id="available_quantity"
-							   type="number"
-							   class="input {{ $errors->has('available_quantity') ? ' is-danger' : '' }}"
-							   name="available_quantity"
-							   value="{{ old('available_quantity') }}"
-							   required>
-
-						@if ($errors->has('available_quantity'))
-							<span class="help is-danger">
-                                {{ $errors->first('available_quantity') }}
-                            </span>
-						@endif
-					</p>
-				</div>
-			</div>
-
-			<div class="column is-4 is-offset-4">
-				<div class="field">
-					<label for="select-category" class="label">Category</label>
-
-					<p class="control">
-						<div class="select is-fullwidth">
-							<select id="select-category" name="category_id">
-								@foreach(\App\Models\Category::get() as $category)
-									<option value="{{ $category->id }}">
-										{{ $category->name }}
-									</option>
-								@endforeach
-							</select>
-						</div>
-
-						@if ($errors->has('category_id'))
-							<span class="help is-danger">
-                                {{ $errors->first('category_id') }}
+                                {{ $errors->first('name') }}
                             </span>
 						@endif
 					</p>
@@ -106,11 +62,9 @@
 
 			<div class="column is-4 is-offset-4 has-text-right">
 				<a class="button is-text" href="{{ url('/') }}">Cancel</a>
-				<button type="submit" class="button is-success">Update</button>
+				<button type="submit" class="button is-success">{{ trans('words.save') }}</button>
 			</div>
-
 		</div>
-
 	</form>
 
 @endsection
