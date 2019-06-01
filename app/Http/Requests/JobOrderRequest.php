@@ -25,12 +25,14 @@ class JobOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'employee_id' => 'required|exists:employees,id',
+            'technicians' => 'required',
+            'technicians.*.time_start' => 'nullable|required',
+            'employee_id' => 'nullable|exists:employees,id',
             'cost_center_id' => 'nullable|exists:departments,id',
-            'ext' => 'required',
+            'ext' => 'nullable',
             'requested_through_type' => 'required',
             'job_description' => 'required|max:255',
-            'remark' => 'required',
+            'remark' => 'nullable',
             'date' => 'required|date',
             'time_start' => 'required',
             'time_end' => 'nullable',
