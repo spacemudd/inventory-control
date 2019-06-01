@@ -49,8 +49,8 @@
                         <tr>
                             <td>{{ $jobOrder->job_order_number }}</td>
                             <td>{{ $jobOrder->date->format('d-m-Y') }}</td>
-                            <td>{{ $jobOrder->employee->name }}</td>
-                            <td>{{ $jobOrder->employee->code }}</td>
+                            <td>{{ optional($jobOrder->employee)->name }}</td>
+                            <td>{{ optional($jobOrder->employee)->code }}</td>
                             <td>{{ optional($jobOrder->department)->description }}</td>
                             <td>{{ $jobOrder->location->name }}</td>
                             <td>{{ $jobOrder->ext }}</td>
