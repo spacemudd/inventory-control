@@ -88,4 +88,9 @@ class EmployeeController extends Controller
 
         return $result;
     }
+
+    public function getEmployees($employeeId)
+    {
+        return Employee::where('id', 'LIKE', "%$employeeId%")->get();
+    }
 }
