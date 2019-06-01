@@ -59,22 +59,34 @@ class JobOrderService
      *
      * @param JobOrder $jobOrder
      * @param array $techinians
-     * @return void
+     * @return array
      */
     public function addTechniciansTo(JobOrder $jobOrder, $techinians)
     {
+        $newArray = [];
+
         foreach ($techinians as &$tech) {
             unset($tech['employee']);
 
             if ($tech['time_start']) {
                 $tech['time_start'] = Carbon::parse($tech['time_start']);
+                $tech['time_start'] = $tech['time_start']->format('H:i:s');
             }
             if ($tech['time_end']) {
                 $tech['time_end'] = Carbon::parse($tech['time_end']);
+                $tech['time_end'] = $tech['time_end']->format('H:i:s');
             }
+
+            $newArray[] = [
+                'job_order_id' => $jobOrder->id,
+                'technician_id' =>  $tech['addEmployees']['id'],
+                'time_start' => $tech['time_start'],
+                'time_end' => $tech['time_end']
+            ];
         }
 
-        return $jobOrder->technicians()->sync($techinians);
+        return $jobOrder->technicians()->sync($newArray);
+
     }
 
     /**

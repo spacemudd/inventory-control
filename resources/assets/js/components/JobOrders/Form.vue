@@ -56,7 +56,7 @@ e<template>
                     </div>
 
                     <div class="column">
-                        <b-field label="Requester">
+                        <b-field label="Employee">
                             <!-- If selected. -->
                             <b-autocomplete v-if="!employee"
                                             v-model="employeeSearchCode"
@@ -230,23 +230,23 @@ e<template>
                                 </thead>
                                 <tbody>
                                 <tr v-for="(tech, index) in technicians">
-                                    <td>{{ tech.employee.code+' '+tech.employee.name }}</td>
+                                    <td>{{ tech.addEmployees.name }}</td>
                                     <td>{{ tech.time_start }}</td>
                                     <td>{{ tech.time_end }}</td>
                                 </tr>
                                 <tr>
                                     <td @keyup.enter="addTechnician">
-                                        <input v-if="technicianForm.employee"
+                                        <input v-if="technicianForm.addEmployees"
                                                type="text"
                                                class="input is-small"
-                                               :value="technicianForm.employee.code + ' - ' + technicianForm.employee.name"
+                                               :value="technicianForm.addEmployees.name"
                                                @click="clearTechnician"
                                                readonly>
                                         <b-autocomplete v-else
                                                         v-model="technicianFormSearchCode"
-                                                        field="code"
-                                                        :data="filteredEmployees"
-                                                        @select="option => technicianForm.employee = option"
+                                                        field="name"
+                                                        :data="filteredEmployeesForAdd"
+                                                        @select="option => technicianForm.addEmployees = option"
                                                         size="is-small"
                                                         :loading="$isLoading('FETCHING_EMPLOYEES')">
                                             <template slot="empty">No results found</template>
@@ -318,6 +318,7 @@ e<template>
                 costCenterSearchCode: '',
 
                 employees: [],
+                addEmployees: [],
                 employeeSearchCode: '',
 
                 locations: [],
@@ -353,6 +354,26 @@ e<template>
                 quotations:[]
             }
         },
+      watch: {
+        technicianFormSearchCode: {
+          handler: function (valId) {
+            this.employeeSearchCode = ''
+            this.addEmployees = [];
+            axios.get(this.apiUrl() + '/employees/' + valId).then(response => {
+              this.addEmployees = response.data;
+            })
+          }
+        },
+        employeeSearchCode: {
+          handler: function (valId) {
+            this.$startLoading('FETCHING_EMPLOYEES');
+            axios.get(this.apiUrl() + '/employees').then(response => {
+              this.employees = response.data;
+              this.$endLoading('FETCHING_EMPLOYEES');
+            })
+          }
+        }
+      },
          computed: {
              filteredLocations() {
                 return this.locations.filter((option) => {
@@ -364,12 +385,20 @@ e<template>
             },
              filteredEmployees() {
                  return this.employees.filter((option) => {
-                     return option.code
+                     return option.name
                          .toString()
                          .toLowerCase()
                          .indexOf(this.employeeSearchCode.toLowerCase()) >= 0
                  })
              },
+           filteredEmployeesForAdd() {
+             return this.addEmployees.filter((option) => {
+               return option.name
+                 .toString()
+                 .toLowerCase()
+                 .indexOf(this.employeeSearchCode.toLowerCase()) >= 0
+             })
+           },
              filteredCostCenters() {
                  return this.costCenters.filter((option) => {
                      return option.code
@@ -381,7 +410,6 @@ e<template>
          },
         mounted() {
             this.loadCostCenters();
-            this.loadEmployees();
             this.loadLocations();
             this.loadQuotations();
         },
@@ -404,13 +432,6 @@ e<template>
 
             now() {
                 return moment().format('HH:mm');
-            },
-            loadEmployees() {
-                this.$startLoading('FETCHING_EMPLOYEES');
-                axios.get(this.apiUrl() + '/employees').then(response => {
-                    this.employees = response.data;
-                    this.$endLoading('FETCHING_EMPLOYEES');
-                })
             },
             loadCostCenters() {
                 this.$startLoading('FETCHING_COST_CENTRES');
@@ -469,7 +490,7 @@ e<template>
                 })
             },
             addTechnician() {
-                if (!this.technicianForm.employee) {
+                if (!this.technicianForm.addEmployees) {
                     alert('Please select an employee');
                     return false;
                 }
