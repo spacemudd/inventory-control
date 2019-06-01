@@ -469,12 +469,20 @@ e<template>
                 this.locationSearchCode = '';
             },
             submitOrder() {
-                this.$startLoading('SAVING_JOB_ORDER');
-                let data = this.$data;
-                data.location_id = this.location.id;
-                data.employee_id = this.employee ? this.employee.id : null;
-                data.cost_center_id = this.cost_center ? this.cost_center.id : null;
-                data.quotation_id = this.quotation_id;
+              this.$startLoading('SAVING_JOB_ORDER');
+
+              let data = this.$data;
+              data.location_id = this.location.id;
+
+              if(this.employee == null){
+                data.employeeName = this.employeeSearchCode;
+              }
+              else {
+                data.employee_id = this.employee.id;
+              }
+              data.employee_id = this.employee ? this.employee.id : null;
+              data.cost_center_id = this.cost_center ? this.cost_center.id : null;
+              data.quotation_id = this.quotation_id;
 
                 axios.post(this.baseUrl()+'/job-orders', data)
                     .then(response => {
