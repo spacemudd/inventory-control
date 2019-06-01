@@ -150,12 +150,12 @@
 
 
 
-                                    @can('view-manufacturers')
-                                        <sidebar-links-group link="{{ route('manufacturers.index') }}"
-                                                             icon="industry"
-                                                             title="{{ __('words.manufacturers') }}">
-                                        </sidebar-links-group>
-                                    @endcan
+                                    {{--@can('view-manufacturers')--}}
+                                        {{--<sidebar-links-group link="{{ route('manufacturers.index') }}"--}}
+                                                             {{--icon="industry"--}}
+                                                             {{--title="{{ __('words.manufacturers') }}">--}}
+                                        {{--</sidebar-links-group>--}}
+                                    {{--@endcan--}}
 
                                     <sidebar-links-group icon="cog"
                                                          title="{{ __('words.settings') }}">
