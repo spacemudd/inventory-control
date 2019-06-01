@@ -110,8 +110,10 @@ class JobOrderService
      */
     public function streamPdf(JobOrder $jobOrder)
     {
+        $format = $jobOrder['job_order_number'].'.'.'pdf';
+
         $pdf = PDF::loadView('pdf.job-order.form', compact('jobOrder'));
 
-        return $pdf->inline('job-order.pdf');
+        return $pdf->inline($format);
     }
 }
