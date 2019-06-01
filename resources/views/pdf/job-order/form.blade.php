@@ -32,11 +32,11 @@
                 </tr>
                 <tr>
                     <td><b>Name of Requester:</b></td>
-                    <td>{{ $jobOrder->employee->name }}</td>
+                    <td>{{ optional($jobOrder->employee)->name }}</td>
                 </tr>
                 <tr>
                     <td><b>Department:</b></td>
-                    <td>{{ $jobOrder->department->description }}</td>
+                    <td>{{ optional($jobOrder->department)->description }}</td>
                 </tr>
                 <tr>
                     <td><b>Ext:</b></td>
@@ -58,15 +58,15 @@
                 </tr>
                 <tr>
                     <td><b>Emp ID:</b></td>
-                    <td>{{ $jobOrder->employee->code }}</td>
+                    <td>{{ optional($jobOrder->employee)->code }}</td>
                 </tr>
                 <tr>
                     <td><b>Location:</b></td>
-                    <td>{{ $jobOrder->department->description }}</td>
+                    <td>{{ optional($jobOrder->department)->description }}</td>
                 </tr>
                 <tr>
                     <td><b>CC:</b></td>
-                    <td>{{ $jobOrder->department->code }}</td>
+                    <td>{{ optional($jobOrder->department)->code }}</td>
                 </tr>
                 </tbody>
             </table>
