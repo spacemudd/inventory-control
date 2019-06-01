@@ -11,7 +11,7 @@
             <iframe :src="url"
                     v-if="show"
                     @load="loaded"
-                    style="width:100%;min-height:450px;"
+                    style="width:100%;min-height:450px;resize:vertical;"
                     :class="{'hidden': loading}">
             </iframe>
         </b-collapse>
