@@ -21,7 +21,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
+            'name' => 'required|unique:categories,name',
         ]);
 
         $c = Category::create($request->except('_token'));
