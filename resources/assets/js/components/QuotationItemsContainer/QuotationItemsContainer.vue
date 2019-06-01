@@ -160,7 +160,6 @@
       EventBus.$on('quotationItems', item => {
         console.log(item);
         item.unit_price = 1;
-        debugger;
         this.materialRequests.push(item)
       });
     },

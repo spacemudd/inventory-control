@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Models\JobOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use App\Models\Employee;
 
 class JobOrderService
 {
@@ -18,6 +19,21 @@ class JobOrderService
      */
     public function save(Request $request)
     {
+//        dd($request->employee_id);
+        if($request->employee_id == null){
+            $toInsert = [
+                'code' => $request->employeeName,
+                'department_id' => "null",
+                'staff_type_id' => "null",
+                'name' =>"null",
+                'email' => "null",
+                'phone' => "null",
+                'approver' => false,
+            ];
+
+            $request['employee_id'] = Employee::insertGetId($toInsert);
+        }
+
         $jobData = array_merge([
             'date' => date('Y-m-d', strtotime($request->date)),
             'job_order_number' => $this->generateJobNumber()
@@ -36,7 +52,7 @@ class JobOrderService
         ));
 
         $jobData['status'] = 'draft';
-//        dd($jobData);
+
         $jobOrder = JobOrder::create($jobData);
 
         return $jobOrder;
