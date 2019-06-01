@@ -82,7 +82,7 @@
                     <label for="employee" class="label">Employee</label>
 
                     <div class="control">
-                        <input type="text" class="input" value="{{ $jobOrder->employee->name }}" readonly>
+                        <input type="text" class="input" value="{{ optional($jobOrder->employee)->name }}" readonly>
                     </div>
                 </div>
 
