@@ -37,11 +37,10 @@ e<template>
                             <b-input v-model="ext" size="is-small"></b-input>
                         </b-field>
                         <b-field label="Quotation">
-                            <b-select placeholder="Select Quotation" size="is-small" expanded="" v-model="quotation">
-                                <option
-                                        v-for="(item, index) in quotations"
-                                        :value="index">
-                                    {{ item }}
+                            <b-select placeholder="Select Quotation" size="is-small" expanded="" v-model="quotation_id">
+                                <option v-for="(item, index) in quotations"
+                                        :value="item.id">
+                                    {{ item.vendor_quotation_number }} - {{ item.vendor_id }}
                                 </option>
                             </b-select>
                         </b-field>
@@ -454,7 +453,7 @@ e<template>
                 data.location_id = this.location.id;
                 data.employee_id = this.employee ? this.employee.id : null;
                 data.cost_center_id = this.cost_center ? this.cost_center.id : null;
-                data.quotation_id = this.quotation;
+                data.quotation_id = this.quotation_id;
 
                 axios.post(this.baseUrl()+'/job-orders', data)
                     .then(response => {
