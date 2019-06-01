@@ -59,9 +59,16 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::resource('purchase-requisition.simple-items', 'Api\PurchaseRequisitionSimpleItemsController');
 
 
-        // Items.
+        // Items. // deprecated?
         Route::get('items/browse', 'ItemController@browse')->name('items.browse');
         Route::resource('items', 'ItemController');
+
+        // Stock items.
+        Route::resource('stock', 'StockController');
+        Route::get('stock/by-category/{category_id}', 'StockController@byCategory')->name('stock.category');
+
+        // Categories
+        Route::resource('categories', 'CategoryController');
 
         // Purchase orders
         Route::name('purchase-orders.')->prefix('purchase-orders')->group(function () {

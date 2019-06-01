@@ -11,6 +11,7 @@ class Stock extends Model
     protected $fillable = [
         'description',
         'material_request_item_id',
+        'category_id',
     ];
 
     protected $appends = [
@@ -20,6 +21,11 @@ class Stock extends Model
     public function movement()
     {
         return $this->hasMany(StockMovement::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 
     public function getOnHandQuantityAttribute()

@@ -120,14 +120,11 @@
                                                          link="{{ route('job-orders.index') }}">
                                     </sidebar-links-group>
 
-                                    @can('view-item-templates')
-                                        <sidebar-links-group selected="{{ (request()->route()->getName() === 'item-templates.index') }}"
-                                                             icon="tags"
-                                                             title="{{ __('words.item-catalog') }}"
-                                                             link="{{ route('item-templates.index') }}">
-                                        </sidebar-links-group>
-                                    @endcan
-
+                                    <sidebar-links-group selected="{{ (request()->route()->getName() === 'stock.index') }}"
+                                                         icon="tags"
+                                                         title="Stock"
+                                                         link="{{ route('stock.index') }}">
+                                    </sidebar-links-group>
 
                                     {{--
                                     <sidebar-links-group selected="{{ (request()->route()->getName() === 'reports.index') }}"
@@ -168,11 +165,10 @@
                                                              title="{{ __('words.cost-approvers') }}">
                                         </sidebar-links-group>
 
-                                        {{--@can('view-categories')--}}
-                                            {{--<sidebar-links-group link="{{ route('categories.index') }}"--}}
-                                                                 {{--icon="bookmark" title="{{ __('words.categories') }}">--}}
-                                            {{--</sidebar-links-group>--}}
-                                        {{--@endcan--}}
+                                        <sidebar-links-group link="{{ route('categories.index') }}"
+                                                             icon="bookmark" title="Categories">
+                                        </sidebar-links-group>
+
                                         {{--@can('view-employees')--}}
                                             {{--<sidebar-links-group link="{{ route('approvers.index') }}"--}}
                                                                  {{--icon="address-book" title="Approvers">--}}
