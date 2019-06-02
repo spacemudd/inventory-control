@@ -63,9 +63,26 @@ class StockController extends Controller
         return view('stock.edit', compact('stock'));
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        dd('Not yet developed.');
+        $request->validate([
+            'description' => 'required|unique:stock,description,'.$id,
+            'available_quantity' => 'required|min:0',
+            'category_id' => 'nullable|exists:categories,id',
+        ]);
+
+        DB::beginTransaction();
+        $stock = Stock::findOrFail($id);
+        $stock->update($request->except('available_quantity'));
+        if ($stock->on_hand_quantity != $request->available_quantity) {
+            // Clear up the current quantity.
+            $this->service->moveOut($stock->description, $stock->on_hand_quantity);
+            // Add the new quantity.
+            $this->service->addIn($stock->description, $request->available_quantity);
+        }
+        DB::commit();
+
+        return redirect()->route('stock.index');
     }
 
     public function byCategory($category_id)

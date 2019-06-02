@@ -47,7 +47,7 @@
 						<input id="description" type="text"
 							   class="input {{ $errors->has('description') ? ' is-danger' : '' }}"
 							   name="description"
-							   value="{{ old('description') }}"
+							   value="{{ $stock->description }}"
 							   autofocus
 							   required>
 
@@ -68,7 +68,7 @@
 							   type="number"
 							   class="input {{ $errors->has('available_quantity') ? ' is-danger' : '' }}"
 							   name="available_quantity"
-							   value="{{ old('available_quantity') }}"
+							   value="{{ $stock->on_hand_quantity }}"
 							   required>
 
 						@if ($errors->has('available_quantity'))
