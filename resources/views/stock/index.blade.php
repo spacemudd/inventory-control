@@ -92,7 +92,7 @@
 				<th>Category</th>
 				<th>Description</th>
 				<th class="has-text-right">Available quantity</th>
-				{{--<th class="has-text-right">Actions</th>--}}
+				<th class="has-text-right">Actions</th>
 			</tr>
 			</thead>
 				<tbody>
@@ -106,11 +106,11 @@
 							</td>
 							<td>{{ $stock->description }}</td>
 							<td class="has-text-right">{{ $stock->on_hand_quantity }}</td>
-							{{--<td class="has-text-right">--}}
-								{{--<a href="{{ route('stock.edit', ['id' => $stock->id]) }}" class="button is-small is-warning">--}}
-									{{--Edit--}}
-								{{--</a>--}}
-							{{--</td>--}}
+							<td class="has-text-right">
+								<a href="{{ route('stock.edit', ['id' => $stock->id]) }}" class="button is-small is-warning">
+									Edit
+								</a>
+							</td>
 						</tr>
 					@endforeach
 				</tbody>

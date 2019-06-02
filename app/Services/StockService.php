@@ -58,6 +58,32 @@ class StockService
             return $stock;
         });
 
+        return $stock;
+    }
+
+    /**
+     *
+     * @param string $description
+     * @param int $qty
+     * @param \App\Models\QuotationItem $item
+     * @return \App\Models\Stock
+     */
+    public function moveOut(string $description, int $qty, QuotationItem $item=null): Stock
+    {
+        $stock = DB::transaction(function () use ($description, $qty, $item) {
+            $stock = Stock::firstOrCreate([
+                'description' => $description
+            ]);
+
+            $stock->movement()->create([
+                'stockable_id' => optional($item)->id,
+                'stockable_type' => $item ? get_class($item) : null,
+                'in' => 0,
+                'out' => $qty,
+            ]);
+
+            return $stock;
+        });
 
         return $stock;
     }
