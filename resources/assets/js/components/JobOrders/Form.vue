@@ -36,15 +36,6 @@ e<template>
                         <b-field label="Ext">
                             <b-input v-model="ext" size="is-small"></b-input>
                         </b-field>
-                        <b-field label="Quotation">
-                            <b-select placeholder="Select Quotation" size="is-small" expanded="" v-model="quotation_id">
-                                <option v-for="(item, index) in quotations"
-                                        :value="item.id">
-                                    {{ item.vendor_quotation_number }} - {{ item.vendor_id }}
-                                </option>
-                            </b-select>
-                        </b-field>
-
                        <div class="field">
                            <label class="label">Job description <span class="has-text-danger">*</span></label>
                            <b-input v-model="job_description" maxlength="200" type="textarea" size="is-small" required></b-input>
@@ -313,7 +304,6 @@ e<template>
                 time_end: null,
                 remark: '',
                 employee: null,
-                quotation: '',
                 costCenters: [],
                 costCenterSearchCode: '',
 
@@ -351,7 +341,6 @@ e<template>
                     quantity: 1,
                     technician: ''
                 },
-                quotations:[]
             }
         },
       watch: {
@@ -411,7 +400,6 @@ e<template>
         mounted() {
             this.loadCostCenters();
             this.loadLocations();
-            this.loadQuotations();
         },
         methods: {
             asyncRequest: debounce(function(q, data) {
@@ -447,15 +435,6 @@ e<template>
                     this.$endLoading('FETCHING_LOCATIONS');
                 })
             },
-
-            loadQuotations() {
-                this.$startLoading('FETCHING_LOCATIONS');
-                axios.get(this.apiUrl() + '/quotations').then(response => {
-                    console.log(response.data);
-                    this.quotations = response.data;
-                    this.$endLoading('FETCHING_LOCATIONS');
-                })
-            },
             emptyCostCenter() {
                 this.cost_center = null;
                 this.costCenterSearchCode = '';
@@ -482,7 +461,6 @@ e<template>
               }
               data.employee_id = this.employee ? this.employee.id : null;
               data.cost_center_id = this.cost_center ? this.cost_center.id : null;
-              data.quotation_id = this.quotation_id;
 
                 axios.post(this.baseUrl()+'/job-orders', data)
                     .then(response => {
