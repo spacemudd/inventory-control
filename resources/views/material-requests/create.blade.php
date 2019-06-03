@@ -33,22 +33,6 @@
                 @csrf
 
                 <div class="field">
-                    <label for="purpose" class="label">Purpose #</label>
-                    <input id="purpose"
-                           type="text"
-                           class="input {{ $errors->has('number') ? ' is-danger' : '' }}"
-                           name="purpose"
-                           value="Maintenance">
-                    <p class="control">
-                        @if ($errors->has('purpose'))
-                            <span class="help is-danger">
-                                {{ $errors->first('purpose') }}
-                            </span>
-                        @endif
-                    </p>
-                </div>
-
-                <div class="field">
                     <label for="number" class="label">Reference #</label>
                     <input id="number"
                            type="text"
@@ -88,6 +72,11 @@
                                                url="{{ route('api.search.department') }}">
                             </select-department>
                             <p class="help">Click here to <a href="#" @click="$store.commit('Department/showNewModal', true)">add new department</a>.</p>
+                            @if ($errors->has('cost_center_id'))
+                                <span class="help is-danger">
+                                   {{ $errors->first('cost_center_id') }}
+                                </span>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -111,10 +100,26 @@
                         </select-location>
                         @if ($errors->has('location_id'))
                             <span class="help is-danger">
-                	            {{ $errors->first('location_id') }}
-                	        </span>
+                                {{ $errors->first('location_id') }}
+                            </span>
                         @endif
                     </div>
+                </div>
+
+                <div class="field">
+                    <label for="purpose" class="label">Purpose</label>
+                    <input id="purpose"
+                           type="text"
+                           class="input {{ $errors->has('purpose') ? ' is-danger' : '' }}"
+                           name="purpose"
+                           value="Maintenance">
+                    <p class="control">
+                        @if ($errors->has('purpose'))
+                            <span class="help is-danger">
+                                {{ $errors->first('purpose') }}
+                            </span>
+                        @endif
+                    </p>
                 </div>
 
                 <div class="field">
