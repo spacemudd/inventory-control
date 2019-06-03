@@ -54,7 +54,6 @@ class MaterialRequestsController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request->toArray());
         $request->validate([
             'number' => 'nullable|string|max:255|unique:material_requests,number',
             'date' => 'required|date',

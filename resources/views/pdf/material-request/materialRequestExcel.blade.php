@@ -76,9 +76,7 @@
 
                 </td>
             </tr>
-            <?php
-            $number++;
-            ?>
+            {{ $number++ }}
         @endforeach
 
         @if(count($mRequest->items) < 5)
@@ -96,7 +94,7 @@
 <footer>
     <div class="footerDiv">
         <span>
-            Purpose:
+            Purpose: {{ $mRequest->purpose }}
         </span>
     </div>
     <div class="footerDiv">
