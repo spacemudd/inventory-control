@@ -63,7 +63,7 @@
                             <b-input size="is-small" type="number" v-model="mrequest.qty"></b-input>
                         </td>
                         <td class="has-text-right">
-                            {{ mrequest.qty_boxes }}
+                            <b-input size="is-small" type="number" v-model=" mrequest.qty_boxes"></b-input>
                         </td>
                         <td>
                             <input type="text" :value="mrequest.qty * mrequest.unit_price" class="input is-small" style="background-color: #d5d5d5;" readonly>
