@@ -33,6 +33,22 @@
                 @csrf
 
                 <div class="field">
+                    <label for="purpose" class="label">Purpose #</label>
+                    <input id="purpose"
+                           type="text"
+                           class="input {{ $errors->has('number') ? ' is-danger' : '' }}"
+                           name="purpose"
+                           value="Maintenance">
+                    <p class="control">
+                        @if ($errors->has('purpose'))
+                            <span class="help is-danger">
+                                {{ $errors->first('purpose') }}
+                            </span>
+                        @endif
+                    </p>
+                </div>
+
+                <div class="field">
                     <label for="number" class="label">Reference #</label>
                     <input id="number"
                            type="text"
