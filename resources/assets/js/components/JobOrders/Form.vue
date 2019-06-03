@@ -320,7 +320,7 @@ e<template>
                 employees: [],
                 addEmployees: [],
                 employeeSearchCode: '',
-
+                quotation_id: '',
                 locations: [],
                 locationSearchCode: '',
 
