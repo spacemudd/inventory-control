@@ -16,6 +16,7 @@ use App\Models\PurchaseOrder;
 use Illuminate\Http\Request;
 use App\Models\MaterialRequest;
 use App\Models\Quotation;
+use App\Models\StockMovement;
 
 class DashboardController extends Controller
 {
@@ -23,7 +24,6 @@ class DashboardController extends Controller
     {
         $mRequest = MaterialRequest::get();
 
-        $stockCount = 0;
         $rfqsCount = count($mRequest);
 
         $PurchaseOrder = PurchaseOrder::get();
@@ -31,6 +31,11 @@ class DashboardController extends Controller
 
         $quotations = Quotation::get();
         $deliveriesCount = count($quotations);
+
+        $inCount = StockMovement::select('in')->get()->sum('in');
+        $outCount = StockMovement::select('out')->get()->sum('out');
+
+        $stockCount = $inCount - $outCount;
 
         $lowStockCount = 0;
         $outOfStockCount = 0;
