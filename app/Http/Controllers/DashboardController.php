@@ -19,9 +19,11 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        $PurchaseOrder = PurchaseOrder::get();
+
         $stockCount = 0;
         $rfqsCount = 0;
-        $purchaseOrdersCount = 0;
+        $purchaseOrdersCount = count($PurchaseOrder);
         $deliveriesCount = 0;
 
         $lowStockCount = 0;
