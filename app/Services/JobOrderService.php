@@ -127,6 +127,14 @@ class JobOrderService
     {
         $jobOrder->status = JobOrder::APPROVED;
 
+        if (! $jobOrder->time_end) {
+            $jobOrder->status = JobOrder::PENDING;
+        }
+
+        if ($jobOrder->time_end) {
+            $jobOrder->status = JobOrder::COMPLETED;
+        }
+
         return $jobOrder->save();
     }
 

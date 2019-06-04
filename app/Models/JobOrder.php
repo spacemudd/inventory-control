@@ -119,6 +119,10 @@ class JobOrder extends Model
      */
     public function isApproved()
     {
-        return $this->attributes['status'] == self::APPROVED;
+        return in_array($this->attributes['status'], [
+            self::APPROVED,
+            self::COMPLETED,
+            self::PENDING
+        ]);
     }
 }
