@@ -1,10 +1,7 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use App\Models\Employee;
-use App\Models\JobOrder;
-use App\Models\Stock;
 use Illuminate\Database\Eloquent\Model;
 
 class JobOrderItem extends Model
