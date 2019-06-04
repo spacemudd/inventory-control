@@ -32,7 +32,7 @@
                 </tr>
                 <tr>
                     <td><b>Name of Requester:</b></td>
-                    <td>{{ $jobOrder->employee->name }}</td>
+                    <td>{{ optional($jobOrder->employee)->name }}</td>
                 </tr>
                 <tr>
                     <td><b>Department:</b></td>
@@ -54,11 +54,11 @@
                 <tbody>
                 <tr>
                     <td><b>Date:</b></td>
-                    <td>{{ $jobOrder->date->format('d-m-Y') }}</td>
+                    <td>{{ optional($jobOrder->date)->format('d-m-Y') }}</td>
                 </tr>
                 <tr>
                     <td><b>Emp ID:</b></td>
-                    <td>{{ $jobOrder->employee->code }}</td>
+                    <td>{{ optional($jobOrder->employee)->code }}</td>
                 </tr>
                 <tr>
                     <td><b>Location:</b></td>
@@ -133,7 +133,14 @@
         </div>
 
         <div class="col-12-sm">
-            <p><b>Job Duration:</b> {{ $jobOrder->time_start->format('H:i') }} to {{ $jobOrder->time_end->format('H:i') }}</p>
+            <p>
+                <b>Job Duration:</b> {{ optional($jobOrder->time_start)->format('H:i') }} to
+                @if ($jobOrder->time_end)
+                    {{ optional($jobOrder->time_end)->format('H:i') }}
+                @else
+                    <i>Pending</i>
+                @endif
+            </p>
         </div>
 
         <div class="col-12-sm">

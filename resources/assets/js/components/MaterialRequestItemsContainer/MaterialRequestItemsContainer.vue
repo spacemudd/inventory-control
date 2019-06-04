@@ -23,7 +23,7 @@
                         <tr>
                             <th width="50px" class="has-text-centered">#</th>
                             <th>Items</th>
-                            <th width="80px" class="has-text-right">Quantity <span class="has-text-danger">*</span></th>
+                            <th width="80px" class="has-text-right">Quantity</th>
                             <th width="50px" class="has-text-right">Boxes</th>
                             <th v-if="canEdit" width="50px"></th>
                         </tr>
@@ -33,6 +33,7 @@
                             <td>{{ ++key }}</td>
                             <td>{{ item.description }}</td>
                             <td class="has-text-right">{{ item.qty }}</td>
+                            <td class="has-text-right">{{ item.qty_boxes }}</td>
                             <td class="has-text-centered" v-if="canEdit">
                                 <button v-if="canEdit"
                                         @click="deleteItem(item, key)"

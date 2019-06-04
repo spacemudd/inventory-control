@@ -17,14 +17,12 @@ class CreateJobOrderItemsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('job_order_id');
             $table->unsignedInteger('stock_id');
-            $table->unsignedInteger('technician_id');
             $table->integer('qty');
             $table->dateTime('dispatched_at')->nullable();
             $table->timestamps();
 
             $table->foreign('job_order_id')->references('id')->on('job_orders');
             $table->foreign('stock_id')->references('id')->on('stock');
-            $table->foreign('technician_id')->references('id')->on('employees');
         });
     }
 

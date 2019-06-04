@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Models\JobOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use App\Models\Employee;
 
 class JobOrderService
 {
@@ -18,6 +19,20 @@ class JobOrderService
      */
     public function save(Request $request)
     {
+        if ($request->employee_id == null) {
+            $toInsert = [
+                'code' => $request->employeeName,
+                'department_id' => "null",
+                'staff_type_id' => "null",
+                'name' =>"null",
+                'email' => "null",
+                'phone' => "null",
+                'approver' => false,
+            ];
+
+            $request['employee_id'] = Employee::insertGetId($toInsert);
+        }
+
         $jobData = array_merge([
             'date' => date('Y-m-d', strtotime($request->date)),
             'job_order_number' => $this->generateJobNumber()
@@ -63,31 +78,38 @@ class JobOrderService
      */
     public function addTechniciansTo(JobOrder $jobOrder, $technicians)
     {
+        $newArray = [];
         foreach ($technicians as &$tech) {
             unset($tech['employee']);
 
             if ($tech['time_start']) {
-                $tech['time_start'] = Carbon::parse($tech['time_start']);
+                $tech['time_start'] = date('Y-m-d H:i:s', strtotime($tech['time_start']));
             }
             if ($tech['time_end']) {
-                $tech['time_end'] = Carbon::parse($tech['time_end']);
+                $tech['time_end'] = date('Y-m-d H:i:s', strtotime($tech['time_end']));
             }
+
+            $newArray[] = [
+                'job_order_id' => $jobOrder->id,
+                'technician_id' =>  $tech['addEmployees']['id'],
+                'time_start' => $tech['time_start'],
+                'time_end' => $tech['time_end']
+            ];
         }
 
-        return $jobOrder->technicians()->sync($technicians);
+        return $jobOrder->technicians()->sync($newArray);
     }
 
 
     public function addMaterialsUsed(JobOrder $jobOrder, $materials)
     {
         $materials = collect($materials)->filter(function ($item) {
-            return isset($item['stock_id']) && isset($item['quantity']) && isset($item['technician']);
+            return isset($item['stock_id']) && isset($item['quantity']);
         });
 
         foreach ($materials as $material) {
             $jobOrder->items()->create([
                 'stock_id'      => $material['stock_id'],
-                'technician_id' => $material['technician']['id'],
                 'qty'           => $material['quantity'],
             ]);
         }
@@ -119,6 +141,13 @@ class JobOrderService
     {
         $item = $jobOrder->items()->findOrFail($item_id);
 
+        $item->stock->movement()->create([
+            'stockable_id'      => $item_id,
+            'stockable_type'    => get_class($item),
+            'in'                => 0,
+            'out'               => $item->qty,
+        ]);
+
         return $item->update(['dispatched_at' => date('Y-m-d H:i:s')]);
     }
 
@@ -130,8 +159,10 @@ class JobOrderService
      */
     public function streamPdf(JobOrder $jobOrder)
     {
+        $format = $jobOrder['job_order_number'].'.'.'pdf';
+
         $pdf = PDF::loadView('pdf.job-order.form', compact('jobOrder'));
 
-        return $pdf->inline('job-order.pdf');
+        return $pdf->inline($format);
     }
 }

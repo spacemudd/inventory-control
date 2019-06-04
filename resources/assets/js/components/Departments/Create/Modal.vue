@@ -41,6 +41,19 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="column is-6">
+                            <div class="field">
+                                <label class="label">{{ $t('words.location') }} <span class="has-text-danger">*</span></label>
+                                <div class="control">
+                                    <select name="location_id" class="input" @onchange="getLocationValue(this.value)" id="locationId">
+                                        <option v-for="(location, key) in locations" :value="location.id" class="input">{{ location.name }}</option>
+                                    </select>
+<!--                                    <i class="fa fa-chevron-circle-down"></i>-->
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </section>
                 <footer class="modal-card-foot">
@@ -63,7 +76,7 @@
             code: '',
             description: '',
             head_department: '',
-
+            locations: [],
             // Handled by Vue.
             isLoading: false,
             createdSuccess: false,
@@ -74,12 +87,15 @@
         computed: {
             showModal: {
                 get() {
+                  axios.get(this.apiUrl() + "/locations").then(response => {
+                    this.locations = response.data;
+                  });
                     return this.$store.getters['Department/showNewModal'];
                 }
             },
         },
         mounted() {
-            //
+            // this.getLocation();
         },
         methods: {
             close() {
@@ -90,12 +106,13 @@
                 Object.assign(this.$data, initialState());
             },
             save() {
-                this.isLoading = true;
-
+              var locationId = Number($("#locationId").val());
+              this.isLoading = true;
                 axios.post(this.apiUrl() + '/departments', {
                     code: this.code,
                     description: this.description,
                     head_department: this.head_department,
+                    location_id: locationId,
                 }).then(response => {
                     // this.isLoading = false;
                     // this.createdSuccess = true;

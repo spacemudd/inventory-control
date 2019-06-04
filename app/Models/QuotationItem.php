@@ -12,6 +12,7 @@ class QuotationItem extends Model
         'vendor_id',
         'description',
         'qty',
+        'qty_boxes',
         'unit_price',
         'vat',
         'total_price_ex_vat',

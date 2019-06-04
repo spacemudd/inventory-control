@@ -93,11 +93,11 @@
     </div>
 
     <div class="columns">
-        <div class="column is-4">
-            <vendor-manufacturers-card :vendor-id.number="{{ $vendor->id }}"></vendor-manufacturers-card>
-        </div>
+        {{--<div class="column is-4">--}}
+            {{--<vendor-manufacturers-card :vendor-id.number="{{ $vendor->id }}"></vendor-manufacturers-card>--}}
+        {{--</div>--}}
 
-        <div class="column is-4">
+        <div class="column is-6">
             <div class="card events-card">
                 <header class="card-header">
                     <p class="card-header-title">{{ __('words.representatives') }}</p>
@@ -142,7 +142,7 @@
             </div>
         </div>
 
-        <div class="column is-4">
+        <div class="column is-6">
             <div class="card">
                 <header class="card-header">
                     <p class="card-header-title">{{ __('words.bank-information') }}</p>

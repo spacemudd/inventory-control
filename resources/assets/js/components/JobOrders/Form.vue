@@ -1,20 +1,24 @@
-e<template>
+<template>
     <section>
         <form class="form" method="post" style="margin-top:2rem" @submit.prevent="submitOrder">
                 <div class="columns">
                     <div class="column">
-                        <b-field label="Select a date">
+                        <div class="field">
+                            <label class="label">Date <span class="has-text-danger">*</span></label>
                             <b-datepicker
                                 v-model="date"
-                                placeholder="Click to select...">
+                                size="is-small"
+                                placeholder="Click to select..."
+                                required>
                             </b-datepicker>
-                        </b-field>
+                        </div>
 
                         <b-field label="Cost Center">
                             <!-- If selected. -->
                             <b-autocomplete v-if="!cost_center"
                                             v-model="costCenterSearchCode"
                                             field="code"
+                                            size="is-small"
                                             :data="filteredCostCenters"
                                             @select="option => cost_center = option"
                                             :loading="$isLoading('FETCHING_COST_CENTERS')">
@@ -23,35 +27,22 @@ e<template>
                             <!-- When selected -->
                             <input v-else
                                    type="text"
-                                   class="input"
+                                   class="input is-small"
                                    :value="cost_center.code + ' - ' + cost_center.description"
                                    @click="emptyCostCenter"
-                                   required
                                    readonly>
                         </b-field>
 
                         <b-field label="Ext">
-                            <b-input v-model="ext"></b-input>
+                            <b-input v-model="ext" size="is-small"></b-input>
                         </b-field>
-                        <b-field label="Quotation">
-                            <b-select placeholder="Select Quotation" expanded="" required v-model="quotation">
-                                <option
-                                        v-for="(item, index) in quotations"
-                                        :value="index"
-
-                                >
-                                    {{ item }}
-                                </option>
-
-                            </b-select>
-                        </b-field>
-
-                       <b-field label="Job description">
-                            <b-input v-model="job_description" maxlength="200" type="textarea"></b-input>
-                        </b-field>
+                       <div class="field">
+                           <label class="label">Job description <span class="has-text-danger">*</span></label>
+                           <b-input v-model="job_description" maxlength="200" type="textarea" size="is-small" required></b-input>
+                       </div>
 
                         <b-field label="Remark">
-                            <b-input v-model="remark" maxlength="200" type="textarea"></b-input>
+                            <b-input v-model="remark" maxlength="200" size="is-small" type="textarea"></b-input>
                         </b-field>
                     </div>
 
@@ -61,6 +52,7 @@ e<template>
                             <b-autocomplete v-if="!employee"
                                             v-model="employeeSearchCode"
                                             field="code"
+                                            size="is-small"
                                             :data="filteredEmployees"
                                             @select="option => employee = option"
                                             :loading="$isLoading('FETCHING_EMPLOYEES')">
@@ -69,65 +61,77 @@ e<template>
                             <!-- When selected -->
                             <input v-else
                                    type="text"
-                                   class="input"
+                                   class="input is-small"
                                    :value="employee.code + ' - ' + employee.name"
                                    @click="emptyEmployee"
                                    readonly>
                         </b-field>
 
 
-                        <b-field label="Location">
+                        <div class="field">
+                            <label class="label">Location <span class="has-text-danger">*</span></label>
                             <!-- If selected. -->
                             <b-autocomplete v-if="!location"
                                             v-model="locationSearchCode"
                                             field="name"
+                                            size="is-small"
                                             :data="filteredLocations"
                                             @select="option => location = option"
-                                            :loading="$isLoading('FETCHING_LOCATIONS')">
+                                            :loading="$isLoading('FETCHING_LOCATIONS')"
+                                            required>
                                 <template slot="empty">No results found</template>
                             </b-autocomplete>
                             <!-- When selected -->
                             <input v-else
                                    type="text"
-                                   class="input"
+                                   class="input is-small"
                                    :value="location.name"
                                    @click="emptyLocation"
+                                   required
                                    readonly>
-                        </b-field>
+                        </div>
 
-                        <b-field label="Requested Through">
+                        <div class="field">
+                            <label class="label">Requested through <span class="has-text-danger">*</span></label>
                             <div class="block">
                                 <b-radio v-model="requested_through_type"
-                                    native-value="email">
+                                         size="is-small"
+                                         native-value="email">
                                     Email
                                 </b-radio>
                                 <b-radio v-model="requested_through_type"
-                                    native-value="phone_call">
+                                         size="is-small"
+                                         native-value="phone_call">
                                     Phone Call
                                 </b-radio>
                                 <b-radio v-model="requested_through_type"
-                                    native-value="breakdown">
+                                         size="is-small"
+                                         native-value="breakdown">
                                     Breakdown
                                 </b-radio>
                                 <b-radio v-model="requested_through_type"
-                                    native-value="ppm">
+                                         size="is-small"
+                                         native-value="ppm">
                                     PPM
                                 </b-radio>
                             </div>
-                        </b-field>
+                        </div>
 
-                         <b-field label="Job duration">
+                        <b-field label="Job duration">
                             <div class="columns">
                                 <div class="column">
                                     <b-input type="time"
-                                       v-model="time_start"
-                                        placeholder="Select start time">
+                                             v-model="time_start"
+                                             placeholder="Select start time"
+                                             size="is-small"
+                                             required>
                                     </b-input>
                                 </div>
                                 <div class="column">
                                     <b-input type="time"
-                                       v-model="time_end"
-                                        placeholder="Select end time">
+                                             v-model="time_end"
+                                             size="is-small"
+                                             placeholder="Select end time">
                                     </b-input>
                                 </div>
                             </div>
@@ -140,7 +144,7 @@ e<template>
                                         <th>Name</th>
                                         <th>Available</th>
                                         <th>Quantity</th>
-                                        <th>Technician</th>
+                                        <!--<th>Technician</th>-->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -176,7 +180,8 @@ e<template>
                                                 placeholder="Select end time">
                                         </b-input>
                                     </td>
-                                    <td @keyup.enter="addMaterial">
+
+                                    <!--<td @keyup.enter="addMaterial">
                                         <input v-if="material.technician"
                                                type="text"
                                                class="input is-small"
@@ -192,7 +197,8 @@ e<template>
                                                         :loading="$isLoading('FETCHING_EMPLOYEES')">
                                             <template slot="empty">No results found</template>
                                         </b-autocomplete>
-                                    </td>
+                                    </td>-->
+
                                     <td class="has-text-centered">
                                         <button v-if="materials.length == i+1" class="button is-primary is-small"
                                                 :class="{'is-loading': $isLoading('SAVING_MATERIAL')}"
@@ -211,7 +217,8 @@ e<template>
                             </table>
                         </b-field>
 
-                        <b-field label="Technicians">
+                        <div class="field">
+                            <label class="label">Technicians <span class="has-text-danger">*</span></label>
                             <table class="table is-narrow is-size-7 is-fullwidth">
                                 <thead>
                                     <tr>
@@ -222,23 +229,23 @@ e<template>
                                 </thead>
                                 <tbody>
                                 <tr v-for="(tech, index) in technicians">
-                                    <td>{{ tech.employee.code+' '+tech.employee.name }}</td>
+                                    <td>{{ tech.addEmployees.name }}</td>
                                     <td>{{ tech.time_start }}</td>
                                     <td>{{ tech.time_end }}</td>
                                 </tr>
                                 <tr>
                                     <td @keyup.enter="addTechnician">
-                                        <input v-if="technicianForm.employee"
+                                        <input v-if="technicianForm.addEmployees"
                                                type="text"
                                                class="input is-small"
-                                               :value="technicianForm.employee.code + ' - ' + technicianForm.employee.name"
+                                               :value="technicianForm.addEmployees.name"
                                                @click="clearTechnician"
                                                readonly>
                                         <b-autocomplete v-else
                                                         v-model="technicianFormSearchCode"
-                                                        field="code"
-                                                        :data="filteredEmployees"
-                                                        @select="option => technicianForm.employee = option"
+                                                        field="name"
+                                                        :data="filteredEmployeesForAdd"
+                                                        @select="option => technicianForm.addEmployees = option"
                                                         size="is-small"
                                                         :loading="$isLoading('FETCHING_EMPLOYEES')">
                                             <template slot="empty">No results found</template>
@@ -268,7 +275,7 @@ e<template>
                                 </tr>
                                 </tbody>
                             </table>
-                        </b-field>
+                        </div>
 
                     </div>
                 </div>
@@ -305,13 +312,13 @@ e<template>
                 time_end: null,
                 remark: '',
                 employee: null,
-                quotation: '',
                 costCenters: [],
                 costCenterSearchCode: '',
 
                 employees: [],
+                addEmployees: [],
                 employeeSearchCode: '',
-
+                quotation_id: '',
                 locations: [],
                 locationSearchCode: '',
 
@@ -343,9 +350,28 @@ e<template>
                     quantity: 1,
                     technician: ''
                 },
-                quotations:[]
             }
         },
+      watch: {
+        technicianFormSearchCode: {
+          handler: function (valId) {
+            this.employeeSearchCode = ''
+            this.addEmployees = [];
+            axios.get(this.apiUrl() + '/employees/' + valId).then(response => {
+              this.addEmployees = response.data;
+            })
+          }
+        },
+        employeeSearchCode: {
+          handler: function (valId) {
+            this.$startLoading('FETCHING_EMPLOYEES');
+            axios.get(this.apiUrl() + '/employees').then(response => {
+              this.employees = response.data;
+              this.$endLoading('FETCHING_EMPLOYEES');
+            })
+          }
+        }
+      },
          computed: {
              filteredLocations() {
                 return this.locations.filter((option) => {
@@ -357,12 +383,20 @@ e<template>
             },
              filteredEmployees() {
                  return this.employees.filter((option) => {
-                     return option.code
+                     return option.name
                          .toString()
                          .toLowerCase()
                          .indexOf(this.employeeSearchCode.toLowerCase()) >= 0
                  })
              },
+           filteredEmployeesForAdd() {
+             return this.addEmployees.filter((option) => {
+               return option.name
+                 .toString()
+                 .toLowerCase()
+                 .indexOf(this.employeeSearchCode.toLowerCase()) >= 0
+             })
+           },
              filteredCostCenters() {
                  return this.costCenters.filter((option) => {
                      return option.code
@@ -374,9 +408,7 @@ e<template>
          },
         mounted() {
             this.loadCostCenters();
-            this.loadEmployees();
             this.loadLocations();
-            this.loadQuotations();
         },
         methods: {
             asyncRequest: debounce(function(q, data) {
@@ -399,13 +431,6 @@ e<template>
             now() {
                 return moment().format('HH:mm');
             },
-            loadEmployees() {
-                this.$startLoading('FETCHING_EMPLOYEES');
-                axios.get(this.apiUrl() + '/employees').then(response => {
-                    this.employees = response.data;
-                    this.$endLoading('FETCHING_EMPLOYEES');
-                })
-            },
             loadCostCenters() {
                 this.$startLoading('FETCHING_COST_CENTRES');
                 axios.get(this.apiUrl() + '/departments').then(response => {
@@ -417,15 +442,6 @@ e<template>
                 this.$startLoading('FETCHING_LOCATIONS');
                 axios.get(this.apiUrl() + '/locations').then(response => {
                     this.locations = response.data;
-                    this.$endLoading('FETCHING_LOCATIONS');
-                })
-            },
-
-            loadQuotations() {
-                this.$startLoading('FETCHING_LOCATIONS');
-                axios.get(this.apiUrl() + '/quotations').then(response => {
-                    console.log(response.data);
-                    this.quotations = response.data;
                     this.$endLoading('FETCHING_LOCATIONS');
                 })
             },
@@ -442,17 +458,24 @@ e<template>
                 this.locationSearchCode = '';
             },
             submitOrder() {
-                this.$startLoading('SAVING_JOB_ORDER');
-                let data = this.$data;
-                data.location_id = this.location.id;
+              this.$startLoading('SAVING_JOB_ORDER');
+
+              let data = this.$data;
+              data.location_id = this.location.id;
+
+              if(this.employee == null){
+                data.employeeName = this.employeeSearchCode;
+              }
+              else {
                 data.employee_id = this.employee.id;
-                data.cost_center_id = this.cost_center.id;
-                data.quotation_id = this.quotation;
+              }
+              data.employee_id = this.employee ? this.employee.id : null;
+              data.cost_center_id = this.cost_center ? this.cost_center.id : null;
 
                 axios.post(this.baseUrl()+'/job-orders', data)
                     .then(response => {
                         this.$toast.open({
-                            message: 'Success!',
+                            message: 'Success! Redirecting...',
                         });
                         // window.location.href = this.baseUrl()+'/job-orders';
                     })
@@ -464,7 +487,7 @@ e<template>
                     })
             },
             addTechnician() {
-                if (!this.technicianForm.employee) {
+                if (!this.technicianForm.addEmployees) {
                     alert('Please select an employee');
                     return false;
                 }

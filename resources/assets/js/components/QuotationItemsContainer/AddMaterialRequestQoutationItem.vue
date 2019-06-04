@@ -15,6 +15,7 @@
                         <th width="50px" class="has-text-centered">#</th>
                         <th>Items</th>
                         <th width="50px" class="has-text-right">Quantity</th>
+                        <th width="50px" class="has-text-right">Box</th>
                         <th width="50px">
                             <button class="button is-danger is-small saveButton" id="saveAllItems" v-on:click="addAllItem" >
                                 All
@@ -27,6 +28,7 @@
                             <td>{{ ++key }}</td>
                             <td>{{ item.description }}</td>
                             <td class="has-text-right">{{ item.qty }}</td>
+                            <td class="has-text-right">{{ item.qty_boxes }}</td>
                             <td>
                                 <button class="button is-primary is-small saveButton" v-on:click="addQuotation(item, key)" :id="'item_'+item.id" :disabled="item.added">
                                     +
@@ -68,6 +70,7 @@
           material_request_id: this.material_request_id,
           description: '',
           qty: 1,
+          qty_boxes: 0,
         },
       }
     },
@@ -118,11 +121,11 @@
         });
       },
       addQuotation(item, key) {
-        this.itemsCount++
+        this.itemsCount++;
         document.getElementById('item_'+item.id).disabled = true;
         axios.get('makeQuotationItem/change/'+item.id) .then(response => {
           response.data.added = true;
-          this.items[key -1].added = true
+          this.items[key -1].added = true;
           EventBus.$emit('mRequestItem', response.data);
         });
         if(this.items.length == this.itemsCount) {

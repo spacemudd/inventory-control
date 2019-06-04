@@ -61,9 +61,16 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::resource('purchase-requisition.simple-items', 'Api\PurchaseRequisitionSimpleItemsController');
 
 
-        // Items.
+        // Items. // deprecated?
         Route::get('items/browse', 'ItemController@browse')->name('items.browse');
         Route::resource('items', 'ItemController');
+
+        // Stock items.
+        Route::resource('stock', 'StockController');
+        Route::get('stock/by-category/{category_id}', 'StockController@byCategory')->name('stock.category');
+
+        // Categories
+        Route::resource('categories', 'CategoryController');
 
         // Purchase orders
         Route::name('purchase-orders.')->prefix('purchase-orders')->group(function () {
@@ -188,6 +195,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     // Employees.
     Route::get('employees/paginated/{per_page}', 'Api\EmployeeController@paginatedIndex');
     Route::get('employees', 'Api\EmployeeController@index');
+    Route::get('employees/{employeeId}', 'Api\EmployeeController@getEmployees');
     Route::post('employees/show', 'Api\EmployeeController@show');
     Route::post('employees/store', 'Api\EmployeeController@store');
 

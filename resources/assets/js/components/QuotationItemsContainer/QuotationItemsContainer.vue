@@ -25,6 +25,7 @@
                         <th>Items</th>
                         <th width="100px" class="has-text-right">Unit Price</th>
                         <th width="70px" class="has-text-right">Quantity</th>
+                        <th width="70px" class="has-text-right">Boxes</th>
                         <th width="100px" class="has-text-right">Amount</th>
                         <th v-if="canEdit" width="50px"></th>
                     </tr>
@@ -35,6 +36,7 @@
                         <td>{{ item.description }}</td>
                         <td class="has-text-right">{{ toMoney(item.unit_price) }}</td>
                         <td class="has-text-right">{{ item.qty }}</td>
+                        <td class="has-text-right">{{ item.qty_boxes }}</td>
                         <td class="has-text-right">{{ toMoney(item.unit_price * item.qty) }}</td>
                         <td class="has-text-centered" v-if="canEdit">
                             <button v-if="canEdit"
@@ -53,11 +55,16 @@
                             <input v-model="mrequest.id" type="hidden"/>
 
                             <!-- <b-input ref="newItemDescription" size="is-small" v-model="form.description" autofocus></b-input> -->
-<!--                            <input type="text" v-model="mrequest.description" readonly>-->
+                            <!--<input type="text" v-model="mrequest.description" readonly>-->
                         </td>
                         <td>
                             <b-input @keyup.enter="saveRequest" size="is-small" type="number" v-model="mrequest.unit_price"></b-input></td>
-                        <td><b-input size="is-small" type="number" v-model="mrequest.qty"></b-input></td>
+                        <td>
+                            <b-input size="is-small" type="number" v-model="mrequest.qty"></b-input>
+                        </td>
+                        <td class="has-text-right">
+                            <b-input size="is-small" type="number" v-model=" mrequest.qty_boxes"></b-input>
+                        </td>
                         <td>
                             <input type="text" :value="mrequest.qty * mrequest.unit_price" class="input is-small" style="background-color: #d5d5d5;" readonly>
                         </td>
@@ -74,8 +81,15 @@
                            <!-- <b-input ref="newItemDescription" size="is-small" v-model="form.description" autofocus></b-input> -->
                             <select-material-request-items @quantity="quantityNumber" v-model="form.material_request_item_id" v-bind:materialNumber="materialNumber"/>
                         </td>
-                        <td><b-input @keyup.enter="saveNewItem" size="is-small" type="number" v-model="form.unit_price"></b-input></td>
-                        <td><b-input size="is-small" type="number" v-model="form.qty" class="quantity"></b-input></td>
+                        <td>
+                            <b-input @keyup.enter="saveNewItem" size="is-small" type="number" v-model="form.unit_price"></b-input>
+                        </td>
+                        <td>
+                            <b-input size="is-small" type="number" v-model="form.qty" class="quantity"></b-input>
+                        </td>
+                        <td>
+                            <b-input size="is-small" type="number" v-model="form.qty_boxes"></b-input>
+                        </td>
                         <td>
                             <input type="text" :value="form.qty * form.unit_price" class="input is-small" style="background-color: #d5d5d5;" readonly>
                         </td>
@@ -133,6 +147,7 @@
           material_request_item_id: '',
           qty: 1,
           unit_price: 1,
+          qty_boxes: 0,
         },
       }
     },
@@ -161,7 +176,7 @@
         let total = 0;
         this.items.map(item => {
           total += item.qty * item.unit_price
-        })
+        });
 
         return this.toMoney(total);
       }
@@ -214,6 +229,7 @@
             this.form.material_request_item_id = null;
             this.form.qty = 1;
             this.form.unit_price = 1;
+            this.form.qty_boxes = 0;
             this.$endLoading('SAVING_QUOTATION_ITEM');
             document.getElementById("quotationSaveItems").disabled = false
 
@@ -265,6 +281,7 @@
         this.form.description = '';
         this.form.qty = 1;
         this.form.unit_price = 1;
+        this.form.qty_boxes = 0;
         this.isAdding = false;
       },
     }

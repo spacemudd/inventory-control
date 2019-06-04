@@ -43,11 +43,13 @@ class QuotationItemsController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
            'quotation_id' => 'required|exists:quotations,id',
-           'material_request_item_id' => 'required|exists:material_request_items,id|unique:quotation_items,material_request_item_id',
+           'material_request_item_id' => 'required|exists:material_request_items,id',
            'qty' => 'required|numeric',
            'unit_price' => 'required|numeric',
+           'qty_boxes' => 'nullable',
         ]);
 
         $request = $request->except('_token');
@@ -95,8 +97,7 @@ class QuotationItemsController extends Controller
     public function getQuotations()
     {
 
-        $quotations = Quotation::where('status', 1)->pluck('vendor_quotation_number', 'id');
-
+        $quotations = Quotation::where('status', 1)->select('vendor_quotation_number', 'id','vendor_id')->get();
 
         return $quotations;
     }
