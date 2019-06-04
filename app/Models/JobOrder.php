@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\JobOrderItem;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
