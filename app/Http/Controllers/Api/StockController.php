@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Stock;
 use Illuminate\Http\Request;
+use App\Classes\StockExcel;
 
 class StockController extends Controller
 {
@@ -17,5 +18,12 @@ class StockController extends Controller
         }
 
         return collect();
+    }
+
+    public function exportExcel()
+    {
+        $obj = new StockExcel;
+        $stock = Stock::get();
+        return $obj->downloadStockExcel($stock);
     }
 }

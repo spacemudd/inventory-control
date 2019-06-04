@@ -72,6 +72,10 @@
 			</ul>
 		</div>
 		<div class="column is-3 has-text-right">
+			<a href="makeStockExcel" class="button is-success">
+				<span class="icon"><i class="fa fa-file-excel-o"></i></span>
+				<span>Excel</span>
+			</a>
 			<a href="{{ route('stock.create') }}" class="button is-primary">New stock</a>
 		</div>
 	</div>
