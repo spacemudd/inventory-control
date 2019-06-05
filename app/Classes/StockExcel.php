@@ -3,6 +3,7 @@
 
 namespace App\Classes;
 
+use App\Models\Category;
 use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Cell\DefaultValueBinder;
@@ -31,14 +32,21 @@ class StockExcel
             });
         });
 
-        return $excel->download('csv');
+        return $excel->download('xlsx');
     }
 
     public function StockForCsv($item)
     {
+
+
+        if($item['category_id'] != ''){
+            $itemName = Category::find($item->category_id)->name;
+        } else {
+            $itemName = '';
+        }
         return [
             $item->id,
-            $item->category_id,
+            $itemName,
             $item->description,
             $item->on_hand_quantity,
         ];
