@@ -424,7 +424,6 @@ e<template>
           _.set(material, 'stock_id', option.id);
         }
       },
-
       now() {
         return moment().format('HH:mm');
       },

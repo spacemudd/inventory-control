@@ -7,6 +7,7 @@ use App\Classes\MaterialRequestExcelAll;
 use App\Models\Department;
 use App\Models\Location;
 use App\Models\MaterialRequest;
+use App\Models\Region;
 use App\Services\MaterialRequestService;
 use Illuminate\Http\Request;
 use App\Models\MaterialRequestItem;
@@ -42,7 +43,9 @@ class MaterialRequestsController extends Controller
     {
         $locations = Location::get();
         $departments = Department::get();
-        return view('material-requests.create', compact('locations', 'departments'));
+        $regions = Region::get();
+
+        return view('material-requests.create', compact('locations', 'departments', 'regions'));
     }
 
     /**
@@ -54,14 +57,16 @@ class MaterialRequestsController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'number' => 'nullable|string|max:255|unique:material_requests,number',
             'date' => 'required|date',
             'location_id' => 'required|numeric|exists:locations,id',
             'cost_center_id' => 'required_without_all:department_code_number|numeric|exists:departments,id',
             'department_code_number' => 'required_without_all:cost_center_id|numeric',
+            'region_id' => 'required|numeric|exists:regions,id'
         ]);
-
+//        dd($request->toArray());
         if (!$request->number) {
             if ($this->service->checkNumberExists($request['date'], (int) $request['location_id'])) {
                 return 'Material request already exists!';

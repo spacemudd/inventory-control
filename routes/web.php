@@ -29,6 +29,10 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::resource('locations', 'LocationsController');
         Route::post('addNewLocations', 'newLocationsController@addLocation');
 
+        // Regions
+        Route::resource('regions', 'RegionController');
+        Route::get('getRegions', 'RegionsController@getRegions');
+
         // Job Orders
         Route::resource('job-orders', 'JobOrderController');
         Route::get('job-orders/{job_order_number}/pdf', 'JobOrderController@streamPdf')->name('job-orders.pdf');

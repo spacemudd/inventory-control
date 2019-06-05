@@ -54,7 +54,8 @@ class JobOrderService
             'location_id',
             'time_start',
             'time_end',
-            'quotation_id'
+            'quotation_id',
+            'region_id'
         ));
 
         $jobData['status'] = 'draft';

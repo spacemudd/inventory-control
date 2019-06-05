@@ -5,6 +5,8 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Scopes\LimitByRegionScope;
+
 
 class JobOrder extends Model
 {
@@ -27,7 +29,9 @@ class JobOrder extends Model
         'date',
         'location_id',
         'time_start',
-        'time_end'
+        // 'materials_used',
+        'time_end',
+        'region_id',
     ];
 
     protected $dates = [
@@ -129,5 +133,12 @@ class JobOrder extends Model
             self::COMPLETED,
             self::PENDING
         ]);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new LimitByRegionScope);
     }
 }

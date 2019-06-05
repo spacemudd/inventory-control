@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Scopes\LimitByRegionScope;
 
 class MaterialRequest extends Model
 {
@@ -31,6 +32,7 @@ class MaterialRequest extends Model
         'created_by_id',
         'number',
         'status',
+        'region_id',
         'purpose'
     ];
 
@@ -128,5 +130,12 @@ class MaterialRequest extends Model
     public function scopeApproved($q)
     {
         return $q->where('status', self::APPROVED);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new LimitByRegionScope);
     }
 }
