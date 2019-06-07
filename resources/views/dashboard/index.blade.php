@@ -23,7 +23,7 @@
 
 		<div class="column is-3">
 			<div class="box ">
-				<p>RFQs</p>
+				<p>Material Requests</p>
 				<p><b>{{ $rfqsCount }}</b></p>
 			</div>
 		</div>
