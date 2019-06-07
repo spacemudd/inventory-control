@@ -48,6 +48,7 @@
 							   name="description"
 							   value="{{ old('description') }}"
 							   autofocus
+							   autocomplete="off"
 							   required>
 
 						@if ($errors->has('description'))
@@ -86,6 +87,7 @@
 					<p class="control">
 						<div class="select is-fullwidth">
 							<select id="select-category" name="category_id">
+								<option value=""></option>
 								@foreach(\App\Models\Category::get() as $category)
 									<option value="{{ $category->id }}">
 										{{ $category->name }}
