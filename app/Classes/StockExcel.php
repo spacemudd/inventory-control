@@ -37,13 +37,13 @@ class StockExcel
 
     public function StockForCsv($item)
     {
+        $itemName = '';
 
-
-        if($item['category_id'] != ''){
-            $itemName = Category::find($item->category_id)->name;
-        } else {
-            $itemName = '';
+        if($item['category_id']) {
+            $category = Category::find($item->category_id);
+            $itemName = $category ? $category->name : '';
         }
+
         return [
             $item->id,
             $itemName,
