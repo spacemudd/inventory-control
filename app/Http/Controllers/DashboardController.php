@@ -14,15 +14,18 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use App\Models\PurchaseOrder;
 use Illuminate\Http\Request;
+use App\Models\Quotation;
 
 class DashboardController extends Controller
 {
     public function index()
     {
+        $quotations = Quotation::get();
+
         $stockCount = 0;
         $rfqsCount = 0;
         $purchaseOrdersCount = 0;
-        $deliveriesCount = 0;
+        $deliveriesCount = count($quotations);
 
         $lowStockCount = 0;
         $outOfStockCount = 0;
