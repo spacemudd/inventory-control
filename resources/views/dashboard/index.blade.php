@@ -84,7 +84,7 @@
 		</div>
 
 		<div class="column is-3">
-			<a class="button is-warning is-fullwidth" style="min-height: 3rem;" href="quotations/create">
+			<a class="button is-warning is-fullwidth" style="min-height: 3rem;" href="{{ route('quotations.create') }}">
 				<span class="icon"><i class="fa fa-arrow-down"></i></span>
 				<span>New Quotation</span>
 			</a>
@@ -92,7 +92,7 @@
 		</div>
 
 		<div class="column is-3">
-			<a class="button is-warning is-fullwidth" style="min-height: 3rem;" href="job-orders/create">
+			<a class="button is-warning is-fullwidth" style="min-height: 3rem;" href="{{ route('job-orders.create') }}">
 				<span class="icon"><i class="fa fa-address-book-o"></i></span>
 				<span>New Job Order</span>
 			</a>
