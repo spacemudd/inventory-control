@@ -71,7 +71,9 @@
 	@can('create-purchase-orders')
 		<div class="columns">
 			<div class="column is-12 has-text-right">
-				<a class="button is-primary" href="{{ route('purchase-orders.create') }}">New Purchase Order</a>
+				<a class="button is-primary" @click="$store.commit('Location/showNewModal', true)">New Purchase Order</a>
+				<new-purchase-order-po name="new_purchase_order">
+				</new-purchase-order-po>
 			</div>
 		</div>
 	@endcan

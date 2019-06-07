@@ -79,7 +79,9 @@ Vue.component('vendor-manufacturers-card', require('./components/VendorManufactu
 Vue.component('purchase-orders', require('./components/PurchaseOrders/Browse/Browse.vue').default);
 Vue.component('purchase-order-show', require('./components/PurchaseOrders/Show/Show.vue').default);
 Vue.component('purchase-order-items', require('./components/PurchaseOrders/Items/Browse/Browse.vue').default);
+Vue.component('new-purchase-order-po', require('./components/PurchaseOrders/NewPurchaseOrderModal/POModal.vue').default);
 Vue.component('new-purchase-order', require('./components/PurchaseOrders/NewPurchaseOrderModal/Modal.vue').default);
+Vue.component('new-purchase-orders-general-po', require('./components/PurchaseOrders/GeneralPO/PurchaseOrdersCreateGeneralPO.vue').default);
 Vue.component('edit-purchase-order-modal', require('./components/PurchaseOrders/EditPurchaseOrderModal/Modal.vue').default);
 // Vue.component('asset-issuances', require('./components/AssetIssuances/Browse/Browse.vue').default);
 // Vue.component('new-asset-issuance', require('./components/AssetIssuances/NewIssuanceModal/NewModal.vue').default);

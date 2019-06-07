@@ -229,6 +229,8 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
 
     // PO
     Route::put('purchase-orders/{id}/update', 'Api\PurchaseOrderController@update');
+    Route::post('download/PO/PDF', 'Api\PurchaseOrderController@DownloadPdf');
+    Route::get('purchase-orders/general-po/new', 'Api\PurchaseOrderController@newGeneralPO');
     Route::post('purchase-orders/show', 'Api\PurchaseOrderController@show');
     Route::post('purchase-orders', 'Api\PurchaseOrderController@store');
     Route::get('purchase-orders/paginated/{per_page}', 'Api\PurchaseOrderController@paginatedIndex');
