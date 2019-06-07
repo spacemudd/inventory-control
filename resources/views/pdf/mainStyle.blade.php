@@ -58,4 +58,8 @@
         color: #000;
     }
 
+    .footerDiv {
+        margin-bottom: 1rem;
+    }
+
 </style>
