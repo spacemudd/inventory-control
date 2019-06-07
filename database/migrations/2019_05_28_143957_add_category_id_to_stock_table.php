@@ -15,7 +15,7 @@ class AddCategoryIdToStockTable extends Migration
     {
         Schema::table('stock', function (Blueprint $table) {
             $table->unsignedInteger('category_id')->nullable();
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
         });
     }
 
