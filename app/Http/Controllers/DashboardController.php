@@ -22,19 +22,14 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $mRequest = MaterialRequest::get();
+        $rfqsCount = MaterialRequest::count();
 
-        $rfqsCount = count($mRequest);
+        $purchaseOrdersCount = PurchaseOrder::count();
 
-        $PurchaseOrder = PurchaseOrder::get();
-        $purchaseOrdersCount = count($PurchaseOrder);
+        $deliveriesCount = Quotation::count();
 
-        $quotations = Quotation::get();
-        $deliveriesCount = count($quotations);
-
-        $inCount = StockMovement::select('in')->get()->sum('in');
-        $outCount = StockMovement::select('out')->get()->sum('out');
-
+        $inCount = StockMovement::select('in')->sum('in');
+        $outCount = StockMovement::select('out')->sum('out');
         $stockCount = $inCount - $outCount;
 
         $lowStockCount = 0;
