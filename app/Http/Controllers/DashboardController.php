@@ -20,11 +20,13 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $quotations = Quotation::get();
+        $PurchaseOrder = PurchaseOrder::get();
 
         $stockCount = 0;
         $rfqsCount = 0;
-        $purchaseOrdersCount = 0;
+        $purchaseOrdersCount = count($PurchaseOrder);
+
+        $quotations = Quotation::get();
         $deliveriesCount = count($quotations);
 
         $lowStockCount = 0;
