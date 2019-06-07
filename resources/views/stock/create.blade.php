@@ -48,6 +48,7 @@
 							   name="description"
 							   value="{{ old('description') }}"
 							   autofocus
+							   autocomplete="off"
 							   required>
 
 						@if ($errors->has('description'))
