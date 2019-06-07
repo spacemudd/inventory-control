@@ -31,6 +31,7 @@ class MaterialRequest extends Model
         'created_by_id',
         'number',
         'status',
+        'purpose'
     ];
 
     /**

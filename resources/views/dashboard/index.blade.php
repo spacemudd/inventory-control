@@ -84,17 +84,17 @@
 		</div>
 
 		<div class="column is-3">
-			<a class="button is-warning is-fullwidth" style="min-height: 3rem;">
+			<a class="button is-warning is-fullwidth" style="min-height: 3rem;" href="{{ route('quotations.create') }}">
 				<span class="icon"><i class="fa fa-arrow-down"></i></span>
-				<span>New Delivery</span>
+				<span>New Quotation</span>
 			</a>
 			<p style="font-size:10px;padding:2px">Record a new material delivery from the supplier.</p>
 		</div>
 
 		<div class="column is-3">
-			<a class="button is-warning is-fullwidth" style="min-height: 3rem;">
+			<a class="button is-warning is-fullwidth" style="min-height: 3rem;" href="{{ route('job-orders.create') }}">
 				<span class="icon"><i class="fa fa-address-book-o"></i></span>
-				<span>New Issuance</span>
+				<span>New Job Order</span>
 			</a>
 			<p style="font-size:10px;padding:2px">New issuance of material to an employee or department</p>
 		</div>

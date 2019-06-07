@@ -15,6 +15,7 @@ use App\Models\Item;
 use App\Models\PurchaseOrder;
 use Illuminate\Http\Request;
 use App\Models\MaterialRequest;
+use App\Models\Quotation;
 
 class DashboardController extends Controller
 {
@@ -24,8 +25,12 @@ class DashboardController extends Controller
 
         $stockCount = 0;
         $rfqsCount = count($mRequest);
-        $purchaseOrdersCount = 0;
-        $deliveriesCount = 0;
+
+        $PurchaseOrder = PurchaseOrder::get();
+        $purchaseOrdersCount = count($PurchaseOrder);
+
+        $quotations = Quotation::get();
+        $deliveriesCount = count($quotations);
 
         $lowStockCount = 0;
         $outOfStockCount = 0;
