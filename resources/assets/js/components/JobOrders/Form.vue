@@ -144,7 +144,6 @@ e<template>
                                         <th>Name</th>
                                         <th>Available</th>
                                         <th>Quantity</th>
-                                        <th>Technician</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -179,23 +178,6 @@ e<template>
                                                 v-model="material.quantity"
                                                 placeholder="Select end time">
                                         </b-input>
-                                    </td>
-                                    <td @keyup.enter="addMaterial">
-                                        <input v-if="material.technician"
-                                               type="text"
-                                               class="input is-small"
-                                               :value="material.technician.code + ' - ' + material.technician.name"
-                                               @click="clearMaterialTechnician"
-                                               readonly>
-                                        <b-autocomplete v-else
-                                                        v-model="material.technicianSearchCode"
-                                                        field="code"
-                                                        :data="filteredEmployees"
-                                                        @select="option => material.technician = option"
-                                                        size="is-small"
-                                                        :loading="$isLoading('FETCHING_EMPLOYEES')">
-                                            <template slot="empty">No results found</template>
-                                        </b-autocomplete>
                                     </td>
                                     <td class="has-text-centered">
                                         <button v-if="materials.length == i+1" class="button is-primary is-small"
@@ -322,7 +304,6 @@ e<template>
 
                 technicianFormSearchCode: '',
                 technicianForm: {
-                    employee: '',
                     time_start: this.now(),
                     time_end: null,
                 },
@@ -355,9 +336,11 @@ e<template>
           handler: function (valId) {
             this.employeeSearchCode = ''
             this.addEmployees = [];
-            axios.get(this.apiUrl() + '/employees/' + valId).then(response => {
-              this.addEmployees = response.data;
-            })
+            if (valId) {
+              axios.get(this.apiUrl() + '/employees/' + valId).then(response => {
+                this.addEmployees = response.data;
+              })
+            }
           }
         },
         employeeSearchCode: {
@@ -489,13 +472,18 @@ e<template>
                     alert('Please select an employee');
                     return false;
                 }
-                let technician = this.technicianForm;
-                technician.technician_id = technician.employee.id;
+
+                let technician = {
+                  addEmployees: this.technicianForm.addEmployees,
+                  time_start: this.now(),
+                  time_end: null,
+                };
+
                 this.technicians.push(technician);
 
                 setTimeout(() => {
                     this.clearTechnicianForm();
-                }, 200);
+                }, 100);
             },
             addMaterial() {
                this.materials.push({
@@ -513,18 +501,19 @@ e<template>
                 let technicianForm = {
                     employee: '',
                     technician_id: '',
-                    time_start:  null,
+                    time_start: moment().format('HH:mm'),
                     time_end: null,
                 }
                 this.technicianForm = technicianForm;
             },
             clearTechnician() {
-                this.technicianFormSearchCode = '';
-                this.technicianForm = {
-                    ...this.technicianForm,
-                    employee: '',
-                    technician_id: ''
-                };
+              this.technicianFormSearchCode = '';
+              this.technicianForm = {
+                employee: '',
+                time_start: moment().format('HH:mm'),
+                time_end: null,
+                technician_id: ''
+              };
             },
             clearMaterialTechnician() {
                 this.materialForm.technicianSearchCode = '';

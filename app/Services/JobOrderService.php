@@ -81,8 +81,6 @@ class JobOrderService
     {
         $newArray = [];
         foreach ($technicians as &$tech) {
-            unset($tech['employee']);
-
             if ($tech['time_start']) {
                 $tech['time_start'] = Carbon::parse($tech['time_start']);
                 $tech['time_start'] = $tech['time_start']->format('H:i:s');
