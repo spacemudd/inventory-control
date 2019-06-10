@@ -28,7 +28,7 @@ class StockExcel
     {
         $stockByCategory = Stock::with('category')->get()->groupBy('category_id');
 
-        $excel = Excel::create($this->fileName, function($excel) use ($stockByCategory) {
+        $excel = Excel::create($this->fileName.now()->format('-Y-m-d'), function($excel) use ($stockByCategory) {
             foreach ($stockByCategory as $category_id => $stocks) {
                 if ($stocks) {
                     $excel->sheet(optional($stocks->first()->category)->name ?: 'Uncategorized', function($sheet) use ($stocks) {
@@ -47,16 +47,9 @@ class StockExcel
 
     public function StockForCsv($item)
     {
-        $itemName = '';
-
-        if($item['category_id']) {
-            $category = Category::find($item->category_id);
-            $itemName = $category ? $category->name : '';
-        }
-
         return [
             $item->id,
-            $itemName,
+            optional($item->category)->name,
             $item->description,
             $item->on_hand_quantity,
         ];
