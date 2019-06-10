@@ -20,10 +20,14 @@ class StockController extends Controller
         return collect();
     }
 
+    /**
+     * Download an Excel file.
+     *
+     * @return mixed
+     */
     public function exportExcel()
     {
         $obj = new StockExcel;
-        $stock = Stock::get();
-        return $obj->downloadStockExcel($stock);
+        return $obj->downloadStockExcel();
     }
 }
