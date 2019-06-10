@@ -69,6 +69,9 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::resource('stock', 'StockController');
         Route::get('stock/by-category/{category_id}', 'StockController@byCategory')->name('stock.category');
 
+        // Stock Excel
+        Route::get('makeStockExcel', 'Api\StockController@exportExcel');
+
         // Categories
         Route::resource('categories', 'CategoryController');
 
