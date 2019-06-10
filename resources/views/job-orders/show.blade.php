@@ -125,7 +125,7 @@
             </div>
             <div class="column is-6 ">
                 <div class="field">
-                    <label for="employee" class="label">Employee</label>
+                    <label for="employee" class="label">Requester</label>
 
                     <div class="control">
                         <input type="text" class="input" value="{{ optional($jobOrder->employee)->name }}" readonly>
