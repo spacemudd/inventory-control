@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\JobOrderItem;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -27,7 +26,6 @@ class JobOrder extends Model
         'date',
         'location_id',
         'time_start',
-        // 'materials_used',
         'time_end'
     ];
 
@@ -41,6 +39,11 @@ class JobOrder extends Model
         'employee',
         'location',
         'department'
+    ];
+
+    protected $appends = [
+        'dispatched_count',
+        'un_dispatched_count',
     ];
 
     /** Mutators */
@@ -61,6 +64,18 @@ class JobOrder extends Model
     public function getStatusAttribute()
     {
         return ucfirst($this->attributes['status']);
+    }
+
+    /** Accessors */
+    public function getDispatchedCountAttribute()
+    {
+        return $this->items()->whereNotNull('dispatched_at')->count();
+    }
+
+    /** Accessors */
+    public function getUnDispatchedCountAttribute()
+    {
+        return $this->items()->whereNull('dispatched_at')->count();
     }
 
 
@@ -104,6 +119,10 @@ class JobOrder extends Model
      */
     public function isApproved()
     {
-        return $this->attributes['status'] == self::APPROVED;
+        return in_array($this->attributes['status'], [
+            self::APPROVED,
+            self::COMPLETED,
+            self::PENDING
+        ]);
     }
 }

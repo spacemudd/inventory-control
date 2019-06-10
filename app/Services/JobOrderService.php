@@ -74,14 +74,13 @@ class JobOrderService
      * Sync technicians to job order
      *
      * @param JobOrder $jobOrder
-     * @param array $techinians
+     * @param array $technicians
      * @return array
      */
-    public function addTechniciansTo(JobOrder $jobOrder, $techinians)
+    public function addTechniciansTo(JobOrder $jobOrder, $technicians)
     {
         $newArray = [];
-
-        foreach ($techinians as &$tech) {
+        foreach ($technicians as &$tech) {
             unset($tech['employee']);
 
             if ($tech['time_start']) {
@@ -102,7 +101,24 @@ class JobOrderService
         }
 
         return $jobOrder->technicians()->sync($newArray);
+    }
 
+
+    public function addMaterialsUsed(JobOrder $jobOrder, $materials)
+    {
+        $materials = collect($materials)->filter(function ($item) {
+            return isset($item['stock_id']) && isset($item['quantity']) && isset($item['technician']);
+        });
+
+        foreach ($materials as $material) {
+            $jobOrder->items()->create([
+                'stock_id'      => $material['stock_id'],
+                'technician_id' => $material['technician']['id'],
+                'qty'           => $material['quantity'],
+            ]);
+        }
+
+        return true;
     }
 
     /**
@@ -115,7 +131,29 @@ class JobOrderService
     {
         $jobOrder->status = JobOrder::APPROVED;
 
+        if (! $jobOrder->time_end) {
+            $jobOrder->status = JobOrder::PENDING;
+        }
+
+        if ($jobOrder->time_end) {
+            $jobOrder->status = JobOrder::COMPLETED;
+        }
+
         return $jobOrder->save();
+    }
+
+    /**
+     * Approve Job Order
+     *
+     * @param JobOrder $jobOrder
+     * @param $item_id
+     * @return bool
+     */
+    public function dispatchItem(JobOrder $jobOrder, $item_id)
+    {
+        $item = $jobOrder->items()->findOrFail($item_id);
+
+        return $item->update(['dispatched_at' => date('Y-m-d H:i:s')]);
     }
 
     /**

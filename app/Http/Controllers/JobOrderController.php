@@ -26,7 +26,7 @@ class JobOrderController extends Controller
      */
     public function index()
     {
-        $jobOrders = JobOrder::paginate(15);
+        $jobOrders = JobOrder::latest()->paginate(15);
         return view('job-orders.index', compact('jobOrders'));
     }
 
@@ -51,6 +51,7 @@ class JobOrderController extends Controller
         DB::transaction(function() use ($request) {
             $jobOrder = $this->service->save($request);
             $this->service->addTechniciansTo($jobOrder, $request->technicians);
+            $this->service->addMaterialsUsed($jobOrder, $request->materials);
         });
 
         return redirect()->route('job-orders.index');
@@ -59,12 +60,12 @@ class JobOrderController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\JobOrder  $jobOrder
+     * @param JobOrder $jobOrder
      * @return \Illuminate\Http\Response
      */
     public function show(JobOrder $jobOrder)
     {
-        $jobOrder->load('technicians');
+        $jobOrder->load('technicians', 'items.stock', 'items.technician');
         
         return view('job-orders.show', compact('jobOrder'));
     }
@@ -118,12 +119,30 @@ class JobOrderController extends Controller
      * Approve Job Order
      *
      * @param $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function approve($id)
     {
         $jobOrder = JobOrder::where('job_order_number', $id)->firstOrFail();
 
         $this->service->approve($jobOrder);
+
+        return back();
+    }
+
+
+    /**
+     * Dispatch job order item
+     *
+     * @param $jobOrder
+     * @param $jobOrderItem
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function dispatchItem($jobOrder, $jobOrderItem)
+    {
+        $jobOrder = JobOrder::where('job_order_number', $jobOrder)->firstOrFail();
+
+        $this->service->dispatchItem($jobOrder, $jobOrderItem);
 
         return back();
     }
