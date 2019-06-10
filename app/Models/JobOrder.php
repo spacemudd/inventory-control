@@ -51,6 +51,17 @@ class JobOrder extends Model
         'un_dispatched_count',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new LimitByRegionScope);
+
+        static::creating(function($jobOrder) {
+            $jobOrder->region_id = auth()->user()->region_id;
+        });
+    }
+
     /** Mutators */
     public function setTimeStartAttribute($value)
     {
@@ -133,12 +144,5 @@ class JobOrder extends Model
             self::COMPLETED,
             self::PENDING
         ]);
-    }
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::addGlobalScope(new LimitByRegionScope);
     }
 }
