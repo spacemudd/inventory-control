@@ -122,6 +122,7 @@
                     </p>
                 </div>
 
+                {{--
                 <div class="field">
                     <label for="region" class="label">Region <span class="has-text-danger">*</span></label>
 
@@ -136,6 +137,7 @@
                         </div>
                     </div>
                 </div>
+                --}}
 
                 <div class="field">
                     <button class="button is-primary">Save</button>

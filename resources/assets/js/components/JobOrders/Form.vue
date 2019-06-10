@@ -67,7 +67,6 @@ e<template>
                                readonly>
                     </b-field>
 
-
                     <div class="field">
                         <label class="label">Location <span class="has-text-danger">*</span></label>
                         <!-- If selected. -->
@@ -116,6 +115,17 @@ e<template>
                             </b-radio>
                         </div>
                     </div>
+
+                        <!--
+                        <div class="field">
+                            <label class="label">Regions <span class="has-text-danger">*</span></label>
+                            <select name="region_id" class="input is-small" v-model="region_id" required>
+                                <option v-for="(region, key) in regions" :value="region.id" >
+                                    {{ region.name }}
+                                </option>
+                            </select>
+                        </div>
+                        -->
 
                     <b-field label="Job duration">
                         <div class="columns">
