@@ -168,16 +168,6 @@
 
                 <div class="field">
                     <div class="field">
-                        <label for="materials_used" class="label">Materials Used</label>
-
-                        <div class="control">
-                            <textarea class="textarea" readonly>{{ $jobOrder->materials_used }}</textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="field">
-                    <div class="field">
                         <label for="status" class="label">Status</label>
 
                         <div class="control">
@@ -200,7 +190,7 @@
     {{--</div>--}}
     {{--</div>--}}
 
-<div class="column is-8 is-offset-2">
+<div class="column is-12">
     <div class="box">
         <div class="columns">
             <div class="column is-6">
@@ -223,7 +213,7 @@
                         <td>{{ $i+1 }}</td>
                         <td>{{ $item->stock->description }}</td>
                         <td>{{ $item->qty }}</td>
-                        <td>{{ $item->technician->display_name }}</td>
+                        <td>{{ optional($item->technician)->display_name }}</td>
                         <td>
                             @if(! $item->isDispatched())
                                 <form action="{{ route('job-orders.dispatch-item', compact('jobOrder', 'item')) }}"

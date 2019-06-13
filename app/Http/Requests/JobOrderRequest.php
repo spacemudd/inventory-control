@@ -25,7 +25,7 @@ class JobOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'employeeName' => 'required_without_all:employee_id',
+            //'employeeName' => 'required_without_all:employee_id',
             'technicians' => 'required',
             'technicians.*.time_start' => 'nullable|required',
             'employee_id' => 'nullable|exists:employees,id',
@@ -38,10 +38,9 @@ class JobOrderRequest extends FormRequest
             'time_start' => 'required',
             'time_end' => 'nullable',
             'location_id' => 'required|exists:locations,id',
-            'materials'     => 'required',
-            'materials.*.stock_id'  => 'required_with_all:materials.*.technician.id,materials.*.quantity',
-            'materials.*.technician.id'  => 'required_with_all:materials.*.stock_id,materials.*.quantity',
-            'materials.*.quantity'  => 'required_with_all:materials.*.stock_id,materials.*.technician.id',
+            'materials'     => 'nullable',
+            'materials.*.stock_id'  => 'required_with_all:materials.*.quantity',
+            'materials.*.quantity'  => 'required_with_all:materials.*.stock_id',
         ];
     }
 }

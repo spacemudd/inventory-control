@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Stock;
 use PDF;
 use Carbon\Carbon;
 use App\Models\JobOrder;
@@ -11,6 +12,12 @@ use App\Models\Employee;
 
 class JobOrderService
 {
+    protected $stockService;
+
+    public function __construct(StockService $stockService)
+    {
+        $this->stockService = $stockService;
+    }
     /**
      * Create job order
      *
@@ -19,15 +26,14 @@ class JobOrderService
      */
     public function save(Request $request)
     {
-//        dd($request->employee_id);
-        if($request->employee_id == null){
+        if($request->employee_id == null && $request->employeeName) {
             $toInsert = [
                 'code' => $request->employeeName,
-                'department_id' => "null",
-                'staff_type_id' => "null",
-                'name' =>"null",
-                'email' => "null",
-                'phone' => "null",
+                'department_id' => null,
+                'staff_type_id' => null,
+                'name' => $request->employeeName,
+                'email' => null,
+                'phone' => null,
                 'approver' => false,
             ];
 
@@ -105,15 +111,16 @@ class JobOrderService
     public function addMaterialsUsed(JobOrder $jobOrder, $materials)
     {
         $materials = collect($materials)->filter(function ($item) {
-            return isset($item['stock_id']) && isset($item['quantity']) && isset($item['technician']);
+            return isset($item['stock_id']) && isset($item['quantity']);
         });
 
         foreach ($materials as $material) {
             $jobOrder->items()->create([
                 'stock_id'      => $material['stock_id'],
-                'technician_id' => $material['technician']['id'],
                 'qty'           => $material['quantity'],
             ]);
+
+            $this->stockService->moveOutById($material['stock_id'], $material['quantity'], $jobOrder);
         }
 
         return true;

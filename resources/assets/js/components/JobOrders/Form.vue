@@ -42,7 +42,7 @@ e<template>
                        </div>
 
                         <b-field label="Remark">
-                            <b-input v-model="remark" maxlength="200" size="is-small" type="textarea"></b-input>
+                            <textarea class="textarea" v-model="remark" rows="2" cols="2"></textarea>
                         </b-field>
                     </div>
 
@@ -137,14 +137,23 @@ e<template>
                             </div>
                         </b-field>
 
-                        <b-field label="Materials Used">
+                        <div class="field">
+                            <div class="label anb-label">
+                                Materials
+                                <!--
+                                <button style="margin-left:5px;" class="button is-small" @click.prevent="">
+                                    <span><i class="fa fa-plus fa-xs" style="color: #454545;"></i></span>
+                                </button>
+                                -->
+                            </div>
                             <table class="table is-narrow is-size-7 is-fullwidth">
                                 <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Available</th>
-                                        <th>Quantity</th>
-                                    </tr>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Available</th>
+                                    <th>Quantity</th>
+                                    <th></th>
+                                </tr>
                                 </thead>
                                 <tbody>
                                 <!--<tr v-for="(material, i) in materials">
@@ -169,21 +178,28 @@ e<template>
                                         </b-autocomplete>
                                     </td>
                                     <td>
-                                        <p v-text="material.onHandQuantity"></p>
+                                        <input type="text"
+                                               :value="material.onHandQuantity"
+                                               autocomplete="on"
+                                               disabled="disabled"
+                                               readonly="readonly"
+                                               style="width:100px;cursor:default;"
+                                               class="input is-small">
                                     </td>
                                     <td>
                                         <b-input type="number"
-                                                size="is-small"
-                                                :max="material.onHandQuantity"
-                                                v-model="material.quantity"
-                                                placeholder="Select end time">
+                                                 size="is-small"
+                                                 style="width:100px;"
+                                                 :max="material.onHandQuantity"
+                                                 v-model="material.quantity"
+                                                 placeholder="Select end time">
                                         </b-input>
                                     </td>
                                     <td class="has-text-centered">
                                         <button v-if="materials.length == i+1" class="button is-primary is-small"
                                                 :class="{'is-loading': $isLoading('SAVING_MATERIAL')}"
                                                 @click.prevent="addMaterial">
-                                            <span class="icon is-small"><i class="fa fa-plus"></i></span>
+                                            <span class="icon is-small"><i class="fa fa-check"></i></span>
                                         </button>
                                         <button v-else
                                                 class="button is-danger is-small "
@@ -195,16 +211,17 @@ e<template>
                                 </tr>
                                 </tbody>
                             </table>
-                        </b-field>
+                        </div>
 
                         <div class="field">
-                            <label class="label">Technicians <span class="has-text-danger">*</span></label>
+                            <label class="label anb-label">Technicians <span class="has-text-black">*</span></label>
                             <table class="table is-narrow is-size-7 is-fullwidth">
                                 <thead>
                                     <tr>
                                         <th>Employee</th>
                                         <th>Time start</th>
                                         <th>Time end</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -234,6 +251,7 @@ e<template>
                                     <td>
                                         <b-input type="time"
                                                 size="is-small"
+                                                 style="width:100px;"
                                                 v-model="technicianForm.time_start"
                                                 placeholder="Select start time">
                                         </b-input>
@@ -241,6 +259,7 @@ e<template>
                                     <td>
                                         <b-input type="time"
                                                 size="is-small"
+                                                 style="width:100px;"
                                                 v-model="technicianForm.time_end"
                                                 placeholder="Select end time">
                                         </b-input>
@@ -249,7 +268,7 @@ e<template>
                                         <button class="button is-primary is-small"
                                                 :class="{'is-loading': $isLoading('SAVING_TECHNICIAN')}"
                                                 @click.prevent="addTechnician">
-                                            Add
+                                            <span class="icon is-small"><i class="fa fa-check"></i></span>
                                         </button>
                                     </td>
                                 </tr>
@@ -439,33 +458,37 @@ e<template>
                 this.locationSearchCode = '';
             },
             submitOrder() {
+              alert('SENDING');
               this.$startLoading('SAVING_JOB_ORDER');
 
               let data = this.$data;
               data.location_id = this.location.id;
 
-              if(this.employee == null){
+              // Only material requests that are selected
+              let selectedMaterialRequests = data.materials.filter((x) => x.stock_id)
+              data.materials = selectedMaterialRequests;
+
+              if (this.employee) {
+                data.employee_id = this.employee.id;
+              } else {
                 data.employeeName = this.employeeSearchCode;
               }
-              else {
-                data.employee_id = this.employee.id;
-              }
-              data.employee_id = this.employee ? this.employee.id : null;
+
               data.cost_center_id = this.cost_center ? this.cost_center.id : null;
 
-                axios.post(this.baseUrl()+'/job-orders', data)
-                    .then(response => {
-                        this.$toast.open({
-                            message: 'Success! Redirecting...',
-                        });
-                        // window.location.href = this.baseUrl()+'/job-orders';
-                    })
-                    .catch(e => {
-                        alert(e.response.data.message);
-                        throw e;
-                    }).finally(() => {
-                        this.$endLoading('SAVING_JOB_ORDER');
-                    })
+            axios.post(this.baseUrl()+'/job-orders', data)
+                .then(response => {
+                    this.$toast.open({
+                        message: 'Success! Redirecting...',
+                    });
+                    window.location.href = this.baseUrl()+'/job-orders/'+response.data.job_order_number;
+                })
+                .catch(e => {
+                    alert(e.response.data.message);
+                    throw e;
+                }).finally(() => {
+                    this.$endLoading('SAVING_JOB_ORDER');
+                })
             },
             addTechnician() {
                 if (!this.technicianForm.addEmployees) {
@@ -474,6 +497,7 @@ e<template>
                 }
 
                 let technician = {
+                  id: this.technicianForm.addEmployees.id,
                   addEmployees: this.technicianForm.addEmployees,
                   time_start: this.now(),
                   time_end: null,

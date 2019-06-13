@@ -48,11 +48,16 @@ class JobOrderController extends Controller
      */
     public function store(JobOrderRequest $request)
     {
-        DB::transaction(function() use ($request) {
+        $jobOrder = DB::transaction(function() use ($request) {
             $jobOrder = $this->service->save($request);
             $this->service->addTechniciansTo($jobOrder, $request->technicians);
             $this->service->addMaterialsUsed($jobOrder, $request->materials);
+            return $jobOrder;
         });
+
+        if (request()->expectsJson()) {
+            return $jobOrder;
+        }
 
         return redirect()->route('job-orders.index');
     }
