@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -32,7 +33,7 @@ class JobOrder extends Model
     protected $dates = [
         'date',
         'time_start',
-        'time_end'
+        'time_end',
     ];
 
     protected $with = [
@@ -49,13 +50,17 @@ class JobOrder extends Model
     /** Mutators */
     public function setTimeStartAttribute($value)
     {
-        return $this->attributes['time_start'] = date('Y-m-d H:i:s', strtotime($this->date. ' '. $value));
+        if ($value) {
+            $this->attributes['time_start'] = Carbon::parse($value);
+            //return $this->attributes['time_start'] = date('Y-m-d H:i:s', strtotime($this->date. ' '. $value));
+        }
     }
 
     public function setTimeEndAttribute($value)
     {
         if ($value) {
-            return $this->attributes['time_end'] = date('Y-m-d H:i:s', strtotime($this->date. ' '. $value));
+            $this->attributes['time_end'] = Carbon::parse($value);
+            //return $this->attributes['time_end'] = date('Y-m-d H:i:s', strtotime($this->date. ' '. $value));
         }
     }
 

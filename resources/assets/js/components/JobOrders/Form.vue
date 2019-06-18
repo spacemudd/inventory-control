@@ -455,7 +455,6 @@ e<template>
         this.locationSearchCode = '';
       },
       submitOrder() {
-        alert('SENDING');
         this.$startLoading('SAVING_JOB_ORDER');
 
         let data = this.$data;
