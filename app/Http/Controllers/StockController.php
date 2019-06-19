@@ -38,8 +38,9 @@ class StockController extends Controller
     {
         $request->validate([
             'description' => 'required|unique:stock,description',
-            'available_quantity' => 'required|min:0',
+            'available_quantity' => 'required|numeric|min:0',
             'category_id' => 'nullable|exists:categories,id',
+            'recommended_qty' => 'nullable|numeric|min:0',
         ]);
 
         DB::beginTransaction();
