@@ -62,7 +62,7 @@
                 </tr>
                 <tr>
                     <td><b>Location:</b></td>
-                    <td>{{ optional($jobOrder->department)->description }}</td>
+                    <td>{{ optional($jobOrder->location)->name }}</td>
                 </tr>
                 <tr>
                     <td><b>CC:</b></td>
