@@ -12,7 +12,9 @@ class LimitByRegionScope implements Scope
 
     public function apply(Builder $builder, Model $model)
     {
-
-        $builder->where('region_id', auth()->user()->region_id);
+        $perm = auth()->user()->hasPermissionTo('view-all-regions');
+        if (!$perm) {
+            $builder->where('region_id', auth()->user()->region_id);
+        }
     }
 }

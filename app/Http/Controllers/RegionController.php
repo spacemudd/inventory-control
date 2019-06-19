@@ -66,7 +66,8 @@ class RegionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $region = Region::findOrFail($id);
+        return view('regions.edit', compact('region'));
     }
 
     /**
@@ -78,7 +79,14 @@ class RegionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $region = Region::findOrFail($id);
+        $region->name = $request->name;
+        $region->save();
+        return redirect()->route('regions.index');
     }
 
     /**
@@ -89,6 +97,8 @@ class RegionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $region = Region::findOrFail($id);
+        $region->delete();
+        return redirect()->route('regions.index');
     }
 }

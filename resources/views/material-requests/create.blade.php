@@ -39,6 +39,7 @@
                            class="input {{ $errors->has('number') ? ' is-danger' : '' }}"
                            placeholder="If left blank, reference will be automatically generated"
                            name="number"
+                           autocomplete="off"
                            value="{{ old('number') }}">
                     <p class="control">
                         @if ($errors->has('number'))

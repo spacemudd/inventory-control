@@ -50,6 +50,13 @@ class MaterialRequest extends Model
         'can_edit', 'status_name'
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new LimitByRegionScope);
+    }
+
     /**
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -130,12 +137,5 @@ class MaterialRequest extends Model
     public function scopeApproved($q)
     {
         return $q->where('status', self::APPROVED);
-    }
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::addGlobalScope(new LimitByRegionScope);
     }
 }

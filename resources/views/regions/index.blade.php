@@ -28,9 +28,14 @@
         </div>
         <div class="column">
             <table class="table is-fullwidth is-bordered is-size-7 is-narrow">
+                <colgroup>
+                    <col style="width:1px;">
+                    <col>
+                    <col style="width:3rem;">
+                </colgroup>
                 <thead>
                 <tr>
-                    <th>Id</th>
+                    <th>ID</th>
                     <th>Description</th>
                     <th></th>
                 </tr>
@@ -42,14 +47,31 @@
                             <td>{{ $region->id }}</td>
                             <td>{{ $region->name }}</td>
                             <td class="has-text-centered">
-                                <div class="buttons">
-                                    <a href="{{ route('regions.show', $region) }}"
-                                       class="button is-small is-warning"
-                                       style="height:20px;">
-                                        <span class="icon"><i class="fa fa-eye"></i></span>
-                                        <span>View</span>
-                                    </a>
-                                </div>
+{{--                                <a href="{{ route('regions.show', $region) }}"--}}
+{{--                                   class="button is-small is-warning is-fullwidth"--}}
+{{--                                   style="height:20px;">--}}
+{{--                                    <span class="icon"><i class="fa fa-eye"></i></span>--}}
+{{--                                    <span>View</span>--}}
+{{--                                </a>--}}
+                                <a href="{{ route('regions.edit', $region) }}"
+                                   class="button is-small is-fullwidth is-warning"
+                                   style="height:20px;margin-top:5px;">
+                                    <span class="icon"><i class="fa fa-pencil"></i></span>
+                                    <span>Edit</span>
+                                </a>
+                                <a href="{{ route('regions.destroy', $region) }}"
+                                   class="button is-small is-fullwidth"
+                                   onclick="event.preventDefault();document.getElementById('delete-form-{{ $region->id }}').submit()"
+                                   style="height:20px;margin-top:10px;">
+                                    <span class="icon"><i class="fa fa-trash"></i></span>
+                                    <span>Delete</span>
+                                </a>
+                                <form id="delete-form-{{ $region->id }}" action="{{ route('regions.destroy', ['id' => $region->id]) }}"
+                                      method="post"
+                                      style="display: none;">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="_method" value="delete">
+                                </form>
                             </td>
                         </tr>
                     @endforeach
