@@ -20,10 +20,10 @@
 <section class="mainSection">
     <div>
         <div class="dateDiv">
-            DATE: {{ date("m.d.y") }}
+            DATE: {{ date("d/m/y") }}
         </div>
         <div class="ref">
-            REF #: {{ $mRequest->reference_number }}
+            REF #: {{ date("d/m/y") }}-{{ $mRequest->cost_center->description }}
         </div>
     </div>
     <div class="infoDiv">
@@ -76,7 +76,6 @@
 
                 </td>
             </tr>
-            {{ $number++ }}
         @endforeach
 
         @if(count($mRequest->items) < 5)
