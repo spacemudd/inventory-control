@@ -14,7 +14,7 @@ class AddRegionIdColToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('region_id')->default("null")->references('id')->on('regions');
+            $table->integer('region_id')->nullable()->references('id')->on('regions');
         });
     }
 
@@ -26,7 +26,8 @@ class AddRegionIdColToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('region_id');
+            $table->dropForeign(['region_id']);
+            $table->dropColumn(['region_id']);
         });
     }
 }

@@ -14,15 +14,15 @@ class AddRegionIdColToTables extends Migration
     public function up()
     {
         Schema::table('material_requests', function (Blueprint $table) {
-            $table->integer('region_id')->default('null')->references('id')->on('regions')->onDelete('set NULL');
+            $table->integer('region_id')->nullable()->references('id')->on('regions')->onDelete('set NULL');
         });
 
         Schema::table('quotations', function (Blueprint $table) {
-            $table->integer('region_id')->default('null')->references('id')->on('regions')->onDelete('set NULL');
+            $table->integer('region_id')->nullable()->references('id')->on('regions')->onDelete('set NULL');
         });
 
         Schema::table('job_orders', function (Blueprint $table) {
-            $table->integer('region_id')->default('null')->references('id')->on('regions')->onDelete('set NULL');
+            $table->integer('region_id')->nullable()->references('id')->on('regions')->onDelete('set NULL');
         });
     }
 
@@ -33,6 +33,19 @@ class AddRegionIdColToTables extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('material_requests', function (Blueprint $table) {
+	    $table->dropForeign(['region_id']);
+            $table->dropColumn(['region_id']);
+        });
+
+        Schema::table('quotations', function (Blueprint $table) {
+            $table->dropForeign(['region_id']);
+            $table->dropColumn(['region_id']);
+        });
+
+        Schema::table('job_orders', function (Blueprint $table) {
+            $table->dropForeign(['region_id']);
+            $table->dropColumn(['region_id']);
+        });
     }
 }
