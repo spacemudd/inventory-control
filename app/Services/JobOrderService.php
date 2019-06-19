@@ -121,7 +121,7 @@ class JobOrderService
                 'qty'           => $material['quantity'],
             ]);
 
-            $this->stockService->moveOutById($material['stock_id'], $material['quantity'], $jobOrder);
+            //$this->stockService->moveOutById($material['stock_id'], $material['quantity'], $jobOrder);
         }
 
         return true;
