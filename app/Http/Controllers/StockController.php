@@ -54,7 +54,7 @@ class StockController extends Controller
 
         session()->flash('success', 'Added '.$stock->description.' (Quantity: '.$request->available_quantity.')');
 
-        return redirect()->route('stock.create');
+        return redirect()->route('stock.index');
     }
 
     public function edit($id)
