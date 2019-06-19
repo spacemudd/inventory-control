@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Scopes\LimitByRegionScope;
 
 class MaterialRequest extends Model
 {
@@ -31,6 +32,7 @@ class MaterialRequest extends Model
         'created_by_id',
         'number',
         'status',
+        'region_id',
         'purpose'
     ];
 
@@ -47,6 +49,13 @@ class MaterialRequest extends Model
     protected $appends = [
         'can_edit', 'status_name'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new LimitByRegionScope);
+    }
 
     /**
      *

@@ -7,10 +7,12 @@ use App\Classes\MaterialRequestExcelAll;
 use App\Models\Department;
 use App\Models\Location;
 use App\Models\MaterialRequest;
+use App\Models\Region;
 use App\Services\MaterialRequestService;
 use Illuminate\Http\Request;
 use App\Models\MaterialRequestItem;
 use Excel;
+use Illuminate\Support\Facades\DB;
 use PDF;
 
 class MaterialRequestsController extends Controller
@@ -42,7 +44,9 @@ class MaterialRequestsController extends Controller
     {
         $locations = Location::get();
         $departments = Department::get();
-        return view('material-requests.create', compact('locations', 'departments'));
+        $regions = Region::get();
+
+        return view('material-requests.create', compact('locations', 'departments', 'regions'));
     }
 
     /**
@@ -60,14 +64,10 @@ class MaterialRequestsController extends Controller
             'location_id' => 'required|numeric|exists:locations,id',
             'cost_center_id' => 'required_without_all:department_code_number|numeric|exists:departments,id',
             'department_code_number' => 'required_without_all:cost_center_id|numeric',
+            //'region_id' => 'required|numeric|exists:regions,id'
         ]);
 
-        if (!$request->number) {
-            if ($this->service->checkNumberExists($request['date'], (int) $request['location_id'])) {
-                return 'Material request already exists!';
-            }
-        }
-
+        DB::beginTransaction();
         if(isset($request->department_code_number)):
             $locationName = Location::find($request->location_id);
             $id = Department::insertGetId([
@@ -77,8 +77,8 @@ class MaterialRequestsController extends Controller
             ]);
             $request['cost_center_id'] = $id;
         endif;
-
         $materialRequest = $this->service->save($request->except('_token'));
+        DB::commit();
 
         return redirect()->route('material-requests.show', ['id' => $materialRequest->id]);
     }

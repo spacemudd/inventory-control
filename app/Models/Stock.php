@@ -12,6 +12,7 @@ class Stock extends Model
         'description',
         'material_request_item_id',
         'category_id',
+        'recommended_qty',
     ];
 
     protected $appends = [
@@ -33,5 +34,15 @@ class Stock extends Model
         $stockMovements = $this->movement()->get();
 
         return $stockMovements->sum('in') - $stockMovements->sum('out');
+    }
+
+    public function job_order_items()
+    {
+        return $this->hasMany(JobOrderItem::class);
+    }
+
+    public function quotation_items()
+    {
+        return $this->hasMany(QuotationItem::class);
     }
 }

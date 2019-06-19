@@ -14,15 +14,23 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use App\Models\PurchaseOrder;
 use Illuminate\Http\Request;
+use App\Models\MaterialRequest;
+use App\Models\Quotation;
+use App\Models\StockMovement;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $stockCount = 0;
-        $rfqsCount = 0;
-        $purchaseOrdersCount = 0;
-        $deliveriesCount = 0;
+        $rfqsCount = MaterialRequest::count();
+
+        $purchaseOrdersCount = PurchaseOrder::count();
+
+        $deliveriesCount = Quotation::count();
+
+        $inCount = StockMovement::select('in')->sum('in');
+        $outCount = StockMovement::select('out')->sum('out');
+        $stockCount = $inCount - $outCount;
 
         $lowStockCount = 0;
         $outOfStockCount = 0;

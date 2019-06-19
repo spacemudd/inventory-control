@@ -18,4 +18,14 @@ class QuotationItem extends Model
         'total_price_ex_vat',
         'total_price_inc_vat',
     ];
+
+    public function getDisplayNameAttribute()
+    {
+        return $this->quotation->vendor_quotation_number;
+    }
+
+    public function quotation()
+    {
+        return $this->belongsTo(Quotation::class);
+    }
 }

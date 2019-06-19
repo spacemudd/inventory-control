@@ -29,10 +29,16 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::resource('locations', 'LocationsController');
         Route::post('addNewLocations', 'newLocationsController@addLocation');
 
+        // Regions
+        Route::resource('regions', 'RegionController');
+        Route::get('getRegions', 'RegionsController@getRegions');
+
         // Job Orders
         Route::resource('job-orders', 'JobOrderController');
         Route::get('job-orders/{job_order_number}/pdf', 'JobOrderController@streamPdf')->name('job-orders.pdf');
         Route::post('job-orders/{job_order_number}/approve', 'JobOrderController@approve')->name('job-orders.approve');
+        Route::post('job-orders/{job_order_number}/{jobOrderItem}/dispatch', 'JobOrderController@dispatchItem')
+                ->name('job-orders.dispatch-item');
 
         // Material requests
         Route::get('material-requests/excel/{type}', 'MaterialRequestsController@allExcel')->name('material-requests.all-excel');
@@ -66,6 +72,9 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         // Stock items.
         Route::resource('stock', 'StockController');
         Route::get('stock/by-category/{category_id}', 'StockController@byCategory')->name('stock.category');
+
+        // Stock Excel
+        Route::get('makeStockExcel', 'Api\StockController@exportExcel');
 
         // Categories
         Route::resource('categories', 'CategoryController');

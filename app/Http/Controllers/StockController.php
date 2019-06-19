@@ -38,8 +38,9 @@ class StockController extends Controller
     {
         $request->validate([
             'description' => 'required|unique:stock,description',
-            'available_quantity' => 'required|min:0',
+            'available_quantity' => 'required|numeric|min:0',
             'category_id' => 'nullable|exists:categories,id',
+            'recommended_qty' => 'nullable|numeric|min:0',
         ]);
 
         DB::beginTransaction();
@@ -54,7 +55,7 @@ class StockController extends Controller
 
         session()->flash('success', 'Added '.$stock->description.' (Quantity: '.$request->available_quantity.')');
 
-        return redirect()->route('stock.create');
+        return redirect()->route('stock.index');
     }
 
     public function edit($id)
@@ -90,5 +91,11 @@ class StockController extends Controller
         $stocks = Stock::where('category_id', $category_id)->get();
         $selectedCategory = Category::find($category_id);
         return view('stock.index', compact('stocks', 'selectedCategory'));
+    }
+
+    public function show($id)
+    {
+        $stock = Stock::find($id);
+        return view('stock.show', compact('stock'));
     }
 }

@@ -87,4 +87,29 @@ class StockService
 
         return $stock;
     }
+
+    /**
+     *
+     * @param int $id
+     * @param int $qty
+     * @param null $ref
+     * @return \App\Models\Stock
+     */
+    public function moveOutById(int $id, int $qty, $ref=null): Stock
+    {
+        $stock = DB::transaction(function () use ($id, $qty, $ref) {
+            $stock = Stock::find($id);
+
+            $stock->movement()->create([
+                'stockable_id' => optional($ref)->id,
+                'stockable_type' => $ref ? get_class($ref) : null,
+                'in' => 0,
+                'out' => $qty,
+            ]);
+
+            return $stock;
+        });
+
+        return $stock;
+    }
 }

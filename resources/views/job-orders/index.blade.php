@@ -38,8 +38,9 @@
             <th>Location</th>
             <th>Ext</th>
             <th>CC</th>
-            <th>Requested Though</th>
+            <th>Requested via</th>
             <th>Status</th>
+            <th>Items</th>
             <th></th>
         </tr>
         </thead>
@@ -55,8 +56,13 @@
                             <td>{{ $jobOrder->location->name }}</td>
                             <td>{{ $jobOrder->ext }}</td>
                             <td>{{ optional($jobOrder->department)->code }}</td>
-                            <td>{{ $jobOrder->requested_through_type }}</td>
+                            <td>{{ ucfirst($jobOrder->requested_through_type) }}</td>
                             <td>{{ $jobOrder->status }}</td>
+                            <td>
+                                <span class="tag{{ $jobOrder->dispatched_count===$jobOrder->items()->count() ? ' is-success' : '' }}">
+                                    DISPATCHED (<b>{{$jobOrder->dispatched_count}}</b>/{{ $jobOrder->items()->count() }})
+                                </span>
+                            </td>
                             <td class="has-text-centered">
                                 <div class="buttons">
                                     <a href="{{ route('job-orders.show', $jobOrder) }}"

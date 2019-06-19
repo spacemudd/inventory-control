@@ -20,10 +20,6 @@ class MaterialRequestService
         $request['status'] = MaterialRequest::PENDING; // Default status.
         $request['created_by_id'] = auth()->user()->id;
 
-        if ($mRequestExists = MaterialRequest::where('number', $request['number'])->first()) {
-            throw new \Exception('Material request number: "'.$mRequestExists->number.'" already exists!');
-        }
-
         $mRequest =  MaterialRequest::create($request);
 
         return $mRequest;

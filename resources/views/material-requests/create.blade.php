@@ -39,6 +39,7 @@
                            class="input {{ $errors->has('number') ? ' is-danger' : '' }}"
                            placeholder="If left blank, reference will be automatically generated"
                            name="number"
+                           autocomplete="off"
                            value="{{ old('number') }}">
                     <p class="control">
                         @if ($errors->has('number'))
@@ -121,6 +122,23 @@
                         @endif
                     </p>
                 </div>
+
+                {{--
+                <div class="field">
+                    <label for="region" class="label">Region <span class="has-text-danger">*</span></label>
+
+
+                    <div class="control">
+                        <div class="select is-fullwidth{{ $errors->has('location') ? ' is-danger' : '' }}">
+                            <select name="region_id" id="region" required>
+                                @foreach ($regions as $region)
+                                    <option value="{{ $region->id }}">{{ $region->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                --}}
 
                 <div class="field">
                     <button class="button is-primary">Save</button>

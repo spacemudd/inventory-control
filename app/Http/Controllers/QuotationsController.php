@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\MaterialRequest;
 use App\Models\MaterialRequestItem;
 use App\Models\Quotation;
+use App\Models\Region;
 use App\Models\Vendor;
 use App\Services\QuotationsService;
 use Illuminate\Http\Request;
@@ -38,7 +39,8 @@ class QuotationsController extends Controller
     {
         $vendors = Vendor::get();
         $mRequests = MaterialRequest::get();
-        return view('quotations.create', compact('vendors', 'mRequests'));
+        $regions = Region::get();
+        return view('quotations.create', compact('vendors', 'mRequests', 'regions'));
     }
 
     /**
@@ -53,6 +55,7 @@ class QuotationsController extends Controller
             'material_request_id' => 'required|numeric|exists:material_requests,id',
             'vendor_id' => 'required|numeric|exists:vendors,id',
             'vendor_quotation_number' => 'required|string|max:255',
+            //'region_id' => 'required|numeric|exists:regions,id'
         ]);
 
         // TODO: Confirm unique on vendor_id->vendor_quotation_number

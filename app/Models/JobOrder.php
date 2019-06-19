@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
-use App\JobOrderItem;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Scopes\LimitByRegionScope;
+
 
 class JobOrder extends Model
 {
@@ -28,13 +30,14 @@ class JobOrder extends Model
         'location_id',
         'time_start',
         // 'materials_used',
-        'time_end'
+        'time_end',
+        'region_id',
     ];
 
     protected $dates = [
         'date',
         'time_start',
-        'time_end'
+        'time_end',
     ];
 
     protected $with = [
@@ -43,16 +46,36 @@ class JobOrder extends Model
         'department'
     ];
 
+    protected $appends = [
+        'dispatched_count',
+        'un_dispatched_count',
+    ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new LimitByRegionScope);
+
+        static::creating(function($jobOrder) {
+            $jobOrder->region_id = auth()->user()->region_id;
+        });
+    }
+
     /** Mutators */
     public function setTimeStartAttribute($value)
     {
-        return $this->attributes['time_start'] = date('Y-m-d H:i:s', strtotime($this->date. ' '. $value));
+        if ($value) {
+            $this->attributes['time_start'] = Carbon::parse($value);
+            //return $this->attributes['time_start'] = date('Y-m-d H:i:s', strtotime($this->date. ' '. $value));
+        }
     }
 
     public function setTimeEndAttribute($value)
     {
         if ($value) {
-            return $this->attributes['time_end'] = date('Y-m-d H:i:s', strtotime($this->date. ' '. $value));
+            $this->attributes['time_end'] = Carbon::parse($value);
+            //return $this->attributes['time_end'] = date('Y-m-d H:i:s', strtotime($this->date. ' '. $value));
         }
     }
 
@@ -61,6 +84,18 @@ class JobOrder extends Model
     public function getStatusAttribute()
     {
         return ucfirst($this->attributes['status']);
+    }
+
+    /** Accessors */
+    public function getDispatchedCountAttribute()
+    {
+        return $this->items()->whereNotNull('dispatched_at')->count();
+    }
+
+    /** Accessors */
+    public function getUnDispatchedCountAttribute()
+    {
+        return $this->items()->whereNull('dispatched_at')->count();
     }
 
 
@@ -104,6 +139,34 @@ class JobOrder extends Model
      */
     public function isApproved()
     {
-        return $this->attributes['status'] == self::APPROVED;
+        return in_array($this->attributes['status'], [
+            self::APPROVED,
+            self::COMPLETED,
+            self::PENDING
+        ]);
+    }
+
+    /**
+     *
+     * @return bool
+     */
+    public function isPending()
+    {
+        return in_array($this->attributes['status'], [
+            self::PENDING,
+            self::DRAFT,
+        ]);
+    }
+
+    public function isCompleted()
+    {
+        return in_array($this->attributes['status'], [
+            self::COMPLETED,
+        ]);
+    }
+
+    public function getDisplayNameAttribute()
+    {
+        return $this->job_order_number;
     }
 }

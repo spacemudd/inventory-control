@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Model;
+use App\Scopes\LimitByRegionScope;
 
 class Quotation extends Model
 {
@@ -27,7 +28,19 @@ class Quotation extends Model
         'vendor_quotation_number',
         'status',
         'cost_center_id',
+        'region_id'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new LimitByRegionScope);
+
+        static::creating(function($jobOrder) {
+            $jobOrder->region_id = auth()->user()->region_id;
+        });
+    }
 
     public function material_request()
     {

@@ -48,6 +48,7 @@
 							   name="description"
 							   value="{{ old('description') }}"
 							   autofocus
+							   autocomplete="off"
 							   required>
 
 						@if ($errors->has('description'))
@@ -81,11 +82,32 @@
 
 			<div class="column is-4 is-offset-4">
 				<div class="field">
+					<label for="recommended_qty" class="label">Recommended quantity</label>
+					<p class="control">
+						<input id="recommended_qty"
+							   type="number"
+							   class="input {{ $errors->has('recommended_qty') ? ' is-danger' : '' }}"
+							   name="recommended_qty"
+							   value="{{ old('recommended_qty') }}"
+							   required>
+
+						@if ($errors->has('recommended_qty'))
+							<span class="help is-danger">
+                                {{ $errors->first('recommended_qty') }}
+                            </span>
+						@endif
+					</p>
+				</div>
+			</div>
+
+			<div class="column is-4 is-offset-4">
+				<div class="field">
 					<label for="select-category" class="label">Category</label>
 
 					<p class="control">
 						<div class="select is-fullwidth">
 							<select id="select-category" name="category_id">
+								<option value=""></option>
 								@foreach(\App\Models\Category::get() as $category)
 									<option value="{{ $category->id }}">
 										{{ $category->name }}

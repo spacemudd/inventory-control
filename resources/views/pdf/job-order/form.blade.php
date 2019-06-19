@@ -62,7 +62,7 @@
                 </tr>
                 <tr>
                     <td><b>Location:</b></td>
-                    <td>{{ optional($jobOrder->department)->description }}</td>
+                    <td>{{ optional($jobOrder->location)->name }}</td>
                 </tr>
                 <tr>
                     <td><b>CC:</b></td>
@@ -127,9 +127,15 @@
     <div class="row">
         <div class="col-12-sm">
             <p><b>Materials used:</b></p>
-            <p style="background-color:#f5f5f5;padding:1rem;">
-                {{ $jobOrder->materials_used }}
-            </p>
+            <div style="background-color:#f5f5f5;">
+                <div style="padding:1rem;">
+                    <ul style="padding-left:1.5rem;margin:0;list-style-type: none;">
+                        @foreach ($jobOrder->items as $item)
+                            <li>- {{ $item->stock->description }} ({{ $item->qty }} pcs)</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <div class="col-12-sm">
@@ -138,7 +144,7 @@
                 @if ($jobOrder->time_end)
                     {{ optional($jobOrder->time_end)->format('H:i') }}
                 @else
-                    <i>Pending</i>
+                    <i>____________</i>
                 @endif
             </p>
         </div>
@@ -146,8 +152,8 @@
         <div class="col-12-sm">
             <span><b>Status:</b></span>
             <ul style="list-style: none;display: inline;">
-                <li style="display: inline;">{!! strtolower($jobOrder->status) === 'pending' ? '<b>&#9746</b>' : '&#x2610' !!} Pending</li>
-                <li style="display: inline;margin-left:2rem;">{!! strtolower($jobOrder->status) === 'completed' ? '<b>&#9746</b>' : '&#x2610' !!} Completed</li>
+                <li style="display: inline;">{!! $jobOrder->isPending() ? '<b>&#9746</b>' : '&#x2610' !!} Pending</li>
+                <li style="display: inline;margin-left:2rem;">{!! $jobOrder->isCompleted() ? '<b>&#9746</b>' : '&#x2610' !!} Completed</li>
             </ul>
         </div>
 
