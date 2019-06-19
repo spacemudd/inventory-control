@@ -85,17 +85,23 @@
 			<table class="table is-size-7 is-narrow is-fullwidth is-bordered is-">
 			<thead>
 			<colgroup>
-				<col style="width:3rem;">
+				<col style="width:1px;">
 				<col style="width:5rem">
 				<col>
-				<col style="width:20%;">
+				<col style="width:6rem;">
+				<col style="width:6rem;">
 				<col style="width:5rem;">
 			</colgroup>
 			<tr>
 				<th>ID</th>
 				<th>Category</th>
 				<th>Description</th>
-				<th class="has-text-right">Available quantity</th>
+				<th class="has-text-right">Avail. quantity</th>
+				<th class="has-text-right">
+					<b-tooltip label="Recommended quantity">
+						R. quantity
+					</b-tooltip>
+				</th>
 				<th class="has-text-right">Actions</th>
 			</tr>
 			</thead>
@@ -110,6 +116,7 @@
 							</td>
 							<td>{{ $stock->description }}</td>
 							<td class="has-text-right">{{ $stock->on_hand_quantity }}</td>
+							<td class="has-text-right">{{ $stock->recommended_qty }}</td>
 							<td class="has-text-right">
 								<a href="{{ route('stock.edit', ['id' => $stock->id]) }}" class="button is-small is-warning">
 									Edit

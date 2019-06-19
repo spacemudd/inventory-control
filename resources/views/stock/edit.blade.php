@@ -82,6 +82,26 @@
 
 			<div class="column is-4 is-offset-4">
 				<div class="field">
+					<label for="recommended_qty" class="label">Recommended quantity</label>
+					<p class="control">
+						<input id="recommended_qty"
+							   type="number"
+							   class="input {{ $errors->has('recommended_qty') ? ' is-danger' : '' }}"
+							   name="recommended_qty"
+							   value="{{ $stock->recommended_qty }}"
+							   required>
+
+						@if ($errors->has('recommended_qty'))
+							<span class="help is-danger">
+                                {{ $errors->first('recommended_qty') }}
+                            </span>
+						@endif
+					</p>
+				</div>
+			</div>
+
+			<div class="column is-4 is-offset-4">
+				<div class="field">
 					<label for="select-category" class="label">Category</label>
 
 					<p class="control">

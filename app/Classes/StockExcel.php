@@ -18,6 +18,7 @@ class StockExcel
         'category',
         'description',
         'qty',
+        'recommended_qty',
     ];
 
     /**
@@ -52,6 +53,7 @@ class StockExcel
             optional($item->category)->name,
             $item->description,
             $item->on_hand_quantity,
+            $item->recommended_qty,
         ];
     }
 }
