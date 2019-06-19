@@ -23,12 +23,12 @@
             DATE: {{ date("m.d.y") }}
         </div>
         <div class="ref">
-            REF #: {{ date("m.d.y") }} -H.O. Building
+            REF #: {{ $mRequest->reference_number }}
         </div>
     </div>
     <div class="infoDiv">
         <div class="smallDiv transformText">
-            From :Premises & Admin Dept.
+            From: Premises & Admin Dept.
         </div>
         <div class="smallDiv" style="margin-left: 40px;">
             Maintenance section
@@ -40,7 +40,7 @@
             Dear Sir.
         </div>
         <div class="smallDiv">
-            Please provide thi following materials for maintenance purposes
+            Please provide the following materials for maintenance purposes
         </div>
     </div>
 </section>
