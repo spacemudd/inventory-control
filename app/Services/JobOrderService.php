@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
-use App\Models\Stock;
+use Exception;
+use Illuminate\Support\Facades\DB;
 use PDF;
 use Carbon\Carbon;
 use App\Models\JobOrder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use App\Models\Employee;
 
 class JobOrderService
@@ -121,7 +121,7 @@ class JobOrderService
                 'qty'           => $material['quantity'],
             ]);
 
-            $this->stockService->moveOutById($material['stock_id'], $material['quantity'], $jobOrder);
+            //$this->stockService->moveOutById($material['stock_id'], $material['quantity'], $jobOrder);
         }
 
         return true;
@@ -157,9 +157,19 @@ class JobOrderService
      */
     public function dispatchItem(JobOrder $jobOrder, $item_id)
     {
+        DB::beginTransaction();
         $item = $jobOrder->items()->findOrFail($item_id);
 
-        return $item->update(['dispatched_at' => date('Y-m-d H:i:s')]);
+        // TODO: Let this be more elegant of a check that shows for the user in the UI.
+        if ($item->qty > $item->stock->on_hand_quantity) {
+            throw new Exception('Qty requested: '.$item->qty.' while there is only '.$item->stock->on_hand_quantity);
+        }
+
+        $item->update(['dispatched_at' => date('Y-m-d H:i:s')]);
+        $this->stockService->moveOutById($item->stock_id, $item->qty, $jobOrder);
+        DB::commit();
+
+        return $item;
     }
 
     /**

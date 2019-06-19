@@ -198,28 +198,36 @@
             </div>
         </div>
         <table class="table is-fullwidth is-bordered is-size-7">
+            <colgroup>
+                <col style="width:1px;">
+                <col>
+                <col style="width:1px;">
+                <col style="width:1px;">
+            </colgroup>
             <thead>
             <tr>
-                <th width="50px" class="has-text-centered">#</th>
-                <th width="50px" class="has-text-right">Stock</th>
-                <th width="50px" class="has-text-right">Quantity</th>
-                <th width="50px" class="has-text-right">Technician</th>
-                <th width="50px">Actions</th>
+                <th class="has-text-centered">#</th>
+                <th>Stock</th>
+                <th class="has-text-right">Quantity</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
                 @forelse($jobOrder->items as $i => $item)
                     <tr>
                         <td>{{ $i+1 }}</td>
-                        <td>{{ $item->stock->description }}</td>
+                        <td>
+                            <b-tooltip label="Currently in stock: {{ $item->stock->on_hand_quantity }}">
+                                {{ $item->stock->description }}
+                            </b-tooltip>
+                        </td>
                         <td>{{ $item->qty }}</td>
-                        <td>{{ optional($item->technician)->display_name }}</td>
                         <td>
                             @if(! $item->isDispatched())
                                 <form action="{{ route('job-orders.dispatch-item', compact('jobOrder', 'item')) }}"
                                       method="POST">
                                     @csrf
-                                    <button type="submit" class="button is-small is-warning">
+                                    <button type="submit" class="button is-small is-warning"{{ $item->qty > $item->stock->on_hand_quantity ? ' disabled' : '' }}>
                                         <span>@lang('words.dispatch')</span>
                                     </button>
                                 </form>

@@ -59,8 +59,9 @@
                             <td>{{ $jobOrder->requested_through_type }}</td>
                             <td>{{ $jobOrder->status }}</td>
                             <td>
-                                <p>{{ $jobOrder->dispatched_count }}-@lang('words.dispatched')</p>
-                                <p>{{ $jobOrder->un_dispatched_count }}-@lang('words.un-dispatched')</p>
+                                <span class="tag{{ $jobOrder->dispatched_count===$jobOrder->items()->count() ? ' is-success' : '' }}">
+                                    DISPATCHED (<b>{{$jobOrder->dispatched_count}}</b>/{{ $jobOrder->items()->count() }})
+                                </span>
                             </td>
                             <td class="has-text-centered">
                                 <div class="buttons">
