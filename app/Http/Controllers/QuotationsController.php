@@ -55,7 +55,7 @@ class QuotationsController extends Controller
             'material_request_id' => 'required|numeric|exists:material_requests,id',
             'vendor_id' => 'required|numeric|exists:vendors,id',
             'vendor_quotation_number' => 'required|string|max:255',
-            'region_id' => 'required|numeric|exists:regions,id'
+            //'region_id' => 'required|numeric|exists:regions,id'
         ]);
 
         // TODO: Confirm unique on vendor_id->vendor_quotation_number

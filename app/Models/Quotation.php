@@ -31,6 +31,17 @@ class Quotation extends Model
         'region_id'
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new LimitByRegionScope);
+
+        static::creating(function($jobOrder) {
+            $jobOrder->region_id = auth()->user()->region_id;
+        });
+    }
+
     public function material_request()
     {
         return $this->belongsTo(MaterialRequest::class);
@@ -75,12 +86,5 @@ class Quotation extends Model
         $totalPrice = $this->items()->sum('total_price_inc_vat');
 
         return Money::ofMinor($totalPrice, 'SAR')->getAmount();
-    }
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::addGlobalScope(new LimitByRegionScope);
     }
 }
