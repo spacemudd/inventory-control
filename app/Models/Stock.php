@@ -35,4 +35,14 @@ class Stock extends Model
 
         return $stockMovements->sum('in') - $stockMovements->sum('out');
     }
+
+    public function job_order_items()
+    {
+        return $this->hasMany(JobOrderItem::class);
+    }
+
+    public function quotation_items()
+    {
+        return $this->hasMany(QuotationItem::class);
+    }
 }

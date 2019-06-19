@@ -15,4 +15,9 @@ class StockMovement extends Model
         'in',
         'out',
     ];
+
+    public function stockable()
+    {
+        return $this->morphTo();
+    }
 }

@@ -164,4 +164,9 @@ class JobOrder extends Model
             self::COMPLETED,
         ]);
     }
+
+    public function getDisplayNameAttribute()
+    {
+        return $this->job_order_number;
+    }
 }

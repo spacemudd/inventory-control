@@ -114,7 +114,7 @@
 									{{ optional($stock->category)->name }}
 								</a>
 							</td>
-							<td>{{ $stock->description }}</td>
+							<td><a href="{{ route('stock.show', ['id' => $stock->id]) }}">{{ $stock->description }}</a></td>
 							<td class="has-text-right">{{ $stock->on_hand_quantity }}</td>
 							<td class="has-text-right">{{ $stock->recommended_qty }}</td>
 							<td class="has-text-right">
