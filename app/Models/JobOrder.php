@@ -145,4 +145,23 @@ class JobOrder extends Model
             self::PENDING
         ]);
     }
+
+    /**
+     *
+     * @return bool
+     */
+    public function isPending()
+    {
+        return in_array($this->attributes['status'], [
+            self::PENDING,
+            self::DRAFT,
+        ]);
+    }
+
+    public function isCompleted()
+    {
+        return in_array($this->attributes['status'], [
+            self::COMPLETED,
+        ]);
+    }
 }
