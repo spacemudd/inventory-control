@@ -1,4 +1,4 @@
-e<template>
+<template>
     <section>
         <form class="form" method="post" style="margin-top:2rem" @submit.prevent="submitOrder">
             <div class="columns">
@@ -159,7 +159,7 @@ e<template>
                         <table class="table is-narrow is-size-7 is-fullwidth">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
+                                    <th>Name <span class="has-text-danger">*</span></th>
                                     <th>Available</th>
                                     <th>Quantity</th>
                                     <th></th>
@@ -225,7 +225,7 @@ e<template>
                         <table class="table is-narrow is-size-7 is-fullwidth">
                             <thead>
                             <tr>
-                                <th>Employee</th>
+                                <th>Employee <span class="has-text-danger">*</span></th>
                                 <th>Time start</th>
                                 <th>Time end</th>
                                 <th></th>
