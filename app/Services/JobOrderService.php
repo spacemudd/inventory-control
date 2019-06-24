@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Location;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use PDF;
@@ -51,18 +52,32 @@ class JobOrderService
             'job_description',
             'status',
             'remark',
-            'location_id',
+            'location_id', // when the location is actually chosen and not a string.
+            'location', // when the location is a new one and is inputted as string.
             'time_start',
             'time_end',
             'quotation_id',
             'region_id'
         ));
 
+        // In the case of a new location.
+        if ($request->location) {
+            $location = $this->storeNewLocation($request->location);
+            $jobData['location_id'] = $location->id;
+        }
+
         $jobData['status'] = 'draft';
 
         $jobOrder = JobOrder::create($jobData);
 
         return $jobOrder;
+    }
+
+    public function storeNewLocation(string $name): Location
+    {
+        return Location::create([
+            'name' => $name,
+        ]);
     }
 
     
