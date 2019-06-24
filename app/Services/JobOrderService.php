@@ -180,7 +180,7 @@ class JobOrderService
             throw new Exception('Qty requested: '.$item->qty.' while there is only '.$item->stock->on_hand_quantity);
         }
 
-        $item->update(['dispatched_at' => date('Y-m-d H:i:s')]);
+        $item->update(['dispatched_at' => now()]);
         $this->stockService->moveOutById($item->stock_id, $item->qty, $jobOrder);
         DB::commit();
 
