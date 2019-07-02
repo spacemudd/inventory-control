@@ -153,7 +153,8 @@ class JobOrderService
      *
      * @param JobOrder $jobOrder
      * @param $item_id
-     * @return bool
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
+     * @throws \Exception
      */
     public function dispatchItem(JobOrder $jobOrder, $item_id)
     {
@@ -185,5 +186,54 @@ class JobOrderService
         $pdf = PDF::loadView('pdf.job-order.form', compact('jobOrder'));
 
         return $pdf->inline($format);
+    }
+
+    public function update(array $data)
+    {
+        $jo = DB::transaction(function() use ($data) {
+            $jo = JobOrder::where('id', $data['jobOrder']['id'])
+                ->firstOrFail();
+
+            // Updating JO header.
+            $jo->update([
+                'date' => date('Y-m-d', strtotime($data['date'])),
+                'employee_id' => $data['employee_id'],
+                'cost_center_id' => $data['cost_center_id'],
+                'ext' => $data['ext'],
+                'requested_through_type' => $data['requested_through_type'],
+                'job_description' => $data['job_description'],
+                'remark' => $data['remark'],
+                'location_id' => $data['location_id'],
+                'time_start' => Carbon::parse($data['time_start']),
+                'time_end' => $data['time_end'] ? Carbon::parse($data['time_end']) : '',
+            ]);
+
+            // Updating materials.
+            // TODO: Updating materials.
+            // Updating technicians.
+            // TODO: Updating technicians.
+
+            return $jo;
+        });
+
+        return $jo;
+    }
+
+    /**
+     * Completes job order.
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function complete($id)
+    {
+        $jo = DB::transaction(function() use ($id) {
+            $jo = JobOrder::where('id', $id)->firstOrFail();
+            $jo->status = JobOrder::COMPLETED;
+            $jo->save();
+            return $jo;
+        });
+
+        return $jo;
     }
 }

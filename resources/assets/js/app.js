@@ -265,6 +265,8 @@ Vue.component('manage-quotation-suppliers-page', require('./components/ManageQuo
 
 // Job orders
 Vue.component('job-order-form', require('./components/JobOrders/Form.vue').default);
+Vue.component('job-order-show-form', require('./components/JobOrders/Show.vue').default);
+Vue.component('job-orders-mark-completed-button', require('./components/JobOrders/JobOrdersMarkCompletedButton.vue').default);
 
 /**
  * API/App settings
