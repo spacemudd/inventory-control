@@ -56,7 +56,9 @@ class JobOrder extends Model
     {
         parent::boot();
 
-        static::addGlobalScope(new LimitByRegionScope);
+        if (!app()->runningInConsole()) {
+            static::addGlobalScope(new LimitByRegionScope);
+        }
 
         static::creating(function($jobOrder) {
             $jobOrder->region_id = auth()->user()->region_id;

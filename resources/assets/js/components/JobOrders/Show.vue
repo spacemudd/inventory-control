@@ -1,14 +1,23 @@
 <template>
     <section v-if="jobOrder">
         <div class="is-flex" style="justify-content:space-between">
-            <p class="is-uppercase"><b>Job Order details</b></p>
+            <p class="is-uppercase">
+                <b>Job Order details</b>
+                <span class="tag is-small is-success is-uppercase" v-if="jobOrder.is_completed">{{ jobOrder.status }}</span>
+                <span class="tag is-small is-uppercase is-uppercase" v-else>{{ jobOrder.status }}</span>
+            </p>
             <div class="buttons">
-                <button class="button is-small">
+                <button class="button is-small"
+                        @click.prevent="$store.commit('JobOrders/togglePreviewPdf')">
                     <span class="icon"><i class="fa fa-print"></i></span>
                     <span>Print</span>
                 </button>
             </div>
         </div>
+        <preview-pdf-container style="margin-top:1rem;"
+                               :url="baseUrl()+'/job-orders/'+jobOrder.job_order_number+'/pdf'"
+                               show-type="JobOrders/previewPdf">
+        </preview-pdf-container>
         <form class="form" method="post" style="margin-top:2rem" @submit.prevent="updateOrder">
             <div class="columns">
                 <div class="column">
@@ -365,11 +374,11 @@
       }
     },
     watch: {
-      time_end() {
-        let jo = this.jobOrder;
-        jo.time_end = this.time_end;
-        this.$store.commit('JobOrder/jobOrder', jo);
-      },
+      // time_end() {
+      //   let jo = this.jobOrder;
+      //   jo.time_end = this.time_end;
+      //   this.$store.commit('JobOrder/jobOrder', jo);
+      // },
       technicianFormSearchCode: {
         handler: function (valId) {
           this.employeeSearchCode = ''
@@ -457,7 +466,7 @@
               }
 
               if (tech.pivot.time_end) {
-                tech.pivot.time_end = moment(tech.pivot.time_end,'HH:mm:ss').format('hh:mm A');
+                tech.pivot.time_end = moment(tech.pivot.time_end,'YYYY-MM-DD HH:mm:ss').format('hh:mm A');
               }
             });
             this.technicians = jo.technicians;

@@ -197,8 +197,8 @@ class JobOrderService
             // Updating JO header.
             $jo->update([
                 'date' => date('Y-m-d', strtotime($data['date'])),
-                'employee_id' => $data['employee_id'],
-                'cost_center_id' => $data['cost_center_id'],
+                'employee_id' => array_key_exists('employee_id', $data) ? $data['employee_id'] : null,
+                'cost_center_id' => array_key_exists('cost_center_id', $data) ? $data['cost_center_id'] : null,
                 'ext' => $data['ext'],
                 'requested_through_type' => $data['requested_through_type'],
                 'job_description' => $data['job_description'],
@@ -231,6 +231,15 @@ class JobOrderService
             $jo = JobOrder::where('id', $id)->firstOrFail();
             $jo->status = JobOrder::COMPLETED;
             $jo->save();
+
+            // Close the time_end for all pending techs.
+            $jo->technicians->each(function($tech) {
+               if (!$tech->time_end) {
+                   $tech->pivot->time_end = now();
+                   $tech->pivot->save();
+               }
+            });
+
             return $jo;
         });
 

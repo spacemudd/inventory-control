@@ -3,9 +3,15 @@
         <button @click.prevent="markCompleted()"
                 type="button"
                 class="button"
+                :disabled="!jobOrder.time_end"
                 :class="{'is-loading': $isLoading('COMPLETING_JOB_ORDER')}"
         >
-            Mark completed
+            <b-tooltip v-if="!jobOrder.time_end" label="Please fill job duration (time end)">
+                Mark completed
+            </b-tooltip>
+            <span v-else>
+                Mark completed
+            </span>
         </button>
     </div>
 </template>

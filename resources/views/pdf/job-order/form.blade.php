@@ -152,8 +152,10 @@
         <div class="col-12-sm">
             <span><b>Status:</b></span>
             <ul style="list-style: none;display: inline;">
-                <li style="display: inline;">{!! $jobOrder->isPending() ? '<b>&#9746</b>' : '&#x2610' !!} Pending</li>
-                <li style="display: inline;margin-left:2rem;">{!! $jobOrder->isCompleted() ? '<b>&#9746</b>' : '&#x2610' !!} Completed</li>
+{{--                <li style="display: inline;">{!! $jobOrder->isPending() ? '<b>&#9746</b>' : '&#x2610' !!} Pending</li>--}}
+{{--                <li style="display: inline;margin-left:2rem;">{!! $jobOrder->isCompleted() ? '<b>&#9746</b>' : '&#x2610' !!} Completed</li>--}}
+                <li style="display: inline;">{!! '&#x2610' !!} Pending</li>
+                <li style="display: inline;margin-left:2rem;">{!! '&#x2610' !!} Completed</li>
             </ul>
         </div>
 
