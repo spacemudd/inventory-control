@@ -333,6 +333,11 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::get('material-requests/approved-items/{materialNumber}', 'Api\MaterialRequestsController@indexWithApprovedItems')->name('api.material-requests.index-approved-items');
     Route::get('material-requests/search/{itemName}', 'Api\MaterialRequestsController@returnSearchResult');
 
+    // Job orders
+    Route::get('job-orders/{id}', 'Api\JobOrdersController@show');
+    Route::put('job-orders/{id}', 'Api\JobOrdersController@update');
+    Route::post('job-orders/{id}/complete', 'Api\JobOrdersController@complete');
+
     // QSuppliers
     Route::get('q-suppliers', 'Api\QSuppliersController@index');
     Route::get('q-suppliers/{id}/quotations', 'Api\QSuppliersController@showWithQuotations');

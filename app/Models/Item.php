@@ -26,4 +26,9 @@ class Item extends Model implements AuditableContract
         'description',
         'default_unit_price',
     ];
+
+	public function stock()
+	{
+	    return $this->belongsTo(Stock::class);
+	}
 }

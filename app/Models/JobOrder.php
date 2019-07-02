@@ -49,13 +49,16 @@ class JobOrder extends Model
     protected $appends = [
         'dispatched_count',
         'un_dispatched_count',
+        'is_completed',
     ];
 
     protected static function boot()
     {
         parent::boot();
 
-        static::addGlobalScope(new LimitByRegionScope);
+        if (!app()->runningInConsole()) {
+            static::addGlobalScope(new LimitByRegionScope);
+        }
 
         static::creating(function($jobOrder) {
             $jobOrder->region_id = auth()->user()->region_id;
@@ -117,7 +120,8 @@ class JobOrder extends Model
 
     public function technicians()
     {
-        return $this->belongsToMany(Employee::class, 'job_order_technician', 'job_order_id', 'technician_id');
+        return $this->belongsToMany(Employee::class, 'job_order_technician', 'job_order_id', 'technician_id')
+            ->withPivot('time_start', 'time_end');
     }
 
     public function items()
@@ -163,6 +167,11 @@ class JobOrder extends Model
         return in_array($this->attributes['status'], [
             self::COMPLETED,
         ]);
+    }
+
+    public function getIsCompletedAttribute()
+    {
+        return $this->isCompleted();
     }
 
     public function getDisplayNameAttribute()
