@@ -69,6 +69,7 @@
 							   class="input {{ $errors->has('rack_number') ? ' is-danger' : '' }}"
 							   name="rack_number"
 							   value="{{ $stock->rack_number }}"
+							   autocomplete="off" 
 							   required>
 
 						@if ($errors->has('rack_number'))
