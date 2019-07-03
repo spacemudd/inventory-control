@@ -95,7 +95,9 @@
                                 @endforeach
                             </select>
                         </div>
-                        <span class="help">Click here to <a target="_blank" @click="$store.commit('Location/showNewModal', true)">add new locations.</a></span>
+                        <span class="help">
+                            Click here to <a target="_blank" @click="$store.commit('Location/showNewModal', true)">add new locations.</a> To manage locations, <a target="_blank" @click="$store.commit('Location/toggleManageLocationsModal')">click here.</a>
+                        </span>
                         <select-location name="location_id"
                                          url="{{ route('locations.create') }}">
                         </select-location>

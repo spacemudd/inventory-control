@@ -49,7 +49,7 @@
                             <td>{{ $request->number }}</td>
                             <td>{{ $request->items()->count() }}</td>
                             <td>{{ $request->cost_center->display_name }}</td>
-                            <td>{{ $request->location->name }}</td>
+                            <td>{{ optional($request->location)->name }}</td>
                             <td class="has-text-centered">{{ $request->status_name }}</td>
                             <td class="has-text-right">
                                 <a href="{{ route('material-requests.show', ['id' => $request->id]) }}"

@@ -8,15 +8,12 @@
             </div>
             <div class="modal-card">
                 <form @submit.prevent="save()">
-                    <section class="modal-card-body">
+                    <section class="modal-card-body" style="min-height:unset;">
                         <div class="column is-6">
                             <div class="field">
-                                <label class="label">{{ $t('words.location') }} <span class="has-text-danger">*</span></label>
+                                <label class="label">{{ $t('words.location') }} name <span class="has-text-danger">*</span></label>
                                 <p class="control">
                                     <input type="text" class="input" v-model="locationName">
-                                </p>
-                                <p>
-                                    Add new Location
                                 </p>
                             </div>
                         </div>
@@ -83,6 +80,7 @@
           this.optionValueId = response.data.id
           this.optionValue = response.data.name
           document.getElementById('location').innerHTML += ("<option value='"+this.optionValueId+"'>"+this.optionValue+"</option>")
+          document.getElementById('location').value = this.optionValueId;
         }).catch(error => {
           alert(error.response.data.message);
           this.isLoading = false;

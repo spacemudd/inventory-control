@@ -72,7 +72,7 @@
                             <td>{{ optional($jobOrder->employee)->name }}</td>
                             <td>{{ optional($jobOrder->employee)->code }}</td>
                             <td>{{ optional($jobOrder->department)->description }}</td>
-                            <td>{{ $jobOrder->location->name }}</td>
+                            <td>{{ optional($jobOrder->location)->name }}</td>
                             <td>{{ $jobOrder->ext }}</td>
                             <td>{{ optional($jobOrder->department)->code }}</td>
                             <td>{{ ucfirst($jobOrder->requested_through_type) }}</td>
