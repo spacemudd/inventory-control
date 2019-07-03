@@ -67,27 +67,40 @@
                                readonly>
                     </b-field>
 
-                    <div class="field">
+                    <div class="field"
+                         v-click-outside="loseLocationFocus"
+                         tabindex="1">
                         <label class="label">Location <span class="has-text-danger">*</span></label>
-                        <!-- If selected. -->
-                        <b-autocomplete v-if="!location"
-                                        v-model="locationSearchCode"
-                                        field="name"
-                                        size="is-small"
-                                        :data="filteredLocations"
-                                        @select="option => location = option"
-                                        :loading="$isLoading('FETCHING_LOCATIONS')"
-                                        required>
-                            <template slot="empty">No results found</template>
-                        </b-autocomplete>
-                        <!-- When selected -->
-                        <input v-else
-                               type="text"
+                        <input type="text"
                                class="input is-small"
-                               :value="location.name"
-                               @click="emptyLocation"
-                               required
-                               readonly>
+                               v-model="locationSearch"
+                               ref="locationField"
+                               id="location-field"
+                               @click="selectLocationField"
+                               @keydown="goDownLocation"
+                               required>
+                        <div class="dropdown-box-container box" v-if="showLocationsModal">
+                            <div class="is-flex" style="justify-content: space-between">
+                                <p><b>Locations</b></p>
+                                <p>Manage locations</p>
+                            </div>
+                            <ul class="dropdown-box-container-list" id="locations-list">
+                                <li class="user-data user-data-add-new" v-if="!newLocationEntry">
+                                    <button class="button has-text-success"
+                                            @click.prevent="addNewLocationEntry"
+                                            tabindex="1">
+                                        <i>+ Add '{{ locationSearch }}'</i>
+                                    </button>
+                                </li>
+                                <li class="user-data" v-for="loc in locationsResult">
+                                    <button @click.prevent="selectLocation(loc)"
+                                            tabindex="1"
+                                            class="button">
+                                        {{ loc.name }}
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
 
                     <div class="field">
@@ -301,9 +314,14 @@
   import BSelect from "buefy/src/components/select/Select";
   import moment from 'moment';
   import debounce from 'lodash/debounce';
+  import vClickOutside from 'v-click-outside'
+
 
   export default {
     components: {BSelect},
+    directives: {
+      clickOutside: vClickOutside.directive
+    },
     data() {
       return {
         date:  new Date(),
@@ -334,6 +352,8 @@
           time_end: null,
         },
 
+        showLocationsModal: false,
+
         materials: [
           {
             material_options: [],
@@ -355,9 +375,31 @@
           quantity: 1,
           technician: ''
         },
+
+        // Location search options.
+        locationsResult: [],
+        locationFuse: null,
+        locationSearch: '',
+        locationSearchOptions: {
+          shouldSort: true,
+          threshold: 0.6,
+          location: 0,
+          distance: 100,
+          maxPatternLength: 32,
+          minMatchCharLength: 1,
+          keys: [
+            "name",
+          ],
+        },
       }
     },
     watch: {
+      locationSearch() {
+        if (this.locationSearch.trim() === '')
+          this.locationsResult = this.locations;
+        else
+          this.locationsResult = this.locationFuse.search(this.locationSearch.trim());
+      },
       technicianFormSearchCode: {
         handler: function (valId) {
           this.employeeSearchCode = ''
@@ -380,6 +422,18 @@
       }
     },
     computed: {
+      newLocationEntry() {
+        let locSearch = this.locationSearch;
+        if (!locSearch) {
+          return true; // don't allow the user to add.
+        }
+
+        let hits = this.locations.filter((option) => {
+          return option.name === locSearch;
+        })
+        let dontAdd = hits.length;
+        return dontAdd;
+      },
       filteredLocations() {
         return this.locations.filter((option) => {
           return option.name
@@ -448,6 +502,8 @@
         this.$startLoading('FETCHING_LOCATIONS');
         axios.get(this.apiUrl() + '/locations').then(response => {
           this.locations = response.data;
+          this.locationsResult = response.data;
+          this.locationFuse = new window.Fuse(this.locations, this.locationSearchOptions);
           this.$endLoading('FETCHING_LOCATIONS');
         })
       },
@@ -467,7 +523,9 @@
         this.$startLoading('SAVING_JOB_ORDER');
 
         let data = this.$data;
-        data.location_id = this.location.id;
+        if (this.location.id) {
+          data.location_id = this.location.id;
+        }
 
         // Only material requests that are selected
         let selectedMaterialRequests = data.materials.filter((x) => x.stock_id)
@@ -550,6 +608,124 @@
       emptyMaterial() {
         this.materialSearchCode = '';
       },
+      selectLocation(loc) {
+        this.location = loc;
+        this.locationSearch = loc.name;
+        this.showLocationsModal = false;
+      },
+      selectLocationField() {
+        this.$refs.locationField.select();
+        this.showLocationsModal = true;
+      },
+      selectFirstLocationList() {
+        let list = document.getElementById('locations-list');
+        let first = list.firstChild;
+        first.firstChild.focus();
+      },
+      goUpLocation(e) {
+        let list = document.getElementById('locations-list');
+        let first = list.firstChild;
+        let maininput = document.getElementById('location-field');
+        if (document.activeElement == maininput) { first.firstChild.focus(); } // if the currently focused element is the main input --> focus the first <li>
+        else { document.activeElement.parentNode.nextSibling.firstChild.focus(); }
+      },
+      goDownLocation(e) {
+        if (this.showLocationsModal) {
+          let list = document.getElementById('locations-list');
+          let first = list.firstChild;
+          let maininput = document.getElementById('location-field');
+          if (e.keyCode === 38) { // up
+            e.preventDefault();
+            if (document.activeElement == (maininput || first)) {
+              //
+            } else {
+              document.activeElement.parentNode.previousSibling.firstChild.focus();
+            }
+          }
+
+          if (e.keyCode == 40) { // down
+            e.preventDefault();
+            if (document.activeElement == maininput) {
+              debugger;
+              first.firstChild.focus();
+            } else {
+              document.activeElement.parentNode.nextSibling.firstChild.focus();
+            }
+          }
+
+          if (e.keyCode == 27) { // esc
+            e.preventDefault();
+            this.showLocationsModal = false;
+          }
+        }
+      },
+      addNewLocationEntry() {
+        this.showLocationsModal = false;
+        this.location = this.locationSearch;
+      },
+      loseLocationFocus() {
+        this.showLocationsModal = false;
+
+        if (!this.location) {
+          this.locationSearch = '';
+        }
+      },
     }
   }
 </script>
+
+<style>
+    .dropdown-box-container {
+        position: absolute;
+        width: 400px;
+        margin-top: 10px;
+        z-index: 1;
+        border: 2px solid #28a0ff;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+        max-height: 200px;
+        padding: 10px;
+        font-size: 12px;
+    }
+
+    .dropdown-box-container:before {
+        content: "";
+        position: absolute;
+        left: 5px;
+        top: -6px;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 5px 5px 5px;
+        border-color: transparent transparent #28a0ff transparent;
+        z-index: 9999;
+    }
+
+    .dropdown-box-container-list {
+        margin-top: 5px;
+        border-top: 1px solid #dedede;
+    }
+
+    .user-data > button {
+        height: 21px;
+        font-size: 12px;
+        width: 100%;
+        justify-content: left;
+        background: transparent;
+        border: none;
+    }
+
+    .user-data > button:hover {
+        background: #28a0ff;
+        color: white;
+        border-radius: 0;
+    }
+
+    .user-data-add-new {
+        font-weight: bold;
+    }
+
+    .user-data-add-new > button:hover {
+        background: #ffffff;
+    }
+</style>
