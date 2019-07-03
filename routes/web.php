@@ -198,6 +198,8 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::post('departments', 'Api\DepartmentController@store');
 
     Route::get('locations', 'Api\LocationsController@index');
+    Route::put('locations/{id}', 'Api\LocationsController@update');
+    Route::delete('locations/{id}', 'Api\LocationsController@destroy');
 
     // Employees.
     Route::get('employees/paginated/{per_page}', 'Api\EmployeeController@paginatedIndex');

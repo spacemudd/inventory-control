@@ -5,6 +5,7 @@ import Actions from './actions';
 export default {
 
   state: {
+    showManageLocationsModal: false,
     showNewModal: false,
     form: {
      location: '',

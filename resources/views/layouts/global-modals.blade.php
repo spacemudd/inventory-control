@@ -7,6 +7,9 @@
 <projects-create-modal></projects-create-modal>
 <login-dipper :timeout.number="{{ config('session.lifetime', 120) }}"></login-dipper>
 <new-po-item-modal></new-po-item-modal>
+<b-modal :active.sync="$store.getters['Location/showManageLocationsModal']">
+    <manage-locations></manage-locations>
+</b-modal>
 @can('create-item-templates')
     <item-catalog-create-modal action="{{ route('api.item-templates.store') }}"
                                 :categories="{{ \App\Models\Category::get()->toTree() }}"

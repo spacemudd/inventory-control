@@ -7,4 +7,8 @@ export default {
   {
     return state.form;
   },
+  showManageLocationsModal(state)
+  {
+    return state.showManageLocationsModal;
+  }
 }

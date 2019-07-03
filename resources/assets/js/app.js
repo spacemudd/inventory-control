@@ -268,6 +268,9 @@ Vue.component('job-order-form', require('./components/JobOrders/Form.vue').defau
 Vue.component('job-order-show-form', require('./components/JobOrders/Show.vue').default);
 Vue.component('job-orders-mark-completed-button', require('./components/JobOrders/JobOrdersMarkCompletedButton.vue').default);
 
+// Locations
+Vue.component('manage-locations', require('./components/ManageLocations/ManageLocations').default);
+
 /**
  * API/App settings
  */

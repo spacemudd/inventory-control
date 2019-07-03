@@ -82,7 +82,7 @@
                         <div class="dropdown-box-container box" v-if="showLocationsModal">
                             <div class="is-flex" style="justify-content: space-between">
                                 <p><b>Locations</b></p>
-                                <p>Manage locations</p>
+                                <a @click="$store.commit('Location/toggleManageLocationsModal')">Manage locations</a>
                             </div>
                             <ul class="dropdown-box-container-list" id="locations-list">
                                 <li class="user-data user-data-add-new" v-if="!newLocationEntry">
