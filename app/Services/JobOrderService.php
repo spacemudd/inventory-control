@@ -73,6 +73,10 @@ class JobOrderService
      */
     public function generateJobNumber()
     {
+        if (env('START_JOB_ORDERS_NUMBER_FROM')) {
+            return env('START_JOB_ORDERS_NUMBER_FROM') + optional(JobOrder::latest()->first())->id;
+        }
+
         return (1000) + optional(JobOrder::latest()->first())->id;
     }
 
