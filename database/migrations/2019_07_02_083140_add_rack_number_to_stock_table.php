@@ -26,7 +26,7 @@ class AddRackNumberToStockTable extends Migration
     public function down()
     {
         Schema::table('stock', function (Blueprint $table) {
-        $table->dropColumn(['rack_number']);
+            $table->dropColumn(['rack_number']);
         });
     }
 }
