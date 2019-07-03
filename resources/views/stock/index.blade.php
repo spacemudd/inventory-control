@@ -104,7 +104,6 @@
 						R. quantity
 					</b-tooltip>
 				</th>
-
 				<th class="has-text-right">Actions</th>
 			</tr>
 			</thead>
