@@ -50,7 +50,7 @@ class StockController extends Controller
 
         if ($request->available_quantity) {
             $this->service->addIn($stock->description, $request->available_quantity);
-        } 
+        }
 
         DB::commit();
 
