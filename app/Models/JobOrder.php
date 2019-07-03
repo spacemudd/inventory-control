@@ -178,4 +178,18 @@ class JobOrder extends Model
     {
         return $this->job_order_number;
     }
+
+    public function scopePending($q)
+    {
+        $q->whereIn('status', [
+            self::PENDING,
+            self::DRAFT,
+            self::APPROVED,
+        ]);
+    }
+
+    public function scopeCompleted($q)
+    {
+        return $q->where('status', self::COMPLETED);
+    }
 }

@@ -11,26 +11,45 @@
             </li>
             <li class="is-active">
                 <a href="{{ route('job-orders.index') }}">
-                    <span class="icon is-small"><i class="fa fa-jobOrder-right"></i></span>
+                    <span class="icon is-small"><i class="fa fa-paper-plane-o"></i></span>
                     <span>Job Orders</span>
                 </a>
             </li>
+            @if (request()->has('all'))
+                <li class="is-active">
+                    <a href="{{ route('job-orders.index') }}">
+                        All
+                    </a>
+                </li>
+            @endif
         </ul>
     </nav>
 @endsection
 
 @section('content')
 <div class="columns is-multiline">
-    <div class="column is-12">
+    <div class="column is-6">
+
+        <div class="is-inline job-order-status-box{{ request()->has('all') || request()->has('completed') ? '' : ' active' }}">
+            <a href="{{ route('job-orders.index') }}">Pending: {{ \App\Models\JobOrder::pending()->count() }}</a>
+        </div>
+        <div class="is-inline job-order-status-box{{ request()->has('completed') ? ' active' : ''}}" style="margin-left:10px;">
+            <a href="{{ route('job-orders.index').'?completed' }}">Completed: {{ \App\Models\JobOrder::completed()->count() }}</a>
+        </div>
+        <div class="is-inline job-order-status-box{{ request()->has('all') ? ' active' : ''}}" style="margin-left:10px;">
+            <a href="{{ route('job-orders.index').'?all' }}">All: {{ \App\Models\JobOrder::completed()->count() }}</a>
+        </div>
+    </div>
+    <div class="column is-6">
         <div class="has-text-right">
-            <a href="{{ route('job-orders.create') }}" class="button is-primary is-small">Add new</a>
+            <a href="{{ route('job-orders.create') }}" class="button is-primary is-small">New</a>
         </div>
     </div>
     <div class="column">
         <table class="table is-fullwidth is-bordered is-size-7 is-narrow">
         <thead>
         <tr>
-        	<th>#</th>
+        	<th>No.</th>
             <th>Date</th>
             <th>Requester</th>
             <th>Employee ID</th>
@@ -64,20 +83,12 @@
                                 </span>
                             </td>
                             <td class="has-text-centered">
-                                <div class="buttons">
-                                    <a href="{{ route('job-orders.show', $jobOrder) }}"
-                                       class="button is-small"
-                                       style="height:20px;">
-                                        <span class="icon"><i class="fa fa-print"></i></span>
-                                        <span>Print</span>
-                                    </a>
-                                    <a href="{{ route('job-orders.show', $jobOrder) }}"
-                                       class="button is-small is-warning"
-                                       style="height:20px;">
-                                            <span class="icon"><i class="fa fa-eye"></i></span>
-                                            <span>View</span>
-                                    </a>
-                                </div>
+                                <a href="{{ route('job-orders.show', $jobOrder) }}"
+                                   class="button is-small is-warning"
+                                   style="height:20px;">
+                                        <span class="icon"><i class="fa fa-eye"></i></span>
+                                        <span>View</span>
+                                </a>
                             </td>
                         </tr>
                     @endforeach

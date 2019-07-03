@@ -26,7 +26,13 @@ class JobOrderController extends Controller
      */
     public function index()
     {
-        $jobOrders = JobOrder::latest()->paginate(15);
+        if (request()->has('all')) {
+            $jobOrders = JobOrder::latest()->paginate(1000);
+        } elseif (request()->has('completed')) {
+            $jobOrders = JobOrder::completed()->paginate(1000);
+        } else {
+            $jobOrders = JobOrder::pending()->latest()->paginate(100);
+        }
         return view('job-orders.index', compact('jobOrders'));
     }
 

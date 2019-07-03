@@ -1,10 +1,12 @@
 <template>
     <section v-if="jobOrder">
         <div class="is-flex" style="justify-content:space-between">
-            <p class="is-uppercase">
-                <b>Job Order details</b>
-                <span class="tag is-small is-success is-uppercase" v-if="jobOrder.is_completed">{{ jobOrder.status }}</span>
-                <span class="tag is-small is-uppercase is-uppercase" v-else>{{ jobOrder.status }}</span>
+            <p>
+                <span class="is-uppercase" style="font-size: 12px;color: #585050;"><b>Job Order details</b></span>
+                <br/>
+                <b>No. {{ jobOrder.job_order_number }}</b>
+                <span class="tag is-small is-success is-uppercase" style="font-size:12px;" v-if="jobOrder.is_completed">{{ jobOrder.status }}</span>
+                <span class="tag is-small is-uppercase is-uppercase" style="font-size:12px;" v-else>{{ jobOrder.status }}</span>
             </p>
             <div class="buttons">
                 <button class="button is-small"
