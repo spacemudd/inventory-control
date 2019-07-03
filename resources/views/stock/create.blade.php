@@ -62,6 +62,26 @@
 
 			<div class="column is-4 is-offset-4">
 				<div class="field">
+					<label for="rack_number" class="label">Rack number <span class="has-text-danger">*</span></label>
+					<p class="control">
+						<input id="rack_number"
+							   type="string"
+							   class="input {{ $errors->has('rack_number') ? ' is-danger' : '' }}"
+							   name="rack_number"
+							   value="{{ old('rack_number') }}"
+							   required>
+
+						@if ($errors->has('rack_number'))
+							<span class="help is-danger">
+                                {{ $errors->first('rack_number') }}
+                            </span>
+						@endif
+					</p>
+				</div>
+			</div>
+
+			<div class="column is-4 is-offset-4">
+				<div class="field">
 					<label for="available_quantity" class="label">Available quantity <span class="has-text-danger">*</span></label>
 					<p class="control">
 						<input id="available_quantity"

@@ -87,8 +87,9 @@
 			<colgroup>
 				<col style="width:1px;">
 				<col style="width:5rem">
-				<col>
+				<col style="width:5rem">
 				<col style="width:6rem;">
+				<col style="width:6rem;">  
 				<col style="width:6rem;">
 				<col style="width:5rem;">
 			</colgroup>
@@ -96,12 +97,14 @@
 				<th>ID</th>
 				<th>Category</th>
 				<th>Description</th>
+				<th class="has-text-right">Rack No.</th>
 				<th class="has-text-right">Avail. quantity</th>
 				<th class="has-text-right">
 					<b-tooltip label="Recommended quantity">
 						R. quantity
 					</b-tooltip>
 				</th>
+
 				<th class="has-text-right">Actions</th>
 			</tr>
 			</thead>
@@ -115,6 +118,7 @@
 								</a>
 							</td>
 							<td><a href="{{ route('stock.show', ['id' => $stock->id]) }}">{{ $stock->description }}</a></td>
+							<td class="has-text-right">{{ $stock->rack_number }}</td>
 							<td class="has-text-right">{{ $stock->on_hand_quantity }}</td>
 							<td class="has-text-right">{{ $stock->recommended_qty }}</td>
 							<td class="has-text-right">

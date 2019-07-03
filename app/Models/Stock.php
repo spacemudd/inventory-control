@@ -10,9 +10,11 @@ class Stock extends Model
 
     protected $fillable = [
         'description',
+        'rack_number',
         'material_request_item_id',
         'category_id',
         'recommended_qty',
+        
     ];
 
     protected $appends = [
