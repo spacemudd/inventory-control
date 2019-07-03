@@ -14,7 +14,6 @@ class Stock extends Model
         'material_request_item_id',
         'category_id',
         'recommended_qty',
-        
     ];
 
     protected $appends = [
