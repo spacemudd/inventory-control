@@ -34,6 +34,11 @@ class Department extends Model implements AuditableContract
         return $this->belongsTo(Region::class);
     }
 
+    public function location()
+    {
+        return $this->belongsTo(Location::class);
+    }
+
     public function getDepartmentHumanAttribute()
     {
     	return $this->code . ' - ' . $this->description;

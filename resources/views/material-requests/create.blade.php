@@ -90,13 +90,15 @@
                     <div class="control">
                         <div class="select is-fullwidth{{ $errors->has('location') ? ' is-danger' : '' }}">
                             <select name="location_id" id="location" required>
+                                <option value=""></option>
                                 @foreach ($locations as $location)
                                     <option value="{{ $location->id }}">{{ $location->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <span class="help">
-                            Click here to <a target="_blank" @click="$store.commit('Location/showNewModal', true)">add new locations.</a> To manage locations, <a target="_blank" @click="$store.commit('Location/toggleManageLocationsModal')">click here.</a>
+                            Click here to <a target="_blank" @click="$store.commit('Location/showNewModal', true)">add new locations.</a>
+                            To manage locations, <a target="_blank" @click="$store.commit('Location/toggleManageLocationsModal')">click here.</a>
                         </span>
                         <select-location name="location_id"
                                          url="{{ route('locations.create') }}">

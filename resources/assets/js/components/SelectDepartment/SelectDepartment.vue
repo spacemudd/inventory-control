@@ -60,7 +60,10 @@
           selectDepartment(department) {
             this.selected = department;
             this.$emit('selected', department);
-            $("#location").val('').prepend("<option value='"+department.location_id +"'>"+department.description +"</option>")
+            if (!$("#location").val()) {
+              $("#location").append("<option value='"+department.location_id +"'>"+department.description +"</option>")
+              $("#location").val(department.location_id);
+            }
           },
             getData: debounce(function () {
                 this.records = []
