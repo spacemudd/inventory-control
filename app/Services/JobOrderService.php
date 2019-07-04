@@ -111,11 +111,11 @@ class JobOrderService
         foreach ($technicians as &$tech) {
             if ($tech['time_start']) {
                 $tech['time_start'] = Carbon::parse($tech['time_start']);
-                $tech['time_start'] = $tech['time_start']->format('H:i:s');
+                //$tech['time_start'] = $tech['time_start']->format('H:i:s');
             }
             if ($tech['time_end']) {
                 $tech['time_end'] = Carbon::parse($tech['time_end']);
-                $tech['time_end'] = $tech['time_end']->format('H:i:s');
+                //$tech['time_end'] = $tech['time_end']->format('H:i:s');
             }
 
             $newArray[] = [

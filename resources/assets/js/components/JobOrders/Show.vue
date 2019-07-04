@@ -274,6 +274,11 @@
 
                     <div class="field">
                         <label class="label anb-label">Technicians</label>
+                        <button class="button is-small is-primary is-outlined"
+                                style="height: 22px;font-size: 10px;width: 85px;"
+                                @click.prevent="isAddingTechnician=true">
+                            + Add Technician
+                        </button>
                         <table class="table is-narrow is-size-7 is-fullwidth">
                             <thead>
                             <tr>
@@ -284,42 +289,54 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="(tech, index) in jobOrder.technicians">
-                                <td>{{ tech.display_name }}</td>
-                                <td>{{ tech.pivot.time_start }}</td>
-                                <td>{{ tech.pivot.time_end }}</td>
-                            </tr>
-                            <!--
-                            TODO: Adding new technician when viewing a created JO.
-                            <tr>
-                                <td>
-                                    //
-                                </td>
-                                <td>
-                                    <b-input type="time"
-                                             size="is-small"
-                                             style="width:100px;"
-                                             v-model="technicianForm.time_start"
-                                             placeholder="Select start time">
-                                    </b-input>
-                                </td>
-                                <td>
-                                    <b-input type="time"
-                                             size="is-small"
-                                             style="width:100px;"
-                                             v-model="technicianForm.time_end"
-                                             placeholder="Select end time">
-                                    </b-input>
-                                </td>
-                                <td class="has-text-centered">
-                                    <button class="button is-primary is-small"
-                                            :class="{'is-loading': $isLoading('SAVING_TECHNICIAN')}"
-                                            @click.prevent="addTechnician">
-                                        <span class="icon is-small"><i class="fa fa-check"></i></span>
-                                    </button>
-                                </td>
-                            </tr>
-                            -->
+                                <tr v-for="(tech, index) in jobOrder.technicians">
+                                    <td>{{ tech.display_name }}</td>
+                                    <td>{{ tech.pivot.time_start }}</td>
+                                    <td>{{ tech.pivot.time_end }}</td>
+                                </tr>
+
+                                <tr v-if="isAddingTechnician">
+                                    <td @keyup.enter="addTechnician">
+                                        <input v-if="technicianForm.addEmployees"
+                                               type="text"
+                                               class="input is-small"
+                                               :value="technicianForm.addEmployees.name"
+                                               @click="clearTechnician"
+                                               readonly>
+                                        <b-autocomplete v-else
+                                                        v-model="technicianFormSearchCode"
+                                                        field="name"
+                                                        :data="filteredEmployeesForAdd"
+                                                        @select="option => technicianForm.addEmployees = option"
+                                                        size="is-small"
+                                                        :loading="$isLoading('FETCHING_EMPLOYEES')">
+                                            <template slot="empty">No results found</template>
+                                        </b-autocomplete>
+                                    </td>
+                                    <td>
+                                        <b-input type="time"
+                                                 size="is-small"
+                                                 style="width:100px;"
+                                                 v-model="technicianForm.time_start"
+                                                 placeholder="Select start time">
+                                        </b-input>
+                                    </td>
+                                    <td>
+                                        <b-input type="time"
+                                                 size="is-small"
+                                                 style="width:100px;"
+                                                 v-model="technicianForm.time_end"
+                                                 placeholder="Select end time">
+                                        </b-input>
+                                    </td>
+                                    <td class="has-text-centered">
+                                        <button class="button is-primary is-small"
+                                                :class="{'is-loading': $isLoading('SAVING_TECHNICIAN')}"
+                                                @click.prevent="addTechnician">
+                                            <span class="icon is-small"><i class="fa fa-check"></i></span>
+                                        </button>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -405,7 +422,7 @@
         ],
         materialSearchCode: '',
 
-        isAddingMaterial: true,
+        isAddingMaterial: false,
         materialForm: {
           name: '',
           available: 0,
@@ -424,6 +441,9 @@
           technicianSearchCode: '',
           stock: null,
         },
+
+
+        isAddingTechnician: false,
       }
     },
     watch: {
@@ -519,7 +539,7 @@
               }
 
               if (tech.pivot.time_end) {
-                tech.pivot.time_end = moment(tech.pivot.time_end,'YYYY-MM-DD HH:mm:ss').format('hh:mm A');
+                tech.pivot.time_end = moment(tech.pivot.time_end,'HH:mm:ss').format('hh:mm A');
               }
             });
             this.technicians = jo.technicians;
@@ -616,7 +636,18 @@
           time_end: this.technicianForm.time_end,
         };
 
-        this.technicians.push(technician);
+        // this.technicians.push(technician);
+
+        // Adding tech to job order
+        axios.post(this.apiUrl()+'/job-orders/techs', {
+          job_order_id: this.jobOrder.id,
+          tech:this.technicianForm,
+        })
+          .then(response => {
+            debugger;
+          })
+
+        this.loadJobOrder();
 
         setTimeout(() => {
           this.clearTechnicianForm();
@@ -653,6 +684,7 @@
       clearTechnicianForm() {
         this.technicianFormSearchCode = '';
         let technicianForm = {
+          addEmployees: [],
           employee: '',
           technician_id: '',
           time_start: moment().format('HH:mm'),

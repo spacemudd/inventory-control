@@ -339,6 +339,8 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::get('material-requests/approved-items/{materialNumber}', 'Api\MaterialRequestsController@indexWithApprovedItems')->name('api.material-requests.index-approved-items');
     Route::get('material-requests/search/{itemName}', 'Api\MaterialRequestsController@returnSearchResult');
 
+    // Job orders techs
+    Route::post('job-orders/techs', 'Api\JobOrdersTechs@store');
 
     // Job orders items
     Route::post('job-orders/items', 'Api\JobOrdersItemsController@store');
