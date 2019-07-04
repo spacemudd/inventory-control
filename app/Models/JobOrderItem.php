@@ -11,7 +11,7 @@ class JobOrderItem extends Model
         'stock_id',
         'technician_id',
         'qty',
-        'dispatched_at'
+        'dispatched_at',
     ];
 
     protected $dates = [

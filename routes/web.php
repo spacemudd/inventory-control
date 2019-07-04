@@ -201,18 +201,18 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::put('locations/{id}', 'Api\LocationsController@update');
     Route::delete('locations/{id}', 'Api\LocationsController@destroy');
 
+    Route::get('employees/types/all', 'Api\EmployeeController@allStaffTypes');
+    Route::get('employees/types', 'Api\EmployeeController@staffTypes');
+    Route::put('employees/types/{id}', 'Api\EmployeeController@updateStaffType');
+    Route::delete('employees/types/{id}', 'Api\EmployeeController@deleteStaffType');
+    Route::post('employees/types', 'Api\EmployeeController@storeStaffType');
+
     // Employees.
     Route::get('employees/paginated/{per_page}', 'Api\EmployeeController@paginatedIndex');
     Route::get('employees', 'Api\EmployeeController@index');
     Route::get('employees/{employeeId}', 'Api\EmployeeController@getEmployees');
     Route::post('employees/show', 'Api\EmployeeController@show');
     Route::post('employees/store', 'Api\EmployeeController@store');
-
-    Route::get('employees/types', 'Api\EmployeeController@staffTypes');
-    Route::get('employees/types/all', 'Api\EmployeeController@allStaffTypes');
-    Route::put('employees/types/{id}', 'Api\EmployeeController@updateStaffType');
-    Route::delete('employees/types/{id}', 'Api\EmployeeController@deleteStaffType');
-    Route::post('employees/types', 'Api\EmployeeController@storeStaffType');
 
     // Material requests items.
     Route::get('material-requests/{material_request_id}/items', 'MaterialRequestItemsController@index');

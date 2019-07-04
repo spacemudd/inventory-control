@@ -14,6 +14,11 @@
                     <span class="icon"><i class="fa fa-print"></i></span>
                     <span>Print</span>
                 </button>
+                <button class="button is-small is-danger"
+                        @click.prevent="deleteJobOrderPrompt">
+                    <span class="icon"><i class="fa fa-trash"></i></span>
+                    <span>Delete</span>
+                </button>
             </div>
         </div>
         <preview-pdf-container style="margin-top:1rem;"
@@ -611,6 +616,32 @@
         this.loadJobOrder();
         // ending of animation is under loadJobOrder()
       },
+      deleteJobOrderPrompt() {
+        let vm = this;
+        this.$dialog.confirm({
+          message: 'Are you sure you want to delete '+vm.jobOrder.job_order_number+'?',
+          type: 'is-danger',
+          onConfirm: () => {
+            vm.deleteJobOrder();
+          }
+        })
+      },
+      deleteJobOrder() {
+        axios.delete(this.baseUrl()+'/job-orders/'+this.jobOrder.id)
+          .then(response => {
+            this.$toast.open({
+              type: 'is-success',
+              message: 'Deleted successfully. Redirecting...',
+            });
+
+            debugger;
+            window.location.href = response.data.redirect;
+          })
+          .catch(error => {
+            alert('Error occurred while deleting');
+            throw error;
+          })
+      },
     }
   }
 </script>
@@ -672,5 +703,9 @@
 
     .dropdown-content {
         width: 460px;
+    }
+
+    .modal-card-body {
+        min-height: unset;
     }
 </style>

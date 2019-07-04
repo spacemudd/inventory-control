@@ -110,9 +110,12 @@ class JobOrderController extends Controller
      * @param  \App\JobOrder  $jobOrder
      * @return \Illuminate\Http\Response
      */
-    public function destroy(JobOrder $jobOrder)
+    public function destroy($id)
     {
-        //
+        $this->service->destroy($id);
+        return [
+            'redirect' => route('job-orders.index'),
+        ];
     }
 
     /**

@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
+use App\Models\JobOrderTechnician;
 use App\Models\Location;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use PDF;
 use Carbon\Carbon;
 use App\Models\JobOrder;
@@ -61,7 +63,7 @@ class JobOrderService
         ));
 
         // In the case of a new location.
-        if ($request->location) {
+        if (is_string($request->location)) {
             $location = $this->storeNewLocation($request->location);
             $jobData['location_id'] = $location->id;
         }
@@ -263,5 +265,25 @@ class JobOrderService
         });
 
         return $jo;
+    }
+
+    public function destroy($id)
+    {
+        DB::transaction(function() use ($id) {
+            Log::info('Deleting JO: '.$id);
+
+            $jo = JobOrder::where('id', $id)->firstOrFail();
+
+            if ($jo->isCompleted()) {
+                abort('Cant delete completed job order.');
+            }
+
+            // Delete techs & items then JO.
+            $jo->technicians()->sync([]);
+            $jo->items()->delete();
+            $jo->forceDelete();
+
+            // Restore stock to warehouse.
+        });
     }
 }
