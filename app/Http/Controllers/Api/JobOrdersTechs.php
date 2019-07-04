@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Employee;
 use App\Models\JobOrder;
 use App\Services\JobOrderService;
 use Carbon\Carbon;
@@ -31,6 +32,14 @@ class JobOrdersTechs extends Controller
         return $jo;
     }
 
+    /**
+     * Used above.
+     * TODO: move into service.
+     *
+     * @param \App\Models\JobOrder $jobOrder
+     * @param array $tech
+     * @return \App\Models\JobOrder|void
+     */
     public function addTechToJo(JobOrder $jobOrder, array $tech)
     {
         if ($jobOrder->technicians()->where('id', $tech['addEmployees']['id'])->exists()) {
@@ -57,5 +66,18 @@ class JobOrdersTechs extends Controller
         $jobOrder->technicians()->attach($newArray);
 
         return $jobOrder;
+    }
+
+    public function destroy(Request $request)
+    {
+        $request->validate([
+            'job_order_id' => 'required|exists:job_orders,id',
+            'tech' => 'required',
+        ]);
+
+        $jo = JobOrder::where('id', $request->job_order_id)->firstOrFail();
+        $tech = Employee::find($request->tech['id']);
+        $jo->technicians()->detach($tech);
+        return $jo;
     }
 }

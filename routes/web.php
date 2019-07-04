@@ -341,6 +341,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
 
     // Job orders techs
     Route::post('job-orders/techs', 'Api\JobOrdersTechs@store');
+    Route::delete('job-orders/techs', 'Api\JobOrdersTechs@destroy');
 
     // Job orders items
     Route::post('job-orders/items', 'Api\JobOrdersItemsController@store');
