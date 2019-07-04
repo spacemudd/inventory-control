@@ -344,6 +344,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::delete('job-orders/techs', 'Api\JobOrdersTechs@destroy');
 
     // Job orders items
+    Route::post('job-orders/items/dispatchItem', 'Api\JobOrdersItemsController@dispatchItem');
     Route::post('job-orders/items', 'Api\JobOrdersItemsController@store');
     Route::delete('job-orders/items/{id}', 'Api\JobOrdersItemsController@destroy');
 

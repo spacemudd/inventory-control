@@ -188,6 +188,12 @@
                             + Add Material
                         </button>
                         <table class="table is-narrow is-size-7 is-fullwidth is-striped">
+                            <colgroup>
+                                <col>
+                                <col>
+                                <col>
+                                <col style="width:140px;">
+                            </colgroup>
                             <thead>
                             <tr>
                                 <th>Name <span class="has-text-danger">*</span></th>
@@ -204,6 +210,14 @@
                                     <td class="has-text-right">{{ material.qty }}</td>
                                     <td class="has-text-right">
                                         <template v-if="!jobOrder.is_completed">
+                                            <button class="button is-warning is-small has-icon"
+                                                    :disabled="material.dispatched_at"
+                                                    :class="{'is-loading': $isLoading('DISPATCHING_ITEM_'+material.id)}"
+                                                    @click.prevent="dispatchItem(material)">
+                                                <span class="icon is-small"><i class="fa fa-paper-plane"></i></span>
+                                                <span>Dispatch</span>
+                                            </button>
+
                                             <button class="button is-danger is-small"
                                                     :class="{'is-loading': $isLoading('SAVING_MATERIAL_ITEM_'+material.id)}"
                                                     @click.prevent="deleteMaterial(material.id, index)">
@@ -294,7 +308,8 @@
                                 <td>{{ tech.pivot.time_start }}</td>
                                 <td>{{ tech.pivot.time_end }}</td>
                                 <td class="has-text-right">
-                                    <button class="button is-danger is-small"
+                                    <button v-if="!jobOrder.is_completed"
+                                            class="button is-danger is-small"
                                             :class="{'is-loading': $isLoading('DELETING_TECHNICIAN')}"
                                             @click.prevent="deleteTechnician(tech)">
                                         <span class="icon is-small"><i class="fa fa-trash"></i></span>
@@ -769,6 +784,13 @@
       closeAddingTechnician() {
         this.clearTechnicianForm();
         this.isAddingTechnician = false;
+      },
+      dispatchItem(item) {
+        axios.post(this.apiUrl()+'/job-orders/items/dispatchItem', {
+          job_order_item_id: item.id,
+        }).then(response => {
+          this.loadJobOrder();
+        })
       },
     }
   }

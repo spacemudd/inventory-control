@@ -45,4 +45,15 @@ class JobOrdersItemsController extends Controller
         $jo = JobOrder::with('items')->findOrFail($request->job_order_id);
         return $jo;
     }
+
+    public function dispatchItem(Request $request)
+    {
+        $request->validate([
+            'job_order_item_id' => 'required|exists:job_order_items,id',
+        ]);
+
+        $item = JobOrderItem::find($request->job_order_item_id);
+        // todo: make sure the qty is available...
+        return $this->service->dispatchItem($item->jobOrder, $item->id);
+    }
 }
