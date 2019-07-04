@@ -11,13 +11,10 @@ class StockController extends Controller
 {
     public function search(Request $request)
     {
-        if ($term = $request->get('q')) {
-            return Stock::where('description', 'like', "%{$term}%")
-                            ->select('id', 'description')
-                            ->get();
-        }
-
-        return collect();
+        $term = $request->get('q');
+        return Stock::where('description', 'like', "%{$term}%")
+                        ->with('category')
+                        ->paginate(20);
     }
 
     /**

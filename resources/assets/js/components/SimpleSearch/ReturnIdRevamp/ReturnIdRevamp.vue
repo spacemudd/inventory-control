@@ -124,10 +124,18 @@
 
                     <template v-if="searchEndpoint === 'asset-issuances-returns'">
                         <asset-issuances-returns-results @recordSelected="$emit('recordSelected')"
-                                                 @changePage="changePage"
-                                                 :hyper-linked="hyperLinkedResults"
-                                                 :paginated-records="searchResults">
+                                                         @changePage="changePage"
+                                                         :hyper-linked="hyperLinkedResults"
+                                                         :paginated-records="searchResults">
                         </asset-issuances-returns-results>
+                    </template>
+
+                    <template v-if="searchEndpoint === 'stock'">
+                        <stock-results @recordSelected="$emit('recordSelected')"
+                                     @changePage="changePage"
+                                     :hyper-linked="hyperLinkedResults"
+                                     :paginated-records="searchResults">
+                        </stock-results>
                     </template>
                 </div>
             </div>
@@ -144,6 +152,7 @@
     import LocationsResults from "../../Locations/DropdownPaginatedSearchResult/Result.vue";
     import ReturnConfirmationPaginatedResults from "../../ReturnConfirmation/DropdownPaginatedSearchResult/Result";
     import ItemsResults from '../../Items/DropdownPaginatedSearchResult/Result';
+    import StockResults from '../../Stock/DropdownPaginatedSearchResult/Result';
 
     export default {
         components: {
@@ -155,6 +164,7 @@
             LocationsResults,
             ReturnConfirmationPaginatedResults,
             ItemsResults,
+            StockResults,
         },
         props: {
             searchEndpoint: {
