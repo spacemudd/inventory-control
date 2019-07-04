@@ -17,6 +17,8 @@ export default {
         'createdRepairWorkOrder': null,
 
         'showNewEmployeeModal': false,
+
+        'showManageStaffTypesModal': false,
     },
 
     getters: Getters,

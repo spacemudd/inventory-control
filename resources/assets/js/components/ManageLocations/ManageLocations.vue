@@ -147,9 +147,6 @@ import ErrorBag from './../ErrorBag/Bag';
             this.$delete(this.locations, index);
           })
       },
-      submitForm() {
-        debugger;
-      }
     }
   }
 </script>

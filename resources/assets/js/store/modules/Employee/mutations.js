@@ -32,6 +32,9 @@ export default {
     setNewEmployeeModal(state, payload)
     {
         state.showNewEmployeeModal = payload;
+    },
+    toggleManageStaffTypesModal(state, payload)
+    {
+        state.showManageStaffTypesModal = !state.showManageStaffTypesModal;
     }
-
 }

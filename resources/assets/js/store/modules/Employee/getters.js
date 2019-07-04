@@ -18,4 +18,8 @@ export default {
     {
         return state.showNewEmployeeModal;
     },
+    showManageStaffTypesModal(state)
+    {
+        return state.showManageStaffTypesModal;
+    },
 }

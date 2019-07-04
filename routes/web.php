@@ -209,6 +209,10 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::post('employees/store', 'Api\EmployeeController@store');
 
     Route::get('employees/types', 'Api\EmployeeController@staffTypes');
+    Route::get('employees/types/all', 'Api\EmployeeController@allStaffTypes');
+    Route::put('employees/types/{id}', 'Api\EmployeeController@updateStaffType');
+    Route::delete('employees/types/{id}', 'Api\EmployeeController@deleteStaffType');
+    Route::post('employees/types', 'Api\EmployeeController@storeStaffType');
 
     // Material requests items.
     Route::get('material-requests/{material_request_id}/items', 'MaterialRequestItemsController@index');

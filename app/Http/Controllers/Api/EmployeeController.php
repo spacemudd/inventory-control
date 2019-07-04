@@ -89,10 +89,61 @@ class EmployeeController extends Controller
         return $result;
     }
 
+    public function allStaffTypes()
+    {
+
+        return StaffType::get();
+    }
+
     public function getEmployees($employeeId)
     {
         return Employee::where('code', 'LIKE', "%$employeeId%")
             ->orWhere('name', 'LIKE', "%$employeeId%")
             ->get();
+    }
+
+    /**
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param $id
+     * @return mixed
+     */
+    public function updateStaffType(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255|unique:staff_types,name,'.$id,
+        ]);
+
+        $type = StaffType::findOrFail($id);
+        $type->name = $request->name;
+        $type->save();
+
+        return $type;
+    }
+
+    /**
+     *
+     * @param $id
+     * @return array
+     */
+    public function deleteStaffType($id)
+    {
+        $type = StaffType::findOrFail($id);
+        $type->delete();
+
+        return [
+            'msg' => 'success',
+        ];
+    }
+
+    public function storeStaffType(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255|unique:staff_types,name',
+        ]);
+
+        $type = StaffType::create($request->except('_token'));
+
+        return $type;
     }
 }
