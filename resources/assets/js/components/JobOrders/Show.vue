@@ -209,15 +209,15 @@
                                     <td></td>
                                     <td class="has-text-right">{{ material.qty }}</td>
                                     <td class="has-text-right">
+                                        <button class="button is-warning is-small has-icon"
+                                                :disabled="material.dispatched_at"
+                                                :class="{'is-loading': $isLoading('DISPATCHING_ITEM_'+material.id)}"
+                                                @click.prevent="dispatchItem(material)">
+                                            <span class="icon is-small"><i class="fa fa-paper-plane"></i></span>
+                                            <span>Dispatch</span>
+                                        </button>
+                                        
                                         <template v-if="!jobOrder.is_completed">
-                                            <button class="button is-warning is-small has-icon"
-                                                    :disabled="material.dispatched_at"
-                                                    :class="{'is-loading': $isLoading('DISPATCHING_ITEM_'+material.id)}"
-                                                    @click.prevent="dispatchItem(material)">
-                                                <span class="icon is-small"><i class="fa fa-paper-plane"></i></span>
-                                                <span>Dispatch</span>
-                                            </button>
-
                                             <button class="button is-danger is-small"
                                                     :class="{'is-loading': $isLoading('SAVING_MATERIAL_ITEM_'+material.id)}"
                                                     @click.prevent="deleteMaterial(material.id, index)">
