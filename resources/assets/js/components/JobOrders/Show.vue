@@ -182,66 +182,92 @@
                             </button>
                             -->
                         </div>
+                        <button class="button is-small is-primary is-outlined"
+                                style="height: 22px;font-size: 10px;width: 85px;"
+                                @click.prevent="isAddingMaterial=true">
+                            + Add Material
+                        </button>
                         <table class="table is-narrow is-size-7 is-fullwidth is-striped">
                             <thead>
                                 <tr>
                                     <th>Name <span class="has-text-danger">*</span></th>
+                                    <th></th>
                                     <th class="has-text-right">Quantity</th>
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody v-if="materials.length">
-                                <tr v-for="(material, i) in materials">
-                                <td>
-                                    {{ material.stock.description }}
-<!--                                    <input type="text"-->
-<!--                                           :value="material.stock.description"-->
-<!--                                           autocomplete="on"-->
-<!--                                           disabled="disabled"-->
-<!--                                           readonly="readonly"-->
-<!--                                           style="width:100px;cursor:default;"-->
-<!--                                           class="input is-small">-->
-<!--                                    <b-autocomplete-->
-<!--                                            size="is-small"-->
-<!--                                            :data="material.material_options"-->
-<!--                                            placeholder="Material"-->
-<!--                                            field="description"-->
-<!--                                            :loading="material.isFetching"-->
-<!--                                            @input="asyncRequest($event, {url: 'search/stock', key_data: `materials.${i}.material_options`})"-->
-<!--                                            @select="updateMaterialQty($event, material)">-->
-<!--                                        <template slot-scope="props">-->
-<!--                                            <p>{{ props.option.description }}</p>-->
-<!--                                        </template>-->
-<!--                                    </b-autocomplete>-->
-                                </td>
-                                <td class="has-text-right">
-                                    {{ material.qty }}
-                                </td>
-                                <td class="has-text-centered">
-                                    <template v-if="!jobOrder.is_completed">
+                            <tbody>
+                                <template v-if="materials.length">
+                                    <tr v-for="(material, index) in materials">
+                                        <td>{{ material.stock.description }}</td>
+                                        <td></td>
+                                        <td class="has-text-right">{{ material.qty }}</td>
+                                        <td class="has-text-right">
+                                            <template v-if="!jobOrder.is_completed">
+                                                <button class="button is-danger is-small"
+                                                        :class="{'is-loading': $isLoading('SAVING_MATERIAL_ITEM_'+material.id)}"
+                                                        @click.prevent="deleteMaterial(material.id, index)">
+                                                    <span class="icon is-danger"><i class="fa fa-trash"></i></span>
+                                                </button>
+                                            </template>
+                                        </td>
+                                    </tr>
+                                </template>
+
+                                <!-- Adding new material -->
+                                <tr v-if="isAddingMaterial">
+                                    <td>
+                                        <b-autocomplete
+                                                v-model="newMaterial.stock"
+                                                size="is-small"
+                                                :data="newMaterial.material_options"
+                                                placeholder="Search material"
+                                                field="description"
+                                                :loading="newMaterial.isFetching"
+                                                @input="asyncRequest($event, {url: 'search/stock', key_data: `newMaterial.material_options`})"
+                                                @select="updateMaterialQty($event, newMaterial)">
+                                            <template slot-scope="props">
+                                                <p>{{ props.option.description }}</p>
+                                            </template>
+                                        </b-autocomplete>
+                                    </td>
+                                    <td>
+                                        <input type="text"
+                                               :value="newMaterial.onHandQuantity === 0 ? '' : newMaterial.onHandQuantity"
+                                               autocomplete="on"
+                                               disabled="disabled"
+                                               readonly="readonly"
+                                               style="width:100px;cursor:default;"
+                                               class="input is-small">
+                                    </td>
+                                    <td>
+                                        <b-input type="number"
+                                                 class="is-pulled-right"
+                                                 size="is-small"
+                                                 style="width:100px;"
+                                                 :max="newMaterial.onHandQuantity"
+                                                 v-model="newMaterial.quantity">
+                                        </b-input>
+                                        <template v-if="newMaterial.stock_id">
+                                            <p class="has-text-danger is-small" v-if="newMaterial.onHandQuantity<newMaterial.quantity">
+                                                Select {{ newMaterial.onHandQuantity }} or less.
+                                            </p>
+                                        </template>
+                                    </td>
+                                    <td class="has-text-right">
                                         <button class="button is-primary is-small"
-                                                :class="{'is-loading': $isLoading('SAVING_MATERIAL_ITEM_'+material.id)}"
-                                                @click.prevent="deleteMaterial(material.id, i)">
-                                            <span class="icon is-small is-danger"><i class="fa fa-trash"></i></span>
+                                                :disabled="newMaterial.onHandQuantity<newMaterial.quantity"
+                                                :class="{'is-loading': $isLoading('SAVING_MATERIAL')}"
+                                                @click.prevent="addMaterial">
+                                            <span class="icon is-small"><i class="fa fa-check"></i></span>
                                         </button>
-                                    </template>
-                                    <!--
-                                    TODO: Editing items in JO.
-                                    <button v-if="materials.length == i+1" class="button is-primary is-small"
-                                            :disabled="jobOrder.is_completed"
-                                            :class="{'is-loading': $isLoading('SAVING_MATERIAL')}"
-                                            @click.prevent="addMaterial">
-                                        <span class="icon is-small"><i class="fa fa-check"></i></span>
-                                    </button>
-                                    <button v-else
-                                            class="button is-danger is-small "
-                                            :class="{'is-loading': $isLoading('DELETING_ASSET_ISSUANCE')}"
-                                            @click.prevent="materials.splice(i, 1)">
-                                        <span class="icon is-small"><i class="fa fa-trash"></i></span>
-                                    </button>
-                                    -->
-                                </td>
-                            </tr>
+                                        <button class="button is-danger is-small "
+                                                :class="{'is-loading': $isLoading('DELETING_MATERIAL')}"
+                                                @click.prevent="removeAddingMaterial">
+                                            <span class="icon is-small"><i class="fa fa-trash"></i></span>
+                                        </button>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -385,6 +411,18 @@
           available: 0,
           quantity: 1,
           technician: ''
+        },
+
+        newMaterial: {
+          material_options: [],
+          isFetching: false,
+          description: '',
+          stock_id: null,
+          onHandQuantity: 0,
+          quantity: 1,
+          technician: '',
+          technicianSearchCode: '',
+          stock: null,
         },
       }
     },
@@ -585,15 +623,32 @@
         }, 100);
       },
       addMaterial() {
-        this.materials.push({
-          material_options: [],
-          isFetching: false,
-          description: '',
-          onHandQuantity: 0,
-          quantity: 0,
-          technician: '',
-          technicianSearchCode: ''
-        });
+        this.$startLoading('SAVING_MATERIAL');
+        axios.post(this.apiUrl()+'/job-orders/items', {
+          job_order_id: this.jobOrder.id,
+          materials: [this.newMaterial]
+        })
+          .then(response => {
+            this.loadJobOrder();
+            this.newMaterial = {
+              material_options: [],
+                isFetching: false,
+                description: '',
+                stock_id: null,
+                onHandQuantity: 0,
+                quantity: 1,
+                technician: '',
+                technicianSearchCode: '',
+                stock: null,
+            };
+          })
+          .catch(error => {
+            alert('Error occurred');
+            throw error;
+          })
+          .finally(() => {
+            this.$endLoading('SAVING_MATERIAL');
+          });
       },
       clearTechnicianForm() {
         this.technicianFormSearchCode = '';
@@ -658,7 +713,11 @@
           .catch(error => {
             throw error;
           })
-      }
+      },
+      removeAddingMaterial() {
+        this.isAddingMaterial = false;
+
+      },
     }
   }
 </script>
