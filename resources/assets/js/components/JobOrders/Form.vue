@@ -728,4 +728,8 @@
     .user-data-add-new > button:hover {
         background: #ffffff;
     }
+
+    .dropdown-content {
+        width: 460px;
+    }
 </style>
