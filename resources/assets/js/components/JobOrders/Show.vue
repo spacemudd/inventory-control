@@ -218,6 +218,13 @@
                                     {{ material.qty }}
                                 </td>
                                 <td class="has-text-centered">
+                                    <template v-if="!jobOrder.is_completed">
+                                        <button class="button is-primary is-small"
+                                                :class="{'is-loading': $isLoading('SAVING_MATERIAL_ITEM_'+material.id)}"
+                                                @click.prevent="deleteMaterial(material.id, i)">
+                                            <span class="icon is-small is-danger"><i class="fa fa-trash"></i></span>
+                                        </button>
+                                    </template>
                                     <!--
                                     TODO: Editing items in JO.
                                     <button v-if="materials.length == i+1" class="button is-primary is-small"
@@ -643,6 +650,15 @@
             throw error;
           })
       },
+      deleteMaterial(id, index) {
+        axios.delete(this.apiUrl()+'/job-orders/items/'+id)
+          .then(response => {
+            this.$delete(this.materials, index);
+          })
+          .catch(error => {
+            throw error;
+          })
+      }
     }
   }
 </script>

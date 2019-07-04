@@ -344,6 +344,9 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::put('job-orders/{id}', 'Api\JobOrdersController@update');
     Route::post('job-orders/{id}/complete', 'Api\JobOrdersController@complete');
 
+    // Job orders items
+    Route::delete('job-orders/items/{id}', 'Api\JobOrdersItemsController@destroy');
+
     // QSuppliers
     Route::get('q-suppliers', 'Api\QSuppliersController@index');
     Route::get('q-suppliers/{id}/quotations', 'Api\QSuppliersController@showWithQuotations');
