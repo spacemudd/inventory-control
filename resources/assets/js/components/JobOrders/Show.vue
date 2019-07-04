@@ -15,6 +15,7 @@
                     <span>Print</span>
                 </button>
                 <button class="button is-small is-danger"
+                        v-if="!jobOrder.is_completed"
                         @click.prevent="deleteJobOrderPrompt">
                     <span class="icon"><i class="fa fa-trash"></i></span>
                     <span>Delete</span>
