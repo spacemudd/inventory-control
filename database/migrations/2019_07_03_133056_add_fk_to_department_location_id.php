@@ -14,8 +14,7 @@ class AddFkToDepartmentLocationId extends Migration
     public function up()
     {
         Schema::table('departments', function (Blueprint $table) {
-            $table->unsignedBigInteger('location_id')->nullable()->change();
-            $table->foreign('location_id')->references('id')->on('locations')->onDelete('SET NULL');
+            //
         });
     }
 

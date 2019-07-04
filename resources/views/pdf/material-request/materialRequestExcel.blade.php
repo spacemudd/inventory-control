@@ -45,7 +45,7 @@
     </div>
 </section>
 <section class="mainTable">
-    <table>
+    <table class="table" style="border-collapse:collapse" border="1">
         <tr style="border-bottom: 1px solid;">
             <th>
                 No.
@@ -72,7 +72,7 @@
                 <td style="width: 200px">
                     {{ $item->qty }}
                 </td>
-                <td style="border-right: 1px solid;width: 300px;">
+                <td style="width: 300px;">
 
                 </td>
             </tr>
@@ -84,7 +84,7 @@
                     <td>{{ $number++ }}</td>
                     <td></td>
                     <td></td>
-                    <td style="border-right: 1px solid;width: 300px;"></td>
+                    <td style="width: 300px;"></td>
                 </tr>
             @endfor
         @endif
