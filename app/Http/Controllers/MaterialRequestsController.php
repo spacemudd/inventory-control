@@ -8,6 +8,7 @@ use App\Models\Department;
 use App\Models\Location;
 use App\Models\MaterialRequest;
 use App\Models\Region;
+use App\Models\Stock;
 use App\Services\MaterialRequestService;
 use Illuminate\Http\Request;
 use App\Models\MaterialRequestItem;
@@ -158,8 +159,15 @@ class MaterialRequestsController extends Controller
     {
 
         $newItemName = trim($itemName);
-        $itemInformation = MaterialRequestItem::where('description', 'like', '%' . $newItemName . '%')->distinct()->pluck('description');
+        $itemInformation = MaterialRequestItem::where('description', 'like', '%' . $newItemName . '%')
+            ->distinct()
+            ->pluck('description');
 
+        $s = Stock::where('description', 'like', '%'.$newItemName.'%')
+            ->distinct()
+            ->pluck('description');
+
+        $itemInformation = $itemInformation->merge($s)->unique();
 
         return json_encode($itemInformation);
     }

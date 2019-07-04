@@ -216,7 +216,7 @@
                                             <span class="icon is-small"><i class="fa fa-paper-plane"></i></span>
                                             <span>Dispatch</span>
                                         </button>
-                                        
+
                                         <template v-if="!jobOrder.is_completed">
                                             <button class="button is-danger is-small"
                                                     :class="{'is-loading': $isLoading('SAVING_MATERIAL_ITEM_'+material.id)}"
