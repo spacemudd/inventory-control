@@ -73,7 +73,7 @@
 			<div class="column is-12 has-text-right">
 				<a class="button is-primary" href="{{ route('purchase-orders.create') }}">New Purchase Order</a>
 			</div>
-		</div>
+		</div>	
 	@endcan
 
 

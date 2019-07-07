@@ -167,7 +167,7 @@
 					</div>
 
 					<div class="column is-6 has-text-right">
-						<a class="button is-text" href="{{ route('vendors.show', ['id' => $vendor->id]) }}">{{ __('words.cancel') }}</a>
+						<a class="button is-text" href="{{ route('vendors.index') }}">{{ __('words.cancel') }}</a>
 						<button type="submit" class="button is-success">{{ trans('words.save') }}</button>
 					</div>
 
