@@ -32,9 +32,11 @@
             <div class="columns">
                 <div class="column is-6">
                     <span style="margin-left:0" class="tag">{{ $quotation->status_name }}</span>
-                    <p class="is-uppercase"><b>Quotation details</b></p>
-                </div>
+                    <p class="is-uppercase"><b>Quotation details</b>
+                    </p>
+              </div>
                 <div class="column is-6 has-text-right">
+                    <a href="{{ route('quotations.edit', ['quotation_number' => $quotation->id]) }}" class="button is-small is-grey is-pulled-right">Edit</a>
                     @if ((int) $quotation->status != \App\Models\Quotation::SAVED)
                         <form action="{{ route('quotations.save', ['id' => $quotation->id]) }}"
                               method="post"

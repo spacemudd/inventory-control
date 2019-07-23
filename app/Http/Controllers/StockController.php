@@ -92,8 +92,8 @@ class StockController extends Controller
     {
         $stocks = Stock::where('category_id', $category_id)->get();
         $selectedCategory = Category::find($category_id);
-        return view('stock.index', compact('stocks', 'selectedCategory'));
-    }
+            return view('stock.index', compact('stocks', 'selectedCategory'));
+        }
 
     public function show($id)
     {
