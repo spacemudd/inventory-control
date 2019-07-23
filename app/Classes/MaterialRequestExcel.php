@@ -88,8 +88,8 @@ class MaterialRequestExcel
     {
         return [
             $this->materialRequest->number,
-            $this->materialRequest->location->name,
-            $this->materialRequest->cost_center->display_name,
+            optional($this->materialRequest->location)->name,
+            optional($this->materialRequest->cost_center)->display_name,
             $item->description,
             $item->qty,
         ];
@@ -114,8 +114,8 @@ class MaterialRequestExcel
     {
         return [
             $item->number,
-            $item->location->name,
-            $item->cost_center->display_name,
+            optional($item->location)->name,
+            optional($item->cost_center)->display_name,
             $item->status_name,
         ];
     }
