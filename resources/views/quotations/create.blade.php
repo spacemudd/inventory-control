@@ -32,8 +32,6 @@
             <form class="form" action="{{ route('quotations.store') }}" method="post" style="margin-top:2rem">
                 @csrf
 
-
-
                 <div class="field">
                     <label for="date" class="label">Material request number <span class="has-text-danger">*</span></label>
 

@@ -76,7 +76,7 @@
                         <label for="vendor" class="label">Vendor</label>
 
                         <div class="control">
-                            <input type="text" class="input" value="{{ $quotation->material_request->number }}" readonly>
+                            <input type="text" class="input" value="{{ optional($quotation->vendor)->display_name }}" readonly>
                         </div>
                     </div>
                 </div>

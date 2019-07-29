@@ -42,7 +42,11 @@
             name: {
                 type: String,
                 required: false,
-            }
+            },
+          vendorData: {
+              type: Object,
+            required: false,
+          }
         },
         data() {
             return {
@@ -53,7 +57,9 @@
             }
         },
         mounted() {
-
+          if (this.vendorData) {
+            this.selectedVendor = this.vendorData;
+          }
         },
         methods: {
             getData: debounce(function () {

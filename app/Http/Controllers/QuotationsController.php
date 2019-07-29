@@ -95,28 +95,23 @@ class QuotationsController extends Controller
     public function edit($id)
     {
         $quotation = Quotation::with('material_request')->find($id);
-        return view('quotations.edit', compact('quotation'));
+        $mRequests = MaterialRequest::open()->get();
+        return view('quotations.edit', compact('quotation', 'mRequests'));
    }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-           
-            'vendor_quotation_number'  => 'nullable|string|min:0',
-            'material_request_number'  => 'nullable|string|min:0'
-   
-        ]);
-        DB::beginTransaction();
-        $quotation = quotation::findOrFail($id);
-        $quotation->update([
-            'vendor_quotation_number'   => $request['vendor_quotation_number'],
-            'material_request->number'  => $request['material_request_number'],
+            'material_request_id' => 'required|numeric|exists:material_requests,id',
+            'vendor_id' => 'required|numeric|exists:vendors,id',
+            'vendor_quotation_number' => 'required|string|max:255',
+            //'region_id' => 'required|numeric|exists:regions,id'
         ]);
 
-        DB::commit();
+        $quotation = quotation::findOrFail($id);
+        $quotation->update($request->except('_token'));
         
         return redirect()->route('quotations.show', ['id' => $id]);
-
     }
 
     
