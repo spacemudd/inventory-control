@@ -25,6 +25,23 @@ class MaterialRequestService
         return $mRequest;
     }
 
+    public function update(array $request, $id)
+    {
+
+        $date = Carbon::createFromFormat('d-m-Y', $request['date']);
+        $location = Location::where('id', $request['location_id'])->first();
+
+        $request['number'] = $request['number'] ?: $date->format('d-m-Y').' - '.$location->name;
+        $request['date'] = $date;
+        $request['status'] = MaterialRequest::PENDING; // Default status.
+        $request['created_by_id'] = auth()->user()->id;
+
+        $mRequest =  MaterialRequest::find($id);
+        $mRequest->update($request);
+
+        return $mRequest;
+    }
+
     /**
      *
      * @param string $date

@@ -43,6 +43,10 @@
             name: {
                 type: String,
                 required: false,
+            },
+            newVal: {
+              type: Object,
+              required: false,
             }
         },
         data() {
@@ -54,7 +58,9 @@
             }
         },
         mounted() {
-
+          if (this.newVal) {
+            this.selected = this.newVal;
+          }
         },
         methods: {
           selectDepartment(department) {
