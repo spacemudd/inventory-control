@@ -16,9 +16,13 @@
                     </thead>
                     <tbody>
                         <tr v-for="record in paginatedRecords.data" class="pointer" @click="recordSelected(record)">
-                            <td>{{ record.category.name }}</td>
+                            <td>
+                                <span v-if="record.category">
+                                    {{ record.category.name }}
+                                </span>
+                            </td>
                             <td>{{ record.description }}</td>
-<!--                            <td>{{ record.on_hand_quantity }}</td>-->
+                            <td>{{ record.on_hand_quantity }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -72,9 +76,7 @@
                 this.$emit('recordSelected', record);
             },
             changePage(pageNumber) {
-
                 this.$emit('changePagePagination', pageNumber);
-
             }
         }
     }
