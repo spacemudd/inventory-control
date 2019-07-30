@@ -36,7 +36,7 @@
                     </p>
               </div>
                 <div class="column is-6 has-text-right">
-                    <a href="{{ route('quotations.edit', ['quotation_number' => $quotation->id]) }}" class="button is-small is-grey is-pulled-right">Edit</a>
+                    <a href="{{ route('quotations.edit', ['quotation_number' => $quotation->id]) }}" class="button is-small is-grey">Edit</a>
                     @if ((int) $quotation->status != \App\Models\Quotation::SAVED)
                         <form action="{{ route('quotations.save', ['id' => $quotation->id]) }}"
                               method="post"

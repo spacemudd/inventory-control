@@ -15,7 +15,7 @@
                     <span>Quotations</span>
                 </a>
             </li>
-            <li class="is-active">
+            <li>
                 <a href="{{ route('quotations.show', ['id' => $quotation->id]) }}">
                     {{ $quotation->vendor_quotation_number }}
                 </a>
@@ -94,7 +94,7 @@
 						<label for="vendor_quotation_number" class="label">Quotation Number<span class="has-text-danger">*</span></label>
 						<p class="control">
 							<input id="vendor_quotation_number"
-								   type="number"
+								   type="text"
 								   class="input {{ $errors->has('vendor_quotation_number') ? ' is-danger' : '' }}"
 								   name="vendor_quotation_number"
 								   value="{{ $quotation->vendor_quotation_number }}"
