@@ -110,7 +110,7 @@ class QuotationsController extends Controller
         $quotation = quotation::findOrFail($id);
         $quotation->update([
             'vendor_quotation_number'   => $request['vendor_quotation_number'],
-            'material_request->number'  => $request['material_request_number'],
+            'material_request_number'          => $request['material_request_number'],
         ]);
 
         DB::commit();
