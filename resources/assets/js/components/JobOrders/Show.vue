@@ -730,8 +730,9 @@
         this.materialSearchCode = '';
       },
       completedJobOrder() {
-        this.loadJobOrder();
+        //this.loadJobOrder();
         // ending of animation is under loadJobOrder()
+        window.location.href = this.baseUrl()+'/job-orders';
       },
       deleteJobOrderPrompt() {
         let vm = this;
