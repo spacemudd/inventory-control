@@ -71,7 +71,8 @@ class StockController extends Controller
             'description' => 'required|unique:stock,description,'.$id,
             'available_quantity' => 'required|min:0',
             'category_id' => 'nullable|exists:categories,id',
-            'rack_number' => 'nullable|string|min:0'
+            'rack_number' => 'nullable|string|min:0',
+            'recommended_qty' => 'nullable|numeric|min:0',
         ]);
 
         DB::beginTransaction();

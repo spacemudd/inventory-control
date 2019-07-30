@@ -107,8 +107,7 @@
 							   type="number"
 							   class="input {{ $errors->has('recommended_qty') ? ' is-danger' : '' }}"
 							   name="recommended_qty"
-							   value="{{ old('recommended_qty') }}"
-							   required>
+							   value="{{ old('recommended_qty') }}">
 
 						@if ($errors->has('recommended_qty'))
 							<span class="help is-danger">
