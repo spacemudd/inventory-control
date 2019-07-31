@@ -32,7 +32,7 @@ class JobOrderService
             'value' => 100,
         ]);
 
-        $m->value = $m->value++;
+        $m->value = ++$m->value;
         $m->save();
 
         return $m;
