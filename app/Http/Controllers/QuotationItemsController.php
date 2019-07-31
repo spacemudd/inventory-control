@@ -60,7 +60,9 @@ class QuotationItemsController extends Controller
         $totalPriceExVat = Money::of($request['unit_price'], 'SAR', new CustomContext(2), RoundingMode::HALF_UP)
             ->multipliedBy($request['qty'], RoundingMode::HALF_UP);
 
-        $request['unit_price'] = Money::of($request['unit_price'], 'SAR', new CustomContext(2), RoundingMode::HALF_UP)->getMinorAmount()->toInt();
+        $request['unit_price'] = Money::of($request['unit_price'], 'SAR', new CustomContext(2), RoundingMode::HALF_UP)
+            ->getMinorAmount()
+            ->toInt();
 
         $request['total_price_ex_vat'] = $totalPriceExVat->getMinorAmount()->toInt();
 

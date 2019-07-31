@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Model;
 
 class QuotationItem extends Model
@@ -27,5 +28,12 @@ class QuotationItem extends Model
     public function quotation()
     {
         return $this->belongsTo(Quotation::class);
+    }
+
+    public function getUnitPriceAttribute($value)
+    {
+        return Money::ofMinor($value, 'SAR')
+            ->getAmount()
+            ->toFloat();
     }
 }
