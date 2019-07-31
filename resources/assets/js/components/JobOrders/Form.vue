@@ -687,6 +687,8 @@
 
 <style>
     .dropdown-box-container {
+        overflow: scroll;
+        
         position: absolute;
         width: 400px;
         margin-top: 10px;
