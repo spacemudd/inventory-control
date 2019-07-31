@@ -88,7 +88,7 @@
                         <input v-else
                                type="text"
                                class="input is-small"
-                               :value="employee.code + ' - ' + employee.name"
+                               :value="employee.display_name"
                                @click="emptyEmployee"
                                readonly>
                     </b-field>

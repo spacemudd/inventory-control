@@ -58,7 +58,12 @@
                 </tr>
                 <tr>
                     <td><b>Emp ID:</b></td>
-                    <td>{{ optional($jobOrder->employee)->code }}</td>
+                    <td>
+                        @if (\Illuminate\Support\Str::contains(optional($jobOrder->employee)->code, 'EM-'))
+                        @else
+                            {{ optional($jobOrder->employee)->code }}
+                        @endif
+                    </td>
                 </tr>
                 <tr>
                     <td><b>Location:</b></td>

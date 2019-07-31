@@ -48,7 +48,12 @@
 
                 <div class="column">
                     <b-field label="Requester">
+                        <input type="text"
+                               class="input is-small"
+                               v-model="employeeName">
+
                         <!-- If selected. -->
+                        <!--
                         <b-autocomplete v-if="!employee"
                                         v-model="employeeSearchCode"
                                         field="code"
@@ -58,13 +63,16 @@
                                         :loading="$isLoading('FETCHING_EMPLOYEES')">
                             <template slot="empty">No results found</template>
                         </b-autocomplete>
+                        -->
                         <!-- When selected -->
+                        <!--
                         <input v-else
                                type="text"
                                class="input is-small"
                                :value="employee.code + ' - ' + employee.name"
                                @click="emptyEmployee"
                                readonly>
+                               -->
                     </b-field>
 
                     <div class="field"
@@ -76,6 +84,7 @@
                                v-model="locationSearch"
                                ref="locationField"
                                id="location-field"
+                               autocomplete="off"
                                @click="selectLocationField"
                                @keydown="goDownLocation"
                                required>
@@ -183,7 +192,7 @@
                                 <td>
                                     <b-autocomplete
                                             size="is-small"
-                                            :data="material.material_options"
+                                            :data="material.material_options.data"
                                             placeholder="Material"
                                             field="description"
                                             :loading="material.isFetching"
@@ -336,6 +345,7 @@
         time_end: null,
         remark: '',
         employee: null,
+        employeeName: '',
         costCenters: [],
         costCenterSearchCode: '',
 
@@ -531,11 +541,12 @@
         let selectedMaterialRequests = data.materials.filter((x) => x.stock_id)
         data.materials = selectedMaterialRequests;
 
-        if (this.employee) {
-          data.employee_id = this.employee.id;
-        } else {
-          data.employeeName = this.employeeSearchCode;
-        }
+        //
+        //if (this.employee) {
+        //  data.employee_id = this.employee.id;
+        //} else {
+        //  data.employeeName = this.employeeSearchCode;
+        //}
 
         data.cost_center_id = this.cost_center ? this.cost_center.id : null;
 
