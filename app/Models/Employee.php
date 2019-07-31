@@ -13,6 +13,7 @@ namespace App\Models;
 
 use Brick\Money\Money;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Auditable;
@@ -42,6 +43,10 @@ class Employee extends Model implements AuditableContract
 
 	public function getDisplayNameAttribute()
 	{
+	    if (Str::contains($this->code, 'EM-')) {
+	        return $this->name;
+        }
+
 		return $this->code . ' - ' . $this->name;
 	}
 

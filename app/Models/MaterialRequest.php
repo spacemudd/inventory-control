@@ -138,4 +138,15 @@ class MaterialRequest extends Model
     {
         return $q->where('status', self::APPROVED);
     }
+
+    /**
+     * All "open" material requests in the sense that they can still
+     * be referenced to new quotes.
+     *
+     * @param $q
+     */
+    public function scopeOpen($q)
+    {
+        $q->whereIn('status', [self::APPROVED, self::PENDING, self::DELIVERED]);
+    }
 }

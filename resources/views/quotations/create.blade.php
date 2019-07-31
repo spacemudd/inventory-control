@@ -31,6 +31,7 @@
             <p class="is-uppercase"><b>Quotation details</b></p>
             <form class="form" action="{{ route('quotations.store') }}" method="post" style="margin-top:2rem">
                 @csrf
+
                 <div class="field">
                     <label for="date" class="label">Material request number <span class="has-text-danger">*</span></label>
 
@@ -75,7 +76,8 @@
                     <label for="vendor_quotation_number" class="label">Quotation Number</label>
 
                     <p class="control">
-                        <input id="vendor_quotation_number" type="text"
+                        <input id="vendor_quotation_number"
+                               type="text"
                                class="input {{ $errors->has('vendor_quotation_number') ? ' is-danger' : '' }}"
                                name="vendor_quotation_number"
                                value="{{ old('vendor_quotation_number') }}"

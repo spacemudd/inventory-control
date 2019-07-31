@@ -223,6 +223,7 @@
 
         this.$startLoading('SAVING_QUOTATION_ITEM');
         this.form.quotation_id = this.quotationId;
+        this.form.unit_price = parseFloat(this.form.unit_price);
         axios.post(this.apiUrl() + `/quotations/`+this.quotationId+`/items/store`, this.form)
           .then(response => {
             this.items.push(response.data);

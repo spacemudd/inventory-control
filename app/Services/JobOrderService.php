@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Models\Department;
 use App\Models\JobOrderTechnician;
 use App\Models\Location;
+use App\Models\MaxNumber;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -21,6 +23,21 @@ class JobOrderService
     {
         $this->stockService = $stockService;
     }
+
+    public function generateRequesterCode()
+    {
+        $m = MaxNumber::lockForUpdate()->firstOrCreate([
+            'name' => 'EM',
+        ], [
+            'value' => 100,
+        ]);
+
+        $m->value = $m->value++;
+        $m->save();
+
+        return $m;
+    }
+
     /**
      * Create job order
      *
@@ -30,9 +47,13 @@ class JobOrderService
     public function save(Request $request)
     {
         if($request->employee_id == null && $request->employeeName) {
+            $department = Department::firstOrCreate([
+                'code' => 'UNGROUPED',
+                'description' => 'UNGROUPED',
+            ]);
             $toInsert = [
-                'code' => $request->employeeName,
-                'department_id' => null,
+                'code' => $this->generateRequesterCode()->code,
+                'department_id' => $department->id,
                 'staff_type_id' => null,
                 'name' => $request->employeeName,
                 'email' => null,

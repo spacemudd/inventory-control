@@ -35,7 +35,8 @@ class VendorController extends Controller
 	{
 	    $this->authorize('view-vendor');
 
-        $activeVendors = Vendor::count();
+        $activeVendors = Vendor::get();
+
         $inactiveVendors = Vendor::onlyTrashed()->count();
 
 		return view('vendors.index', compact('activeVendors', 'inactiveVendors'));
@@ -122,7 +123,7 @@ class VendorController extends Controller
 
 		$this->service->update($id);
 
-		return redirect()->route('vendors.show', ['id' => $id]);
+		return redirect()->route('vendors.index', ['id' => $id]);
 	}
 
     /**

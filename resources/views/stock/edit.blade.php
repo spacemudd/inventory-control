@@ -62,16 +62,14 @@
 
 			<div class="column is-4 is-offset-4">
 				<div class="field">
-					<label for="rack_number" class="label">Rack number <span class="has-text-danger">*</span></label>
+					<label for="rack_number" class="label">Rack number</span></label>
 					<p class="control">
 						<input id="rack_number"
 							   type="string"
 							   class="input {{ $errors->has('rack_number') ? ' is-danger' : '' }}"
 							   name="rack_number"
 							   value="{{ $stock->rack_number }}"
-							   autocomplete="off" 
-							   required>
-
+							   autocomplete="off">
 						@if ($errors->has('rack_number'))
 							<span class="help is-danger">
                                 {{ $errors->first('rack_number') }}
@@ -110,8 +108,7 @@
 							   type="number"
 							   class="input {{ $errors->has('recommended_qty') ? ' is-danger' : '' }}"
 							   name="recommended_qty"
-							   value="{{ $stock->recommended_qty }}"
-							   required>
+							   value="{{ $stock->recommended_qty }}">
 
 						@if ($errors->has('recommended_qty'))
 							<span class="help is-danger">

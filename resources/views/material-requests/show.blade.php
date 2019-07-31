@@ -35,6 +35,13 @@
                 </div>
                 <div class="column is-6 has-text-right">
                     @if (!$mRequest->approved_at)
+                        <a class="button has-icon is-small" href="{{ route('material-requests.edit', ['id' => $mRequest->id]) }}">
+                            <span class="icon"><i class="fa fa-pencil"></i></span>
+                            <span>Edit</span>
+                        </a>
+                    @endif
+
+                    @if (!$mRequest->approved_at)
                         <form action="{{ route('material-requests.approve', ['id' => $mRequest->id]) }}"
                               method="post"
                               class="is-inline">

@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\MaterialRequest;
 use App\Models\MaterialRequestItem;
 use App\Models\Quotation;
@@ -9,6 +8,7 @@ use App\Models\Region;
 use App\Models\Vendor;
 use App\Services\QuotationsService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class QuotationsController extends Controller
 {
@@ -94,27 +94,27 @@ class QuotationsController extends Controller
      */
     public function edit($id)
     {
-        //
-    }
+        $quotation = Quotation::with('material_request')->find($id);
+        $mRequests = MaterialRequest::open()->get();
+        return view('quotations.edit', compact('quotation', 'mRequests'));
+   }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'material_request_id' => 'required|numeric|exists:material_requests,id',
+            'vendor_id' => 'required|numeric|exists:vendors,id',
+            'vendor_quotation_number' => 'required|string|max:255',
+            //'region_id' => 'required|numeric|exists:regions,id'
+        ]);
+
+        $quotation = quotation::findOrFail($id);
+        $quotation->update($request->except('_token'));
+        
+        return redirect()->route('quotations.show', ['id' => $id]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function destroy($id)
     {
         //
@@ -133,3 +133,5 @@ class QuotationsController extends Controller
         return redirect()->route('quotations.show', ['id' => $quote->id]);
     }
 }
+
+//dd(gettype($request['quotation_number']));

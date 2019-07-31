@@ -91,7 +91,7 @@
 
                             <p class="control">
                                 <input id="email" type="text" class="input {{ $errors->has('email') ? ' is-danger' : '' }}"
-                                       name="email" value="{{ old('email') }}" >
+                                       name="email" value="{{ $vendor->email }}" >
 
                                 @if ($errors->has('email'))
                                     <span class="help is-danger">
@@ -107,8 +107,8 @@
 							<label for="telephone_number" class="label">{{ __('words.telephone-number') }}</label>
 
 							<p class="control">
-								<input id="telephone_number" type="text" class="input {{ $errors->has('telephone_number') ? ' is-danger' : '' }}"
-									   name="telephone_number" value="{{ old('telephone_number') }}" >
+								<input id="telephone_number" type="text" class="input {{ $errors->has('telephone_number') ? 'is-danger' : '' }}"
+									   name="telephone_number" value="{{ $vendor->telephone_number }}" >
 
 								@if ($errors->has('telephone_number'))
 									<span class="help is-danger">
@@ -125,7 +125,7 @@
 
 							<p class="control">
 								<input id="fax_number" type="text" class="input {{ $errors->has('fax_number') ? ' is-danger' : '' }}" name="fax_number"
-									   value="{{ old('fax_number') }}" >
+									   value="{{ $vendor->fax_number }}" >
 
 								@if ($errors->has('fax_number'))
 									<span class="help is-danger">
@@ -167,7 +167,7 @@
 					</div>
 
 					<div class="column is-6 has-text-right">
-						<a class="button is-text" href="{{ route('vendors.show', ['id' => $vendor->id]) }}">{{ __('words.cancel') }}</a>
+						<a class="button is-text" href="{{ route('vendors.index', ['id' => $vendor->id]) }}">{{ __('words.cancel') }}</a>
 						<button type="submit" class="button is-success">{{ trans('words.save') }}</button>
 					</div>
 

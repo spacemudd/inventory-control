@@ -88,7 +88,7 @@
                         <input v-else
                                type="text"
                                class="input is-small"
-                               :value="employee.code + ' - ' + employee.name"
+                               :value="employee.display_name"
                                @click="emptyEmployee"
                                readonly>
                     </b-field>
@@ -730,8 +730,9 @@
         this.materialSearchCode = '';
       },
       completedJobOrder() {
-        this.loadJobOrder();
+        //this.loadJobOrder();
         // ending of animation is under loadJobOrder()
+        window.location.href = this.baseUrl()+'/job-orders';
       },
       deleteJobOrderPrompt() {
         let vm = this;
