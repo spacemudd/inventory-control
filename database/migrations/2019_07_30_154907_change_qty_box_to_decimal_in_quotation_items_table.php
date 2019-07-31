@@ -14,8 +14,8 @@ class ChangeQtyBoxToDecimalInQuotationItemsTable extends Migration
     public function up()
     {
         Schema::table('quotation_items', function (Blueprint $table) {
-            $table->decimal('qty', 15, 2)->default(1)->comment('Pieces qty')->change();
-            $table->decimal('qty_boxes', 15, 2)->default(0)->comment('Boxes qty')->change();
+            $table->decimal('qty', 15, 2)->change();
+            $table->decimal('qty_boxes', 15, 2)->change();
         });
     }
 
