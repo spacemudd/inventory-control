@@ -34,12 +34,12 @@
                     <p class="is-uppercase"><b>Request details</b></p>
                 </div>
                 <div class="column is-6 has-text-right">
-                    @if (!$mRequest->approved_at)
+{{--                    @if (!$mRequest->approved_at)--}}
                         <a class="button has-icon is-small" href="{{ route('material-requests.edit', ['id' => $mRequest->id]) }}">
                             <span class="icon"><i class="fa fa-pencil"></i></span>
                             <span>Edit</span>
                         </a>
-                    @endif
+{{--                    @endif--}}
 
                     @if (!$mRequest->approved_at)
                         <form action="{{ route('material-requests.approve', ['id' => $mRequest->id]) }}"
