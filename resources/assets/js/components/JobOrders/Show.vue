@@ -234,7 +234,7 @@
                                     <b-autocomplete
                                             v-model="newMaterial.stock"
                                             size="is-small"
-                                            :data="newMaterial.material_options"
+                                            :data="newMaterial.material_options.data"
                                             placeholder="Search material"
                                             field="description"
                                             :loading="newMaterial.isFetching"
