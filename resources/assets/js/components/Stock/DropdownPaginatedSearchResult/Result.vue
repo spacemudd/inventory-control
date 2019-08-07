@@ -12,17 +12,29 @@
                             <th style="width:105px;">{{ $t('words.category') }}</th>
                             <th>{{ $t('words.description') }}</th>
                             <th>{{ $t('words.quantity') }}</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="record in paginatedRecords.data" class="pointer" @click="recordSelected(record)">
-                            <td>
+                        <tr v-for="record in paginatedRecords.data" class="pointer">
+                            <td @click="recordSelected(record)">
                                 <span v-if="record.category">
                                     {{ record.category.name }}
                                 </span>
                             </td>
-                            <td>{{ record.description }}</td>
-                            <td>{{ record.on_hand_quantity }}</td>
+                            <td @click="recordSelected(record)">{{ record.description }}</td>
+                            <td @click="recordSelected(record)">{{ record.on_hand_quantity }}</td>
+                            <td class="has-text-right">
+                                <input @keydown.esc="cancelEditingRecord(record.id)"
+                                       @keyup.down="updateQuantityForRecord(record)"
+                                       v-if="record.id === editingId"
+                                       style="width:105px;"
+                                       class="input is-small"
+                                       v-model="editingCount"
+                                       type="text">
+                                <button class="button is-small"
+                                        @click.stop="updateQuantityForRecord(record)">Update quantity</button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -57,7 +69,9 @@
             return {
                 order: '',
                 size: '',
-                isSimple: true
+                isSimple: true,
+              editingId: null,
+              editingCount: null,
             }
         },
         computed: {
@@ -77,7 +91,25 @@
             },
             changePage(pageNumber) {
                 this.$emit('changePagePagination', pageNumber);
+            },
+          updateQuantityForRecord(record) {
+            if (this.editingId === record.id) {
+              axios.put(this.apiUrl()+'/stocks/'+this.editingId, {
+                available_quantity: this.editingCount,
+              }).then(response => {
+                record.on_hand_quantity = response.data.on_hand_quantity;
+                this.editingId = null;
+                this.editingCount = null;
+              });
+            } else {
+              this.editingId = record.id;
+              this.editingCount = record.on_hand_quantity;
             }
+          },
+          cancelEditingRecord(recordId) {
+            this.editingCount = null;
+            this.editingId = null;
+          }
         }
     }
 </script>
