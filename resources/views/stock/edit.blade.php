@@ -41,6 +41,24 @@
 		<div class="columns is-multiline">
 			<div class="column is-4 is-offset-4">
 				<div class="field">
+					<label for="code" class="label">Code <span class="has-text-danger">*</span></label>
+					<p class="control">
+						<input id="code"
+							   type="string"
+							   class="input {{ $errors->has('code') ? ' is-danger' : '' }}"
+							   name="code"
+							   value="{{ $stock->code }}"
+							   autocomplete="off">
+						@if ($errors->has('code'))
+							<span class="help is-danger">
+                                {{ $errors->first('code') }}
+                            </span>
+						@endif
+					</p>
+				</div>
+			</div>
+			<div class="column is-4 is-offset-4">
+				<div class="field">
 					<label for="description" class="label">{{ trans('words.description') }} <span class="has-text-danger">*</span></label>
 
 					<p class="control">

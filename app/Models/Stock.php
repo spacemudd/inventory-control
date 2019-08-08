@@ -9,6 +9,7 @@ class Stock extends Model
     protected $table = 'stock';
 
     protected $fillable = [
+        'code',
         'description',
         'rack_number',
         'material_request_item_id',
