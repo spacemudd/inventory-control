@@ -108,7 +108,7 @@ class QuotationsController extends Controller
             //'region_id' => 'required|numeric|exists:regions,id'
         ]);
 
-        $quotation = quotation::findOrFail($id);
+        $quotation = Quotation::findOrFail($id);
         $quotation->update($request->except('_token'));
         
         return redirect()->route('quotations.show', ['id' => $id]);

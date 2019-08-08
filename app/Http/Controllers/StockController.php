@@ -19,7 +19,7 @@ class StockController extends Controller
 
     public function index()
     {
-        $stocks = Stock::get();
+        $stocks = Stock::orderBy('description' , 'Asc')->get();
         return view('stock.index', compact('stocks'));
     }
 
@@ -37,6 +37,7 @@ class StockController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'code'        => 'nullable|string|max:255|unique:stock',
             'description' => 'required|unique:stock,description',
             'rack_number' => 'nullable|string|min:0',
             'available_quantity' => 'required|numeric|min:0',
@@ -68,6 +69,7 @@ class StockController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
+            'code' => 'nullable|string|min:3|unique:stock,'.$id,
             'description' => 'required|unique:stock,description,'.$id,
             'available_quantity' => 'required|min:0',
             'category_id' => 'nullable|exists:categories,id',
