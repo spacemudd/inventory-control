@@ -93,7 +93,7 @@
 					<table class="table is-size-7 is-narrow is-fullwidth is-bordered">
 						<thead>
 						<colgroup>
-							<col style="width:1px;">
+							<col style="width:3rem;">
 							<col style="width:7rem">
 							<col>
 							<col style="width:6rem;">
@@ -102,7 +102,7 @@
 							<col style="width:5rem;">
 						</colgroup>
 						<tr>
-							<th>ID</th>
+							<th>Code</th>
 							<th>Category</th>
 							<th>Description</th>
 							<th class="has-text-right">Rack No.</th>
@@ -118,13 +118,14 @@
 						<tbody>
 						@foreach ($stocks as $stock)
 							<tr>
-								<td>{{ $stock->id }}</td>
+								<td class="has-text-left">{{ $stock->code }}</td>
 								<td>
 									<a href="{{ route('stock.category', ['category_id' => $stock->category_id]) }}">
 										{{ optional($stock->category)->name }}
 									</a>
 								</td>
-								<td><a href="{{ route('stock.show', ['id' => $stock->id]) }}">{{ $stock->description }}</a></td>
+								<td><a href="{{ route('stock.show', ['id' => $stock->id]) }}">
+									{{ ucwords(strtolower( $stock->description )) }}</a></td>
 								<td class="has-text-right">{{ $stock->rack_number }}</td>
 								<td class="has-text-right">{{ $stock->on_hand_quantity }}</td>
 								<td class="has-text-right">{{ $stock->recommended_qty }}</td>
@@ -152,7 +153,7 @@
 								<col style="width:5rem;">
 							</colgroup>
 							<tr>
-								<th>ID</th>
+								<th>code</th>
 								<th>Category</th>
 								<th>Description</th>
 								<th class="has-text-right">Rack No.</th>
@@ -168,13 +169,13 @@
 							<tbody>
 							@foreach ($category->stocks as $stock)
 								<tr>
-									<td>{{ $stock->id }}</td>
+									<td>{{ $stock->code }}</td>
 									<td>
 										<a href="{{ route('stock.category', ['category_id' => $stock->category_id]) }}">
 											{{ optional($stock->category)->name }}
 										</a>
 									</td>
-									<td><a href="{{ route('stock.show', ['id' => $stock->id]) }}">{{ $stock->description }}</a></td>
+									<td><a href="{{ route('stock.show', ['id' => $stock->id]) }}">{{ ucwords(strtolower($stock->description ))}}</a></td>
 									<td class="has-text-right">{{ $stock->rack_number }}</td>
 									<td class="has-text-right">{{ $stock->on_hand_quantity }}</td>
 									<td class="has-text-right">{{ $stock->recommended_qty }}</td>
