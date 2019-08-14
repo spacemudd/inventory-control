@@ -24,7 +24,6 @@
                             <th width="50px" class="has-text-centered">#</th>
                             <th>Items</th>
                             <th width="80px" class="has-text-right">Quantity</th>
-                            <th width="50px" class="has-text-right">Boxes</th>
                             <th v-if="canEdit" width="50px"></th>
                         </tr>
                     </thead>
@@ -33,7 +32,6 @@
                             <td>{{ ++key }}</td>
                             <td>{{ item.description }}</td>
                             <td class="has-text-right">{{ item.qty }}</td>
-                            <td class="has-text-right">{{ item.qty_boxes }}</td>
                             <td class="has-text-centered" v-if="canEdit">
                                 <button v-if="canEdit"
                                         @click="deleteItem(item, key)"
@@ -65,9 +63,6 @@
                             </td>
                             <td>
                                 <b-input size="is-small" type="numeric" v-model="form.qty"></b-input>
-                            </td>
-                            <td>
-                                <b-input size="is-small" type="numeric" v-model="form.qty_boxes"></b-input>
                             </td>
                             <td class="has-text-centered">
                                 <button class="button is-primary is-small"
@@ -113,7 +108,6 @@ export default {
                 material_request_id: this.material_request_id,
                 description: '',
                 qty: 1,
-                qty_boxes: null,
             },
             shouldDelete: true,
             showItem: true,
@@ -121,7 +115,7 @@ export default {
         }
     },
     computed: {
-        showAttachItemToPoItemModal: {
+    showAttachItemToPoItemModal: {
             get() {
                 return this.$store.getters['PurchaseRequisitionItem/showModal'];
             },
