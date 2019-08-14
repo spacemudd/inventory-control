@@ -69,7 +69,7 @@ class StockController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'code' => 'nullable|string|min:3|unique:stock,'.$id,
+            'code' => 'nullable|string|min:3|unique:stock,code,'.$id,
             'description' => 'required|unique:stock,description,'.$id,
             'available_quantity' => 'required|min:0',
             'category_id' => 'nullable|exists:categories,id',

@@ -6,7 +6,7 @@
             </div>
             <div class="column has-text-right">
                 <button class="button has-icon is-small is-warning"
-                        v-if="canEdit"
+                        v-if="canEdit && !($isLoading('LOADING_ITEMS'))"
                         @click="isAdding=!isAdding"
                 >
                     <span class="icon"><i class="fa fa-plus"></i></span>
@@ -17,7 +17,11 @@
 
         <div class="columns">
             <div class="column">
-                <loading-screen class="is-small" v-if="$isLoading('DELETING_ITEM') || $isLoading('LOADING_ITEMS')"></loading-screen>
+                <div v-if="$isLoading('DELETING_ITEM') || $isLoading('LOADING_ITEMS')"
+                     class="is-fullwidth is-flex"
+                     style="justify-content:center;">
+                    <loading-screen class="is-small"></loading-screen>
+                </div>
                 <table v-else class="table is-fullwidth is-bordered is-size-7 is-compact">
                     <thead>
                         <tr>
@@ -43,7 +47,7 @@
                             </td>
                         </tr>
                         <tr v-if="isAdding">
-                            <td></td>
+                            <td><button @click="isAdding=false" class="button is-outlined has-icon is-small"><i class="fa fa-times"></i></button></td>
                             <td v-on:keyup="searchMyItems" id="searchNewItem">
                                 <b-autocomplete
                                         size="is-small"
