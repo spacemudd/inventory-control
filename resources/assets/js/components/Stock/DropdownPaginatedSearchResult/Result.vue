@@ -25,6 +25,8 @@
                             <td @click="recordSelected(record)">{{ record.description }}</td>
                             <td @click="recordSelected(record)">{{ record.on_hand_quantity }}</td>
                             <td class="has-text-right">
+                                <a class="button is-small is-fullwidth" :href="baseUrl()+'/stock/7/edit'">Edit</a>
+                                <!--
                                 <input @keydown.esc="cancelEditingRecord(record.id)"
                                        @keyup.down="updateQuantityForRecord(record)"
                                        v-if="record.id === editingId"
@@ -34,6 +36,7 @@
                                        type="text">
                                 <button class="button is-small"
                                         @click.stop="updateQuantityForRecord(record)">Update quantity</button>
+                                -->
                             </td>
                         </tr>
                     </tbody>
