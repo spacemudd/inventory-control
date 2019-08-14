@@ -33,7 +33,7 @@ class MaterialRequestsController extends Controller
      */
     public function index()
     {
-        $mRequests = MaterialRequest::latest()->get();
+        $mRequests = MaterialRequest::orderBy('date')->get();
         return view('material-requests.index', compact('mRequests'));
     }
 
