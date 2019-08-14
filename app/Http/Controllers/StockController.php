@@ -19,7 +19,16 @@ class StockController extends Controller
 
     public function index()
     {
-        $stocks = Stock::orderBy('description' , 'Asc')->get();
+        $stocks = Stock::query();
+
+        if (request()->has('sort-rack-desc')) {
+            $stocks->orderBy('rack_number', 'desc');
+        }
+
+        $stocks->orderBy('description' , 'asc');
+
+        $stocks = $stocks->get();
+
         return view('stock.index', compact('stocks'));
     }
 

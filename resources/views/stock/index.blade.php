@@ -105,7 +105,15 @@
 							<th>Code</th>
 							<th>Category</th>
 							<th>Description</th>
-							<th class="has-text-right">Rack No.</th>
+							@if (request()->has('sort-rack-desc'))
+								<th class="has-text-right">
+									<a href="{{ route('stock.index') }}">Rack No. <i class="fa fa-chevron-down"></i></a>
+								</th>
+							@else
+								<th class="has-text-right">
+									<a href="?sort-rack-desc">Rack No.</a>
+								</th>
+							@endif
 							<th class="has-text-right">Avail. quantity</th>
 							<th class="has-text-right">
 								<b-tooltip label="Recommended quantity">
