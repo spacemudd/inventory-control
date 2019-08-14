@@ -199,7 +199,7 @@
                                             @input="asyncRequest($event, {url: 'search/stock', key_data: `materials.${i}.material_options`})"
                                             @select="updateMaterialQty($event, material)">
                                         <template slot-scope="props">
-                                            <p>{{ props.option.description }}</p>
+                                            <p>{{ props.option.description }} {{ props.option.rack_number ? '(Rack no: '+props.option.rack_number+')' : '' }}</p>
                                         </template>
                                     </b-autocomplete>
                                 </td>
