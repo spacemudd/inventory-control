@@ -29,7 +29,6 @@
 @section('content')
 <div class="columns is-multiline">
     <div class="column is-6">
-
         <div class="is-inline job-order-status-box{{ request()->has('all') || request()->has('completed') ? '' : ' active' }}">
             <a href="{{ route('job-orders.index') }}">Pending: {{ \App\Models\JobOrder::pending()->count() }}</a>
         </div>

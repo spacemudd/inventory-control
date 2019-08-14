@@ -33,7 +33,16 @@ class MaterialRequestsController extends Controller
      */
     public function index()
     {
-        $mRequests = MaterialRequest::orderBy('date')->get();
+        if (request()->has('all')) {
+            $mRequests = MaterialRequest::orderBy('date')->get();
+        } elseif (request()->has('delivered')) {
+            $mRequests = MaterialRequest::orderBy('date')->delivered()->get();
+        } elseif (request()->has('approved')) {
+            $mRequests = MaterialRequest::orderBy('date')->approved()->get();
+        } else {
+            $mRequests = MaterialRequest::orderBy('date')->pending()->get();
+        }
+
         return view('material-requests.index', compact('mRequests'));
     }
 

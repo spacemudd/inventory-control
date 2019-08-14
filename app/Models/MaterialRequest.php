@@ -126,7 +126,12 @@ class MaterialRequest extends Model
      */
     public function scopePending($q)
     {
-        return $q->where('status', self::PENDING);
+        $q->where('status', self::PENDING);
+    }
+
+    public function scopeDelivered($q)
+    {
+        $q->where('status', self::DELIVERED);
     }
 
     /**
@@ -136,7 +141,7 @@ class MaterialRequest extends Model
      */
     public function scopeApproved($q)
     {
-        return $q->where('status', self::APPROVED);
+        $q->where('status', self::APPROVED);
     }
 
     /**
