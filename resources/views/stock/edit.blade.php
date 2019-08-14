@@ -41,7 +41,7 @@
 		<div class="columns is-multiline">
 			<div class="column is-4 is-offset-4">
 				<div class="field">
-					<label for="code" class="label">Code <span class="has-text-danger">*</span></label>
+					<label for="code" class="label">Code</label>
 					<p class="control">
 						<input id="code"
 							   type="string"
