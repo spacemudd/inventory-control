@@ -271,6 +271,8 @@ Vue.component('job-orders-mark-completed-button', require('./components/JobOrder
 // Locations
 Vue.component('manage-locations', require('./components/ManageLocations/ManageLocations').default);
 
+Vue.component('stock-search', require('./components/StockSearch').default);
+
 /**
  * API/App settings
  */

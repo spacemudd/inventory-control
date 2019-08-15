@@ -50,12 +50,13 @@
 
 	<div class="columns">
 		<div class="column">
-			<simple-search
-					:hyper-linked-results="true"
-					placeholder-text="Search"
-					size="is-small"
-					search-endpoint="stock">
-			</simple-search>
+			<stock-search></stock-search>
+{{--			<simple-search--}}
+{{--					:hyper-linked-results="true"--}}
+{{--					placeholder-text="Search"--}}
+{{--					size="is-small"--}}
+{{--					search-endpoint="stock">--}}
+{{--			</simple-search>--}}
 {{--			<ul style="margin-top:20px;">--}}
 {{--				@foreach (\App\Models\Category::get() as $category)--}}
 {{--					<li style="display: inline;{{ $category->id===\App\Models\Category::get()->first()->id ? '' : 'margin-left:1rem;' }}">--}}
