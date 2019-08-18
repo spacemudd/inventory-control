@@ -38,7 +38,8 @@
                     </b-field>
                     <div class="field">
                         <label class="label">Job description <span class="has-text-danger">*</span></label>
-                        <b-input v-model="job_description" maxlength="200" type="textarea" size="is-small" required></b-input>
+                        <!--<b-input v-model="job_description" maxlength="200" type="textarea" size="is-small" required></b-input>-->
+                        <autocomplete-suggestion v-model="job_description"></autocomplete-suggestion>
                     </div>
 
                     <b-field label="Remark">
@@ -744,5 +745,13 @@
 
     .dropdown-content {
         width: 460px;
+    }
+
+    .editable-box {
+        min-height: 85px;
+        overflow-y: hidden;
+        width: 100%;
+        color: #222;
+        outline: 0;
     }
 </style>
