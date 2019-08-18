@@ -83,13 +83,13 @@
 				<span class="icon"><i class="fa fa-file-excel-o"></i></span>
 				<span>Excel</span>
 			</a>
-			<a href="{{ route('stock.create') }}" class="button is-small is-primary">New stock</a>
+			<a id="new-stock" href="{{ route('stock.create') }}" class="button is-small is-primary">New stock</a>
 		</div>
 	</div>
 
 	<div class="columns">
 		<div class="column is-12">
-			<b-tabs class="">
+			<b-tabs @change='function load(payload){this.document.getElementById("new-stock").href="/stock/create?category="+payload}'>
 				<b-tab-item label="All">
 					<table class="table is-size-7 is-narrow is-fullwidth is-bordered">
 						<thead>

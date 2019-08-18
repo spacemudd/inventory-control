@@ -145,8 +145,8 @@
 						<div class="select is-fullwidth">
 							<select id="select-category" name="category_id">
 								<option value=""></option>
-								@foreach(\App\Models\Category::get() as $category)
-									<option value="{{ $category->id }}">
+								@foreach(\App\Models\Category::get() as $index => $category)
+									<option value="{{ $category->id }}"{{ (int)request()->get('category') === (++$index) ? ' selected' : '' }}>
 										{{ $category->name }}
 									</option>
 								@endforeach
