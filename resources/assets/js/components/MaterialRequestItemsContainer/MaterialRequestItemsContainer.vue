@@ -6,7 +6,7 @@
             </div>
             <div class="column has-text-right">
                 <button class="button has-icon is-small is-warning"
-                        v-if="canEdit"
+                        v-if="canEdit && !($isLoading('LOADING_ITEMS'))"
                         @click="isAdding=!isAdding"
                 >
                     <span class="icon"><i class="fa fa-plus"></i></span>
@@ -17,14 +17,17 @@
 
         <div class="columns">
             <div class="column">
-                <loading-screen class="is-small" v-if="$isLoading('DELETING_ITEM') || $isLoading('LOADING_ITEMS')"></loading-screen>
+                <div v-if="$isLoading('DELETING_ITEM') || $isLoading('LOADING_ITEMS')"
+                     class="is-fullwidth is-flex"
+                     style="justify-content:center;">
+                    <loading-screen class="is-small"></loading-screen>
+                </div>
                 <table v-else class="table is-fullwidth is-bordered is-size-7 is-compact">
                     <thead>
                         <tr>
                             <th width="50px" class="has-text-centered">#</th>
                             <th>Items</th>
                             <th width="80px" class="has-text-right">Quantity</th>
-                            <th width="50px" class="has-text-right">Boxes</th>
                             <th v-if="canEdit" width="50px"></th>
                         </tr>
                     </thead>
@@ -33,7 +36,6 @@
                             <td>{{ ++key }}</td>
                             <td>{{ item.description }}</td>
                             <td class="has-text-right">{{ item.qty }}</td>
-                            <td class="has-text-right">{{ item.qty_boxes }}</td>
                             <td class="has-text-centered" v-if="canEdit">
                                 <button v-if="canEdit"
                                         @click="deleteItem(item, key)"
@@ -45,7 +47,7 @@
                             </td>
                         </tr>
                         <tr v-if="isAdding">
-                            <td></td>
+                            <td><button @click="isAdding=false" class="button is-outlined has-icon is-small"><i class="fa fa-times"></i></button></td>
                             <td v-on:keyup="searchMyItems" id="searchNewItem">
                                 <b-autocomplete
                                         size="is-small"
@@ -65,9 +67,6 @@
                             </td>
                             <td>
                                 <b-input size="is-small" type="numeric" v-model="form.qty"></b-input>
-                            </td>
-                            <td>
-                                <b-input size="is-small" type="numeric" v-model="form.qty_boxes"></b-input>
                             </td>
                             <td class="has-text-centered">
                                 <button class="button is-primary is-small"
@@ -113,7 +112,6 @@ export default {
                 material_request_id: this.material_request_id,
                 description: '',
                 qty: 1,
-                qty_boxes: null,
             },
             shouldDelete: true,
             showItem: true,
@@ -121,7 +119,7 @@ export default {
         }
     },
     computed: {
-        showAttachItemToPoItemModal: {
+    showAttachItemToPoItemModal: {
             get() {
                 return this.$store.getters['PurchaseRequisitionItem/showModal'];
             },

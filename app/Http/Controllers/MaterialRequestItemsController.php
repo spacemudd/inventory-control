@@ -46,7 +46,6 @@ class MaterialRequestItemsController extends Controller
         $item->validate([
             'description' => 'required|string|max:255',
             'qty' => 'required|numeric|min:0',
-            'qty_boxes' => 'nullable|numeric|min:0',
         ]);
 
         $item = $item->except('_token');

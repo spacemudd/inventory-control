@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use Illuminate\Database\Eloquent\Model;
 use App\Scopes\LimitByRegionScope;
 
-class MaterialRequest extends Model
+class MaterialRequest extends Model implements AuditableContract
 {
+    use Auditable;
+
     /**
      * @see getStatusNameAttribute
      */
@@ -116,6 +120,7 @@ class MaterialRequest extends Model
      */
     public function getCanEditAttribute()
     {
+        return true;
         return (int) $this->status === self::PENDING;
     }
 
@@ -126,7 +131,12 @@ class MaterialRequest extends Model
      */
     public function scopePending($q)
     {
-        return $q->where('status', self::PENDING);
+        $q->where('status', self::PENDING);
+    }
+
+    public function scopeDelivered($q)
+    {
+        $q->where('status', self::DELIVERED);
     }
 
     /**
@@ -136,7 +146,7 @@ class MaterialRequest extends Model
      */
     public function scopeApproved($q)
     {
-        return $q->where('status', self::APPROVED);
+        $q->where('status', self::APPROVED);
     }
 
     /**

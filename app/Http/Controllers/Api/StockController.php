@@ -18,6 +18,11 @@ class StockController extends Controller
         $this->service = $service;
     }
 
+    public function index()
+    {
+        return Stock::get();
+    }
+
     public function search(Request $request)
     {
         //

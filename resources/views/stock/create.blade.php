@@ -40,15 +40,14 @@
 		
 		<div class="column is-4 is-offset-4">
 				<div class="field">
-					<label for="code" class="label">Code <span class="has-text-danger">*</span>  </label>
+					<label for="code" class="label">Code</label>
 					<p class="control">
 						<input id="code"
 							   type="string"
 							   class="input {{ $errors->has('code') ? ' is-danger' : '' }}"
 							   name="code"
 							   value="{{ old('code') }}"
-							   autocomplete="off"
-							   required>
+							   autocomplete="off">
 						@if ($errors->has('code'))
 							<span class="help is-danger">
                                 {{ $errors->first('code') }}

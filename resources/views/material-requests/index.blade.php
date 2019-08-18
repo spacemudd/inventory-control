@@ -21,7 +21,21 @@
 
 @section('content')
 <div class="columns is-multiline">
-    <div class="column is-12">
+    <div class="column is-6">
+        <div class="is-inline job-order-status-box{{ request()->has('pending') ||request()->has('approved') || request()->has('delivered') || request()->has('all')  ? '' : ' active' }}">
+            <a href="{{ route('material-requests.index') }}">Pending: {{ \App\Models\MaterialRequest::pending()->count() }}</a>
+        </div>
+        <div class="is-inline job-order-status-box{{ request()->has('approved') ? ' active' : ''}}" style="margin-left:10px;">
+            <a href="{{ route('material-requests.index').'?approved' }}">Approved: {{ \App\Models\MaterialRequest::approved()->count() }}</a>
+        </div>
+        <div class="is-inline job-order-status-box{{ request()->has('delivered') ? ' active' : ''}}" style="margin-left:10px;">
+            <a href="{{ route('material-requests.index').'?delivered' }}">Delivered: {{ \App\Models\MaterialRequest::delivered()->count() }}</a>
+        </div>
+        <div class="is-inline job-order-status-box{{ request()->has('all') ? ' active' : ''}}" style="margin-left:10px;">
+            <a href="{{ route('material-requests.index').'?all' }}">All: {{ \App\Models\MaterialRequest::count() }}</a>
+        </div>
+    </div>
+    <div class="column is-6">
         <div class="has-text-right">
             <div>
                 <a href="{{ route('material-requests.create') }}" class="button is-primary is-small">Add new</a>

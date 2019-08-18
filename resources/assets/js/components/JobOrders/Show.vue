@@ -205,7 +205,7 @@
                             <tbody>
                             <template v-if="materials.length">
                                 <tr v-for="(material, index) in materials">
-                                    <td>{{ material.stock.description }}</td>
+                                    <td>{{ material.stock.description }} {{ material.stock.rack_number ? '(Rack no: '+material.stock.rack_number+')' : '' }}</td>
                                     <td></td>
                                     <td class="has-text-right">{{ material.qty }}</td>
                                     <td class="has-text-right">
@@ -241,7 +241,7 @@
                                             @input="asyncRequest($event, {url: 'search/stock', key_data: `newMaterial.material_options`})"
                                             @select="updateMaterialQty($event, newMaterial)">
                                         <template slot-scope="props">
-                                            <p>{{ props.option.description }}</p>
+                                            <p>{{ props.option.description }} {{ props.option.rack_number ? '(Rack no: '+props.option.rack_number+')' : '' }}</p>
                                         </template>
                                     </b-autocomplete>
                                 </td>
