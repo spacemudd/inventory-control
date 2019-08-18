@@ -171,7 +171,11 @@ class MaterialRequestsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::beginTransaction();
+        MaterialRequestItem::where('material_request_id', $id)->delete();
+        MaterialRequest::where('id', $id)->delete();
+        DB::commit();
+        return redirect()->route('material-requests.index');
     }
 
     /**
