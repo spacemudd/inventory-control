@@ -162,7 +162,7 @@
 								<col style="width:5rem;">
 							</colgroup>
 							<tr>
-								<th>code</th>
+								<th>Code</th>
 								<th>Category</th>
 								<th>Description</th>
 								<th class="has-text-right">Rack No.</th>
