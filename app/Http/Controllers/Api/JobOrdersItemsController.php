@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\JobOrder;
 use App\Models\JobOrderItem;
 use App\Services\JobOrderService;
+use App\Services\StockService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -12,9 +13,12 @@ class JobOrdersItemsController extends Controller
 {
     protected $service;
 
-    public function __construct(JobOrderService $service)
+    protected $stockService;
+
+    public function __construct(JobOrderService $service, StockService $stockService)
     {
         $this->service = $service;
+        $this->stockService = $stockService;
     }
 
     public function destroy($id)
@@ -23,6 +27,10 @@ class JobOrdersItemsController extends Controller
 
         if ($item->jobOrder->isCompleted()) {
             throw new \Exception('Cant delete item of a completed job order');
+        }
+
+        if ($item->dispatched_at) {
+            $this->stockService->addIn($item->stock->description, $item->qty);
         }
 
         $item->delete();

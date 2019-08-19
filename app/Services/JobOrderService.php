@@ -301,10 +301,16 @@ class JobOrderService
 
             // Delete techs & items then JO.
             $jo->technicians()->sync([]);
-            $jo->items()->delete();
-            $jo->forceDelete();
 
-            // Restore stock to warehouse.
+            // Delete items from stock?
+            foreach ($jo->items as $item) {
+                if ($item->dispatched_at) {
+                    $this->stockService->addIn($item->stock->description, $item->qty);
+                }
+                $item->delete();
+            }
+
+            $jo->forceDelete();
         });
     }
 }
