@@ -3,7 +3,6 @@
 
 namespace App\Classes;
 
-use App\Models\Category;
 use App\Models\Stock;
 use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
 use Maatwebsite\Excel\Facades\Excel;
@@ -14,12 +13,25 @@ class StockExcel
     protected $fileName = "StockExcel";
 
     protected  $col = [
-        'id',
-        'category',
+        'code',
+        //'category',
         'description',
+        'rack_number',
         'qty',
         'recommended_qty',
     ];
+
+    public function StockForCsv($item)
+    {
+        return [
+            $item->code,
+            //optional($item->category)->name,
+            $item->description,
+            $item->rack_number,
+            $item->on_hand_quantity,
+            $item->recommended_qty,
+        ];
+    }
 
     /**
      *
@@ -44,16 +56,5 @@ class StockExcel
         });
 
         return $excel->download('xlsx');
-    }
-
-    public function StockForCsv($item)
-    {
-        return [
-            $item->id,
-            optional($item->category)->name,
-            $item->description,
-            $item->on_hand_quantity,
-            $item->recommended_qty,
-        ];
     }
 }
