@@ -145,6 +145,7 @@
                 --}}
 
                 <div class="field">
+                    <a class="button is-text" href="{{ route('material-requests.index') }}">Cancel</a>
                     <button class="button is-primary">Save</button>
                 </div>
             </form>
