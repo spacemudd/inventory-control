@@ -78,6 +78,7 @@
                     <p class="control">
                         <input id="vendor_quotation_number"
                                type="text"
+                               autocomplete="off"
                                class="input {{ $errors->has('vendor_quotation_number') ? ' is-danger' : '' }}"
                                name="vendor_quotation_number"
                                value="{{ old('vendor_quotation_number') }}"
