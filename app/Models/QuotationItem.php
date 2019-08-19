@@ -4,9 +4,13 @@ namespace App\Models;
 
 use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class QuotationItem extends Model
+class QuotationItem extends Model implements AuditableContract
 {
+    use Auditable;
+
     protected $fillable = [
         'quotation_id',
         'material_request_item_id',

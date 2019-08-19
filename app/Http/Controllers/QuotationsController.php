@@ -7,15 +7,21 @@ use App\Models\Quotation;
 use App\Models\Region;
 use App\Models\Vendor;
 use App\Services\QuotationsService;
+use App\Services\StockService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class QuotationsController extends Controller
 {
     protected $service;
 
-    public function __construct(QuotationsService $service)
+    protected $stockService;
+
+    public function __construct(QuotationsService $service, StockService $stockService)
     {
         $this->service = $service;
+        $this->stockService = $stockService;
     }
 
     /**
@@ -124,10 +130,40 @@ class QuotationsController extends Controller
         return redirect()->route('quotations.show', ['id' => $id]);
     }
 
-    
+    /**
+     * Deletes a quote.
+     *
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy($id)
     {
-        //
+        $quotation = Quotation::find($id);
+
+        DB::beginTransaction();
+
+        // Stock count must be readjusted.
+        if ($quotation->status === Quotation::SAVED) {
+            foreach ($quotation->items as $item) {
+                Log::info('Deleting quotation: Moving '.$item->description.' out by: '.$item->qty);
+                $this->stockService->moveOut($item->description, $item->qty, $item);
+            }
+        }
+
+        // Supplier's journal must be readjusted.
+        $journal = $quotation->vendor->journal;
+        if (!$journal) {
+            $quotation->vendor->initJournal('SAR');
+            $quotation->vendor->refresh();
+        }
+        $transaction = $quotation->vendor->journal->debitDollars($quotation->items()->sum('total_price_inc_vat'));
+        $transaction->referencesObject($quotation);
+
+        $quotation->items()->delete();
+        $quotation->delete();
+        DB::commit();
+
+        return redirect()->route('quotations.index');
     }
 
     /**
@@ -143,5 +179,3 @@ class QuotationsController extends Controller
         return redirect()->route('quotations.show', ['id' => $quote->id]);
     }
 }
-
-//dd(gettype($request['quotation_number']));
