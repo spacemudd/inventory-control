@@ -87,4 +87,14 @@ class Quotation extends Model
 
         return Money::ofMinor($totalPrice, 'SAR')->getAmount();
     }
+
+    public function scopeDraft($q)
+    {
+        $q->where('status', self::DRAFT);
+    }
+
+    public function scopeSavedQuotations($q)
+    {
+        $q->where('status', self::SAVED);
+    }
 }

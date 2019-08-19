@@ -8,7 +8,6 @@ use App\Models\Region;
 use App\Models\Vendor;
 use App\Services\QuotationsService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class QuotationsController extends Controller
 {
@@ -26,7 +25,18 @@ class QuotationsController extends Controller
      */
     public function index()
     {
-        $quotations = Quotation::latest()->get();
+
+        if (request()->has('all')) {
+            $quotations = Quotation::get();
+        } elseif (request()->has('saved')) {
+            $quotations = Quotation::savedQuotations()->get();
+        } elseif (request()->has('draft')) {
+            $quotations = Quotation::draft()->get();
+        } else {
+            $quotations = Quotation::draft()->get();
+        }
+
+
         return view('quotations.index', compact('quotations'));
     }
 

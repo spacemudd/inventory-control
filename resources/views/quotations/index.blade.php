@@ -21,7 +21,18 @@
 
 @section('content')
 <div class="columns is-multiline">
-    <div class="column is-12">
+    <div class="column is-6">
+        <div class="is-inline job-order-status-box{{ request()->has('saved') || request()->has('all')  ? '' : ' active' }}">
+            <a href="{{ route('quotations.index').'?draft' }}">Draft: {{ \App\Models\Quotation::draft()->count() }}</a>
+        </div>
+        <div class="is-inline job-order-status-box{{ request()->has('saved') ? ' active' : ''}}" style="margin-left:10px;">
+            <a href="{{ route('quotations.index').'?saved' }}">Saved: {{ \App\Models\Quotation::SavedQuotations()->count() }}</a>
+        </div>
+        <div class="is-inline job-order-status-box{{ request()->has('all') ? ' active' : ''}}" style="margin-left:10px;">
+            <a href="{{ route('quotations.index').'?all' }}">All: {{ \App\Models\Quotation::count() }}</a>
+        </div>
+    </div>
+    <div class="column is-6">
         <div class="has-text-right">
             <a href="{{ route('quotations.create') }}" class="button is-primary is-small">Add new</a>
         </div>
@@ -48,8 +59,6 @@
                             <td>{{ $quote->vendor->display_name }}</td>
                             <td>{{ $quote->items()->count() }}</td>
                             <td class="has-text-right">{{ $quote->totalCost() }}</td>
-{{--                            <td>{{ $request->cost_center->display_name }}</td>--}}
-                            {{--<td>{{ $request->location->name }}</td>--}}
                             <td class="has-text-centered">{{ $quote->status_name }}</td>
                             <td class="has-text-centered">
                                 <a href="{{ route('quotations.show', ['id' => $quote->id]) }}"
