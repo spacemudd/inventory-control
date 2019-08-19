@@ -73,6 +73,10 @@ class MaterialRequestsController extends Controller
             $request->merge([
                 'number' => $request['date'].' - '.$request['number'],
             ]);
+        } else {
+            $request->merge([
+                'number' => $request['date'].' - '.Department::find($request->cost_center_id)->description,
+            ]);
         }
 
         $request->validate([
