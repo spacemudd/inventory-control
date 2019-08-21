@@ -64,7 +64,7 @@
         @foreach($mRequest->items as $item)
             <tr>
                 <td>
-                    {{ $number }}
+                    {{ $number++ }}
                 </td>
                 <td style="width: 600px;">
                     {{ $item->description }}
@@ -77,17 +77,6 @@
                 </td>
             </tr>
         @endforeach
-
-        @if(count($mRequest->items) < 5)
-            @for($i = 0; $i <= 5; $i++)
-                <tr>
-                    <td>{{ $number++ }}</td>
-                    <td></td>
-                    <td></td>
-                    <td style="width: 300px;"></td>
-                </tr>
-            @endfor
-        @endif
     </table>
 </section>
 <footer>
