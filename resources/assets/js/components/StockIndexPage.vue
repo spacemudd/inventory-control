@@ -2,6 +2,9 @@
     <div>
         <b-tabs>
             <b-tab-item label="All">
+                <div v-if="loading">
+                    <loading-screen size="is-large"></loading-screen>
+                </div>
                 <b-table :data="stocks"
                          :paginated="false"
                          sort-icon-size="is-small"
@@ -39,6 +42,9 @@
             <b-tab-item v-for="category in categories"
                         v-bind:key="category.id"
                         :label="category.name">
+                <div v-if="loading">
+                    <loading-screen size="is-large"></loading-screen>
+                </div>
                 <stocks-by-category :category-id="category.id"></stocks-by-category>
             </b-tab-item>
         </b-tabs>
@@ -55,7 +61,7 @@
     },
     data() {
       return {
-        loading: false,
+        loading: true,
         stocks: [],
       }
     },
@@ -69,12 +75,16 @@
        *
        */
       loadResults() {
+        this.loading = true;
         axios.get(this.apiUrl()+'/stocks')
           .then(response => {
             this.stocks = response.data;
+            this.loading = false;
           }).catch(error => {
             alert('An error occurred during getting stocks data.');
             throw error;
+        }).finally(() => {
+          this.loading = false;
         })
       },
     }
