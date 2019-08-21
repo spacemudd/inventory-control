@@ -45,4 +45,16 @@ class CategoryController extends Controller
 
         return redirect()->route('categories.index');
     }
+
+    /**
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function stocksByCategory($id)
+    {
+        return Category::with(['stocks' => function($q) {
+            $q->with('category');
+        }])->where('id', $id)->first()->stocks;
+    }
 }

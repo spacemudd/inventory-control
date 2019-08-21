@@ -89,117 +89,118 @@
 
 	<div class="columns">
 		<div class="column is-12">
-			<b-tabs @change='function load(payload){this.document.getElementById("new-stock").href="/stock/create?category="+payload}'>
-				<b-tab-item label="All">
-					<table class="table is-size-7 is-narrow is-fullwidth is-bordered">
-						<thead>
-						<colgroup>
-							<col style="width:3rem;">
-							<col style="width:7rem">
-							<col>
-							<col style="width:6rem;">
-							<col style="width:6rem;">
-							<col style="width:6rem;">
-							<col style="width:5rem;">
-						</colgroup>
-						<tr>
-							<th>Code</th>
-							<th>Category</th>
-							<th>Description</th>
-							@if (request()->has('sort-rack-desc'))
-								<th class="has-text-right">
-									<a href="{{ route('stock.index') }}">Rack No. <i class="fa fa-chevron-down"></i></a>
-								</th>
-							@else
-								<th class="has-text-right">
-									<a href="?sort-rack-desc">Rack No.</a>
-								</th>
-							@endif
-							<th class="has-text-right">Avail. quantity</th>
-							<th class="has-text-right">
-								<b-tooltip label="Recommended quantity">
-									R. quantity
-								</b-tooltip>
-							</th>
-							<th class="has-text-right">Actions</th>
-						</tr>
-						</thead>
-						<tbody>
-						@foreach ($stocks as $stock)
-							<tr>
-								<td class="has-text-left">{{ $stock->code }}</td>
-								<td>
-									<a href="{{ route('stock.category', ['category_id' => $stock->category_id]) }}">
-										{{ optional($stock->category)->name }}
-									</a>
-								</td>
-								<td><a href="{{ route('stock.show', ['id' => $stock->id]) }}">
-									{{ ucwords(strtolower( $stock->description )) }}</a></td>
-								<td class="has-text-right">{{ $stock->rack_number }}</td>
-								<td class="has-text-right">{{ $stock->on_hand_quantity }}</td>
-								<td class="has-text-right">{{ $stock->recommended_qty }}</td>
-								<td class="has-text-right">
-									<a href="{{ route('stock.edit', ['id' => $stock->id]) }}" class="button is-small is-warning">
-										Edit
-									</a>
-								</td>
-							</tr>
-						@endforeach
-						</tbody>
-					</table>
-				</b-tab-item>
-				@foreach (\App\Models\Category::get() as $category)
-					<b-tab-item label="{{ $category->name }}">
-						<table class="table is-size-7 is-narrow is-fullwidth is-bordered">
-							<thead>
-							<colgroup>
-								<col style="width:1px;">
-								<col style="width:7rem">
-								<col>
-								<col style="width:6rem;">
-								<col style="width:6rem;">
-								<col style="width:6rem;">
-								<col style="width:5rem;">
-							</colgroup>
-							<tr>
-								<th>Code</th>
-								<th>Category</th>
-								<th>Description</th>
-								<th class="has-text-right">Rack No.</th>
-								<th class="has-text-right">Avail. quantity</th>
-								<th class="has-text-right">
-									<b-tooltip label="Recommended quantity">
-										R. quantity
-									</b-tooltip>
-								</th>
-								<th class="has-text-right">Actions</th>
-							</tr>
-							</thead>
-							<tbody>
-							@foreach ($category->stocks as $stock)
-								<tr>
-									<td>{{ $stock->code }}</td>
-									<td>
-										<a href="{{ route('stock.category', ['category_id' => $stock->category_id]) }}">
-											{{ optional($stock->category)->name }}
-										</a>
-									</td>
-									<td><a href="{{ route('stock.show', ['id' => $stock->id]) }}">{{ ucwords(strtolower($stock->description ))}}</a></td>
-									<td class="has-text-right">{{ $stock->rack_number }}</td>
-									<td class="has-text-right">{{ $stock->on_hand_quantity }}</td>
-									<td class="has-text-right">{{ $stock->recommended_qty }}</td>
-									<td class="has-text-right">
-										<a href="{{ route('stock.edit', ['id' => $stock->id]) }}" class="button is-small is-warning">
-											Edit
-										</a>
-									</td>
-								</tr>
-							@endforeach
-							</tbody>
-						</table>
-					</b-tab-item>
-				@endforeach
-			</b-tabs>
+			<stock-index-page :categories="{{ json_encode(\App\Models\Category::get()->toArray()) }}"></stock-index-page>
+{{--			<b-tabs @change='function load(payload){this.document.getElementById("new-stock").href="/stock/create?category="+payload}'>--}}
+{{--				<b-tab-item label="All">--}}
+{{--					<table class="table is-size-7 is-narrow is-fullwidth is-bordered">--}}
+{{--						<thead>--}}
+{{--						<colgroup>--}}
+{{--							<col style="width:3rem;">--}}
+{{--							<col style="width:7rem">--}}
+{{--							<col>--}}
+{{--							<col style="width:6rem;">--}}
+{{--							<col style="width:6rem;">--}}
+{{--							<col style="width:6rem;">--}}
+{{--							<col style="width:5rem;">--}}
+{{--						</colgroup>--}}
+{{--						<tr>--}}
+{{--							<th>Code</th>--}}
+{{--							<th>Category</th>--}}
+{{--							<th>Description</th>--}}
+{{--							@if (request()->has('sort-rack-desc'))--}}
+{{--								<th class="has-text-right">--}}
+{{--									<a href="{{ route('stock.index') }}">Rack No. <i class="fa fa-chevron-down"></i></a>--}}
+{{--								</th>--}}
+{{--							@else--}}
+{{--								<th class="has-text-right">--}}
+{{--									<a href="?sort-rack-desc">Rack No.</a>--}}
+{{--								</th>--}}
+{{--							@endif--}}
+{{--							<th class="has-text-right">Avail. quantity</th>--}}
+{{--							<th class="has-text-right">--}}
+{{--								<b-tooltip label="Recommended quantity">--}}
+{{--									R. quantity--}}
+{{--								</b-tooltip>--}}
+{{--							</th>--}}
+{{--							<th class="has-text-right">Actions</th>--}}
+{{--						</tr>--}}
+{{--						</thead>--}}
+{{--						<tbody>--}}
+{{--						@foreach ($stocks as $stock)--}}
+{{--							<tr>--}}
+{{--								<td class="has-text-left">{{ $stock->code }}</td>--}}
+{{--								<td>--}}
+{{--									<a href="{{ route('stock.category', ['category_id' => $stock->category_id]) }}">--}}
+{{--										{{ optional($stock->category)->name }}--}}
+{{--									</a>--}}
+{{--								</td>--}}
+{{--								<td><a href="{{ route('stock.show', ['id' => $stock->id]) }}">--}}
+{{--									{{ ucwords(strtolower( $stock->description )) }}</a></td>--}}
+{{--								<td class="has-text-right">{{ $stock->rack_number }}</td>--}}
+{{--								<td class="has-text-right">{{ $stock->on_hand_quantity }}</td>--}}
+{{--								<td class="has-text-right">{{ $stock->recommended_qty }}</td>--}}
+{{--								<td class="has-text-right">--}}
+{{--									<a href="{{ route('stock.edit', ['id' => $stock->id]) }}" class="button is-small is-warning">--}}
+{{--										Edit--}}
+{{--									</a>--}}
+{{--								</td>--}}
+{{--							</tr>--}}
+{{--						@endforeach--}}
+{{--						</tbody>--}}
+{{--					</table>--}}
+{{--				</b-tab-item>--}}
+{{--				@foreach (\App\Models\Category::get() as $category)--}}
+{{--					<b-tab-item label="{{ $category->name }}">--}}
+{{--						<table class="table is-size-7 is-narrow is-fullwidth is-bordered">--}}
+{{--							<thead>--}}
+{{--							<colgroup>--}}
+{{--								<col style="width:1px;">--}}
+{{--								<col style="width:7rem">--}}
+{{--								<col>--}}
+{{--								<col style="width:6rem;">--}}
+{{--								<col style="width:6rem;">--}}
+{{--								<col style="width:6rem;">--}}
+{{--								<col style="width:5rem;">--}}
+{{--							</colgroup>--}}
+{{--							<tr>--}}
+{{--								<th>Code</th>--}}
+{{--								<th>Category</th>--}}
+{{--								<th>Description</th>--}}
+{{--								<th class="has-text-right">Rack No.</th>--}}
+{{--								<th class="has-text-right">Avail. quantity</th>--}}
+{{--								<th class="has-text-right">--}}
+{{--									<b-tooltip label="Recommended quantity">--}}
+{{--										R. quantity--}}
+{{--									</b-tooltip>--}}
+{{--								</th>--}}
+{{--								<th class="has-text-right">Actions</th>--}}
+{{--							</tr>--}}
+{{--							</thead>--}}
+{{--							<tbody>--}}
+{{--							@foreach ($category->stocks as $stock)--}}
+{{--								<tr>--}}
+{{--									<td>{{ $stock->code }}</td>--}}
+{{--									<td>--}}
+{{--										<a href="{{ route('stock.category', ['category_id' => $stock->category_id]) }}">--}}
+{{--											{{ optional($stock->category)->name }}--}}
+{{--										</a>--}}
+{{--									</td>--}}
+{{--									<td><a href="{{ route('stock.show', ['id' => $stock->id]) }}">{{ ucwords(strtolower($stock->description ))}}</a></td>--}}
+{{--									<td class="has-text-right">{{ $stock->rack_number }}</td>--}}
+{{--									<td class="has-text-right">{{ $stock->on_hand_quantity }}</td>--}}
+{{--									<td class="has-text-right">{{ $stock->recommended_qty }}</td>--}}
+{{--									<td class="has-text-right">--}}
+{{--										<a href="{{ route('stock.edit', ['id' => $stock->id]) }}" class="button is-small is-warning">--}}
+{{--											Edit--}}
+{{--										</a>--}}
+{{--									</td>--}}
+{{--								</tr>--}}
+{{--							@endforeach--}}
+{{--							</tbody>--}}
+{{--						</table>--}}
+{{--					</b-tab-item>--}}
+{{--				@endforeach--}}
+{{--			</b-tabs>--}}
 		</div>
 	</div>
 @endsection
