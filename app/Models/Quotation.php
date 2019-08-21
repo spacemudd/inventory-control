@@ -5,9 +5,12 @@ namespace App\Models;
 use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Model;
 use App\Scopes\LimitByRegionScope;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Quotation extends Model
 {
+    use SoftDeletes;
+
     /**
      * When the quotation is still being updated.
      *
@@ -29,6 +32,10 @@ class Quotation extends Model
         'status',
         'cost_center_id',
         'region_id'
+    ];
+
+    protected $casts = [
+        'vendor_quotation_number' => 'string',
     ];
 
     protected static function boot()

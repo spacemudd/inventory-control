@@ -34,6 +34,12 @@
                     <p class="is-uppercase"><b>Request details</b></p>
                 </div>
                 <div class="column is-6 has-text-right">
+                        <form class="is-inline-block" method="post" action="{{ route('material-requests.destroy', ['id' => $mRequest->id]) }}">
+                            @csrf
+                            <input type="hidden" name="_method" value="delete">
+                            <button href="{{ route('material-requests.destroy', ['id' => $mRequest->id]) }}" class="button is-small is-danger">Delete</button>
+                        </form>
+
 {{--                    @if (!$mRequest->approved_at)--}}
                         <a class="button has-icon is-small" href="{{ route('material-requests.edit', ['id' => $mRequest->id]) }}">
                             <span class="icon"><i class="fa fa-pencil"></i></span>
