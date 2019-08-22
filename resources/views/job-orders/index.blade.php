@@ -36,7 +36,7 @@
             <a href="{{ route('job-orders.index').'?completed' }}">Completed: {{ \App\Models\JobOrder::completed()->count() }}</a>
         </div>
         <div class="is-inline job-order-status-box{{ request()->has('all') ? ' active' : ''}}" style="margin-left:10px;">
-            <a href="{{ route('job-orders.index').'?all' }}">All: {{ \App\Models\JobOrder::completed()->count() }}</a>
+            <a href="{{ route('job-orders.index').'?all' }}">All: {{ \App\Models\JobOrder::count() }}</a>
         </div>
     </div>
     <div class="column is-6">
@@ -50,41 +50,53 @@
         </div>
     </div>
     <div class="column">
-        <table class="table is-fullwidth is-bordered is-size-7 is-narrow">
+        <table class="table is-fullwidth is-bordered is-size-7 is-narrow is-striped">
         <thead>
         <tr>
-        	<th>No.</th>
-            <th>Date</th>
-            <th>Requester</th>
-            <th>Employee ID</th>
-            <th>Department</th>
+        	<th style="width:100px;">No.</th>
+            <th style="width:100px;">Status</th>
+            <th style="width:100px;">Requester</th>
+            <th style="width:100px;">Cost Center</th>
             <th>Location</th>
-            <th>Ext</th>
-            <th>CC</th>
-            <th>Requested via</th>
-            <th>Status</th>
-            <th>Items</th>
-            <th></th>
+            <th style="width:75px;">Extension</th>
+            <th style="width:200px;">Technicians</th>
+            <th style="width:80px;"></th>
         </tr>
         </thead>
         	<tbody>
                 @if ($jobOrders)
                     @foreach ($jobOrders as $jobOrder)
                         <tr>
-                            <td>{{ $jobOrder->job_order_number }}</td>
-                            <td>{{ $jobOrder->date->format('d-m-Y') }}</td>
-                            <td>{{ optional($jobOrder->employee)->name }}</td>
-                            <td>{{ optional($jobOrder->employee)->code }}</td>
-                            <td>{{ optional($jobOrder->department)->description }}</td>
+                            <td>
+                                <p><b>{{ $jobOrder->job_order_number }}</b></p>
+                                <p>{{ $jobOrder->date->format('d-m-Y') }}</p>
+                                {{ str_replace('_', ' ', ucfirst($jobOrder->requested_through_type)) }}
+                            </td>
+                            <td>
+                                <div class="tag{{ $jobOrder->dispatched_count===$jobOrder->items()->count() ? ' is-success' : '' }}">
+                                    DISPATCHED (<b>{{$jobOrder->dispatched_count}}</b>/{{ $jobOrder->items()->count() }})
+                                </div>
+                                <div style="margin-top:5px;width:100%;" class="tag{{ $jobOrder->isCompleted ? ' is-success' : ' is-warning' }}">
+                                    <i style="margin-top: 1px;padding-right:5px;" class="fa {{ $jobOrder->isCompleted ? 'fa-check' : 'fa-circle-o-notch'}}"></i>
+                                    {{ $jobOrder->status }}
+                                </div>
+                            </td>
+                            <td>
+                                <p>{{ optional($jobOrder->employee)->code }}</p>
+                                {{ optional($jobOrder->employee)->name }}
+                            </td>
+                            <td>
+                                <p>{{ optional($jobOrder->department)->code }}</p>
+                                {{ optional($jobOrder->department)->description }}
+                            </td>
                             <td>{{ optional($jobOrder->location)->name }}</td>
                             <td>{{ $jobOrder->ext }}</td>
-                            <td>{{ optional($jobOrder->department)->code }}</td>
-                            <td>{{ ucfirst($jobOrder->requested_through_type) }}</td>
-                            <td>{{ $jobOrder->status }}</td>
                             <td>
-                                <span class="tag{{ $jobOrder->dispatched_count===$jobOrder->items()->count() ? ' is-success' : '' }}">
-                                    DISPATCHED (<b>{{$jobOrder->dispatched_count}}</b>/{{ $jobOrder->items()->count() }})
-                                </span>
+                                <ul>
+                                    @foreach($jobOrder->technicians as $tech)
+                                        <li>- {{ $tech->name }}</li>
+                                    @endforeach
+                                </ul>
                             </td>
                             <td class="has-text-centered">
                                 <a href="{{ route('job-orders.show', $jobOrder) }}"
