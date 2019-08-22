@@ -41,6 +41,11 @@
     </div>
     <div class="column is-6">
         <div class="has-text-right">
+            <a href="{{ route('job-orders.excel') }}" class="button is-small is-success">
+                <span class="icon"><i class="fa fa-file-excel-o"></i></span>
+                <span>Excel</span>
+            </a>
+
             <a href="{{ route('job-orders.create') }}" class="button is-primary is-small">New</a>
         </div>
     </div>

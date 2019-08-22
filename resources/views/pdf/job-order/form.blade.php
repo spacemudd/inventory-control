@@ -136,7 +136,7 @@
                 <div style="padding:1rem;">
                     <ul style="padding-left:1.5rem;margin:0;list-style-type: none;">
                         @foreach ($jobOrder->items as $item)
-                            <li>- {{ $item->stock->description }} ({{ $item->qty }} pcs)</li>
+                            <li>- {{ $item->stock->description }} ({{ number_format($item->qty) }} pcs) @if($item->stock->rack_number) (rack: {{ $item->stock->rack_number }}) @endif</li>
                         @endforeach
                     </ul>
                 </div>

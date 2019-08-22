@@ -145,8 +145,8 @@
 						<div class="select is-fullwidth">
 							<select id="select-category" name="category_id">
 								<option value=""></option>
-								@foreach(\App\Models\Category::get() as $category)
-									<option value="{{ $category->id }}">
+								@foreach(\App\Models\Category::get() as $index => $category)
+									<option value="{{ $category->id }}"{{ (int)request()->get('category') === (++$index) ? ' selected' : '' }}>
 										{{ $category->name }}
 									</option>
 								@endforeach
@@ -163,7 +163,7 @@
 			</div>
 
 			<div class="column is-4 is-offset-4 has-text-right">
-				<a class="button is-text" href="{{ url('/') }}">Cancel</a>
+				<a class="button is-text" href="{{ route('stock.index') }}">Cancel</a>
 				<button type="submit" class="button is-success">{{ trans('words.save') }}</button>
 			</div>
 

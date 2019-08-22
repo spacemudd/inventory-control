@@ -126,9 +126,21 @@
                     </div>
                     --}}
 
-					<div class="field">
-						<a class="button is-text" href="{{ route('quotations.show', ['id' => $quotation->id]) }}">Cancel</a>
-						<button type="submit" class="button is-success">Update</button>
+					<div class="is-flex">
+						<div class="field">
+							<a class="button is-small is-text" href="{{ route('quotations.show', ['id' => $quotation->id]) }}">Cancel</a>
+						</div>
+
+						<div class="field" style="margin-left:10px;">
+							<form method="post" action="{{ route('quotations.destroy', ['id' => $quotation->id]) }}" class="is-inline">
+								<input type="hidden" name="_method" value="delete">
+								<button href="{{ route('quotations.destroy', ['id' => $quotation->id]) }}" class="button is-small is-danger">Delete</button>
+							</form>
+						</div>
+
+						<div class="field" style="margin-left:10px;">
+							<button type="submit" class="button is-small is-primary">Update</button>
+						</div>
 					</div>
 				</form>
 			</div>

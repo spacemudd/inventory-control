@@ -70,7 +70,7 @@
                     {{ $item->description }}
                 </td>
                 <td style="width: 200px">
-                    {{ $item->qty }}
+                    {{ number_format($item->qty) }}
                 </td>
                 <td style="width: 300px;">
 

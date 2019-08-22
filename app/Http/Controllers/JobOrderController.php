@@ -7,6 +7,7 @@ use App\Services\JobOrderService;
 use App\Http\Requests\JobOrderRequest;
 use App\Services\StockService;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class JobOrderController extends Controller
 {
@@ -84,8 +85,8 @@ class JobOrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\JobOrder  $jobOrder
-     * @return \Illuminate\Http\Response
+     * @param \App\Models\JobOrder $jobOrder
+     * @return void
      */
     public function edit(JobOrder $jobOrder)
     {
@@ -95,9 +96,9 @@ class JobOrderController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\JobOrderRequest  $request
-     * @param  \App\JobOrder  $jobOrder
-     * @return \Illuminate\Http\Response
+     * @param \App\Http\Requests\JobOrderRequest $request
+     * @param \App\Models\JobOrder $jobOrder
+     * @return void
      */
     public function update(JobOrderRequest $request, JobOrder $jobOrder)
     {
@@ -107,8 +108,8 @@ class JobOrderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\JobOrder  $jobOrder
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return array
      */
     public function destroy($id)
     {
@@ -144,13 +145,13 @@ class JobOrderController extends Controller
         return back();
     }
 
-
     /**
      * Dispatch job order item
      *
      * @param $jobOrder
      * @param $jobOrderItem
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
     public function dispatchItem($jobOrder, $jobOrderItem)
     {
@@ -159,5 +160,94 @@ class JobOrderController extends Controller
         $this->service->dispatchItem($jobOrder, $jobOrderItem);
 
         return back();
+    }
+
+    /**
+     * Downloads an Excel list of all the job orders items.
+     *
+     */
+    public function excel()
+    {
+        $excel = Excel::create(now()->format('Y-m-d').'-job-orders', function($excel) {
+            $excel->sheet('Sheet', function ($sheet) {
+                $sheet->appendRow([
+                    'Number',
+                    'Date',
+                    'Status',
+                    'Job description',
+                    'Location',
+                    'Requested through',
+                    'Requester',
+                    'Cost Center',
+                    'Remark',
+                    'Start Time',
+                    'End Time',
+                    'Material name',
+                    'Material qty',
+                    'Technician',
+                    'Technician Time Start',
+                    'Technician Time End',
+                ]);
+
+                JobOrder::each(function ($jO) use ($sheet) {
+                    $sheet->appendRow([
+                        $jO->job_order_number,
+                        $jO->date->format('Y-m-d'),
+                        $jO->status,
+                        $jO->job_description,
+                        optional($jO->location)->name,
+                        $jO->requested_through_type,
+                        optional($jO->employee)->code,
+                        optional($jO->department)->display_name,
+                        $jO->remark,
+                        $jO->time_start,
+                        $jO->time_end,
+                    ]);
+
+                    // Add items.
+                    $jO->items()->each(function ($item) use ($sheet, $jO) {
+                        $sheet->appendRow([
+                            $jO->job_order_number,
+                            $jO->date->format('Y-m-d'),
+                            $jO->status,
+                            $jO->job_description,
+                            optional($jO->location)->name,
+                            $jO->requested_through_type,
+                            optional($jO->employee)->code,
+                            optional($jO->department)->display_name,
+                            $jO->remark,
+                            $jO->time_start,
+                            $jO->time_end,
+                            optional($item->stock)->description,
+                            $item->qty,
+                        ]);
+
+                        // Add technicians.
+                        $jO->technicians()->each(function ($tech) use ($sheet, $jO) {
+                            $sheet->appendRow([
+                                $jO->job_order_number,
+                                $jO->date->format('Y-m-d'),
+                                $jO->status,
+                                $jO->job_description,
+                                optional($jO->location)->name,
+                                $jO->requested_through_type,
+                                optional($jO->employee)->code,
+                                optional($jO->department)->display_name,
+                                $jO->remark,
+                                $jO->time_start,
+                                $jO->time_end,
+                                '',
+                                '',
+                                $tech->display_name,
+                                $tech->time_start,
+                                $tech->time_end,
+                            ]);
+                        }, 100);
+                    }, 50);
+                });
+            });
+        });
+
+        return $excel->download('csv');
     }
 }

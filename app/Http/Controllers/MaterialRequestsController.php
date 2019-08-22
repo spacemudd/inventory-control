@@ -73,6 +73,10 @@ class MaterialRequestsController extends Controller
             $request->merge([
                 'number' => $request['date'].' - '.$request['number'],
             ]);
+        } else {
+            $request->merge([
+                'number' => $request['date'].' - '.Department::find($request->cost_center_id)->description,
+            ]);
         }
 
         $request->validate([
@@ -171,7 +175,11 @@ class MaterialRequestsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::beginTransaction();
+        MaterialRequestItem::where('material_request_id', $id)->delete();
+        MaterialRequest::where('id', $id)->delete();
+        DB::commit();
+        return redirect()->route('material-requests.index');
     }
 
     /**

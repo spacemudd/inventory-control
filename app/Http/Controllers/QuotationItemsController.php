@@ -43,13 +43,11 @@ class QuotationItemsController extends Controller
      */
     public function store(Request $request)
     {
-
         $request->validate([
            'quotation_id' => 'required|exists:quotations,id',
            'material_request_item_id' => 'required|exists:material_request_items,id',
            'qty' => 'required|numeric',
            'unit_price' => 'required|numeric',
-           'qty_boxes' => 'nullable',
         ]);
 
         $request = $request->except('_token');
