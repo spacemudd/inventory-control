@@ -126,6 +126,12 @@
                                                          link="{{ route('stock.index') }}">
                                     </sidebar-links-group>
 
+                                    <sidebar-links-group selected="{{ (request()->route()->getName() === 'equipments.index') }}"
+                                                         icon="wrench"
+                                                         title="Equipments"
+                                                         link="{{ route('equipments.index') }}">
+                                    </sidebar-links-group>
+
                                     <sidebar-links-group selected="{{ (request()->route()->getName() === 'dashboard.index') }}"
                                                          icon="map"
                                                          title="{{ __('words.region') }}"
