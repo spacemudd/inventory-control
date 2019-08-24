@@ -36,6 +36,12 @@
                     </p>
               </div>
                 <div class="column is-6 has-text-right">
+                    <form  class="is-inline-block" method="post" action="{{ route('quotations.destroy', ['id' => $quotation->id]) }}">
+                        @csrf
+                        <input type="hidden" name="_method" value="delete">
+                        <button href="{{ route('quotations.destroy', ['id' => $quotation->id]) }}" class="button is-small is-danger">Delete</button>
+                    </form>
+
                     <a href="{{ route('quotations.edit', ['quotation_number' => $quotation->id]) }}" class="button is-small is-grey">Edit</a>
                     @if ((int) $quotation->status != \App\Models\Quotation::SAVED)
                         <form action="{{ route('quotations.save', ['id' => $quotation->id]) }}"

@@ -20,7 +20,7 @@ class StockController extends Controller
 
     public function index()
     {
-        return Stock::get();
+        return Stock::with('category')->get();
     }
 
     public function search(Request $request)

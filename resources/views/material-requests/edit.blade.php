@@ -156,12 +156,6 @@
                         <a href="{{ route('material-requests.show', ['id' => $mRequest->id]) }}" class="button is-small is-text">Cancel</a>
                     </div>
                     <div class="field" style="margin-left:10px;">
-                        <form method="post" action="{{ route('material-requests.destroy', ['id' => $mRequest->id]) }}" class="is-inline">
-                            <input type="hidden" name="_method" value="delete">
-                            <button href="{{ route('material-requests.destroy', ['id' => $mRequest->id]) }}" class="button is-small is-danger">Delete</button>
-                        </form>
-                    </div>
-                    <div class="field" style="margin-left:10px;">
                         <button class="button is-small is-primary">Update</button>
                     </div>
                 </div>

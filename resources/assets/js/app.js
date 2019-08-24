@@ -275,6 +275,10 @@ Vue.component('stock-search', require('./components/StockSearch').default);
 
 Vue.component('autocomplete-suggestion', require('./components/AutocompleteSuggestion').default);
 
+Vue.component('stock-index-page', require('./components/StockIndexPage').default);
+
+Vue.component('stocks-by-category', require('./components/StocksByCategory').default);
+
 /**
  * API/App settings
  */

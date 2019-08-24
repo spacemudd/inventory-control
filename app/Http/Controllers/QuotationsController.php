@@ -11,6 +11,7 @@ use App\Services\StockService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class QuotationsController extends Controller
 {
@@ -148,19 +149,23 @@ class QuotationsController extends Controller
                 Log::info('Deleting quotation: Moving '.$item->description.' out by: '.$item->qty);
                 $this->stockService->moveOut($item->description, $item->qty, $item);
             }
+
+            // Supplier's journal must be readjusted.
+            $journal = $quotation->vendor->journal;
+            if (!$journal) {
+                $quotation->vendor->initJournal('SAR');
+                $quotation->vendor->refresh();
+            }
+            $transaction = $quotation->vendor->journal->debitDollars($quotation->items()->sum('total_price_inc_vat'));
+            $transaction->referencesObject($quotation);
         }
 
-        // Supplier's journal must be readjusted.
-        $journal = $quotation->vendor->journal;
-        if (!$journal) {
-            $quotation->vendor->initJournal('SAR');
-            $quotation->vendor->refresh();
-        }
-        $transaction = $quotation->vendor->journal->debitDollars($quotation->items()->sum('total_price_inc_vat'));
-        $transaction->referencesObject($quotation);
+        // Set delete name
+        $quotation->vendor_quotation_number .= str_replace(' ', '', 'deleted-'.now()->toDateTimeString());
 
         $quotation->items()->delete();
         $quotation->delete();
+
         DB::commit();
 
         return redirect()->route('quotations.index');

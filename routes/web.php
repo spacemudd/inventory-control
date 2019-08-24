@@ -80,6 +80,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::resource('equipments', 'EquipmentsController');
 
         // Categories
+        Route::get('categories/{id}/stock', 'CategoryController@stocksByCategory');
         Route::resource('categories', 'CategoryController');
 
         // Purchase orders
