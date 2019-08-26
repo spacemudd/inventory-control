@@ -48,7 +48,7 @@ class StockController extends Controller
         $request->validate([
             'code'        => 'nullable|string|max:255|unique:stock',
             'description' => 'required|unique:stock,description',
-            'rack_number' => 'nullable|string|min:0',
+            'rack_number' => 'nullable|numeric|min:0',
             'available_quantity' => 'required|numeric|min:0',
             'category_id' => 'nullable|exists:categories,id',
             'recommended_qty' => 'nullable|numeric|min:0',
@@ -82,7 +82,7 @@ class StockController extends Controller
             'description' => 'required|unique:stock,description,'.$id,
             'available_quantity' => 'required|min:0',
             'category_id' => 'nullable|exists:categories,id',
-            'rack_number' => 'nullable|string|min:0',
+            'rack_number' => 'nullable|numeric|min:0',
             'recommended_qty' => 'nullable|numeric|min:0',
         ]);
 

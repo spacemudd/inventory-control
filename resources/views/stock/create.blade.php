@@ -81,10 +81,10 @@
 
 			<div class="column is-4 is-offset-4">
 				<div class="field">
-					<label for="rack_number" class="label">Rack number </label>
+					<label for="rack_number" class="label">Rack number</label>
 					<p class="control">
 						<input id="rack_number"
-							   type="string"
+							   type="number"
 							   class="input {{ $errors->has('rack_number') ? ' is-danger' : '' }}"
 							   name="rack_number"
 							   value="{{ old('rack_number') }}"

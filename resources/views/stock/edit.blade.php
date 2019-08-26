@@ -83,7 +83,7 @@
 					<label for="rack_number" class="label">Rack number</span></label>
 					<p class="control">
 						<input id="rack_number"
-							   type="string"
+							   type="number"
 							   class="input {{ $errors->has('rack_number') ? ' is-danger' : '' }}"
 							   name="rack_number"
 							   value="{{ $stock->rack_number }}"
