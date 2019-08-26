@@ -83,7 +83,7 @@
 					<label for="rack_number" class="label">Rack number</span></label>
 					<p class="control">
 						<input id="rack_number"
-							   type="string"
+							   type="number"
 							   class="input {{ $errors->has('rack_number') ? ' is-danger' : '' }}"
 							   name="rack_number"
 							   value="{{ $stock->rack_number }}"
@@ -163,7 +163,7 @@
 			</div>
 
 			<div class="column is-4 is-offset-4 has-text-right">
-				<a class="button is-text" href="{{ url('/') }}">Cancel</a>
+				<a class="button is-text" href="{{ route('stock.index') }}">Cancel</a>
 				<button type="submit" class="button is-success">Update</button>
 			</div>
 
