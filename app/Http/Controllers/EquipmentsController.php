@@ -3,17 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Equipment;
 
 class EquipmentsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
-        //
+     
+        $equipments = Equipment::get();
+        return view('equipments.index' , compact('equipments'));
     }
 
     /**
