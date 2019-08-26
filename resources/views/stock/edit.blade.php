@@ -163,7 +163,7 @@
 			</div>
 
 			<div class="column is-4 is-offset-4 has-text-right">
-				<a class="button is-text" href="{{ url('/') }}">Cancel</a>
+				<a class="button is-text" href="{{ route('stock.index') }}">Cancel</a>
 				<button type="submit" class="button is-success">Update</button>
 			</div>
 
