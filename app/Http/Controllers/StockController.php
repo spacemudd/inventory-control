@@ -112,4 +112,16 @@ class StockController extends Controller
         $stock = Stock::find($id);
         return view('stock.show', compact('stock'));
     }
+
+    public function destroy($id)
+    {
+        $stock = Stock::findOrFail($id);
+
+        $stock->delete();
+
+        // What will we do with stock movement?
+        // What will we do with the job orders?
+
+        return redirect()->route('stock.index');
+    }
 }

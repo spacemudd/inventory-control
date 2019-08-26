@@ -40,10 +40,20 @@
 			<b>{{ $stock->description }}</b>
 		</div>
 		<div class="column has-text-right">
+			<form class="is-inline"
+			      method="post"
+			      action="{{ route('stock.destroy', ['id' => $stock->id]) }}"
+			      style="margin-right: 20px;">
+			      @csrf
+			      <input type="hidden" name="_method" value="delete">
+				<button class="button is-danger">Delete</button>
+			</form>
+
 			<a class="button is-outlined is-primary" href="{{ route('stock.edit', ['id' => $stock->id]) }}">
 				<span class="icon">
 					<i class="fa fa-cog"></i>
 				</span>
+				<span>Edit</span>
 			</a>
 		</div>
 	</div>
