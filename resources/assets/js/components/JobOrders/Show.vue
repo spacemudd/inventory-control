@@ -561,11 +561,11 @@
 
             jo.technicians.map((tech) => {
               if (tech.pivot.time_start) {
-                tech.pivot.time_start = moment(tech.pivot.time_start, 'HH:mm:ss').format('hh:mm A');
+                tech.pivot.time_start = moment(tech.pivot.time_start, 'YYYY-MM-DD HH:mm:ss').format('hh:mm A');
               }
 
               if (tech.pivot.time_end) {
-                tech.pivot.time_end = moment(tech.pivot.time_end,'HH:mm:ss').format('hh:mm A');
+                tech.pivot.time_end = moment(tech.pivot.time_end,'YYYY-MM-DD HH:mm:ss').format('hh:mm A');
               }
             });
             this.technicians = jo.technicians;
