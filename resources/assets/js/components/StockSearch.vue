@@ -20,7 +20,7 @@
         <!--Results-->
         <div class="dropdown-menu" id="dropdown-menu" role="menu" v-if="open && results.length">
             <div class="dropdown-content">
-                <div v-for="result in results" v-key="result.id">
+                <div v-for="result in results">
                     <a
                        :href="baseUrl()+'/stock/'+result.id"
                        class="dropdown-item result">
