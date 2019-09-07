@@ -18,13 +18,25 @@
         </div>
 
         <!--Results-->
-        <div class="dropdown-menu" id="dropdown-menu" role="menu" v-if="open">
+        <div class="dropdown-menu" id="dropdown-menu" role="menu" v-if="open && results.length">
             <div class="dropdown-content">
                 <div v-for="result in results" v-key="result.id">
                     <a
                        :href="baseUrl()+'/stock/'+result.id"
                        class="dropdown-item result">
-                        {{ result.description }}
+                        <div class="stock-result">
+                            <p class="stock-description">{{ result.description }}</p>
+                            <div class="stats">
+                                <div class="stats-value">
+                                    <p>Rack</p>
+                                    <p>{{ result.rack_number }}</p>
+                                </div>
+                                <div class="stats-value">
+                                    <p>Qty</p>
+                                    <p>{{ result.on_hand_quantity }}</p>
+                                </div>
+                            </div>
+                        </div>
                     </a>
                 </div>
             </div>
@@ -37,7 +49,7 @@
   export default {
     name: "StockSearch",
     mounted() {
-      this.loadStock();
+      // this.loadStock();
     },
     data() {
       return {
@@ -61,11 +73,24 @@
       }
     },
     watch: {
+      //search() {
+      //  if (this.search.trim() === '')
+      //    this.results = this.stock;
+      //  else
+      //    this.results = this.stockFuse.search(this.search.trim());
+      //},
       search() {
-        if (this.search.trim() === '')
-          this.results = this.stock;
-        else
-          this.results = this.stockFuse.search(this.search.trim());
+        if(this.search.length > 0) {
+          this.sendSearchRequest(this.search);
+          this.$emit('search', this.search);
+          //this.open = true;
+        }
+
+        if(!this.search) {
+          //this.open = false;
+          this.searchResults = [];
+          this.loading = false;
+        }
       },
     },
     computed: {
@@ -74,13 +99,13 @@
       }
     },
     methods: {
-      loadStock() {
-        axios.get(this.apiUrl()+'/stocks').then(response => {
-          this.stock = response.data;
-          this.results = response.data;
-          this.stockFuse = new window.Fuse(this.stock, this.fuseOptions);
-        })
-      },
+      //loadStock() {
+      //  axios.get(this.apiUrl()+'/stocks').then(response => {
+      //    this.stock = response.data;
+      //    this.results = response.data;
+      //    this.stockFuse = new window.Fuse(this.stock, this.fuseOptions);
+      //  })
+      //},
       onSearchBlur() {
         this.$emit('search:blur');
         this.loading = false;
@@ -98,12 +123,13 @@
       },
       sendSearchRequest: _.debounce(function(search) {
         this.loading = true;
-        axios.get(this.apiUrl() + '/stocks', {
+        this.results = [];
+        axios.get(this.apiUrl() + '/search/stock', {
           params: {
             q: search
           },
         }).then(response => {
-          this.results = response.data;
+          this.results = response.data.data;
           this.loading = false;
         })
       }, 500),
@@ -113,6 +139,28 @@
 </script>
 
 <style lang="sass" scoped>
+    .stats
+        width: 100px
+        font-family: "Lucida Console"
+        font-size: 11px
+
+
+    .stock-description
+        max-width: 300px
+        word-break: break-all
+        white-space: normal
+
+    .stats-value
+        display: flex
+        justify-content: space-between
+
+    .stats-value:nth-child(2)
+        border-top: 1px solid lightgrey
+
+    .stock-result
+        display: flex
+        justify-content: space-between
+
     .dropdown-menu
         display: block
         top: unset

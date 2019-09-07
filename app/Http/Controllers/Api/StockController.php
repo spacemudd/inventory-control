@@ -39,7 +39,7 @@ class StockController extends Controller
 
         $stock = Stock::where('description', 'LIKE', '%' . $search . '%')
             ->with('category')
-            ->paginate(20);
+            ->paginate(100);
 
         return $stock;
     }
