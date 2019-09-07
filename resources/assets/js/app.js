@@ -274,7 +274,7 @@ Vue.component('manage-locations', require('./components/ManageLocations/ManageLo
 Vue.component('stock-search', require('./components/StockSearch').default);
 
 Vue.component('autocomplete-suggestion', require('./components/AutocompleteSuggestion').default);
-
+Vue.component('location-selector', require('./components/LocationsSelector').default);
 /**
  * API/App settings
  */

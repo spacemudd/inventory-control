@@ -93,28 +93,9 @@
                                readonly>
                     </b-field>
 
-                    <div class="field">
-                        <label class="label">Location <span class="has-text-danger">*</span></label>
-                        <!-- If selected. -->
-                        <b-autocomplete v-if="!location"
-                                        v-model="locationSearchCode"
-                                        field="name"
-                                        size="is-small"
-                                        :data="filteredLocations"
-                                        @select="option => location = option"
-                                        :loading="$isLoading('FETCHING_LOCATIONS')"
-                                        required>
-                            <template slot="empty">No results found</template>
-                        </b-autocomplete>
-                        <!-- When selected -->
-                        <input v-else
-                               type="text"
-                               class="input is-small"
-                               :value="location.name"
-                               @click="emptyLocation"
-                               required
-                               readonly>
-                    </div>
+                    <location-selector :location="location"
+                                       @select:address="updateLocation">
+                    </location-selector>
 
                     <div class="field">
                         <label class="label">Requested through <span class="has-text-danger">*</span></label>
@@ -420,6 +401,7 @@
         employee: null,
         costCenters: [],
         costCenterSearchCode: '',
+        location_id: null,
 
         employees: [],
         addEmployees: [],
@@ -558,6 +540,7 @@
             this.time_start = jo.time_start ? moment(jo.time_start, 'YYYY-MM-DD HH:mm:ss').format('HH:mm') : null;
             this.time_end = jo.time_end ? moment(jo.time_end, 'YYYY-MM-DD HH:mm:ss').format('HH:mm') : null;
             this.materials = jo.items;
+            this.location_id = jo.location_id;
 
             jo.technicians.map((tech) => {
               if (tech.pivot.time_start) {
@@ -620,8 +603,7 @@
       updateOrder() {
         this.$startLoading('UPDATING_JOB_ORDER');
 
-        let data = this.$data;
-        data.location_id = this.location.id;
+        let data = this.$data;;
 
         // Only material requests that are selected
         let selectedMaterialRequests = data.materials.filter((x) => x.stock_id)
@@ -793,6 +775,9 @@
           this.loadJobOrder();
         })
       },
+      updateLocation(loc) {
+        this.location_id = loc;
+      }
     }
   }
 </script>

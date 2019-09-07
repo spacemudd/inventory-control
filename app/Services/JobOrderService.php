@@ -232,6 +232,17 @@ class JobOrderService
 
     public function update(array $data)
     {
+        if (is_numeric($data['location_id']) || is_array($data['location_id'])) {
+            if (is_numeric($data['location_id'])) {
+                $data['location_id'] = $data['location_id'];
+            } else {
+                $data['location_id'] = $data['location_id']['id'];
+            }
+        } else {
+            $location = $this->storeNewLocation($data['location_id']);
+            $data['location_id'] = $location->id;
+        }
+
         $jo = DB::transaction(function() use ($data) {
             $jo = JobOrder::where('id', $data['jobOrder']['id'])
                 ->firstOrFail();
@@ -249,11 +260,6 @@ class JobOrderService
                 'time_start' => Carbon::parse($data['time_start']),
                 'time_end' => $data['time_end'] ? Carbon::parse($data['time_end']) : '',
             ]);
-
-            // Updating materials.
-            // TODO: Updating materials.
-            // Updating technicians.
-            // TODO: Updating technicians.
 
             return $jo;
         });
