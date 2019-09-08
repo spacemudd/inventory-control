@@ -80,4 +80,28 @@ class JobOrdersTechs extends Controller
         $jo->technicians()->detach($tech);
         return $jo;
     }
+
+    /**
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return mixed
+     */
+    public function finish(Request $request)
+    {
+        $request->validate([
+            'job_order_id' => 'required|exists:job_orders,id',
+            'tech' => 'required',
+        ]);
+
+        $jo = JobOrder::where('id', $request->job_order_id)->firstOrFail();
+        $tech = $jo->technicians()->where('id', $request->tech['id'])->first();
+
+        if ($tech) {
+            $jo->technicians()->updateExistingPivot($tech->id, [
+                'time_end' => now(),
+            ]);
+        }
+
+        return $jo;
+    }
 }

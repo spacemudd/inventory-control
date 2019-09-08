@@ -275,6 +275,8 @@ Vue.component('stock-search', require('./components/StockSearch').default);
 
 Vue.component('autocomplete-suggestion', require('./components/AutocompleteSuggestion').default);
 Vue.component('location-selector', require('./components/LocationsSelector').default);
+Vue.component('job-order-tech', require('./components/JobOrderTech').default);
+
 /**
  * API/App settings
  */

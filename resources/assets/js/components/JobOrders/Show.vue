@@ -284,19 +284,14 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="(tech, index) in jobOrder.technicians">
-                                <td>{{ tech.display_name }}</td>
-                                <td>{{ tech.pivot.time_start }}</td>
-                                <td>{{ tech.pivot.time_end }}</td>
-                                <td class="has-text-right">
-                                    <button v-if="!jobOrder.is_completed"
-                                            class="button is-danger is-small"
-                                            :class="{'is-loading': $isLoading('DELETING_TECHNICIAN')}"
-                                            @click.prevent="deleteTechnician(tech)">
-                                        <span class="icon is-small"><i class="fa fa-trash"></i></span>
-                                    </button>
-                                </td>
-                            </tr>
+                            <template v-for="(tech, index) in jobOrder.technicians">
+                                <job-order-tech :tech="tech"
+                                                :job-order="jobOrder"
+                                                @tech:delete="deleteTechnician"
+                                                @tech:finish-job="finishTechnician"
+                                >
+                                </job-order-tech>
+                            </template>
 
                             <tr v-if="isAddingTechnician">
                                 <td @keyup.enter="addTechnician">
@@ -753,6 +748,7 @@
         this.isAddingMaterial = false;
       },
       deleteTechnician(tech) {
+        this.$startLoading('DELETING_TECHNICIAN_'+tech.id);
         axios.delete(this.apiUrl()+'/job-orders/techs', {
           data: {
             job_order_id: this.jobOrder.id,
@@ -762,6 +758,21 @@
           this.loadJobOrder();
         }).catch(error => {
           throw error;
+        }).finally(() => {
+          this.$endLoading('DELETING_TECHNICIAN_'+tech.id);
+        })
+      },
+      finishTechnician(tech) {
+        this.$startLoading('FINISHING_TECHNICIAN_'+tech.id);
+        axios.post(this.apiUrl()+'/job-orders/techs/finish', {
+            job_order_id: this.jobOrder.id,
+            tech: tech,
+        }).then(response => {
+          this.loadJobOrder();
+        }).catch(error => {
+          throw error;
+        }).finally(() => {
+          this.$endLoading('FINISHING_TECHNICIAN_'+tech.id);
         })
       },
       closeAddingTechnician() {
