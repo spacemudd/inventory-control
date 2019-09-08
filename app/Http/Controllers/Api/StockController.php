@@ -38,6 +38,7 @@ class StockController extends Controller
         $search = request()->input('q');
 
         $stock = Stock::where('description', 'LIKE', '%' . $search . '%')
+            ->orWhere('code', 'LIKE', '%'.$search.'%')
             ->with('category')
             ->paginate(100);
 

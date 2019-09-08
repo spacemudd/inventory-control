@@ -25,7 +25,10 @@
                        :href="baseUrl()+'/stock/'+result.id"
                        class="dropdown-item result">
                         <div class="stock-result">
-                            <p class="stock-description">{{ result.description }}</p>
+                            <p class="stock-description">
+                                <span class="stock-code" v-if="result.code">{{ result.code }}</span>
+                                {{ result.description }}
+                            </p>
                             <div class="stats">
                                 <div class="stats-value">
                                     <p>Rack</p>
@@ -144,6 +147,10 @@
         font-family: "Lucida Console"
         font-size: 11px
 
+    .stock-code
+        display: block
+        font-size: 12px
+        font-weight: normal
 
     .stock-description
         max-width: 300px
