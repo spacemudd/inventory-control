@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Employee;
 use App\Models\JobOrder;
+use App\Models\JobOrderTechnician;
 use App\Services\JobOrderService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -47,6 +48,8 @@ class JobOrdersTechs extends Controller
             return;
         }
 
+        $this->finishAllJobsForTechnician($tech['addEmployees']['id']);
+
         if ($tech['time_start']) {
             $tech['time_start'] = Carbon::parse($tech['time_start']);
             //$tech['time_start'] = $tech['time_start']->format('H:i:s');
@@ -79,6 +82,15 @@ class JobOrdersTechs extends Controller
         $tech = Employee::find($request->tech['id']);
         $jo->technicians()->detach($tech);
         return $jo;
+    }
+
+    public function finishAllJobsForTechnician($employee_id)
+    {
+        JobOrderTechnician::where('technician_id', $employee_id)
+            ->where('time_end', null)
+            ->update([
+                'time_end' => now(),
+            ]);
     }
 
     /**
