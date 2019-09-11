@@ -9,4 +9,11 @@ class JobOrderTechnician extends Model
     public $table = 'job_order_technician';
 
     public $incrementing = false;
+
+    public $timestamps = false;
+
+    protected $fillable = [
+        'time_start',
+        'time_end',
+    ];
 }

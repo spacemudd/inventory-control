@@ -117,10 +117,9 @@ class StockController extends Controller
     {
         $stock = Stock::findOrFail($id);
 
-        $stock->delete();
+        $stock->description .= '-deleted-'.now()->format('d-m-Y');
 
-        // What will we do with stock movement?
-        // What will we do with the job orders?
+        $stock->delete();
 
         return redirect()->route('stock.index');
     }

@@ -340,7 +340,7 @@
         ext: '',
         location: '',
         cost_center: '',
-        requested_through_type: 'email',
+        requested_through_type: 'ppm',
         job_description: '',
         time_start: this.now(),
         time_end: null,

@@ -16,8 +16,11 @@
 					<span>Stock</span>
 				</a>
 			</li>
+			<li>
+				<a href="{{ route('stock.show', ['id' => $stock->id]) }}">{{ $stock->description }}</a>
+			</li>
 			<li class="is-active">
-				<a href="#">{{ $stock->description }} ({{ $stock->on_hand_quantity }})</a>
+				<a href="#">Edit</a>
 			</li>
 		</ul>
 	</nav>

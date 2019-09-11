@@ -93,28 +93,9 @@
                                readonly>
                     </b-field>
 
-                    <div class="field">
-                        <label class="label">Location <span class="has-text-danger">*</span></label>
-                        <!-- If selected. -->
-                        <b-autocomplete v-if="!location"
-                                        v-model="locationSearchCode"
-                                        field="name"
-                                        size="is-small"
-                                        :data="filteredLocations"
-                                        @select="option => location = option"
-                                        :loading="$isLoading('FETCHING_LOCATIONS')"
-                                        required>
-                            <template slot="empty">No results found</template>
-                        </b-autocomplete>
-                        <!-- When selected -->
-                        <input v-else
-                               type="text"
-                               class="input is-small"
-                               :value="location.name"
-                               @click="emptyLocation"
-                               required
-                               readonly>
-                    </div>
+                    <location-selector :location="location"
+                                       @select:address="updateLocation">
+                    </location-selector>
 
                     <div class="field">
                         <label class="label">Requested through <span class="has-text-danger">*</span></label>
@@ -303,19 +284,14 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="(tech, index) in jobOrder.technicians">
-                                <td>{{ tech.display_name }}</td>
-                                <td>{{ tech.pivot.time_start }}</td>
-                                <td>{{ tech.pivot.time_end }}</td>
-                                <td class="has-text-right">
-                                    <button v-if="!jobOrder.is_completed"
-                                            class="button is-danger is-small"
-                                            :class="{'is-loading': $isLoading('DELETING_TECHNICIAN')}"
-                                            @click.prevent="deleteTechnician(tech)">
-                                        <span class="icon is-small"><i class="fa fa-trash"></i></span>
-                                    </button>
-                                </td>
-                            </tr>
+                            <template v-for="(tech, index) in jobOrder.technicians">
+                                <job-order-tech :tech="tech"
+                                                :job-order="jobOrder"
+                                                @tech:delete="deleteTechnician"
+                                                @tech:finish-job="finishTechnician"
+                                >
+                                </job-order-tech>
+                            </template>
 
                             <tr v-if="isAddingTechnician">
                                 <td @keyup.enter="addTechnician">
@@ -420,6 +396,7 @@
         employee: null,
         costCenters: [],
         costCenterSearchCode: '',
+        location_id: null,
 
         employees: [],
         addEmployees: [],
@@ -558,14 +535,15 @@
             this.time_start = jo.time_start ? moment(jo.time_start, 'YYYY-MM-DD HH:mm:ss').format('HH:mm') : null;
             this.time_end = jo.time_end ? moment(jo.time_end, 'YYYY-MM-DD HH:mm:ss').format('HH:mm') : null;
             this.materials = jo.items;
+            this.location_id = jo.location_id;
 
             jo.technicians.map((tech) => {
               if (tech.pivot.time_start) {
-                tech.pivot.time_start = moment(tech.pivot.time_start, 'HH:mm:ss').format('hh:mm A');
+                tech.pivot.time_start = moment(tech.pivot.time_start, 'YYYY-MM-DD HH:mm:ss').format('hh:mm A');
               }
 
               if (tech.pivot.time_end) {
-                tech.pivot.time_end = moment(tech.pivot.time_end,'HH:mm:ss').format('hh:mm A');
+                tech.pivot.time_end = moment(tech.pivot.time_end,'YYYY-MM-DD HH:mm:ss').format('hh:mm A');
               }
             });
             this.technicians = jo.technicians;
@@ -620,8 +598,7 @@
       updateOrder() {
         this.$startLoading('UPDATING_JOB_ORDER');
 
-        let data = this.$data;
-        data.location_id = this.location.id;
+        let data = this.$data;;
 
         // Only material requests that are selected
         let selectedMaterialRequests = data.materials.filter((x) => x.stock_id)
@@ -771,6 +748,7 @@
         this.isAddingMaterial = false;
       },
       deleteTechnician(tech) {
+        this.$startLoading('DELETING_TECHNICIAN_'+tech.id);
         axios.delete(this.apiUrl()+'/job-orders/techs', {
           data: {
             job_order_id: this.jobOrder.id,
@@ -780,6 +758,21 @@
           this.loadJobOrder();
         }).catch(error => {
           throw error;
+        }).finally(() => {
+          this.$endLoading('DELETING_TECHNICIAN_'+tech.id);
+        })
+      },
+      finishTechnician(tech) {
+        this.$startLoading('FINISHING_TECHNICIAN_'+tech.id);
+        axios.post(this.apiUrl()+'/job-orders/techs/finish', {
+            job_order_id: this.jobOrder.id,
+            tech: tech,
+        }).then(response => {
+          this.loadJobOrder();
+        }).catch(error => {
+          throw error;
+        }).finally(() => {
+          this.$endLoading('FINISHING_TECHNICIAN_'+tech.id);
         })
       },
       closeAddingTechnician() {
@@ -793,6 +786,9 @@
           this.loadJobOrder();
         })
       },
+      updateLocation(loc) {
+        this.location_id = loc;
+      }
     }
   }
 </script>
