@@ -4,16 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Equipment;
+use Illuminate\Support\Facades\DB;
 
 class EquipmentsController extends Controller
 {
-    
-    public function index()
-    {
-     
-        $equipments = Equipment::get();
-        return view('equipments.index' , compact('equipments'));
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -22,18 +16,28 @@ class EquipmentsController extends Controller
      */
     public function create()
     {
-        //
+       return view ('equipments.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    public function index()
+    {
+     
+        $equipments = Equipment::get();
+        return view('equipments.index' , compact('equipments'));
+    }
+
     public function store(Request $request)
     {
-        //
+      $request->validate([
+            'name'        => 'nullable|string|max:255',
+        ]);
+
+
+        $equipment = new Equipment;
+        $equipment->name = $request->name;
+        $equipment->save();
+      
+        return redirect()->route('equipments.index');
     }
 
     /**

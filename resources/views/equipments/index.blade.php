@@ -50,33 +50,54 @@
 
 	<div class="columns">
 		<div class="column">
-			<equipments-search></equipments-search>
-{{--			<simple-search--}}
-{{--					:hyper-linked-results="true"--}}
-{{--					placeholder-text="Search"--}}
-{{--					size="is-small"--}}
-{{--					search-endpoint="equipments">--}}
-{{--			</simple-search>--}}
-{{--			<ul style="margin-top:20px;">--}}
-{{--				@foreach (\App\Models\Category::get() as $category)--}}
-{{--					<li style="display: inline;{{ $category->id===\App\Models\Category::get()->first()->id ? '' : 'margin-left:1rem;' }}">--}}
+           
+			<simple-search
+					:hyper-linked-results="true"
+					placeholder-text="Search"
+					size="is-small"
+					search-endpoint="employees">
+			</simple-search>
+		</div>
 
-{{--						@if (isset($selectedCategory))--}}
-{{--							@if ($category->id === $selectedCategory->id)--}}
-{{--								<b>{{ $category->name }}</b>--}}
-{{--							@else--}}
-{{--								<a href="{{ route('equipments.category', ['category_id' => $category->id]) }}">--}}
-{{--									{{ $category->name }}--}}
-{{--								</a>--}}
-{{--							@endif--}}
-{{--						@else--}}
-{{--							<a href="{{ route('equipments.category', ['category_id' => $category->id]) }}">--}}
-{{--								{{ $category->name }}--}}
-{{--							</a>--}}
-{{--						@endif--}}
-{{--					</li>--}}
-{{--				@endforeach--}}
-{{--			</ul>--}}
-		</div> 	
+	<div class="column is-3 has-text-right" style="padding-top:25px;">
+			<a href="makeEquipmentExcel" class="button is-small is-success">
+				<span class="icon"><i class="fa fa-file-excel-o"></i></span>
+				<span>Excel</span>
+			</a>
+			<a id="new" href="{{route('equipments.create')}}" class="button is-small is-primary">New</a>
+		</div>
+	</div>
+	<div class="columns">
+			<div class="column">
+				<table class="table is-fullwidth is-narrow is-size-7">
+					<colgroup>
+						<col style="width:20%;">
+						<col style="width:20%;">
+						<col style="width:65%;">
+					</colgroup>
+					<thead>
+					<tr>
+						<th>Name</th>
+						<th class="has-text-left"></th>
+						<th class="has-text-center"></th>
+						<th></th>
+					</tr>
+					</thead>
+					<tbody>
+					@foreach ($equipments as $equip)
+								<tr>
+									<td>{{$equip->name}}</td>
+									<td class="has-text-left"></td>
+									<td class="has-text-left"></td>
+									<td class="has-text-right">
+									<!-- <a href="" class="button is-small is-grey">
+										Edit
+									</a> -->
+								    </td>
+									</tr>
+					@endforeach
+				</tbody>
+			</table>
+		
 
-@endsection
+	@endsection
