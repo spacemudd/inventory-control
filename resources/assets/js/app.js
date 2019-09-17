@@ -279,6 +279,8 @@ Vue.component('stock-index-page', require('./components/StockIndexPage').default
 
 Vue.component('stocks-by-category', require('./components/StocksByCategory').default);
 
+Vue.component('x-module', require('./components/xModule').default);
+
 /**
  * API/App settings
  */
