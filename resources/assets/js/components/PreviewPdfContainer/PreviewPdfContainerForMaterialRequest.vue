@@ -9,6 +9,7 @@
                             style="min-height:450px;"></loading-screen>
             <iframe :src="url"
                     v-if="show"
+                    ref="pdfContainer"
                     @load="loaded"
                     style="width:100%;min-height:450px;"
                     :class="{'hidden': loading}">
@@ -42,6 +43,10 @@
     methods: {
       loaded() {
         this.loading = false;
+        this.printPdf();
+      },
+      printPdf() {
+        this.$refs.pdfContainer.contentWindow.print();
       },
     }
   }
