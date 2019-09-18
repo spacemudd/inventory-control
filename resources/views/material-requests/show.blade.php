@@ -62,12 +62,12 @@
                         <span class="icon"><i class="fa fa-file-excel-o"></i></span>
                         <span>Excel</span>
                     </a>
-                        <button class="button is-small"
-                         @click="$store.commit('JobOrders/togglePreviewPdf')"
-                           class="button has-icon is-small">
-                            <span class="icon"><i class="fa fa-print"></i></span>
-                            <span>Print</span>
-                        </button>
+                    <button class="button is-small"
+                       @click="$store.commit('JobOrders/togglePreviewPdf')"
+                       class="button has-icon is-small">
+                       <span class="icon"><i class="fa fa-print"></i></span>
+                       <span>Print</span>
+                    </button>
                         
                 </div>
             </div>
