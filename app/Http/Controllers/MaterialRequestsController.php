@@ -175,6 +175,13 @@ class MaterialRequestsController extends Controller
      */
     public function destroy($id)
     {
+        $mRequest = MaterialRequest::where('id', $id)->first();
+
+        if ($mRequest->quotation) {
+            return redirect()->back()
+                ->with('material-errors', 'In order to delete the material request, please delete the quotation: '.$mRequest->quotation->vendor_quotation_number);
+        }
+
         DB::beginTransaction();
         MaterialRequestItem::where('material_request_id', $id)->delete();
         MaterialRequest::where('id', $id)->delete();
