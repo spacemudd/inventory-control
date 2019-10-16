@@ -1,5 +1,6 @@
 <template>
          <b-field>
+             <p></p>
                 <b-datepicker
                         v-model="date"
                         placeholder="Click to select...">
@@ -11,21 +12,24 @@
     import moment from 'moment';
 
     export default {
+      props: {
+        requestDate: {
+          type: String,
+          required: false,
+        }
+      },
       data() {
         return {
-          date:  new Date(),
-          newVal: ''
+          date: new Date(),
         }
       },
       mounted() {
-        this.newVal = moment(this.date).format('DD-MM-YYYY');
+        this.date  = moment(this.requestDate, 'DD-MM-YYYY').toDate();
       },
-      watch: {
-        date: {
-         handler: function(val, oldVal) {
-           this.newVal = moment(val).format('DD-MM-YYYY');
-         }
-        }
-      },
+      computed: {
+        newVal() {
+          return moment(this.date).format('DD-MM-YYYY');
+        },
+      }
     }
 </script>

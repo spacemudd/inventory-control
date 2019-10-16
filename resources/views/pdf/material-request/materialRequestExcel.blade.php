@@ -20,10 +20,10 @@
 <section class="mainSection">
     <div>
         <div class="dateDiv">
-            DATE: {{ date("d/m/y") }}
+            DATE: {{ $mRequest->date->format('d/m/y') }}
         </div>
         <div class="ref">
-            REF #: {{ date("d/m/y") }}-{{ $mRequest->cost_center->description }}
+            REF #: {{ $mRequest->number }}
         </div>
     </div>
     <div class="infoDiv">
