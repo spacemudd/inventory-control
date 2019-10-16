@@ -60,7 +60,7 @@
                     <label for="date" class="label">Date <span class="has-text-danger">*</span></label>
 
                     <p class="control">
-                        <select-date-for-material-request :new-val="{{ $mRequest->date->format('d-m-Y') }}">
+                        <select-date-for-material-request request-date="{{ $mRequest->date->format('d-m-Y') }}">
                         </select-date-for-material-request>
                         @if ($errors->has('date'))
                             <span class="help is-danger">
