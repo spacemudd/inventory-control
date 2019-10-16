@@ -25,6 +25,16 @@
 @endsection
 
 @section('content')
+    @if(session()->has('material-errors'))
+        <div class="columns">
+            <div class="column is-4 is-offset-4">
+                <div class="notification is-primary">
+                    {{ session()->get('material-errors') }}
+                </div>
+            </div>
+        </div>
+    @endif
+
 <div class="columns">
     <div class="column is-8 is-offset-2">
         <div class="box">

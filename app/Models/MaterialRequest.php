@@ -80,6 +80,12 @@ class MaterialRequest extends Model implements AuditableContract
         return $this->hasMany(MaterialRequestItem::class);
     }
 
+    public function quotation()
+    {
+        return $this->hasOne(Quotation::class);
+    }
+
+
     /**
      *
      * @return string
