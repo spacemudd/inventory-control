@@ -24,8 +24,14 @@
         }
       },
       mounted() {
-        this.date  = moment(this.requestDate, 'DD-MM-YYYY').toDate();
+        // If the requestDate is present (e.g. editing).
+        if (this.requestDate) {
+          this.date  = moment(this.requestDate, 'DD-MM-YYYY').toDate();
+        }
       },
+      /**
+       * Shows the date value as string to be sent for the backend.
+       */
       computed: {
         newVal() {
           return moment(this.date).format('DD-MM-YYYY');
