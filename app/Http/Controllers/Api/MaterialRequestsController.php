@@ -13,4 +13,9 @@ class MaterialRequestsController extends Controller
     {
         return MaterialRequest::approved()->with('items')->where('number', $materialNumber)->get();
     }
+
+    public function indexPending()
+    {
+        return MaterialRequest::pending()->get();
+    }
 }

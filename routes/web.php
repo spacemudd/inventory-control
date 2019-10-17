@@ -338,6 +338,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::post('projects', 'Api\ProjectsController@store')->name('api.projects.store');
 
     // Material requests
+    Route::get('material-requests/pending', 'Api\MaterialRequestsController@indexPending');
     Route::get('material-requests/approved-items/{materialNumber}', 'Api\MaterialRequestsController@indexWithApprovedItems')->name('api.material-requests.index-approved-items');
     Route::get('material-requests/search/{itemName}', 'Api\MaterialRequestsController@returnSearchResult');
 

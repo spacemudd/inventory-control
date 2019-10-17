@@ -32,26 +32,36 @@
             <form class="form" action="{{ route('quotations.store') }}" method="post" style="margin-top:2rem">
                 @csrf
 
-                <div class="field">
-                    <label for="date" class="label">Material request number <span class="has-text-danger">*</span></label>
+            <div class="field">
+                <label for="date" class="label">Material request number <span class="has-text-danger">*</span></label>
+                <material-requests-search></material-requests-search>
+                @if ($errors->has('material_request_id'))
+                    <span class="help is-danger">
+                        {{ $errors->first('material_request_id') }}
+                    </span>
+                @endif
+            </div>
 
-                    <div class="control">
-                        <div class="select is-fullwidth">
-                            <select class="select{{ $errors->has('material_request_id') ? ' is-danger' : '' }}"
-                                    name="material_request_id"
-                                    required>
-                                @foreach ($mRequests as $request)
-                                    <option value="{{ $request->id }}">{{ $request->number }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        @if ($errors->has('material_request_id'))
-                            <span class="help is-danger">
-                                {{ $errors->first('material_request_id') }}
-                            </span>
-                        @endif
-                    </div>
-                </div>
+{{--                <div class="field">--}}
+{{--                    <label for="date" class="label">Material request number <span class="has-text-danger">*</span></label>--}}
+
+{{--                    <div class="control">--}}
+{{--                        <div class="select is-fullwidth">--}}
+{{--                            <select class="select{{ $errors->has('material_request_id') ? ' is-danger' : '' }}"--}}
+{{--                                    name="material_request_id"--}}
+{{--                                    required>--}}
+{{--                                @foreach ($mRequests as $request)--}}
+{{--                                    <option value="{{ $request->id }}">{{ $request->number }}</option>--}}
+{{--                                @endforeach--}}
+{{--                            </select>--}}
+{{--                        </div>--}}
+{{--                        @if ($errors->has('material_request_id'))--}}
+{{--                            <span class="help is-danger">--}}
+{{--                                {{ $errors->first('material_request_id') }}--}}
+{{--                            </span>--}}
+{{--                        @endif--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
                 <div class="field">
                     <label for="vendor_id" class="label">Vendor</label>

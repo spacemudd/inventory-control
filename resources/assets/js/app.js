@@ -174,6 +174,8 @@ Vue.component('scan-documents', require('./components/ScanDocuments/ScanDocument
 
 Vue.component('audit-trail', require('./components/AuditTrail/AuditTrail.vue').default);
 
+Vue.component('material-requests-search', require('./components/MaterialRequestsSearch.vue').default);
+
 Vue.component(
     'passport-clients',
     require('./components/passport/Clients.vue')
