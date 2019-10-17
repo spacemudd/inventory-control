@@ -25,9 +25,11 @@
         <div class="is-inline job-order-status-box{{ request()->has('pending') ||request()->has('approved') || request()->has('delivered') || request()->has('all')  ? '' : ' active' }}">
             <a href="{{ route('material-requests.index') }}">Pending: {{ \App\Models\MaterialRequest::pending()->count() }}</a>
         </div>
+        {{--
         <div class="is-inline job-order-status-box{{ request()->has('approved') ? ' active' : ''}}" style="margin-left:10px;">
             <a href="{{ route('material-requests.index').'?approved' }}">Approved: {{ \App\Models\MaterialRequest::approved()->count() }}</a>
         </div>
+        --}}
         <div class="is-inline job-order-status-box{{ request()->has('delivered') ? ' active' : ''}}" style="margin-left:10px;">
             <a href="{{ route('material-requests.index').'?delivered' }}">Delivered: {{ \App\Models\MaterialRequest::delivered()->count() }}</a>
         </div>

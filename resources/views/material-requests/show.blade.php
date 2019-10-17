@@ -57,16 +57,16 @@
                         </a>
 {{--                    @endif--}}
 
-                    @if (!$mRequest->approved_at)
-                        <form action="{{ route('material-requests.approve', ['id' => $mRequest->id]) }}"
-                              method="post"
-                              class="is-inline">
-                            @csrf
-                            <button class="button is-success is-small"
-                                  {!! $mRequest->items()->count() ? '' : 'disabled' !!}
-                                    type="submit" id="materialApprove">Approve</button>
-                        </form>
-                    @endif
+{{--                    @if (!$mRequest->approved_at)--}}
+{{--                        <form action="{{ route('material-requests.approve', ['id' => $mRequest->id]) }}"--}}
+{{--                              method="post"--}}
+{{--                              class="is-inline">--}}
+{{--                            @csrf--}}
+{{--                            <button class="button is-success is-small"--}}
+{{--                                  {!! $mRequest->items()->count() ? '' : 'disabled' !!}--}}
+{{--                                    type="submit" id="materialApprove">Approve</button>--}}
+{{--                        </form>--}}
+{{--                    @endif--}}
 
                     <a class="button has-icon is-small" href="{{ route('material-requests.downloadExcel', ['id' => $mRequest->id]) }}">
                         <span class="icon"><i class="fa fa-file-excel-o"></i></span>
