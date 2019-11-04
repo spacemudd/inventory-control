@@ -8,6 +8,7 @@ use App\Services\StockService;
 use Illuminate\Http\Request;
 use App\Classes\StockExcel;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class StockController extends Controller
 {
@@ -106,5 +107,19 @@ class StockController extends Controller
             \Log::info('Storing new stock from quotation...');
             return $stock;
         };
+    }
+
+    public function bulkDelete(Request $request)
+    {
+        Schema::disableForeignKeyConstraints();
+
+        $request->validate([
+            'ids.*' => 'numeric|exists:stock,id',
+        ]);
+        Stock::whereIn('id', $request->ids)->delete();
+
+        Schema::enableForeignKeyConstraints();
+
+        return 'Success!';
     }
 }

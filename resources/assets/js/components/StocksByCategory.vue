@@ -1,9 +1,19 @@
 <template>
-    <b-table :data="stocks"
+    <div>
+        <button v-if="checkedRows.length"
+                class="button is-small is-danger is-pulled-right"
+                @click="deleteStocks"
+                style="margin-bottom:10px;">
+            Delete ({{ checkedRows.length }})
+        </button>
+        <b-table :data="stocks"
              :paginated="false"
              sort-icon-size="is-small"
              class="is-size-7"
              :striped="true"
+             custom-row-key="id"
+             :checked-rows.sync="checkedRows"
+             checkable
              default-sort="description">
         <template slot-scope="props">
             <b-table-column field="code" label="Code" width="50" sortable>
@@ -29,6 +39,7 @@
             </b-table-column>
         </template>
     </b-table>
+    </div>
 </template>
 
 <script>
@@ -43,7 +54,15 @@
       return {
         loading: true,
         stocks: [],
+        checkedRows: [],
       }
+    },
+    computed: {
+      checkedRowsIds() {
+        return this.checkedRows.map((row) => {
+          return row.id;
+        })
+      },
     },
     mounted() {
       this.loadResults();
@@ -65,7 +84,20 @@
         }).finally(() => {
           this.loading = false;
         })
-      }
+      },
+      /**
+       * Deletes stocks in bulk.
+       *
+       */
+      deleteStocks() {
+        axios.delete(this.apiUrl()+'/stocks/bulk', {params: {ids: this.checkedRowsIds}})
+          .then(response => {
+            this.loadResults();
+            this.checkedRows = [];
+          }).catch(err => {
+          alert(error.response.data.message);
+        })
+      },
     }
   }
 </script>

@@ -368,6 +368,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::get('/stocks', 'Api\StockController@index');
     Route::put('/stocks/{id}', 'Api\StockController@update');
     Route::post('stocks', 'Api\StockController@store');
+    Route::delete('stocks/bulk', 'Api\StockController@bulkDelete');
 
     Route::get('categories', 'Api\CategoriesController@index');
 
