@@ -115,6 +115,8 @@
                 @endif
         	</tbody>
         </table>
+
+        {{ $jobOrders->links('vendor.pagination.bulma') }}
     </div>
 </div>
 @endsection
