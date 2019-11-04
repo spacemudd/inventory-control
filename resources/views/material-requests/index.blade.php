@@ -47,6 +47,8 @@
         </div>
     </div>
     <div class="column">
+
+
         <table class="table is-fullwidth is-bordered is-size-7">
         <thead>
         <tr>
