@@ -11,7 +11,10 @@ class MaterialRequestsController extends Controller
 {
     public function indexWithApprovedItems($materialNumber)
     {
-        return MaterialRequest::approved()->with('items')->where('number', $materialNumber)->get();
+        return MaterialRequest::with(['items' => function($q) {
+            $q->with('last_template', 'last_quoted');
+        }])
+            ->where('number', $materialNumber)->get();
     }
 
     public function indexPending()

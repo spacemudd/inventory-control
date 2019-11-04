@@ -1,5 +1,10 @@
 <template>
     <div>
+        <b-modal :active.sync="showAssignStockInformationModal">
+            <assign-stock-information @close="$store.commit('AssignStockInformation/showModal', false)"
+                                      @assign-stock-information:saved="getItems()"
+            ></assign-stock-information>
+        </b-modal>
         <div class="columns">
             <div class="column">
                 <p class="is-uppercase"><b>Quotation Items</b></p>
@@ -32,7 +37,19 @@
                     <tbody>
                     <tr v-if="items.length > 0" v-for="(item, key) in items" :id="'mRequest_' + item.material_request_item_id">
                         <td>{{ ++key }}</td>
-                        <td>{{ item.description }}</td>
+                        <td>
+                            <div class="is-flex" style="justify-content: space-between;">
+                                <div>
+                                    {{ item.description }}
+                                </div>
+                                <div v-if="!item.stock_template">
+                                    <button class="button is-small"
+                                            @click="loadAssignStockInformation(item)">
+                                        Assign stock information
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
                         <td class="has-text-right">{{ toMoney(item.unit_price) }}</td>
                         <td class="has-text-right">{{ item.qty }}</td>
                         <td class="has-text-right">{{ toMoney(item.unit_price * item.qty) }}</td>
@@ -51,17 +68,27 @@
                         <td>
                             <input v-model="mrequest.description" type="text" readonly class="input is-small"/>
                             <input v-model="mrequest.id" type="hidden"/>
-
                             <!-- <b-input ref="newItemDescription" size="is-small" v-model="form.description" autofocus></b-input> -->
                             <!--<input type="text" v-model="mrequest.description" readonly>-->
                         </td>
                         <td>
-                            <b-input @keyup.enter="saveRequest" size="is-small" type="number" v-model="mrequest.unit_price"></b-input></td>
-                        <td>
-                            <b-input size="is-small" type="number" v-model="mrequest.qty"></b-input>
+                            <b-input @keyup.native.enter="saveRequest(mrequest, key)"
+                                     size="is-small"
+                                     type="number"
+                                     v-model="mrequest.unit_price"></b-input>
                         </td>
                         <td>
-                            <input type="text" :value="mrequest.qty * mrequest.unit_price" class="input is-small" style="background-color: #d5d5d5;" readonly>
+                            <b-input @keyup.enter="saveRequest(mrequest, key)"
+                                     size="is-small"
+                                     type="number"
+                                     v-model="mrequest.qty"></b-input>
+                        </td>
+                        <td>
+                            <input type="text"
+                                   :value="mrequest.qty * mrequest.unit_price"
+                                   class="input is-small"
+                                   style="background-color: #d5d5d5;"
+                                   readonly>
                         </td>
                         <td class="has-text-centered">
                             <button class="button is-primary is-small saveButton"
@@ -71,16 +98,19 @@
                             </button>
                         </td>
                     </tr>
-                    <tr v-if="isAdding"  @keyup.enter="saveNewItem">
+                    <tr v-if="isAdding">
                         <td colspan="2">
-                           <!-- <b-input ref="newItemDescription" size="is-small" v-model="form.description" autofocus></b-input> -->
-                            <select-material-request-items @quantity="quantityNumber" v-model="form.material_request_item_id" v-bind:materialNumber="materialNumber"/>
+                            <select-material-request-items @keydown.native.esc="clearNewItemForm"
+                                                           @quantity="quantityNumber"
+                                                           @selected:item="loadUnitPrice"
+                                                           v-model="form.material_request_item_id"
+                                                           v-bind:materialNumber="materialNumber"/>
                         </td>
                         <td>
-                            <b-input @keyup.enter="saveNewItem" size="is-small" type="number" v-model="form.unit_price"></b-input>
+                            <b-input @keyup.native.enter="saveNewItem"  @keydown.native.esc="clearNewItemForm" size="is-small" type="number" v-model="form.unit_price"></b-input>
                         </td>
                         <td>
-                            <b-input size="is-small" type="number" v-model="form.qty" class="quantity"></b-input>
+                            <b-input size="is-small" type="number"  @keyup.native.esc="clearNewItemForm" v-model="form.qty" class="quantity"></b-input>
                         </td>
                         <td>
                             <input type="text" :value="form.qty * form.unit_price" class="input is-small" style="background-color: #d5d5d5;" readonly>
@@ -88,7 +118,7 @@
                         <td class="has-text-centered">
                             <button class="button is-primary is-small"
                                     :class="{'is-loading': $isLoading('SAVING_QUOTATION_ITEM')}"
-                                    @click="saveNewItem">
+                                    @click.prevent="saveNewItem">
                                 Save
                             </button>
                         </td>
@@ -146,6 +176,11 @@
       await this.getItems();
       EventBus.$on('mRequestItem', data => {
         data.unit_price = 1;
+
+        if (data.last_quoted) {
+          data.unit_price = data.last_quoted.unit_price;
+        }
+
         this.materialRequests.push(data)
       });
       EventBus.$on('quotationItems', item => {
@@ -155,6 +190,14 @@
       });
     },
     computed: {
+      showAssignStockInformationModal: {
+        get() {
+          return this.$store.getters['AssignStockInformation/showModal'];
+        },
+        set(value) {
+          this.$store.commit('AssignStockInformation/showModal', value)
+        }
+      },
       showAttachItemToPoItemModal: {
         get() {
           return this.$store.getters['PurchaseRequisitionItem/showModal'];
@@ -219,6 +262,7 @@
           .then(response => {
             this.items.push(response.data);
             this.form.material_request_item_id = null;
+            this.form.material_request_id = null;
             this.form.qty = 1;
             this.form.unit_price = 1;
             this.$endLoading('SAVING_QUOTATION_ITEM');
@@ -273,6 +317,18 @@
         this.form.qty = 1;
         this.form.unit_price = 1;
         this.isAdding = false;
+      },
+      loadUnitPrice(item) {
+        if (item.last_quoted) {
+          this.form.unit_price = item.last_quoted.unit_price;
+        } else {
+          this.form.unit_price = 1;
+          this.form.qty = 1;
+        }
+      },
+      loadAssignStockInformation(item) {
+        this.$store.commit('AssignStockInformation/loadItem', item);
+        this.$store.commit('AssignStockInformation/showModal', true);
       },
     }
   }

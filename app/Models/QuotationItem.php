@@ -33,6 +33,11 @@ class QuotationItem extends Model implements AuditableContract
         return $this->belongsTo(Quotation::class);
     }
 
+    public function stock_template()
+    {
+        return $this->hasOne(Stock::class, 'description', 'description');
+    }
+
     public function getUnitPriceAttribute($value)
     {
         return Money::ofMinor($value, 'SAR')

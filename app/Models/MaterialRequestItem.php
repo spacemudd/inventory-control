@@ -26,4 +26,34 @@ class MaterialRequestItem extends Model implements AuditableContract
     {
         return number_format($qty);
     }
+
+    /**
+     * Gets the last stock template for the item.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function last_template()
+    {
+        return $this->hasOne(Stock::class, 'description', 'description');
+    }
+
+    /**
+     * Gets the last stock template for the item.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function stock_template()
+    {
+        return $this->hasOne(Stock::class, 'description', 'description');
+    }
+
+    /**
+     * Gets the last quoted item for the stock.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne|\Illuminate\Database\Query\Builder
+     */
+    public function last_quoted()
+    {
+        return $this->hasOne(QuotationItem::class, 'description', 'description')->latest();
+    }
 }

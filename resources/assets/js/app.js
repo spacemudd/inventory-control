@@ -282,6 +282,8 @@ Vue.component('job-order-tech', require('./components/JobOrderTech').default);
 Vue.component('stock-index-page', require('./components/StockIndexPage').default);
 
 Vue.component('stocks-by-category', require('./components/StocksByCategory').default);
+Vue.component('assign-stock-information', require('./components/AssignStockInformation').default);
+
 
 /**
  * API/App settings

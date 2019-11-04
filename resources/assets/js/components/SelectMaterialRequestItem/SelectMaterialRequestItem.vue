@@ -37,6 +37,7 @@
       selectItem() {
         this.$emit('input', this.selected.id);
         this.$emit('quantity', this.selected.qty);
+        this.$emit('selected:item', this.selected);
       },
       getData() {
         this.data = [];

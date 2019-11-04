@@ -658,7 +658,6 @@
           if (e.keyCode == 40) { // down
             e.preventDefault();
             if (document.activeElement == maininput) {
-              debugger;
               first.firstChild.focus();
             } else {
               document.activeElement.parentNode.nextSibling.firstChild.focus();

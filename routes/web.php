@@ -367,6 +367,9 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     // Stock
     Route::get('/stocks', 'Api\StockController@index');
     Route::put('/stocks/{id}', 'Api\StockController@update');
+    Route::post('stocks', 'Api\StockController@store');
+
+    Route::get('categories', 'Api\CategoriesController@index');
 
     Route::prefix('search')->group(function () {
         Route::get('items', 'Api\ItemController@search');

@@ -44,7 +44,6 @@
     },
     computed: {
       selectedMaterialRequestId() {
-        debugger;
         if (this.selectedMaterialRequest) {
           return this.selectedMaterialRequest.id;
         }

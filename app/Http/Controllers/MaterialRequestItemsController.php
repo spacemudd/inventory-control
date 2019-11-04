@@ -16,9 +16,15 @@ class MaterialRequestItemsController extends Controller
      */
     public function index($materialRequestId)
     {
-        return MaterialRequest::where('id', $materialRequestId)
-            ->firstOrFail()
-            ->items;
+        $request = MaterialRequest::where('id', $materialRequestId)
+            ->with(['items' => function($q) {
+                $q->with('last_template')
+                ->with('last_quoted')
+                ->with('stock_template');
+            }])
+            ->firstOrFail();
+
+        return $request->items;
     }
 
     /**

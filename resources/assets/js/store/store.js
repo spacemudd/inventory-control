@@ -35,6 +35,7 @@ import ItemCatalog from './modules/ItemCatalog/state';
 import QSuppliers from './modules/QSupplier/state';
 import JobOrders from './modules/JobOrders/state';
 import JobOrder from './modules/JobOrder/state';
+import AssignStockInformation from "./modules/AssignStockInformation/state";
 
 export const store = new Vuex.Store({
     plugins: [VuexLoading.Store],
@@ -82,6 +83,7 @@ export const store = new Vuex.Store({
         'QSuppliers': {namespaced:true, ...QSuppliers},
         'JobOrders': {namespaced:true, ...JobOrders},
         'JobOrder': {namespaced:true, ...JobOrder},
+        'AssignStockInformation': {namespaced:true, ...AssignStockInformation},
     },
     getters: helpers,
 });

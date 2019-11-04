@@ -29,9 +29,13 @@ class QuotationItemsController extends Controller
      */
     public function index($id)
     {
-        return Quotation::where('id', $id)
-            ->firstOrFail()
-            ->items;
+        $quote = Quotation::where('id', $id)
+            ->with(['items' => function($q) {
+                $q->with('stock_template');
+            }])
+            ->firstOrFail();
+
+        return $quote->items;
     }
 
     /**
@@ -77,7 +81,9 @@ class QuotationItemsController extends Controller
             ->getMinorAmount()
             ->toInt();
 
-        return QuotationItem::create($request);
+        $item = QuotationItem::create($request);
+        $item->load('stock_template');
+        return $item;
     }
 
     /**

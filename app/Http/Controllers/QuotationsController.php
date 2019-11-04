@@ -99,7 +99,12 @@ class QuotationsController extends Controller
 
     public function changeStatus($mRequestId)
     {
-        $mRequest = MaterialRequestItem::find($mRequestId);
+        return $mRequest = MaterialRequestItem::where('id', $mRequestId)
+            ->with('last_template')
+            ->with('last_quoted')
+            ->with('stock_template')
+            ->first();
+
         return json_encode($mRequest);
     }
 
@@ -127,7 +132,7 @@ class QuotationsController extends Controller
 
         $quotation = Quotation::findOrFail($id);
         $quotation->update($request->except('_token'));
-        
+
         return redirect()->route('quotations.show', ['id' => $id]);
     }
 

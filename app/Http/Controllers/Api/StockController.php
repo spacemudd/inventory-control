@@ -81,4 +81,30 @@ class StockController extends Controller
         DB::commit();
         return $stock;
     }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'code' => 'nullable|unique:stock,code|string',
+            'description' => 'nullable|string|unique:stock,description',
+            'rack_number' => 'nullable|string',
+            'recommended_qty' => 'nullable|numeric|min:0',
+            'category_id' => 'nullable|exists:categories,id',
+        ]);
+
+        if ($stock = Stock::where('description', $request->description)->exists()) {
+            // do nothing
+            \Log::info('Assigning stock information to an already existing stock... ignoring.');
+        } else {
+            $stock = Stock::create([
+                'code' => $request->code,
+                'description' => $request->description,
+                'rack_number' => $request->rack_number,
+                'recommended_qty' => $request->recommended_qty,
+                'category_id' => $request->category_id,
+            ]);
+            \Log::info('Storing new stock from quotation...');
+            return $stock;
+        };
+    }
 }
