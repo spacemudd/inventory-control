@@ -22,6 +22,11 @@ class MaterialRequestItem extends Model implements AuditableContract
         return $this->belongsTo(MaterialRequest::class);
     }
 
+    public function items()
+    {
+        return $this->hasMany(MaterialRequestItem::class);
+    }
+
     public function getQtyAttribute($qty)
     {
         return number_format($qty);

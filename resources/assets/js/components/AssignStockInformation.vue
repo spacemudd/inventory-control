@@ -32,7 +32,7 @@
                         <div class="field">
                             <label class="label">Rack number</label>
                             <div class="control">
-                                <b-input name="rack_number" v-model="rack_number" size="small"></b-input>
+                                <b-input type="number" name="rack_number" v-model="rack_number" size="small"></b-input>
                             </div>
                         </div>
                     </div>
