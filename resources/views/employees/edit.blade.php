@@ -178,7 +178,7 @@
 
                     <div class="column is-12">
                         <div class="field has-text-right">
-                            <a class="button is-text" href="{{ route('employees.index') }}">{{ __('words.cancel') }}</a>
+                            <a class="button is-text" href="{{ route('employees.show', ['id' => $employee->id]) }}">{{ __('words.cancel') }}</a>
                             <button type="submit" class="button is-primary">{{ trans('words.save') }}</button>
                         </div>
                     </div>

@@ -40,7 +40,7 @@
                             <tbody>
                                 <tr>
                                     <td><strong>{{ $t('words.type') }}</strong></td>
-                                    <td v-if="employee.type">{{ employee.type.title }}</td>
+                                    <td v-if="employee.type">{{ employee.type.name }}</td>
                                 </tr>
                                 <tr>
                                     <td><strong>{{ $t('words.created-at') }}</strong></td>
