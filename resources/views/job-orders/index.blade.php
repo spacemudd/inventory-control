@@ -49,6 +49,9 @@
             <a href="{{ route('job-orders.create') }}" class="button is-primary is-small">New</a>
         </div>
     </div>
+    <div class="column is-12">
+        <job-orders-search></job-orders-search>
+    </div>
     <div class="column">
         <table class="table is-fullwidth is-bordered is-size-7 is-narrow is-striped">
         <thead>

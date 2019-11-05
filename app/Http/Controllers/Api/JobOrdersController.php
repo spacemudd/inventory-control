@@ -40,4 +40,10 @@ class JobOrdersController extends Controller
     {
         return $this->service->complete($id);
     }
+
+    public function search(Request $request)
+    {
+        $search = request()->input('q');
+        return JobOrder::where('job_order_number', 'LIKE', '%'.$search.'%')->paginate(1000);
+    }
 }

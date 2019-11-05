@@ -391,5 +391,6 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
         Route::get('material-requests-items', 'Api\MaterialRequestItemsController@search')->name('api.material-requests-items.search');
         Route::get('stock', 'Api\StockController@search')->name('api.stock.search');
         Route::get('job-description', 'Api\SearchJobDescriptionController@search');
+        Route::get('job-orders', 'Api\JobOrdersController@search');
     });
 });

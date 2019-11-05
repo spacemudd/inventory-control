@@ -50,6 +50,7 @@ class JobOrder extends Model
         'dispatched_count',
         'un_dispatched_count',
         'is_completed',
+        'human_date',
     ];
 
     protected static function boot()
@@ -87,6 +88,11 @@ class JobOrder extends Model
     public function getStatusAttribute()
     {
         return ucfirst($this->attributes['status']);
+    }
+
+    public function getHumanDateAttribute()
+    {
+        return optional($this->date)->format('Y-m-d');
     }
 
     /** Accessors */
