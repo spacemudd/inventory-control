@@ -39,8 +39,10 @@
                     <div class="field">
                         <label class="label">Job description <span class="has-text-danger">*</span></label>
                         <!--<b-input v-model="job_description" maxlength="200" type="textarea" size="is-small" required></b-input>-->
-                        <autocomplete-suggestion v-model="job_description"></autocomplete-suggestion>
+<!--                        <autocomplete-suggestion v-model="job_description"></autocomplete-suggestion>-->
+                        <job-order-description @job-description:selected="(res) => job_description = res"></job-order-description>
                     </div>
+
 
                     <b-field label="Remark">
                         <textarea class="textarea" v-model="remark" rows="2" cols="2"></textarea>

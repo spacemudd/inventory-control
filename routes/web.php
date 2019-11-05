@@ -372,6 +372,8 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
 
     Route::get('categories', 'Api\CategoriesController@index');
 
+    Route::get('job-descriptions', 'Api\JobDescriptionsController@index');
+
     Route::prefix('search')->group(function () {
         Route::get('items', 'Api\ItemController@search');
         Route::get('item-templates', 'Api\ItemTemplateController@search')->name('api.search.item-templates');

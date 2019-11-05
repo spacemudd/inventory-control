@@ -64,7 +64,10 @@
                     </b-field>
                     <div class="field">
                         <label class="label">Job description <span class="has-text-danger">*</span></label>
-                        <b-input v-model="job_description" maxlength="200" type="textarea" size="is-small" required></b-input>
+<!--                        <b-input v-model="job_description" maxlength="200" type="textarea" size="is-small" required></b-input>-->
+                        <job-order-description @job-description:selected="(res) => job_description = res"
+                                               :job-description-existing="job_description"
+                        ></job-order-description>
                     </div>
 
                     <b-field label="Remark">
