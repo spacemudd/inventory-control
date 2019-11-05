@@ -30,7 +30,7 @@ class JobOrderController extends Controller
         if (request()->has('all')) {
             $jobOrders = JobOrder::latest()->paginate(100);
         } elseif (request()->has('completed')) {
-            $jobOrders = JobOrder::completed()->paginate(100);
+            $jobOrders = JobOrder::completed()->latest()->paginate(100);
         } else {
             $jobOrders = JobOrder::pending()->latest()->paginate(100);
         }
