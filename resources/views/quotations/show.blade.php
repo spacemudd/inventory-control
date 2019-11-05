@@ -118,7 +118,8 @@
             {{-- TODO: Can-edit will be disabled when there is a PO attached to it? --}}
             <quotations-items-container
                     material-number="{{ $quotation->material_request->number }}"
-                    :can-edit="{{ $quotation->saved_at ? 'false' : 'true' }}"
+                    {{-- :can-edit="{{ $quotation->can_edit ? 'false' : 'true' }}"--}}
+                    :can-edit="true"
                     :quotation-id.number="{{ $quotation->id }}">
             </quotations-items-container>
         </div>

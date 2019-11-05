@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MaterialRequest;
 use App\Models\MaterialRequestItem;
 use App\Models\Quotation;
 use App\Models\QuotationItem;
@@ -83,7 +84,34 @@ class QuotationItemsController extends Controller
 
         $item = QuotationItem::create($request);
         $item->load('stock_template');
+
+        // If all items have been delivered, mark material request as delivered.
+        $this->processDeliveredStatus($request['quotation_id']);
+
         return $item;
+    }
+
+    /**
+     * If all items have been delivered, mark material request as delivered.
+     *
+     * @param $quotationId
+     */
+    public function processDeliveredStatus($quotationId)
+    {
+        $quotation = Quotation::find($quotationId);
+        $materialRequest = $quotation->material_request;
+
+        $quotationQty = $quotation->items()->sum('qty');
+        $materialQty = $materialRequest->items()->sum('qty');
+
+        if (($materialQty === $quotationQty) || ($quotationQty >= $materialQty)) {
+            // Mark as delivered.
+            $materialRequest->status = MaterialRequest::DELIVERED;
+        } else {
+            $materialRequest->status = MaterialRequest::PENDING;
+        }
+
+        $materialRequest->save();
     }
 
     /**
@@ -95,6 +123,8 @@ class QuotationItemsController extends Controller
     public function delete($quotationId, $id)
     {
         QuotationItem::where('id', $id)->firstOrFail()->delete();
+
+        $this->processDeliveredStatus($quotationId);
 
         return [
             'message' => 'Success',
