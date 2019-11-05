@@ -58,8 +58,7 @@
         <tr>
         	<th style="width:100px;">No.</th>
             <th style="width:100px;">Status</th>
-            <th style="width:100px;">Requester</th>
-            <th style="width:100px;">Cost Center</th>
+            <th style="width:300px;">Description</th>
             <th>Location</th>
             <th style="width:75px;">Extension</th>
             <th style="width:200px;">Technicians</th>
@@ -85,12 +84,7 @@
                                 </div>
                             </td>
                             <td>
-                                <p>{{ optional($jobOrder->employee)->code }}</p>
-                                {{ optional($jobOrder->employee)->name }}
-                            </td>
-                            <td>
-                                <p>{{ optional($jobOrder->department)->code }}</p>
-                                {{ optional($jobOrder->department)->description }}
+                                <p>{{ $jobOrder->job_description }}</p>
                             </td>
                             <td>{{ optional($jobOrder->location)->name }}</td>
                             <td>{{ $jobOrder->ext }}</td>
