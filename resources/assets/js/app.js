@@ -177,6 +177,7 @@ Vue.component('audit-trail', require('./components/AuditTrail/AuditTrail.vue').d
 Vue.component('material-requests-search', require('./components/MaterialRequestsSearch.vue').default);
 
 Vue.component('job-order-description', require('./components/JobOrderDescription').default);
+Vue.component('job-orders-search', require('./components/JobOrdersSearch').default);
 
 Vue.component(
     'passport-clients',
