@@ -44,7 +44,7 @@ class EmployeeController extends Controller
         $activeEmployees = Employee::count();
         $inactiveEmployees = Employee::onlyTrashed()->count();
 
-        $employees = Employee::get();
+        $employees = Employee::latest()->paginate();
 
 		return view('employees.index', compact('activeEmployees', 'inactiveEmployees', 'employees'));
 	}

@@ -49,6 +49,7 @@
                 <th>Staff Type</th>
                 <th>Contact Number</th>
                 <th>Email Address</th>
+                <th class="has-text-right">Actions</th>
             </tr>
             </thead>
             	<tbody>
@@ -60,10 +61,18 @@
                             <td>{{ optional($employee->type)->name }}</td>
                             <td>{{ $employee->phone }}</td>
                             <td>{{ $employee->email }}</td>
+                            <th class="has-text-right">
+                                <a href="{{ route('employees.edit', ['id' => $employee->id]) }}"
+                                   class="button is-small is-warning">
+                                    Edit
+                                </a>
+                            </th>
                         </tr>
                     @endforeach
             	</tbody>
             </table>
+
+            {{ $employees->links('vendor.pagination.bulma') }}
         </div>
     </div>
 
