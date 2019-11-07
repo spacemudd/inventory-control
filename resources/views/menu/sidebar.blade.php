@@ -120,6 +120,12 @@
                                                          link="{{ route('job-orders.index') }}">
                                     </sidebar-links-group>
 
+                                    <sidebar-links-group selected="{{ (request()->route()->getName() === 'equipments.index') }}"
+                                                         icon="cubes"
+                                                         title="Equipments"
+                                                         link="{{ route('equipments.index') }}">
+                                    </sidebar-links-group>
+
                                     <sidebar-links-group selected="{{ (request()->route()->getName() === 'stock.index') }}"
                                                          icon="tags"
                                                          title="Stock"

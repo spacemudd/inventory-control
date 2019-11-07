@@ -178,6 +178,9 @@ Vue.component('material-requests-search', require('./components/MaterialRequests
 
 Vue.component('job-order-description', require('./components/JobOrderDescription').default);
 Vue.component('job-orders-search', require('./components/JobOrdersSearch').default);
+Vue.component('equipment-selector', require('./components/EquipmentSelector').default);
+
+Vue.component('equipments-index', require('./components/EquipmentsIndex').default);
 
 Vue.component(
     'passport-clients',

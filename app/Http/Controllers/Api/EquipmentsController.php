@@ -1,0 +1,116 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Models\Equipment;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
+class EquipmentsController extends Controller
+{
+    /**
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return
+     */
+    public function addNode(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'parent' => 'nullable|string|max:255',
+        ]);
+
+        if ($request->parent) {
+            $parent = Equipment::where('name', $request->parent)->first();
+            $child = new Equipment();
+            $child->name = $request->name;
+            $parent->children()->save($child);
+        } else {
+            Equipment::create([
+                'name' => $request->name,
+            ]);
+        }
+
+        return Equipment::where('name', $request->name)->first();
+    }
+
+    public function changeNode(Request $request)
+    {
+        $request->validate([
+            'new_name' => 'required|string|max:255',
+            'old_name' => 'required|string|max:255',
+        ]);
+
+        $equip = Equipment::where('name', $request->old_name)->first();
+        $equip->name = $request->new_name;
+        $equip->save();
+
+        return $equip;
+    }
+
+    public function deleteNode($name)
+    {
+        Equipment::where('name', $name)->first()->delete();
+        return 'Success';
+    }
+
+    public function toJsTree()
+    {
+        return $eq = Equipment::get()->toTree()->toArray();
+        $tree = [
+            'id' => 1,
+            'name' => 'Head Office',
+            'dragDisabled' => false,
+            'addTreeNodeDisabled' => false,
+            'addLeafNodeDisabled' => false,
+            'editNodeDisabled' => false,
+            'delNodeDisabled' => false,
+            'children' => [
+                [
+                    'name' => 'Chiller Equipment',
+                    'children' => [
+                        ['name' => 'H.O Chiller 1'],
+                    ],
+                ],
+            ]
+        ];
+
+        return $tree;
+        //
+        //{
+        //    name: 'Head Office',
+        //    id: 1,
+        //    pid: 0,
+        //    dragDisabled: false,
+        //    addTreeNodeDisabled: false,
+        //    addLeafNodeDisabled: false,
+        //    editNodeDisabled: false,
+        //    delNodeDisabled: false,
+        //    children: [
+        //      {
+        //        name: 'Chiller Equipment',
+        //        id: 2,
+        //        //isLeaf: true,
+        //        pid: 1,
+        //        children: [
+        //          {
+        //              name: 'H.O Chiller 1',
+        //
+        //          }
+        //        ],
+        //      }
+        //    ]
+        //  },
+        //{
+        //    name: 'Group 2',
+        //    id: 3,
+        //    pid: 0,
+        //    disabled: false
+        //  },
+        //{
+        //    name: 'Group 3',
+        //    id: 4,
+        //    pid: 0
+        //  }
+    }
+}
