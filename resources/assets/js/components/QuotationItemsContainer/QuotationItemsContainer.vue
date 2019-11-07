@@ -25,6 +25,7 @@
                         <th>Items</th>
                         <th width="100px" class="has-text-right">Unit Price</th>
                         <th width="70px" class="has-text-right">Quantity</th>
+                        <th width="70px" class="has-text-right">Rack No.</th>
                         <th width="100px" class="has-text-right">Amount</th>
                         <th v-if="canEdit" width="50px"></th>
                     </tr>
@@ -35,6 +36,7 @@
                         <td>{{ item.description }}</td>
                         <td class="has-text-right">{{ toMoney(item.unit_price) }}</td>
                         <td class="has-text-right">{{ item.qty }}</td>
+                        <td class="has-text-right">{{ item.rack_number }}</td>
                         <td class="has-text-right">{{ toMoney(item.unit_price * item.qty) }}</td>
                         <td class="has-text-centered" v-if="canEdit">
                             <button v-if="canEdit"
@@ -61,7 +63,7 @@
                             <b-input size="is-small" type="number" v-model="mrequest.qty"></b-input>
                         </td>
                         <td>
-                            <input type="text" :value="mrequest.qty * mrequest.unit_price" class="input is-small" style="background-color: #d5d5d5;" readonly>
+                            <input type="number" v-model="rack_number" class="input is-small" style="background-color: #d5d5d5;" readonly>
                         </td>
                         <td class="has-text-centered">
                             <button class="button is-primary is-small saveButton"
@@ -83,7 +85,7 @@
                             <b-input size="is-small" type="number" v-model="form.qty" class="quantity"></b-input>
                         </td>
                         <td>
-                            <input type="text" :value="form.qty * form.unit_price" class="input is-small" style="background-color: #d5d5d5;" readonly>
+                            <input type="number" v-model="form.rack_number" class="input is-small">
                         </td>
                         <td class="has-text-centered">
                             <button class="button is-primary is-small"
@@ -139,6 +141,7 @@
           material_request_item_id: '',
           qty: 1,
           unit_price: 1,
+          rack_number: [],
         },
       }
     },
@@ -221,6 +224,7 @@
             this.form.material_request_item_id = null;
             this.form.qty = 1;
             this.form.unit_price = 1;
+            this.form.rack_number = null;
             this.$endLoading('SAVING_QUOTATION_ITEM');
             document.getElementById("quotationSaveItems").disabled = false
 

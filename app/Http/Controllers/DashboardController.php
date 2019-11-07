@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use App\Models\MaterialRequest;
 use App\Models\Quotation;
 use App\Models\StockMovement;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -32,8 +33,19 @@ class DashboardController extends Controller
         $outCount = StockMovement::select('out')->sum('out');
         $stockCount = $inCount - $outCount;
 
-        $lowStockCount = 0;
-        $outOfStockCount = 0;
+        // todo:
+        $lowStockCount = 0; 
+//         query = DB::select(DB::raw("
+//              SELECT stock.code,stock.category,stock.description,
+//                 (stock.recomended_qty - StockMovement.qty_on_hand) AS diff
+//              FROM stock JOIN StockMovement ON 
+            
+//              WHERE stock.recomended_qty - StockMovement.qty > 0
+// "));
+
+
+        // TODO: For every stock, check if the qty_on_hand is LESS THAN recomended_qty.
+        $outOfStockCount = 0; // TODO: All items that have 0 qty_on_hand
 
     	return view('dashboard.index', compact('stockCount',
             'rfqsCount',
@@ -43,4 +55,12 @@ class DashboardController extends Controller
             'outOfStockCount'
             ));
     }
+   // public static function lowStockCount()
+   // {
+   //  $lowStockCount = dd(\DB::table('stock')->where('recomended_qty', '<', DB::raw
+   //      ('qty_on_hand'))->get());
+
+   //  return view('dashboard.index', compact('lowStockCount'));
+   //  }
+ 
 }

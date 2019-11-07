@@ -65,7 +65,7 @@
 					<i class="fa fa-building-o fa-2x"></i>
 				</div>
 				<div class="">
-					{{ $lowStockCount }}<br/>
+					{{ $outOfStockCount }}<br/>
 					Out of stock
 				</div>
 			</div>
