@@ -28,7 +28,9 @@
     <div class="columns is-centered">
         <div class="column is-12">
             <div class="box">
-                <job-order-show-form :id.number="{{ $jobOrder->id }}"></job-order-show-form>
+                <job-order-show-form :id.number="{{ $jobOrder->id }}"
+                                     :can-change-equipment="{{ $jobOrder->isCompleted() ? 'false' : 'true' }}"
+                ></job-order-show-form>
             </div>
         </div>
     </div>

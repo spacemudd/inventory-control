@@ -20,6 +20,7 @@ class Equipment extends Model implements AuditableContract
     ];
 
     protected $appends = [
+        'dragDisabled',
         'addTreeNodeDisabled',
         'addLeafNodeDisabled',
         'editNodeDisabled',
@@ -31,8 +32,15 @@ class Equipment extends Model implements AuditableContract
         parent::boot();
 
         static::creating(function($equipment) {
-            $equipment->type = 'equipment'; // and 'category'.
+            if (!$equipment->type) {
+                $equipment->type = 'equipment'; // and 'category'.
+            }
         });
+    }
+
+    public function getdragDisabledAttribute()
+    {
+        return false;
     }
 
     public function getaddTreeNodeDisabledAttribute()

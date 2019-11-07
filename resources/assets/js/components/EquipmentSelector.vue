@@ -6,7 +6,7 @@
         <section class="modal-card-body">
             <form action="">
                 <div class="columns is-multiline">
-                    <div class="column is-12 is-content" style='margin-top:-20px;'>
+                    <div class="column is-12 is-content">
                         <loading-screen v-if="!data"></loading-screen>
                         <div v-else>
                             <vue-tree-list
@@ -56,13 +56,16 @@
     methods: {
       getTree() {
         this.data = null;
-        axios.get(this.apiUrl() + '/equipment/get-tree')
+        axios.get(this.apiUrl() + '/equipment/get-tree?disabled=true')
           .then(response => {
             this.data = new Tree(response.data);
           })
       },
       onClick (params) {
-        console.log(params)
+        if (params.isLeaf) {
+          this.$emit('equipment:selected', params);
+          this.closeModal();
+        }
       },
       getNewTree () {
         var vm = this
@@ -129,13 +132,13 @@
 <style lang="less" rel="stylesheet/less">
     .vtl {
         .vtl-drag-disabled {
-            background-color: #d0cfcf;
+            background-color: white;
             &:hover {
-                background-color: #d0cfcf;
+                background-color: white;
             }
         }
         .vtl-disabled {
-            background-color: #d0cfcf;
+            background-color: white;
         }
     }
 </style>
@@ -147,5 +150,9 @@
             cursor: pointer;
             color: #078af3;
         }
+    }
+
+    .vtl-tree-node .vtl-drag-disabled {
+        background-color: white;
     }
 </style>

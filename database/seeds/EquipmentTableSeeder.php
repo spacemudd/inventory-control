@@ -13,12 +13,15 @@ class EquipmentTableSeeder extends Seeder
     {
         \App\Models\Equipment::create([
             'name' => 'HEAD OFFICE',
+            'type' => 'category',
             'children' => [
                 [
                     'name' => 'Chiller Equipment',
+                    'type' => 'category',
                     'children' => [
                         [
                             'name' => 'H.O Chiller 1',
+                            'type' => 'category',
                             //'children' => [
                             //    '1 Circuit',
                             //    '2 Circuit',

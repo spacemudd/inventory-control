@@ -80,7 +80,8 @@ class JobOrderService
             'time_start',
             'time_end',
             'quotation_id',
-            'region_id'
+            'region_id',
+            'equipment_id'
         ));
 
         // In the case of a new location.
@@ -259,6 +260,7 @@ class JobOrderService
                 'location_id' => $data['location_id'],
                 'time_start' => Carbon::parse($data['time_start']),
                 'time_end' => $data['time_end'] ? Carbon::parse($data['time_end']) : '',
+                'equipment_id' => $data['equipment_id'],
             ]);
 
             return $jo;
