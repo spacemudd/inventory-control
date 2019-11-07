@@ -61,6 +61,7 @@
             <th style="width:300px;">Description</th>
             <th>Location</th>
             <th style="width:75px;">Extension</th>
+            <th style="width:150px;">Equipment</th>
             <th style="width:200px;">Technicians</th>
             <th style="width:80px;"></th>
         </tr>
@@ -88,6 +89,12 @@
                             </td>
                             <td>{{ optional($jobOrder->location)->name }}</td>
                             <td>{{ $jobOrder->ext }}</td>
+                            <td>
+                                @if($jobOrder->equipment)
+                                    <small>{{ $jobOrder->equipment->ancestors->count() ? implode(' > ', $jobOrder->equipment->ancestors->pluck('name')->toArray()) : 'Top Level' }}</small><br>
+                                    <b>{{ $jobOrder->equipment->name }}</b>
+                                @endif
+                            </td>
                             <td>
                                 <ul>
                                     @foreach($jobOrder->technicians as $tech)
