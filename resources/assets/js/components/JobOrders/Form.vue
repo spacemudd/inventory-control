@@ -245,6 +245,36 @@
                         </table>
                     </div>
 
+                    <b-modal :active.sync="showEquipmentSelectorModal">
+                        <equipment-selector
+                                @equipment:selected="addEquipment"
+                                @close="showEquipmentSelectorModal=false"></equipment-selector>
+                    </b-modal>
+                    <div class="field">
+                        <label class="label anb-label">Equipments</label>
+                        <table class="table is-narrow is-size-7 is-fullwidth">
+                            <colgroup>
+                                <col style="width:90%;">
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th class="has-text-right">
+                                    <div class="button is-small is-warning"
+                                         @click="showEquipmentSelectorModal=true"
+                                    >Add</div>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(equip, index) in equipments">
+                                    <td>{{ equip.name }}</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
                     <div class="field">
                         <label class="label anb-label">Technicians</label>
                         <table class="table is-narrow is-size-7 is-fullwidth">
@@ -352,12 +382,20 @@
         costCenters: [],
         costCenterSearchCode: '',
 
+        equipmentsList: [], // contains all pre-saved equipments.
+        equipments: [], // equipments saved to the JO.
+        equipmentForm: [], // for adding new equip.
+
+        showEquipmentSelectorModal: false,
+
         employees: [],
         addEmployees: [],
         employeeSearchCode: '',
         quotation_id: '',
         locations: [],
         locationSearchCode: '',
+
+        equipmentFormSearchCode: '',
 
         technicianFormSearchCode: '',
         technicianForm: {
@@ -469,6 +507,14 @@
             .toString()
             .toLowerCase()
             .indexOf(this.employeeSearchCode.toLowerCase()) >= 0
+        })
+      },
+      filteredEquipmentsForAdd() {
+        return this.equipmentForm.filter((option) => {
+          return option.name
+            .toString()
+            .toLowerCase()
+            .indexOf(this.equipmentSearchCode.toLowerCase()) >= 0
         })
       },
       filteredCostCenters() {
@@ -586,6 +632,23 @@
           this.clearTechnicianForm();
         }, 100);
       },
+      addEquipment() {
+        if (!this.equipmentForm.id && !this.equipmentFormSearchCode) {
+          alert('Please select an equipment');
+          return false;
+        }
+
+        let equip = {
+          id: this.equipmentForm.id,
+          name: this.equipmentFormSearchCode,
+        };
+
+        this.equipments.push(equip);
+
+        setTimeout(() => {
+          this.clearEquipmentForm();
+        }, 100);
+      },
       addMaterial() {
         this.materials.push({
           material_options: [],
@@ -607,6 +670,12 @@
         }
         this.technicianForm = technicianForm;
       },
+      clearEquipmentForm() {
+        this.equipmentForm = [{
+          id: null,
+          name: '',
+        }]
+      },
       clearTechnician() {
         this.technicianFormSearchCode = '';
         this.technicianForm = {
@@ -615,6 +684,14 @@
           time_end: null,
           technician_id: ''
         };
+      },
+      /**
+       * Add equipment to the backend from the job order.
+       *
+       * @param equipment
+       */
+      addEquipment(equipment) {
+
       },
       clearMaterialTechnician() {
         this.materialForm.technicianSearchCode = '';

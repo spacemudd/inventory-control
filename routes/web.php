@@ -81,6 +81,8 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::get('categories/{id}/stock', 'CategoryController@stocksByCategory');
         Route::resource('categories', 'CategoryController');
 
+        Route::get('equipments', 'EquipmentsController@index')->name('equipments.index');
+
         // Purchase orders
         Route::name('purchase-orders.')->prefix('purchase-orders')->group(function () {
             Route::get('draft', 'PurchaseOrderController@draft')->name('draft');
@@ -373,6 +375,14 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::get('categories', 'Api\CategoriesController@index');
 
     Route::get('job-descriptions', 'Api\JobDescriptionsController@index');
+
+    Route::get('/equipment-categories', 'Api\EquipmentCategoriesController@index');
+
+    // Equip tree management
+    Route::post('/equipment/add-node', 'Api\EquipmentsController@addNode');
+    Route::post('/equipment/change-node', 'Api\EquipmentsController@changeNode');
+    Route::delete('/equipment/{name}/delete', 'Api\EquipmentsController@deleteNode');
+    Route::get('/equipment/get-tree', 'Api\EquipmentsController@toJsTree');
 
     Route::prefix('search')->group(function () {
         Route::get('items', 'Api\ItemController@search');
