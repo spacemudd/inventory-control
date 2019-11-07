@@ -42,8 +42,9 @@
         <thead>
         <tr>
         	<th width="200px">Code</th>
+            <th width="200px">Material Request No.</th>
             <th>Cost Center</th>
-            <th>Vendor</th>
+            <th width="100px">Vendor</th>
             <th width="100px">Items</th>
             <th width="100px">Total</th>
             <th width="100px">Status</th>
@@ -55,6 +56,11 @@
                     @foreach ($quotations as $quote)
                         <tr>
                             <td>{{ $quote->vendor_quotation_number }}</td>
+                            <td>
+                                @if ($quote->material_request)
+                                    <a href="{{ route('material-requests.show', ['id' => optional($quote->material_request)->id]) }}">{{ optional($quote->material_request)->number }}</a>
+                                @endif
+                            </td>
                             <td>{{ $quote->cost_center->display_name }}</td>
                             <td>{{ $quote->vendor->display_name }}</td>
                             <td>{{ $quote->items()->count() }}</td>
