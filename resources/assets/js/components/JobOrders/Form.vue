@@ -267,8 +267,8 @@
                             </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(equip, index) in equipments">
-                                    <td>{{ equip.name }}</td>
+                                <tr v-if="equipment">
+                                    <td>{{ equipment.name }}</td>
                                     <td></td>
                                 </tr>
                             </tbody>
@@ -382,10 +382,8 @@
         costCenters: [],
         costCenterSearchCode: '',
 
-        equipmentsList: [], // contains all pre-saved equipments.
-        equipments: [], // equipments saved to the JO.
-        equipmentForm: [], // for adding new equip.
-
+        equipment: null,
+        equipment_id: null,
         showEquipmentSelectorModal: false,
 
         employees: [],
@@ -394,8 +392,6 @@
         quotation_id: '',
         locations: [],
         locationSearchCode: '',
-
-        equipmentFormSearchCode: '',
 
         technicianFormSearchCode: '',
         technicianForm: {
@@ -581,6 +577,10 @@
       submitOrder() {
         this.$startLoading('SAVING_JOB_ORDER');
 
+        // because the vue-tree list response is basically cant be serialized...
+        this.equipment_id = this.equipment.id;
+        this.equipment = null;
+
         let data = this.$data;
         if (this.location.id) {
           data.location_id = this.location.id;
@@ -632,22 +632,8 @@
           this.clearTechnicianForm();
         }, 100);
       },
-      addEquipment() {
-        if (!this.equipmentForm.id && !this.equipmentFormSearchCode) {
-          alert('Please select an equipment');
-          return false;
-        }
-
-        let equip = {
-          id: this.equipmentForm.id,
-          name: this.equipmentFormSearchCode,
-        };
-
-        this.equipments.push(equip);
-
-        setTimeout(() => {
-          this.clearEquipmentForm();
-        }, 100);
+      addEquipment(equip) {
+        this.equipment = equip;
       },
       addMaterial() {
         this.materials.push({
@@ -684,14 +670,6 @@
           time_end: null,
           technician_id: ''
         };
-      },
-      /**
-       * Add equipment to the backend from the job order.
-       *
-       * @param equipment
-       */
-      addEquipment(equipment) {
-
       },
       clearMaterialTechnician() {
         this.materialForm.technicianSearchCode = '';

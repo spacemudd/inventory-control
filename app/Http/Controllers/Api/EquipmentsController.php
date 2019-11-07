@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Equipment;
+use App\Models\EquipmentDisabled;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -56,7 +57,14 @@ class EquipmentsController extends Controller
 
     public function toJsTree()
     {
-        return $eq = Equipment::get()->toTree()->toArray();
+        $eq = Equipment::get()->toTree()->toArray();
+
+        if (request()->has('disabled')) {
+            return $eq = EquipmentDisabled::get()->toTree()->toArray();
+        }
+
+        return $eq;
+
         $tree = [
             'id' => 1,
             'name' => 'Head Office',

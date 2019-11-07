@@ -23,6 +23,7 @@ class JobOrdersController extends Controller
                 'department',
                 'location',
                 'technicians',
+                'equipment',
             ])
             ->with(['items' => function($q) {
                 $q->with('stock');

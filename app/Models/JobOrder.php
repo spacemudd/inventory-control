@@ -32,6 +32,7 @@ class JobOrder extends Model
         // 'materials_used',
         'time_end',
         'region_id',
+        'equipment_id',
     ];
 
     protected $dates = [
@@ -122,6 +123,11 @@ class JobOrder extends Model
     public function location()
     {
         return $this->belongsTo(Location::class);
+    }
+
+    public function equipment()
+    {
+        return $this->belongsTo(Equipment::class);
     }
 
     public function technicians()

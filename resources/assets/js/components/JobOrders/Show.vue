@@ -270,6 +270,38 @@
                         </table>
                     </div>
 
+                    <b-modal :active.sync="showEquipmentSelectorModal">
+                        <equipment-selector
+                                @equipment:selected="addEquipment"
+                                :can-change-equipment="canChangeEquipment"
+                                @close="showEquipmentSelectorModal=false"></equipment-selector>
+                    </b-modal>
+                    <div class="field">
+                        <label class="label anb-label">Equipments</label>
+                        <table class="table is-narrow is-size-7 is-fullwidth">
+                            <colgroup>
+                                <col style="width:90%;">
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th class="has-text-right">
+                                    <div class="button is-small is-warning"
+                                         v-if="canChangeEquipment"
+                                         @click="showEquipmentSelectorModal=true"
+                                    >Edit</div>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-if="equipment">
+                                <td>{{ equipment.name }}</td>
+                                <td></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
                     <div class="field">
                         <label class="label anb-label">Technicians</label>
                         <button class="button is-small is-primary is-outlined"
@@ -379,6 +411,11 @@
       id: {
         type: Number,
         required: true,
+      },
+      canChangeEquipment: {
+        type: Boolean,
+        required: false,
+        default: true,
       }
     },
     data() {
@@ -400,6 +437,10 @@
         costCenters: [],
         costCenterSearchCode: '',
         location_id: null,
+
+        equipment: null,
+        equipment_id: null,
+        showEquipmentSelectorModal: false,
 
         employees: [],
         addEmployees: [],
@@ -539,6 +580,8 @@
             this.time_end = jo.time_end ? moment(jo.time_end, 'YYYY-MM-DD HH:mm:ss').format('HH:mm') : null;
             this.materials = jo.items;
             this.location_id = jo.location_id;
+            this.equipment_id = jo.equipment_id;
+            this.equipment = jo.equipment;
 
             jo.technicians.map((tech) => {
               if (tech.pivot.time_start) {
@@ -572,6 +615,9 @@
       now() {
         return moment().format('HH:mm');
       },
+      addEquipment(equip) {
+        this.equipment = equip;
+      },
       loadCostCenters() {
         this.$startLoading('FETCHING_COST_CENTRES');
         axios.get(this.apiUrl() + '/departments').then(response => {
@@ -601,7 +647,11 @@
       updateOrder() {
         this.$startLoading('UPDATING_JOB_ORDER');
 
-        let data = this.$data;;
+        let data = this.$data;
+
+        // because the vue-tree list response is basically cant be serialized...
+        this.equipment_id = this.equipment.id;
+        this.equipment = null;
 
         // Only material requests that are selected
         let selectedMaterialRequests = data.materials.filter((x) => x.stock_id)
