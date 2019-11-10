@@ -578,8 +578,10 @@
         this.$startLoading('SAVING_JOB_ORDER');
 
         // because the vue-tree list response is basically cant be serialized...
-        this.equipment_id = this.equipment.id;
-        this.equipment = null;
+        if (this.equipment) {
+            this.equipment_id = this.equipment.id;
+            this.equipment = null;
+        }
 
         let data = this.$data;
         if (this.location.id) {
