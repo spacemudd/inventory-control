@@ -103,8 +103,10 @@
       loseDescriptionFocus() {
         this.showModal = false;
 
-        if (!this.description) {
-          this.descriptionSearch = '';
+        if (!this.jobDescriptionExisting) {
+          if (!this.description) {
+            this.descriptionSearch = '';
+          }
         }
       },
       selectDescriptionField() {

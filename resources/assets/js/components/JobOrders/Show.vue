@@ -650,8 +650,10 @@
         let data = this.$data;
 
         // because the vue-tree list response is basically cant be serialized...
-        this.equipment_id = this.equipment.id;
-        this.equipment = null;
+        if (this.equipment) {
+          this.equipment_id = this.equipment.id;
+          this.equipment = null;
+        }
 
         // Only material requests that are selected
         let selectedMaterialRequests = data.materials.filter((x) => x.stock_id)
