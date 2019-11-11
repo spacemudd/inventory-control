@@ -12,7 +12,26 @@
                     <loading-screen size="is-large"></loading-screen>
                 </div>
                 <b-table :data="stocks"
-                         :paginated="false"
+                         :loading="loadingResults"
+
+                         paginated
+                         backend-pagination
+
+                         :total="total"
+                         :per-page="perPage"
+                         @page-change="onPageChange"
+
+                         aria-next-label="Next page"
+                         aria-previous-label="Previous page"
+                         aria-page-label="Page"
+                         aria-current-label="Current page"
+
+                         backend-sorting
+                         backend-sorting
+                         :default-sort-direction="defaultSortOrder"
+                         :default-sort="[sortField, sortOrder]"
+                         @sort="onSort"
+
                          sort-icon-size="is-small"
                          custom-row-key="id"
                          class="is-size-7"
@@ -33,10 +52,10 @@
                         <b-table-column field="rack_number" width="100" label="Rack No." sortable>
                             {{ props.row.rack_number }}
                         </b-table-column>
-                        <b-table-column field="on_hand_quantity" width="100" label="Avail. Qty" sortable>
+                        <b-table-column field="on_hand_quantity" width="100" label="Avail. Qty">
                             {{ props.row.on_hand_quantity }}
                         </b-table-column>
-                        <b-table-column field="recommended_qty" width="150" label="Recommended Qty" sortable>
+                        <b-table-column field="recommended_qty" width="150" label="Recommended Qty">
                             {{ props.row.recommended_qty }}
                         </b-table-column>
                         <b-table-column field="actions" width="150" label="Actions" sortable numeric>
@@ -70,9 +89,16 @@
     },
     data() {
       return {
-        loading: true,
+        loading: false,
         stocks: [],
         checkedRows: [],
+        loadingResults: false,
+        total: 0,
+        page: 1,
+        perPage: 100,
+        defaultSortOrder: 'desc',
+        sortField: 'description',
+        sortOrder: 'desc',
       }
     },
     computed: {
@@ -92,16 +118,28 @@
        *
        */
       loadResults() {
-        this.loading = true;
-        axios.get(this.apiUrl()+'/stocks')
+        this.loadingResults = true;
+
+        const params = [
+          `sort_by=${this.sortField}.${this.sortOrder}`,
+          `page=${this.page}`
+        ].join('&');
+
+        axios.get(this.apiUrl()+`/stocks?${params}`)
           .then(response => {
-            this.stocks = response.data;
-            this.loading = false;
+            //this.stocks = response.data;
+            this.stocks = [];
+            this.total = response.data.total;
+            this.page = response.data.current_page
+            response.data.data.forEach((item) => {
+              this.stocks.push(item)
+            })
+            this.loadingResults = false;
           }).catch(error => {
             alert('An error occurred during getting stocks data.');
             throw error;
         }).finally(() => {
-          this.loading = false;
+          this.loadingResults = false;
         })
       },
       /**
@@ -116,6 +154,15 @@
           }).catch(err => {
           alert(error.response.data.message);
         })
+      },
+      onPageChange(page) {
+        this.page = page
+        this.loadResults()
+      },
+      onSort(field, order) {
+        this.sortField = field
+        this.sortOrder = order
+        this.loadResults()
       },
     }
   }

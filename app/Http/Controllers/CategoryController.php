@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Stock;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -53,8 +55,20 @@ class CategoryController extends Controller
      */
     public function stocksByCategory($id)
     {
-        return Category::with(['stocks' => function($q) {
-            $q->with('category');
-        }])->where('id', $id)->first()->stocks;
+        $stocks = Stock::query();
+        $stocks->where('category_id', $id);
+
+        if (request()->has('sort_by')) {
+            $stocks->orderBy(
+                Str::before(request()->sort_by, '.'),
+                Str::after(request()->sort_by, '.')
+            );
+        }
+
+        return $stocks->paginate(request()->perPage);
+
+        //return Category::with(['stocks' => function($q) {
+        //    $q->with('category');
+        //}])->where('id', $id)->first()->stocks;
     }
 }

@@ -7,14 +7,33 @@
             Delete ({{ checkedRows.length }})
         </button>
         <b-table :data="stocks"
-             :paginated="false"
-             sort-icon-size="is-small"
-             class="is-size-7"
-             :striped="true"
-             custom-row-key="id"
-             :checked-rows.sync="checkedRows"
-             checkable
-             default-sort="description">
+                 :loading="loadingResults"
+
+                 paginated
+                 backend-pagination
+
+                 :total="total"
+                 :per-page="perPage"
+                 @page-change="onPageChange"
+
+                 aria-next-label="Next page"
+                 aria-previous-label="Previous page"
+                 aria-page-label="Page"
+                 aria-current-label="Current page"
+
+                 backend-sorting
+                 backend-sorting
+                 :default-sort-direction="defaultSortOrder"
+                 :default-sort="[sortField, sortOrder]"
+                 @sort="onSort"
+
+                 sort-icon-size="is-small"
+                 class="is-size-7"
+                 :striped="true"
+                 custom-row-key="id"
+                 :checked-rows.sync="checkedRows"
+                 checkable
+                 default-sort="description">
         <template slot-scope="props">
             <b-table-column field="code" label="Code" width="50" sortable>
                 {{ props.row.code }}
@@ -55,6 +74,13 @@
         loading: true,
         stocks: [],
         checkedRows: [],
+        loadingResults: false,
+        total: 0,
+        page: 1,
+        perPage: 100,
+        defaultSortOrder: 'desc',
+        sortField: 'description',
+        sortOrder: 'desc',
       }
     },
     computed: {
@@ -73,16 +99,27 @@
        *
        */
       loadResults() {
-        this.loading = true;
-        axios.get(this.baseUrl()+'/categories/'+this.categoryId+'/stock')
+        this.loadingResults = true;
+
+        const params = [
+          `sort_by=${this.sortField}.${this.sortOrder}`,
+          `page=${this.page}`
+        ].join('&');
+
+        axios.get(this.baseUrl()+'/categories/'+this.categoryId+`/stock?${params}`)
           .then(response => {
-            this.stocks = response.data;
-            this.loading = false;
+            this.stocks = [];
+            this.total = response.data.total;
+            this.page = response.data.current_page
+            response.data.data.forEach((item) => {
+              this.stocks.push(item)
+            })
+            this.loadingResults = false;
           }).catch(error => {
           alert('An error occurred during getting stocks data.');
           throw error;
         }).finally(() => {
-          this.loading = false;
+          this.loadingResults = false;
         })
       },
       /**
@@ -97,6 +134,15 @@
           }).catch(err => {
           alert(error.response.data.message);
         })
+      },
+      onPageChange(page) {
+        this.page = page
+        this.loadResults()
+      },
+      onSort(field, order) {
+        this.sortField = field
+        this.sortOrder = order
+        this.loadResults()
       },
     }
   }

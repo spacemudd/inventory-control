@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Classes\StockExcel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 class StockController extends Controller
 {
@@ -21,7 +22,17 @@ class StockController extends Controller
 
     public function index()
     {
-        return Stock::with('category')->get();
+        $stocks = Stock::query();
+        $stocks->with('category');
+
+        if (request()->has('sort_by')) {
+            $stocks->orderBy(
+                Str::before(request()->sort_by, '.'),
+                Str::after(request()->sort_by, '.')
+            );
+        }
+
+        return $stocks->paginate(request()->perPage);
     }
 
     public function search(Request $request)
