@@ -23,7 +23,7 @@
         <div class="columns">
             <div class="column">
                 <loading-screen v-if="$isLoading('DELETING_ITEM')"></loading-screen>
-                <table v-else class="table is-fullwidth is-bordered is-size-7">
+                <table v-else class="table is-fullwidth is-bordered is-size-7" id="quotation-items-container">
                     <thead>
                     <tr>
                         <th width="20px" class="has-text-centered">#</th>
@@ -63,7 +63,7 @@
                             </button>
                         </td>
                     </tr>
-                    <tr v-for="(mrequest, key) in materialRequests" :id="'mRequest_'+mrequest.id" >
+                    <tr v-for="(mrequest, key) in materialRequests" v-bind:key="mrequest.id" :id="'mRequest_'+mrequest.id" >
                         <td>{{ ++key }}</td>
                         <td>
                             <input v-model="mrequest.description" type="text" readonly class="input is-small"/>
@@ -89,6 +89,7 @@
                                    class="input is-small"
                                    style="background-color: #d5d5d5;"
                                    readonly>
+                            ???
                         </td>
                         <td class="has-text-centered">
                             <button class="button is-primary is-small saveButton"
@@ -304,6 +305,12 @@
         axios.post(this.apiUrl() + `/quotations/`+this.quotationId+`/items/store`, mrequest)
           .then(response => {
             this.items.push(response.data);
+
+            // focus on the first input of #quotation-items-container
+            if ($('#quotation-items-container input:eq(2)').length) {
+              $('#quotation-items-container input:eq(2)').focus().select();
+            }
+
             this.$endLoading('SAVING_QUOTATION_ITEM');
             document.getElementById("quotationSaveItems").disabled = false
           })
