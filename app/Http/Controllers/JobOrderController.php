@@ -47,6 +47,12 @@ class JobOrderController extends Controller
         return view('job-orders.create');
     }
 
+    public function pending()
+    {
+        $jobOrders = JobOrder::pending()->get();
+        return view('job-orders.pending', compact('jobOrders'));
+    }
+
     /**
      * Store a newly created resource in storage.
      *
