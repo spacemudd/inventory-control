@@ -171,6 +171,13 @@ class QuotationsController extends Controller
         $quotation->items()->delete();
         $quotation->delete();
 
+        // Make its material request pending
+        $mr = $quotation->material_request;
+        if ($mr) {
+            $mr->status = MaterialRequest::PENDING;
+            $mr->save();
+        }
+
         DB::commit();
 
         return redirect()->route('quotations.index');
