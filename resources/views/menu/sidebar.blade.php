@@ -172,9 +172,9 @@
                                     <sidebar-links-group icon="cog"
                                                          title="{{ __('words.settings') }}">
 
-                                        <sidebar-links-group link="{{ route('vendors.index') }}"
+                                        <sidebar-links-group link="{{ route('approvers.index') }}"
                                                              icon="pencil"
-                                                             title="{{ __('words.cost-approvers') }}">
+                                                             title="{{ __('words.approvers') }}">
                                         </sidebar-links-group>
 
                                         <sidebar-links-group link="{{ route('categories.index') }}"
