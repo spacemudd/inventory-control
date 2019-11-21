@@ -273,6 +273,7 @@
                     <b-modal :active.sync="showEquipmentSelectorModal">
                         <equipment-selector
                                 @equipment:selected="addEquipment"
+                                @equipment:general="addGeneralEquipment"
                                 :can-change-equipment="canChangeEquipment"
                                 @close="showEquipmentSelectorModal=false"></equipment-selector>
                     </b-modal>
@@ -297,6 +298,9 @@
                             <tr v-if="equipment">
                                 <td>{{ equipment.name }}</td>
                                 <td></td>
+                            </tr>
+                            <tr v-if="equipment_general">
+                                <td colspan="2">General</td>
                             </tr>
                             </tbody>
                         </table>
@@ -441,6 +445,7 @@
         equipment: null,
         equipment_id: null,
         showEquipmentSelectorModal: false,
+        equipment_general: false,
 
         employees: [],
         addEmployees: [],
@@ -582,6 +587,7 @@
             this.location_id = jo.location_id;
             this.equipment_id = jo.equipment_id;
             this.equipment = jo.equipment;
+            this.equipment_general = jo.equipment_general;
 
             jo.technicians.map((tech) => {
               if (tech.pivot.time_start) {
@@ -617,6 +623,12 @@
       },
       addEquipment(equip) {
         this.equipment = equip;
+        this.equipment_general = false;
+      },
+      addGeneralEquipment() {
+        this.equipment = null;
+        this.equipment_id = null;
+        this.equipment_general = true;
       },
       loadCostCenters() {
         this.$startLoading('FETCHING_COST_CENTRES');
@@ -645,6 +657,14 @@
         this.locationSearchCode = '';
       },
       updateOrder() {
+        if ((!this.equipment) && (!this.equipment_general)) {
+          this.$toast.open({
+            message: 'Please select an equipment',
+            type: 'is-danger',
+          });
+          return false;
+        }
+
         this.$startLoading('UPDATING_JOB_ORDER');
 
         let data = this.$data;
