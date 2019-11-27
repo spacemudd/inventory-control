@@ -134,6 +134,9 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::name('users.index')->get('users', 'Back\UsersController@index');
         Route::name('users.show')->get('users/{id}', 'Back\UsersController@show');
 
+        // Cost approvals
+        Route::resource('cost-approvals', 'CostApprovalsController');
+
         Route::get('approvers', 'ApproversController@index')->name('approvers.index');
         Route::get('approvers/create', 'ApproversController@create')->name('approvers.create');
         Route::get('approvers/{id}', 'ApproversController@show')->name('approvers.show');

@@ -77,7 +77,7 @@
         loadingResults: false,
         total: 0,
         page: 1,
-        perPage: 100,
+        perPage: 15,
         defaultSortOrder: 'desc',
         sortField: 'description',
         sortOrder: 'desc',

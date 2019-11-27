@@ -108,6 +108,12 @@
                                     @endcan
 
                                     <sidebar-links-group selected="{{ (request()->route()->getName() === '.index') }}"
+                                                         icon="file"
+                                                         title="{{ __('words.cost-approvals') }}"
+                                                         link="{{ route('cost-approvals.index') }}">
+                                    </sidebar-links-group>
+
+                                    <sidebar-links-group selected="{{ (request()->route()->getName() === '.index') }}"
                                                          icon="shopping-cart"
                                                          title="{{ __('words.purchase-orders') }}"
                                                          link="{{ route('purchase-orders.index') }}">

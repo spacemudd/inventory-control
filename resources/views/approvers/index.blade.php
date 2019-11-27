@@ -44,7 +44,7 @@
                 <th>Name</th>
                 <th>Department</th>
                 <th>Financial Authority</th>
-                <th></th>
+                <th>Actions</th>s
             </tr>
             </thead>
             	<tbody>

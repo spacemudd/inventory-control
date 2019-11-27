@@ -41,15 +41,16 @@ class PurchaseOrderController extends Controller
      */
     public function index()
     {
-        $this->authorize('view-purchase-orders');
-
-        $draftCounter = PurchaseOrder::draft()->count();
-        $committedCounter = PurchaseOrder::committed()->count();
-        $voidCounter = PurchaseOrder::void()->count();
-
-        $data = PurchaseOrder::latest()->paginate(10);
-
-        return view('purchase-orders.index', compact('draftCounter', 'committedCounter', 'voidCounter', 'data'));
+        return redirect()->url('/');
+        //$this->authorize('view-purchase-orders');
+        //
+        //$draftCounter = PurchaseOrder::draft()->count();
+        //$committedCounter = PurchaseOrder::committed()->count();
+        //$voidCounter = PurchaseOrder::void()->count();
+        //
+        //$data = PurchaseOrder::latest()->paginate(10);
+        //
+        //return view('purchase-orders.index', compact('draftCounter', 'committedCounter', 'voidCounter', 'data'));
     }
 
     public function draft()

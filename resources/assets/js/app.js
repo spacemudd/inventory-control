@@ -290,6 +290,8 @@ Vue.component('stock-index-page', require('./components/StockIndexPage').default
 Vue.component('stocks-by-category', require('./components/StocksByCategory').default);
 Vue.component('assign-stock-information', require('./components/AssignStockInformation').default);
 
+Vue.component('new-cost-approval-form', require('./components/NewCostApprovalForm').default);
+
 
 /**
  * API/App settings
