@@ -189,7 +189,11 @@
                             <tbody>
                             <template v-if="materials.length">
                                 <tr v-for="(material, index) in materials">
-                                    <td>{{ material.stock.description }} {{ material.stock.rack_number ? '(Rack no: '+material.stock.rack_number+')' : '' }}</td>
+                                    <td>
+                                        <span v-if="material.stock">
+                                            {{ material.stock.description }} {{ material.stock.rack_number ? '(Rack no: '+material.stock.rack_number+')' : '' }}
+                                        </span>
+                                    </td>
                                     <td></td>
                                     <td class="has-text-right">{{ material.qty }}</td>
                                     <td class="has-text-right">
