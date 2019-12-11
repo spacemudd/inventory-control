@@ -89,7 +89,6 @@
                                    class="input is-small"
                                    style="background-color: #d5d5d5;"
                                    readonly>
-                            ???
                         </td>
                         <td class="has-text-centered">
                             <button class="button is-primary is-small saveButton"

@@ -166,7 +166,8 @@ class QuotationsController extends Controller
         }
 
         // Set delete name
-        $quotation->vendor_quotation_number .= str_replace(' ', '', 'deleted-'.now()->toDateTimeString());
+        $quotation->vendor_quotation_number .= '-'.str_slug('deleted-'.now()->toDateTimeString());
+        $quotation->save();
 
         $quotation->items()->delete();
         $quotation->delete();
