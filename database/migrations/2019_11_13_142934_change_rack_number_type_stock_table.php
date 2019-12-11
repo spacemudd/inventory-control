@@ -14,13 +14,13 @@ class ChangeRackNumberTypeStockTable extends Migration
      */
     public function up()
     {
-        Schema::table('stock', function (Blueprint $table) {
-            if (env('DB_CONNECTION') === 'sqlsrv') {
-                DB::statement('alter table inv_prod alter column rack_number int');
-            } else {
-                $table->integer('rack_number')->nullable()->change();
-            }
-        });
+        //Schema::table('stock', function (Blueprint $table) {
+        //    if (env('DB_CONNECTION') === 'sqlsrv') {
+        //        DB::statement('alter table inv_prod alter column rack_number int');
+        //    } else {
+        //        $table->integer('rack_number')->nullable()->change();
+        //    }
+        //});
     }
 
     /**

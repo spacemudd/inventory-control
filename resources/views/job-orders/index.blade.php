@@ -29,14 +29,14 @@
 @section('content')
 <div class="columns is-multiline">
     <div class="column is-6">
-        <div class="is-inline job-order-status-box{{ request()->has('all') || request()->has('completed') ? '' : ' active' }}">
-            <a href="{{ route('job-orders.index') }}">Pending: {{ \App\Models\JobOrder::pending()->count() }}</a>
+        <div class="is-inline job-order-status-box{{ request()->route()->getName()==='job-orders.pending' ? ' active' : '' }}">
+            <a href="{{ route('job-orders.pending') }}">Pending: {{ \App\Models\JobOrder::pending()->count() }}</a>
         </div>
-        <div class="is-inline job-order-status-box{{ request()->has('completed') ? ' active' : ''}}" style="margin-left:10px;">
-            <a href="{{ route('job-orders.index').'?completed' }}">Completed: {{ \App\Models\JobOrder::completed()->count() }}</a>
+        <div class="is-inline job-order-status-box{{ request()->route()->getName()==='job-orders.completed' ? ' active' : ''}}" style="margin-left:10px;">
+            <a href="{{ route('job-orders.completed') }}">Completed: {{ \App\Models\JobOrder::completed()->count() }}</a>
         </div>
-        <div class="is-inline job-order-status-box{{ request()->has('all') ? ' active' : ''}}" style="margin-left:10px;">
-            <a href="{{ route('job-orders.index').'?all' }}">All: {{ \App\Models\JobOrder::count() }}</a>
+        <div class="is-inline job-order-status-box{{ request()->route()->getName()==='job-orders.index' ? ' active' : ''}}" style="margin-left:10px;">
+            <a href="{{ route('job-orders.index') }}">All: {{ \App\Models\JobOrder::count() }}</a>
         </div>
     </div>
     <div class="column is-6">

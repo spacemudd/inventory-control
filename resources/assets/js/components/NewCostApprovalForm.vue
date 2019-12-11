@@ -24,6 +24,7 @@
                                readonly>
                     </b-field>
 
+                    <!--Date-->
                     <div class="field">
                         <label class="label">Date <span class="has-text-danger">*</span></label>
                         <b-datepicker
@@ -33,6 +34,9 @@
                                 required>
                         </b-datepicker>
                     </div>
+
+                    <!--Okay-->
+
                 </div>
             </div>
         </form>
