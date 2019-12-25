@@ -35,6 +35,7 @@
 {{--@section('content')--}}
 <div class="columns is-multiline">
     <div class="column">
+        <p><b>Total:</b> {{ $jobOrders->count() }}</p>
         <table class="table is-fullwidth is-bordered is-narrow is-striped" style="font-size:10px;width:100%;">
         <thead>
         <tr>

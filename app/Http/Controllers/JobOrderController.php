@@ -53,6 +53,12 @@ class JobOrderController extends Controller
         return view('job-orders.index', compact('jobOrders'));
     }
 
+    public function pendingRaw()
+    {
+        $jobOrders = JobOrder::pending()->latest()->get();
+        return view('job-orders.pending', compact('jobOrders'));
+    }
+
     /**
      * Store a newly created resource in storage.
      *

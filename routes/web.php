@@ -36,6 +36,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         // Job Orders
         Route::get('job-orders/completed', 'JobOrderController@completed')->name('job-orders.completed');
         Route::get('job-orders/pending', 'JobOrderController@pending')->name('job-orders.pending');
+        Route::get('job-orders/pending/raw', 'JobOrderController@pendingRaw')->name('job-orders.pending.raw');
         Route::get('job-orders/excel', 'JobOrderController@excel')->name('job-orders.excel');
         Route::resource('job-orders', 'JobOrderController');
         Route::get('job-orders/{job_order_number}/pdf', 'JobOrderController@streamPdf')->name('job-orders.pdf');

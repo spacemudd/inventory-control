@@ -42,7 +42,7 @@
     <div class="column is-6">
 
         <div class="has-text-right">
-            <a target="_blank" href="{{ route('job-orders.pending') }}" class="button is-small">Pending</a>
+            <a target="_blank" href="{{ route('job-orders.pending.raw') }}" class="button is-small">Pending</a>
 
             <a href="{{ route('job-orders.excel') }}" class="button is-small is-success">
                 <span class="icon"><i class="fa fa-file-excel-o"></i></span>
