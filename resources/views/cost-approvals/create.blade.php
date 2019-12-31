@@ -28,8 +28,9 @@
 <div class="columns is-centered">
     <div class="column is-12">
         <div class="box">
-            <p class="is-uppercase"><b>Cost approval</b></p>
-            <new-cost-approval-form></new-cost-approval-form>
+            <p>Disabled</p>
+            <!-- <p class="is-uppercase"><b>Cost approval</b></p>
+            <new-cost-approval-form></new-cost-approval-form> -->
         </div>
     </div>
 </div>
