@@ -19,6 +19,7 @@ use App\Models\PurchaseOrder;
 use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Vendor;
+use App\Models\Quotation;
 
 class PurchaseOrderController extends Controller
 {
@@ -41,16 +42,15 @@ class PurchaseOrderController extends Controller
      */
     public function index()
     {
-        return redirect()->url('/');
-        //$this->authorize('view-purchase-orders');
-        //
-        //$draftCounter = PurchaseOrder::draft()->count();
-        //$committedCounter = PurchaseOrder::committed()->count();
-        //$voidCounter = PurchaseOrder::void()->count();
-        //
-        //$data = PurchaseOrder::latest()->paginate(10);
-        //
-        //return view('purchase-orders.index', compact('draftCounter', 'committedCounter', 'voidCounter', 'data'));
+        $this->authorize('view-purchase-orders');
+
+        $draftCounter = PurchaseOrder::draft()->count();
+        $committedCounter = PurchaseOrder::committed()->count();
+        $voidCounter = PurchaseOrder::void()->count();
+
+        $data = PurchaseOrder::latest()->paginate(10);
+
+        return view('purchase-orders.index', compact('draftCounter', 'committedCounter', 'voidCounter', 'data'));
     }
 
     public function draft()
@@ -94,7 +94,9 @@ class PurchaseOrderController extends Controller
 
         $currencies = $this->vendorBankService->currencies();
 
-        return view('purchase-orders.create', compact('shipping_addresses', 'billing_addresses', 'vendors', 'currencies'));
+        $quotes = Quotation::savedQuotations()->get();
+
+        return view('purchase-orders.create', compact('shipping_addresses', 'billing_addresses', 'vendors', 'currencies', 'quotes'));
     }
 
     /**
@@ -188,7 +190,7 @@ class PurchaseOrderController extends Controller
         $this->authorize('delete-purchase-orders');
 
         $result = $this->service->destroy($id);
-        
+
         if($result) {
             session()->flash('status', 'success');
             session()->flash('message', trans('statements.successfully-deleted'));

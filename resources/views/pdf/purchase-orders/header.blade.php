@@ -14,18 +14,45 @@
             <!--<img style="width: 150px;" src="{{ asset('img/brand/brand_pdf_logo.png') }}">-->
         </div>
     </div>
-    <div class="col-8-sm" style="text-align: center">
-        <h3><span style="border:2px solid black;padding:10px;border-radius: 2px;">PURCHASE ORDER</span></h3>
+    <div class="col-12-sm" style="text-align: right">
+        <h3><span>
+        إدارة المباني والخدمـات الإدارية<br/>
+Premises & Admin. Services Dept.
+        </span></h3>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-6-sm">
-        <strong>Date: <span style="border-bottom:2px solid black;background-color:yellow;padding:2px;">{{ optional($data->date)->format('d/m/y') }}</span></strong>
-    </div>
+  <div class="col-6-sm">
+      Our Ref. No. MA/ {{ $data->number ? $data->number : 'DRAFT' }} / {{ $data->date->format('y') }}
+  </div>
     <div class="col-6-sm" style="text-align: right">
-        <strong>Purchase Order Number:</strong> <span style="background-color:yellow;padding:2px;">PreAdm/PO-<b>{{ $data->number ? $data->number : 'DRAFT' }}</b></span>
+        Date: <strong><span>{{ optional($data->date)->format('d/m/y') }}</span></strong>
     </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-12-sm">
+  <table class="pure-table tight-table" style="width:100%;">
+  <colgroup>
+  <col style="width:10%;">
+  </colgroup>
+      <tbody>
+        <tr>
+            <td>To</td>
+            <td>: {{ $data->to }}</td>
+        </tr>
+        <tr>
+          <td>Subject</td>
+          <td>: {{ $data->subject }}
+        </tr>
+        <tr>
+          <td>Location</td>
+          <td>: {{ optional($data->cost_center)->display_name }}</td>
+        </tr>
+      </tbody>
+  </table>
+  </div>
 </div>
 
 </body>

@@ -127,6 +127,7 @@ class PurchaseOrderService
 
         $purchase_order['created_by_id'] = auth()->user()->id;
 
+
         $po = DB::transaction(function() use ($purchase_order) {
             $po = $this->repository->create($purchase_order);
             $this->saveTermsToPo($po->id);
@@ -237,9 +238,9 @@ class PurchaseOrderService
     {
         $po = $this->repository->find($id);
 
-        if(!$po->delivery_date) return false;
-        if(!$po->date) return false;
-        if(!$po->vendor_id) return false;
+        // if(!$po->delivery_date) return false;
+        // if(!$po->date) return false;
+        // if(!$po->vendor_id) return false;
 
         return true;
     }
@@ -278,6 +279,10 @@ class PurchaseOrderService
             'billing_address_id' => 'nullable|exists:addresses,id',
             'currency' => 'nullable|string|max:255',
             'project_id' => 'nullable',
+            'cost_center_id' => 'nullable|exists:departments,id',
+            'to' => 'nullable|string|max:255',
+            'subject' => 'nullable|string|max:255',
+            'quotation_id' => 'nullable|exists:quotations,id',
         ]);
 
 		return $validator;
@@ -366,7 +371,7 @@ class PurchaseOrderService
         // $pdf->setOption('margin-top', $marginTopDb ? $marginTopDb->value : 55);
         $pdf->setOption('margin-left', 5);
         $pdf->setOption('margin-right', 5);
-        $pdf->setOption('margin-top', 40);
+        $pdf->setOption('margin-top', 80);
         $pdf->setOption('margin-bottom', 10);
         $pdf->setOption('disable-smart-shrinking', true);
         $pdf->setOption('zoom', 0.78);

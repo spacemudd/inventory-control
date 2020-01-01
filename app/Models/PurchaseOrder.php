@@ -73,6 +73,9 @@ class PurchaseOrder extends Model implements AuditableContract
         'quote_reference_number',
         'quote_date',
         'project_id',
+        'quotation_id',
+        'to',
+        'subject',
     ];
 
     protected $dates = ['date', 'delivery_date', 'quote_date'];
@@ -122,6 +125,11 @@ class PurchaseOrder extends Model implements AuditableContract
     public function project()
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function quotation()
+    {
+        return $this->belongsTo(Quotation::class);
     }
 
     public function getStatusNameAttribute()
