@@ -291,6 +291,7 @@ Vue.component('stocks-by-category', require('./components/StocksByCategory').def
 Vue.component('assign-stock-information', require('./components/AssignStockInformation').default);
 
 Vue.component('new-cost-approval-form', require('./components/NewCostApprovalForm').default);
+Vue.component('cost-approval-items', require('./components/CostApprovalItems').default);
 
 
 /**

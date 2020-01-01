@@ -18,7 +18,7 @@ class AddGeneralPoColsToPos extends Migration
             $table->string('subject')->nullable();
             $table->string('location')->nullable();
             
-            $table->integer('quotation_id')->unsigned()->nullable();
+            $table->unsignedInteger('quotation_id')->nullable();
             $table->foreign('quotation_id')->references('id')->on('quotations')->onDelete('SET NULL');
         });
     }
@@ -31,7 +31,8 @@ class AddGeneralPoColsToPos extends Migration
     public function down()
     {
         Schema::table('purchase_orders', function (Blueprint $table) {
-            $table->dropColumn(['quotation_ref']);
+            $table->dropForeign(['quotation_id']);
+            $table->dropColumn(['quotation_id', 'to', 'subject', 'location']);
         });
     }
 }

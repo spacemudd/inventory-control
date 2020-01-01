@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -20,8 +20,11 @@ class CreateCostApprovalsTable extends Migration
             $table->foreign('requested_by_id')->references('id')->on('employees')->onDelete('SET NULL');
             $table->integer('cost_center_id')->nullable();
             $table->foreign('cost_center_id')->references('id')->on('departments')->onDelete('SET NULL');
+            $table->integer('vendor_id')->nullable();
+            $table->foreign('vendor_id')->references('id')->on('vendors')->onDelete('SET NULL');
             $table->string('project_location')->nullable();
             $table->dateTime('date')->nullable();
+            $table->string('number')->nullable();
             $table->timestamps();
         });
     }

@@ -143,7 +143,7 @@ class PurchaseOrderService
      * @param $id Purchase order ID.
      * @return \App\Models\PurchaseOrder
      */
-	public function saveTermsToPo($id)
+public function saveTermsToPo($id)
 	{
         $currentAvailableTerms = PurchaseTerm::get();
 

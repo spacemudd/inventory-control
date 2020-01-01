@@ -137,7 +137,12 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::name('users.show')->get('users/{id}', 'Back\UsersController@show');
 
         // Cost approvals
+        Route::get('cost-approvals/{id}/save', 'CostApprovalsController@save')->name('cost-approvals.save');
+        Route::get('cost-approvals/{id}/print', 'CostApprovalsController@print')->name('cost-approvals.print');
         Route::resource('cost-approvals', 'CostApprovalsController');
+        Route::resource('cost-approvals/{cost_approval_id}/lines', 'CostApprovalLinesController', [
+                'names' => 'cost-approvals.lines',
+            ]);
 
         Route::get('approvers', 'ApproversController@index')->name('approvers.index');
         Route::get('approvers/create', 'ApproversController@create')->name('approvers.create');
@@ -383,6 +388,11 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::get('job-descriptions', 'Api\JobDescriptionsController@index');
 
     Route::get('/equipment-categories', 'Api\EquipmentCategoriesController@index');
+
+    // Cost approvals
+    Route::get('/cost-approvals/{cost_approval_id}/lines', 'Api\CostApprovalsLinesController@index');
+    Route::post('/cost-approvals/{cost_approval_id}/lines', 'Api\CostApprovalsLinesController@store');
+    Route::delete('/cost-approvals/{cost_approval_id}/lines/{id}', 'Api\CostApprovalsLinesController@delete');
 
     // Equip tree management
     Route::post('/equipment/add-node', 'Api\EquipmentsController@addNode');

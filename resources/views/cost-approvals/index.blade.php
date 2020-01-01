@@ -35,5 +35,32 @@
             </div>
         </div>
     </div>
+
+    <div class="column is-12">
+        <table class="table is-fullwidth is-size-7">
+            <thead>
+                <th>No.</th>
+                <th>Date</th>
+                <th>Cost Center</th>
+                <th>Requested by</th>
+                <th>Purpose of request</th>
+                <th></th>
+            </thead>
+            <tbody>
+                @foreach ($cas as $ca)
+                    <tr>
+                        <td>{{ $ca->number ?: $ca->id }}</td>
+                        <td>{{ $ca->date->format('d-m-Y') }}</td>
+                        <td>{{ $ca->cost_center->display_name }}</td>
+                        <td>{{ $ca->requested_by->display_name }}</td>
+                        <td>{{ $ca->purpose_of_request }}</td>
+                        <td><a href="{{ route('cost-approvals.show', ['id' => $ca->id]) }}">View</a></td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+        {{ $cas->links('vendor.pagination.bulma') }}
+    </div>
 </div>
 @endsection

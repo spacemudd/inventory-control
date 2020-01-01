@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\CostApproval;
+use Carbon\Carbon;
+use View;
+use File;
+use App\Models\MaxNumber;
+use App\Models\Vendor;
 
 class CostApprovalsController extends Controller
 {
@@ -13,7 +19,8 @@ class CostApprovalsController extends Controller
      */
     public function index()
     {
-        return view('cost-approvals.index');
+        $cas = CostApproval::latest()->paginate(100);
+        return view('cost-approvals.index', compact('cas'));
     }
 
     /**
@@ -23,7 +30,8 @@ class CostApprovalsController extends Controller
      */
     public function create()
     {
-        return view('cost-approvals.create');
+        $vendors = Vendor::get();
+        return view('cost-approvals.create', compact('vendors'));
     }
 
     /**
@@ -34,7 +42,45 @@ class CostApprovalsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+          "requested_by_id" => "nullable|exists:employees,id",
+          "cost_center_id" => "nullable|exists:departments,id",
+          "project_location" => "nullable|string|max:255",
+          "date" => "nullable",
+          "purpose_of_request" => "nullable|string|max:255",
+          "due_diligence_approved" => "nullable",
+          "vendor_id" => "nullable|exists:vendors,id",
+        ]);
+
+        $due = false;
+        if (array_key_exists('due_diligence_approved', $request)) {
+            if ($request->due_diligence_approved === 'false') {
+                $due = false;
+            }
+
+            if ($request->due_diligence_approved === 'true') {
+                $due = true;
+            }
+        }
+
+        $ca = CostApproval::create([
+            'requested_by_id' => $request->requested_by_id,
+            'cost_center_id' => $request->cost_center_id,
+            'project_location' => $request->project_location,
+            'date' => $request->date ? Carbon::parse($request->date) : null,
+            'purpose_of_request' => $request->purpose_of_request,
+            'due_diligence_approved' => $due,
+            'vendor_id' => $request->vendor_id,
+            'prepared_by_text' => json_encode([['name' => 'Ashraf Saeed', 'title' => 'Premises Centre']]),
+            'approved_by_text' => json_encode([
+                ['name' => 'Eng. Saleh N. Al Zunaidi', 'title' => 'Head of Premises and Administration Services'],
+                ['name' => 'Fahad A. Alkadi', 'title' => 'Head of Retail Banking'],
+                ]),
+            ]);
+
+        return redirect(route('cost-approvals.show', $ca->id));
+
+        
     }
 
     /**
@@ -45,7 +91,8 @@ class CostApprovalsController extends Controller
      */
     public function show($id)
     {
-        //
+        $ca = CostApproval::find($id);
+        return view('cost-approvals.show', compact('ca'));
     }
 
     /**
@@ -79,6 +126,89 @@ class CostApprovalsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $ca = CostApproval::find($id);
+        $ca->delete();
+        return redirect()->route('cost-approvals.index');
+    }
+
+    public function print($id)
+    {
+        $data = CostApproval::find($id);
+        $data->load('lines');
+
+        $pdf = \App::make('snappy.pdf.wrapper');
+
+        $pdf->setOption('page-size', 'A4');
+        $pdf->setOption('orientation', 'portrait');
+        $pdf->setOption('encoding', 'utf-8');
+        $pdf->setOption('dpi', 300);
+        $pdf->setOption('image-dpi', 300);
+        $pdf->setOption('lowquality', false);
+        $pdf->setOption('no-background', false);
+        $pdf->setOption('enable-internal-links', true);
+        $pdf->setOption('enable-external-links', true);
+        $pdf->setOption('javascript-delay', 1000);
+        $pdf->setOption('no-stop-slow-scripts', true);
+        $pdf->setOption('no-background', false);
+        // $pdf->setOption('margin-top', $marginTopDb ? $marginTopDb->value : 55);
+        $pdf->setOption('margin-left', 5);
+        $pdf->setOption('margin-right', 5);
+        $pdf->setOption('margin-top', 80);
+        $pdf->setOption('margin-bottom', 10);
+        $pdf->setOption('disable-smart-shrinking', true);
+        $pdf->setOption('zoom', 0.78);
+        $pdf->setOption('header-html', $this->generateHeaderTempFile($data));
+        // $pdf->setOption('footer-html', resource_path('views/pdf/footer.html'));
+
+        return $pdf->loadView('pdf.cost-approvals.form', compact('data'))->inline();
+    }
+
+     /**
+     *
+     * @param $data
+     * @return bool|string
+     * @throws \Exception
+     */
+    public function generateHeaderTempFile($data)
+    {
+        $content = View::make('pdf.cost-approvals.header', compact('data'))
+            ->render();
+
+        // '@' to suppress an exception that tempnam throws when it creates a file.
+        $fileLocation = @tempnam(sys_get_temp_dir(), 'cla');
+        rename($fileLocation, $fileLocation .= '.html');
+        str_replace('.tmp', '.html', $fileLocation);
+
+        $writeAttempt = File::put($fileLocation, $content);
+
+        if(! $writeAttempt) {
+            throw new \Exception('Failed writing to: ' . $fileLocation);
+        }
+
+        return $fileLocation;
+    }
+
+    /**
+    * 
+    */
+    public function save($id)
+    {
+        $ca = CostApproval::findOrFail($id);
+
+        if($ca->number) return 'The cost approval has been already assigned a number. Please return to the homepage.';
+
+        $numberPrefix = 'MA/CA'.Carbon::now()->format('Y');
+        $maxNumber = MaxNumber::lockForUpdate()->firstOrCreate([
+            'name' => $numberPrefix,
+        ], [
+            'value' => 0,
+        ]);
+
+        $number = ++$maxNumber->value;
+
+        $ca->number = 'MA/'.sprintf('%05d', $number).'/ CA-'.now()->format('Y');
+        $ca->save();
+
+        return redirect()->route('cost-approvals.show', ['id' => $ca->id]);
     }
 }

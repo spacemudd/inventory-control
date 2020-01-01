@@ -92,21 +92,17 @@ class PurchaseOrderRepository
             Log::info('Saving PO ID: ' . $id);
 
             // Calculating the new request number.
-            $numberPrefix = 'PO-' . Carbon::now()->format('Y-m');
+            $numberPrefix = 'MA-' . Carbon::now()->format('Y');
             $maxNumber = MaxNumber::lockForUpdate()->firstOrCreate([
                 'name' => $numberPrefix,
             ], [
                 'value' => 0,
             ]);
 
-            Log::info('Max number for PO ID:'.$id.' is '.$maxNumber->value);
-
             $number = ++$maxNumber->value;
 
-            Log::info('Memory max number for PO ID:'.$id.' is'.$number);
-
             // The updates.
-            $po->number = $maxNumber->name . '-' . sprintf('%05d', $number);
+            $po->number = 'MA/ ' . sprintf('%05d', $number).' /2019';
             $po->status = PurchaseOrder:: SAVED;
             $po->save();
 
