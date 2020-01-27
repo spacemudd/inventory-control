@@ -72,7 +72,6 @@
 
                 <hr>
 
-
                 {{-- Vendor --}}
                 <div class="field">
                     <label for="vendor_id" class="label">Vendor</label>
@@ -89,7 +88,17 @@
 
                 <hr>
 
-                
+                {{-- Quotation --}}
+                <div class="field">
+                    <label for="quotation_number" class="label">Quotation #</label>
+
+                    <div class="is-fullwidth">
+                        <input type="text" class="input" name="quotation_number">
+                    </div>
+                </div>
+
+                <hr>
+
                 {{-- Date --}}
                 <div class="field">
                     <label for="date" class="label">Date</label>

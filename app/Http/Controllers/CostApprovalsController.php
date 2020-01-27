@@ -50,6 +50,7 @@ class CostApprovalsController extends Controller
           "purpose_of_request" => "nullable|string|max:255",
           "due_diligence_approved" => "nullable",
           "vendor_id" => "nullable|exists:vendors,id",
+          "quotation_number" => "nullable|string|max:255",
         ]);
 
         $due = false;
@@ -71,6 +72,7 @@ class CostApprovalsController extends Controller
             'purpose_of_request' => $request->purpose_of_request,
             'due_diligence_approved' => $due,
             'vendor_id' => $request->vendor_id,
+            'quotation_number' => $request->quotation_number,
             'prepared_by_text' => json_encode([['name' => 'Ashraf Saeed', 'title' => 'Premises Centre']]),
             'approved_by_text' => json_encode([
                 ['name' => 'Eng. Saleh N. Al Zunaidi', 'title' => 'Head of Premises and Administration Services'],
@@ -141,8 +143,8 @@ class CostApprovalsController extends Controller
         $pdf->setOption('page-size', 'A4');
         $pdf->setOption('orientation', 'portrait');
         $pdf->setOption('encoding', 'utf-8');
-        $pdf->setOption('dpi', 300);
-        $pdf->setOption('image-dpi', 300);
+        $pdf->setOption('dpi', 72);
+        $pdf->setOption('image-dpi', 72);
         $pdf->setOption('lowquality', false);
         $pdf->setOption('no-background', false);
         $pdf->setOption('enable-internal-links', true);
@@ -151,14 +153,14 @@ class CostApprovalsController extends Controller
         $pdf->setOption('no-stop-slow-scripts', true);
         $pdf->setOption('no-background', false);
         // $pdf->setOption('margin-top', $marginTopDb ? $marginTopDb->value : 55);
-        $pdf->setOption('margin-left', 5);
-        $pdf->setOption('margin-right', 5);
-        $pdf->setOption('margin-top', 80);
+        $pdf->setOption('margin-left', 15);
+        $pdf->setOption('margin-right', 15);
+        $pdf->setOption('margin-top', 97);
         $pdf->setOption('margin-bottom', 10);
         $pdf->setOption('disable-smart-shrinking', true);
-        $pdf->setOption('zoom', 0.78);
+        $pdf->setOption('zoom', 1);
         $pdf->setOption('header-html', $this->generateHeaderTempFile($data));
-        // $pdf->setOption('footer-html', resource_path('views/pdf/footer.html'));
+        //$pdf->setOption('footer-html', resource_path('views/pdf/footer.html'));
 
         return $pdf->loadView('pdf.cost-approvals.form', compact('data'))->inline();
     }

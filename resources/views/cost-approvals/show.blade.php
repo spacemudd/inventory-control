@@ -30,11 +30,13 @@
             <div class="column is-12 has-text-right">
                 <a target="_blank" href="{{ route('cost-approvals.print', $ca->id) }}" class="button is-small is-secondary">Print</a>
                 <form method="post" action="{{ route('cost-approvals.destroy', $ca->id) }}" class="is-inline">
-                    {{@csrf_field()}}
+                    {{ @csrf_field() }}
                     <input type="hidden" name="_method" value="delete">
                     <button class="button is-danger is-small is-secondary">Delete</button>
                 </form>
-                <a href="{{ route('cost-approvals.save', $ca->id) }}" class="button is-small is-success">Save</a>
+                @if (!$ca->number)
+                    <a href="{{ route('cost-approvals.save', $ca->id) }}" class="button is-small is-success">Save</a>
+                @endif
             </div>
             <div class="column is-12">
                 <table class="table is-small is-size-7 is-fullwidth">
@@ -51,12 +53,16 @@
                             <td>{{ $ca->date->format('d-m-Y') }}</td>
                         </tr>
                         <tr>
-                            <td><b>Reuested by</b></td>
+                            <td><b>Requested by</b></td>
                             <td>{{ $ca->requested_by->display_name }}</td>
                         </tr>
                         <tr>
                             <td><b>Cost Center</b></td>
                             <td>{{ $ca->cost_center->display_name }}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Quotation #</b></td>
+                            <td>{{ $ca->quotation_number }}</td>
                         </tr>
                         <tr>
                             <td><b>Purpose of request</b></td>
