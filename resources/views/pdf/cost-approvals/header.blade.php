@@ -53,12 +53,8 @@
             <td style="border:0">{{ optional($data->cost_center)->code }}</td>
         </tr>
         <tr>
-          <td style="border:0;"><b>Project location:</b></td>
-          <td style="border:0;">{{ $data->project_location }}</td>
           <td style="border:0;"><b>Date:</b></td>
           <td style="border:0;">{{ $data->date->format('d-m-Y') }}</td>
-        </tr>
-        <tr>
           <td style="border:0;"><b>Vendor:</b></td>
           <td style="border:0;">{{ optional($data->vendor)->display_name }}</td>
         </tr>

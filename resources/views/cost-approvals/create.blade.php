@@ -140,7 +140,7 @@
 
         {{-- -- Form done. --}}
         <div class="column is-7 has-text-right">
-            <a class="button is-text" href="{{ route('purchase-orders.index') }}">Cancel</a>
+            <a class="button is-text" href="{{ route('cost-approvals.index') }}">Cancel</a>
             <button type="submit" class="button is-primary">Save</button>
         </div>
     </form>

@@ -59,6 +59,11 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         // QSuppliers
         Route::resource('q-suppliers', 'QSuppliersController');
 
+        // Supplier invoices.
+        Route::get('invoices', 'SupplierInvoicesController@index')->name('supplier-invoices.index');
+        Route::get('invoices/create', 'SupplierInvoicesController@create')->name('supplier-invoices.create');
+        Route::post('invoices/store', 'SupplierInvoicesController@store')->name('supplier-invoices.store');
+
         // Purchase Requisitions.
         Route::get('purchase-requisitions/{id}/pdf', 'PurchaseRequisitionsController@pdf')->name('purchase-requisitions.pdf');
         Route::post('purchase-requisitions/{id}/save', 'PurchaseRequisitionsController@save')->name('purchase-requisitions.save');
