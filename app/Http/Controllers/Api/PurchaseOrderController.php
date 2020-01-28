@@ -15,6 +15,7 @@ use App\Models\PurchaseOrder;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Barryvdh\Snappy\Facades\SnappyPdf as PDF;
 
 use App\Clarimount\Service\PurchaseOrderService;
 
@@ -169,5 +170,26 @@ class PurchaseOrderController extends Controller
         $po->refresh();
 
         return $po;
+    }
+
+    public function newGeneralPO()
+    {
+        return view('purchase-orders.generalPO');
+    }
+
+    public function DownloadPdf(Request $request)
+    {
+
+        $request->validate([
+           'ref' => 'required|max:255',
+           'supplier' => 'required|max:255',
+           'costCenter' => 'required'
+        ]);
+
+        $request->date = date('Y-m-d', strtotime($request->date));
+
+        $pdf = PDF::loadView('pdf.general-po.general-po', compact('request'));
+
+        return $pdf->inline('generalPO.pdf');
     }
 }
