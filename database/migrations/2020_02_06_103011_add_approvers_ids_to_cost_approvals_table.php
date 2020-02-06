@@ -15,11 +15,11 @@ class AddApproversIdsToCostApprovalsTable extends Migration
     {
         Schema::table('cost_approvals', function (Blueprint $table) {
             $table->unsignedInteger('approver_one_id')->nullable();
-            $table->foreign('approver_one_id')->references('id')->on('employees')->onDelete('SET NULL');
+            $table->foreign('approver_one_id')->references('id')->on('employees');
             $table->unsignedInteger('approver_two_id')->nullable();
-            $table->foreign('approver_two_id')->references('id')->on('employees')->onDelete('SET NULL');
+            $table->foreign('approver_two_id')->references('id')->on('employees');
             $table->unsignedInteger('approver_three_id')->nullable();
-            $table->foreign('approver_three_id')->references('id')->on('employees')->onDelete('SET NULL');
+            $table->foreign('approver_three_id')->references('id')->on('employees');
         });
     }
 
