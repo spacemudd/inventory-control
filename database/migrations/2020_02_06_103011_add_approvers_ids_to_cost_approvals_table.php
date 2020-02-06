@@ -14,11 +14,11 @@ class AddApproversIdsToCostApprovalsTable extends Migration
     public function up()
     {
         Schema::table('cost_approvals', function (Blueprint $table) {
-            $table->unsignedBigInteger('approver_one_id')->nullable();
+            $table->unsignedInteger('approver_one_id')->nullable();
             $table->foreign('approver_one_id')->references('id')->on('employees')->onDelete('SET NULL');
-            $table->unsignedBigInteger('approver_two_id')->nullable();
+            $table->unsignedInteger('approver_two_id')->nullable();
             $table->foreign('approver_two_id')->references('id')->on('employees')->onDelete('SET NULL');
-            $table->unsignedBigInteger('approver_three_id')->nullable();
+            $table->unsignedInteger('approver_three_id')->nullable();
             $table->foreign('approver_three_id')->references('id')->on('employees')->onDelete('SET NULL');
         });
     }
