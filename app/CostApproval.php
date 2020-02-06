@@ -41,6 +41,21 @@ class CostApproval extends Model
         return $this->belongsTo(Vendor::class);
     }
 
+    public function approver_one()
+    {
+        return $this->belongsTo(Employee::class, 'approver_one_id');
+    }
+
+    public function approver_two()
+    {
+        return $this->belongsTo(Employee::class, 'approver_two_id');
+    }
+
+    public function approver_three()
+    {
+        return $this->belongsTo(Employee::class, 'approver_three_id');
+    }
+
     public function getTotalPriceAttribute()
     {
         $totalPrice = 0;
@@ -60,5 +75,12 @@ class CostApproval extends Model
     public function getGrandTotalAttribute()
     {
         return $this->total_price * 1.05;
+    }
+
+    public function grandTotalInWords()
+    {
+        $f = new \NumberFormatter("en", \NumberFormatter::SPELLOUT);
+        $s = ucwords($f->format($this->grand_total)) . ' Saudi Riyals Only';
+        return implode('-', array_map('ucfirst', explode('-', $s)));
     }
 }

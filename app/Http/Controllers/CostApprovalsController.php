@@ -94,6 +94,9 @@ class CostApprovalsController extends Controller
     public function show($id)
     {
         $ca = CostApproval::find($id);
+        if (request()->wantsJson()) {
+            return $ca;
+        }
         return view('cost-approvals.show', compact('ca'));
     }
 
@@ -117,7 +120,15 @@ class CostApprovalsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'approver_one_id' => 'nullable']);
+
+        $ca = CostApproval::find($id);
+        $ca->update($request->except(['_token', '_method']));
+        if (request()->wantsJson()) {
+            return $ca;
+        }
+        return redirect()->route('cost-approvals.show', $id);
     }
 
     /**

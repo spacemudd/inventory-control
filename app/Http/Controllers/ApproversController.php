@@ -23,6 +23,10 @@ class ApproversController extends Controller
 
         $approvers = $this->service->all();
 
+        if (request()->wantsJson()) {
+            return $approvers;
+        }
+
         return view('approvers.index', compact('approvers'));
     }
 

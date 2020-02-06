@@ -37,7 +37,7 @@
 </div>
 <hr>
 <div class="row">
-  <div class="col-12-sm">
+  <div class="col-12-sm" style="border: 2px solid black;padding:10px;padding-right:0px">
   <table class="pure-table tight-table" style="width:100%;border:0;font-size:12px;"  cellspacing="0" cellpadding="0">
   <colgroup>
   <col style="width:25%;">
@@ -57,6 +57,12 @@
           <td style="border:0;">{{ $data->date->format('d-m-Y') }}</td>
           <td style="border:0;"><b>Vendor:</b></td>
           <td style="border:0;">{{ optional($data->vendor)->display_name }}</td>
+        </tr>
+        <tr>
+          <td style="border:0;"><b>Project location:</b></td>
+          <td style="border:0">{{ optional($data->cost_center)->description }}</td>
+          <td style="border:0;"><b>Quotation number:</b></td>
+          <td style="border:0;">{{ $data->quotation_number }}</td>
         </tr>
       </tbody>
   </table>

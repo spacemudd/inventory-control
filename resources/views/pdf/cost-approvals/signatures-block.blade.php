@@ -1,7 +1,7 @@
 <div>
     <div class="row" style="margin-top:80px;">
         <div class="col-4-sm">
-        <p style="font-size:11px;">Prepared by:</p>
+        <p style="font-size:11px;padding-bottom:50px;">Prepared by:</p>
             <div class="center" style="border-top:2px solid black;width:100%;font-size:10px;">
                 <strong>
                     Ashraf Saeed<br/>
@@ -11,29 +11,43 @@
         </div>
     </div>
     <div class="row" style="margin-top:80px;">
-        <p style="font-size:11p;margin-left:20px;">Approved by:</p>
-        <div class="col-4-sm center">
-            <div style="border-top:2px solid black;width:100%;font-size:10px;">
-                <strong>Engr. Saleh N. Al-Zunaidi <br/>
-                    Head of Premises and Administration Services</strong>
-            </div>
-        </div>
-        <div class="col-4-sm center">
-
-        </div>
-        <div class="col-4-sm center">
-            <div style="border-top:2px solid black;width:100%;font-size:10px;">
-                @if ($data->grand_total <= 5000)
-                    <strong>Anwar A Murshed<br/>Head of Telemoney</strong>
-                @else
+        @if ($data->approver_one_id || $data->approver_two_id || $data->approver_three_id)
+            <div style="font-size:11px;margin-left:10px;padding-bottom:50px;">Approved by:</div>
+        @endif
+        @if ($data->approver_one_id)
+            <div class="col-4-sm center">
+                <div style="border-top:2px solid black;width:100%;font-size:10px;">
                     <strong>
-                        Fahad A. Alkadi
+                        {{ $data->approver_one->name }}
                         <br/>
-                        Head of Retail Banking
+                        {{ $data->approver_one->designation }}
                     </strong>
-                @endif
-                
+                </div>
             </div>
-        </div>
+        @endif
+        @if ($data->approver_two_id)
+            <div class="col-4-sm center">
+                <div style="border-top:2px solid black;width:100%;font-size:10px;">
+                    <strong>
+                        {{ $data->approver_two->name }}
+                        <br/>
+                        {{ $data->approver_two->designation }}
+                    </strong>
+                </div>
+            </div>
+        @endif
+
+        @if ($data->approver_three_id)
+            <div class="col-4-sm center">
+                <div style="border-top:2px solid black;width:100%;font-size:10px;">
+                    <strong>
+                        {{ $data->approver_three->name }}
+                        <br/>
+                        {{ $data->approver_three->designation }}
+                    </strong>
+                </div>
+            </div>
+        @endif
+
     </div>
 </div>

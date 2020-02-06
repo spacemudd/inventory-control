@@ -59,16 +59,6 @@
                         </button>
                     </div>
                 </div>
-                <hr>
-
-                {{-- project location --}}
-                <div class="field">
-                    <label for="project_location" class="label">Project location</label>
-
-                    <div class="control">
-                        <input type="text" class="input" name="project_location">
-                    </div>
-                </div>
 
                 <hr>
 

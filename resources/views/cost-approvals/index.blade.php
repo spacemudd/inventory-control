@@ -51,8 +51,8 @@
                     <tr>
                         <td>{{ $ca->number ?: $ca->id }}</td>
                         <td>{{ $ca->date->format('d-m-Y') }}</td>
-                        <td>{{ $ca->cost_center->display_name }}</td>
-                        <td>{{ $ca->requested_by->display_name }}</td>
+                        <td>{{ optional($ca->cost_center)->display_name }}</td>
+                        <td>{{ optional($ca->requested_by)->display_name }}</td>
                         <td>{{ $ca->purpose_of_request }}</td>
                         <td><a href="{{ route('cost-approvals.show', ['id' => $ca->id]) }}">View</a></td>
                     </tr>

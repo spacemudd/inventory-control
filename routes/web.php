@@ -395,9 +395,12 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::get('/equipment-categories', 'Api\EquipmentCategoriesController@index');
 
     // Cost approvals
+    Route::get('/cost-approvals/{id}', 'CostApprovalsController@show');
+    Route::put('/cost-approvals/{id}', 'CostApprovalsController@update');
     Route::get('/cost-approvals/{cost_approval_id}/lines', 'Api\CostApprovalsLinesController@index');
     Route::post('/cost-approvals/{cost_approval_id}/lines', 'Api\CostApprovalsLinesController@store');
     Route::delete('/cost-approvals/{cost_approval_id}/lines/{id}', 'Api\CostApprovalsLinesController@delete');
+    Route::get('/approvers', 'Api\ApproversController@index');
 
     // Equip tree management
     Route::post('/equipment/add-node', 'Api\EquipmentsController@addNode');
