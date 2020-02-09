@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Employee;
 use App\Models\Department;
 use App\Models\Vendor;
+use NumberFormatter;
 
 class CostApproval extends Model
 {
@@ -79,8 +80,14 @@ class CostApproval extends Model
 
     public function grandTotalInWords()
     {
-        $f = new \NumberFormatter("en", \NumberFormatter::SPELLOUT);
-        $s = ucwords($f->format($this->grand_total)) . ' Saudi Riyals Only';
-        return implode('-', array_map('ucfirst', explode('-', $s)));
+        $grandTotal = round($this->grand_total, 2);
+
+        $formatter = new NumberFormatter("en", NumberFormatter::SPELLOUT);
+
+        $moneyText = $formatter->format($grandTotal);
+        
+        $moneyTextWithCurrency = ucwords($moneyText) . ' Saudi Riyals Only';
+
+        return implode('-', array_map('ucfirst', explode('-', $moneyTextWithCurrency)));
     }
 }
