@@ -48,7 +48,7 @@
       <tbody>
         <tr>
             <td style="border:0"><b>Requested by:</b></td>
-            <td style="border:0">{{ optional($data->requested_by)->display_name }}</td>
+            <td style="border:0">{{ optional($data->requested_by)->name }}</td>
             <td style="border:0"><b>Cost Center:</b></td>
             <td style="border:0">{{ optional($data->cost_center)->code }}</td>
         </tr>
