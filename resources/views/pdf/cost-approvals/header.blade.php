@@ -55,12 +55,12 @@
         <tr>
           <td style="border:0;"><b>Date:</b></td>
           <td style="border:0;">{{ $data->date->format('d-m-Y') }}</td>
-          <td style="border:0;"><b>Vendor:</b></td>
-          <td style="border:0;">{{ optional($data->vendor)->display_name }}</td>
-        </tr>
-        <tr>
           <td style="border:0;"><b>Project location:</b></td>
           <td style="border:0">{{ optional($data->cost_center)->description }}</td>
+        </tr>
+        <tr>
+          <td style="border:0;"><b>Vendor:</b></td>
+          <td style="border:0;">{{ optional($data->vendor)->display_name }}</td>
           <td style="border:0;"><b>Quotation number:</b></td>
           <td style="border:0;">{{ $data->quotation_number }}</td>
         </tr>
