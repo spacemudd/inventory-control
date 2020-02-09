@@ -210,7 +210,7 @@ class CostApprovalsController extends Controller
 
         if($ca->number) return 'The cost approval has been already assigned a number. Please return to the homepage.';
 
-        $numberPrefix = 'MA/CA'.Carbon::now()->format('Y');
+        $numberPrefix = 'CA-'.Carbon::now()->format('Y-m');
         $maxNumber = MaxNumber::lockForUpdate()->firstOrCreate([
             'name' => $numberPrefix,
         ], [
@@ -219,7 +219,7 @@ class CostApprovalsController extends Controller
 
         $number = ++$maxNumber->value;
 
-        $ca->number = 'MA/'.sprintf('%05d', $number).'/ CA-'.now()->format('Y');
+        $ca->number = 'CA/'.$ca->cost_center->code.'-'.$number.'/'.now()->format('Y');
         $ca->save();
 
         return redirect()->route('cost-approvals.show', ['id' => $ca->id]);
