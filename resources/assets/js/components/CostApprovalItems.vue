@@ -19,9 +19,12 @@
           </thead>
           <tbody>
               <tr class="item" v-for="item in items">
-                  <td><input class="input is-small" v-model="item.description" /></td>
-                  <td><input class="input is-small" type="number" v-model="item.unit_price" /></td>
-                  <td><input class="input is-small" type="number" v-model="item.qty" /></td>
+                  <td><input disabled class="input is-small" v-model="item.description" /></td>
+                  <td><input disabled class="input is-small" type="number" v-model="item.unit_price" /></td>
+                  <td>
+                      <input v-if="item.lump_sum" disabled class="input is-small" value="LS" />
+                      <input disabled v-else class="input is-small" type="number" v-model="item.qty" />
+                  </td>
                   <td>{{ item.unit_price * item.qty | currency }} SAR</td>
                   <td>
                       <button class="button is-danger is-small" @click="deleteItem(item)">Delete</button>
@@ -30,7 +33,7 @@
               <tr class="newItem" v-if="isAdding">
                   <td><input class="input is-small" v-model="newItem.description" /></td>
                   <td><input class="input is-small" type="number" v-model="newItem.unit_price" /></td>
-                  <td><input class="input is-small" type="number" v-model="newItem.qty" /></td>
+                  <td class="d-flex"><input class="input is-small" type="number" v-if="!newItem.lump_sum" v-model="newItem.qty" /> LS: <input type="checkbox" v-model="newItem.lump_sum"></td>
                   <td>{{ newItem.unit_price * newItem.qty | currency }} SAR</td>
                   <td>
                       <button class="button is-success is-small" @click="saveItem(item)">Save</button>
@@ -64,7 +67,7 @@
 data () {
   return {
     items: [],
-    newItem: { cost_approval_id: null, description: "", qty: 1, unit_price: 0 },
+    newItem: { cost_approval_id: null, description: "", qty: 1, unit_price: 0, lump_sum: false },
     isAdding: false,
 }
 },
@@ -100,7 +103,7 @@ methods: {
         this.newItem.cost_approval_id = this.costApprovalId;
         axios.post(this.apiUrl()+'/cost-approvals/'+this.costApprovalId+'/lines', this.newItem)
         .then(response => {
-            this.newItem = { description: "", qty: 1, unit_price: 0 };
+            this.newItem = { description: "", qty: 1, unit_price: 0, lump_sum: false };
             this.items.push(response.data);
             this.addRow();
         })

@@ -22,7 +22,13 @@ class CostApprovalsLinesController extends Controller
     		'qty' => 'required',
     		]);
 
-        $line = CostApprovalLine::create($request->toArray());
+    	$line = $request->toArray();
+
+    	if ($line['lump_sum']) {
+    	    $line['qty'] = 1;
+        }
+
+        $line = CostApprovalLine::create($line);
 
         return $line;
     }

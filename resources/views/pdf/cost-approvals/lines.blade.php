@@ -27,7 +27,13 @@
                 <td style="border-color:black;padding:10px;" class="center">{{ ++$counter }}</td>
                 <td style="border-color:black;padding:10px;">{{ $item->description }}</td>
                 <td style="border-color:black;padding:10px;" class="right">{{ number_format($item->unit_price, 2) }}</td>
-                <td style="border-color:black;padding:10px;" class="right">{{ floatval($item->qty) }}</td>
+                <td style="border-color:black;padding:10px;" class="right">
+                    @if ($item->lump_sum)
+                        LS
+                    @else
+                        {{ floatval($item->qty) }}
+                    @endif
+                </td>
                 <td style="border-color:black;padding:10px;padding-right:5px;" class="right">{{ $item->total_price }}</td>
             </tr>
             @endif
@@ -51,7 +57,13 @@
                     <td style="border-color:black;padding:10px;" class="center">{{ ++$counter }}</td>
                     <td style="border-color:black;padding:10px;">{{ $item->description }}</td>
                     <td style="border-color:black;padding:10px;" class="right">{{ number_format($item->unit_price, 2) }}</td>
-                    <td style="border-color:black;padding:10px;" class="right">{{ floatval($item->qty) }}</td>
+                    <td style="border-color:black;padding:10px;" class="right">
+                        @if ($item->lump_sum)
+                            LS
+                        @else
+                            {{ floatval($item->qty) }}
+                        @endif
+                    </td>
                     <td style="border-color:black;padding:10px;padding-right:5px;" class="right">{{ $item->total_price }}</td>
                 </tr>
                 @endif
