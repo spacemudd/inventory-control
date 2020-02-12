@@ -3,11 +3,11 @@
     <div class="col-12-sm">
         <table class="pure-table pure-table-bordered tight-table" style="font-size:12px;border-color:black;">
             <colgroup>
-            <col style='width:10.67%;'>
-            <col style='width:48.43%;'>
-            <col style='width:16.67%;'>
-            <col style='width:7.67%;'>
-            <col style='width:16.67%;'>
+                <col style='width:10%;'>
+                <col>
+                <col style='width:16%;'>
+                <col style='width:8%;'>
+                <col style='width:16%;'>
         </colgroup>
         <thead>
             <tr>
@@ -38,11 +38,11 @@
     <div style="page-break-inside: avoid !important;display:block;">
         <table class="pure-table pure-table-bordered tight-table" style="border-color:black;">
             <colgroup>
-                <col style='width:10.67%;'>
-                <col style='width:48.43%;'>
-                <col style='width:16.67%;'>
-                <col style='width:7.67%;'>
-                <col style='width:16.67%;'>
+                <col style='width:10%;'>
+                <col>
+                <col style='width:16%;'>
+                <col style='width:7%;'>
+                <col style='width:16%;'>
             </colgroup>
             <tbody>
                 @foreach($data->lines as $counter => $item)
