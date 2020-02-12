@@ -15,7 +15,7 @@ class CreateSupplierInvoiceLinesTable extends Migration
     {
         Schema::create('supplier_invoice_lines', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('supplier_invoice_id')->unsignedD();
+            $table->unsignedInteger('supplier_invoice_id');
             $table->foreign('supplier_invoice_id')->references('id')->on('supplier_invoices');
             $table->string('description');
             $table->string('serial_number')->nullable();
