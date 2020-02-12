@@ -6,7 +6,7 @@
                 <col style='width:10%;'>
                 <col>
                 <col style='width:16%;'>
-                <col style='width:8%;'>
+                <col style='width:9%;'>
                 <col style='width:16%;'>
         </colgroup>
         <thead>
@@ -27,7 +27,7 @@
                 <td style="border-color:black;padding:10px;" class="center">{{ ++$counter }}</td>
                 <td style="border-color:black;padding:10px;">{{ $item->description }}</td>
                 <td style="border-color:black;padding:10px;" class="right">{{ number_format($item->unit_price, 2) }}</td>
-                <td style="border-color:black;padding:10px;" class="right">{{ $item->qty }}</td>
+                <td style="border-color:black;padding:10px;" class="right">{{ floatval($item->qty) }}</td>
                 <td style="border-color:black;padding:10px;padding-right:5px;" class="right">{{ $item->total_price }}</td>
             </tr>
             @endif
@@ -41,7 +41,7 @@
                 <col style='width:10%;'>
                 <col>
                 <col style='width:16%;'>
-                <col style='width:7%;'>
+                <col style='width:9%;'>
                 <col style='width:16%;'>
             </colgroup>
             <tbody>
@@ -51,7 +51,7 @@
                     <td style="border-color:black;padding:10px;" class="center">{{ ++$counter }}</td>
                     <td style="border-color:black;padding:10px;">{{ $item->description }}</td>
                     <td style="border-color:black;padding:10px;" class="right">{{ number_format($item->unit_price, 2) }}</td>
-                    <td style="border-color:black;padding:10px;" class="right">{{ $item->qty }}</td>
+                    <td style="border-color:black;padding:10px;" class="right">{{ floatval($item->qty) }}</td>
                     <td style="border-color:black;padding:10px;padding-right:5px;" class="right">{{ $item->total_price }}</td>
                 </tr>
                 @endif
