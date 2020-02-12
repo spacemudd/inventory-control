@@ -54,7 +54,8 @@ class CostApprovalsController extends Controller
         ]);
 
         $due = false;
-        if (array_key_exists('due_diligence_approved', $request)) {
+        if (array_key_exists('due_diligence_approved', $request))
+        {
             if ($request->due_diligence_approved === 'false') {
                 $due = false;
             }

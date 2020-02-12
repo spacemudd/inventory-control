@@ -73,7 +73,7 @@
                 </tr>
             </tbody>
         </table>
-        @if (!$data->due_diligence_approved)
+        @if ($data->due_diligence_approved)
             <p style="margin-top:0px;font-size:10px;"><b>Due diligence approved</b></p>
         @endif
 
