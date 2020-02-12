@@ -20,11 +20,11 @@ class JobOrdersController extends Controller
     public function show($id)
     {
         return JobOrder::with([
-                'department',
-                'location',
-                'technicians',
-                'equipment',
-            ])
+            'department',
+            'location',
+            'technicians',
+            'equipment',
+        ])
             ->with(['items' => function($q) {
                 $q->with('stock');
             }])
@@ -46,12 +46,13 @@ class JobOrdersController extends Controller
     {
         $search = request()->input('q');
         return JobOrder::where('job_order_number', 'LIKE', '%'.$search.'%')
-            ->orWhere('job_description', 'LIKE', '%'.$search.'%')
-            ->orWhereHas('items', function($q) use ($search) {
-                $q->whereHas('stock', function($q) use ($search) {
-                    $q->where('description', 'LIKE', '%'.$search.'%');
-                });
-            })->with(['items' => function($q) {$q->with('stock');}])
+            //->orWhere('job_description', 'LIKE', '%'.$search.'%')
+            //->orWhereHas('items', function($q) use ($search) {
+            //    $q->whereHas('stock', function($q) use ($search) {
+            //        $q->where('description', 'LIKE', '%'.$search.'%');
+            //    });
+            //})->with(['items' => function($q) {$q->with('stock');}])
+            ->with(['items' => function($q) {$q->with('stock');}])
 
             ->paginate(1000);
     }
