@@ -105,7 +105,7 @@
         <tbody>
             <tr>
                 <td><b>Vendor</b></td>
-                <td>{{ optional($ca->cost_center)->description }}</td>
+                <td>{{ optional($data->vendor)->display_name }}</td>
             </tr>
             <tr>
                 <td><b>Quotation #</b></td>
