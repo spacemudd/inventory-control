@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use Illuminate\Http\Request;
 use App\CostApproval;
 use Carbon\Carbon;
@@ -20,8 +21,23 @@ class CostApprovalsController extends Controller
      */
     public function index()
     {
-        $cas = CostApproval::latest()->paginate(100);
-        return view('cost-approvals.index', compact('cas'));
+        $cas = CostApproval::query();
+
+        if (request()->sort_by === 'number-desc') {
+            $cas = $cas->orderBy('number', 'desc');
+        } else {
+            $cas->latest();
+        }
+
+        if (request()->has('cost_center_id') && request()->cost_center_id) {
+            $cas = $cas->where('cost_center_id', request()->cost_center_id);
+        }
+
+        $cas =  $cas->paginate(100);
+
+        $departments = Department::orderBy('code')->get();
+
+        return view('cost-approvals.index', compact('cas', 'departments'));
     }
 
     /**
