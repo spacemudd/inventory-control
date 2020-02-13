@@ -90,7 +90,7 @@ class CostApproval extends Model
 
         if (Str::contains($moneyText, 'Point')) {
             $moneyText = Str::replaceFirst('Point', 'Saudi Riyals And', $moneyText);
-            $moneyTextWithCurrency = $moneyText.' Halals Only';
+            $moneyTextWithCurrency = $moneyText.' Halalas Only';
         } else {
             $moneyTextWithCurrency = $moneyText.' Saudi Riyals';
         }
