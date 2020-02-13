@@ -1,5 +1,5 @@
 <div>
-    <div class="row" style="margin-top:80px;">
+    <div class="row" style="margin-top:30px;">
         <div class="col-4-sm">
             <p style="font-size:11px;padding-bottom:50px;">Prepared by:</p>
             <div class="center" style="border-top:2px solid black;width:100%;font-size:10px;">
@@ -22,7 +22,7 @@
             </div>
         @endif
     </div>
-    <div class="row" style="margin-top:80px;">
+    <div class="row" style="margin-top:30px;">
         @if ($data->approver_one_id || $data->approver_two_id || $data->approver_three_id)
             <div style="font-size:11px;margin-left:10px;padding-bottom:50px;">Approved by:</div>
         @endif
