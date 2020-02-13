@@ -66,7 +66,7 @@ class CostApprovalsController extends Controller
             }
         }
 
-        dd([$request->toArray(), $due]);
+        //dd([$request->toArray(), $due]);
 
         $ca = CostApproval::create([
             'requested_by_id' => $request->requested_by_id,
