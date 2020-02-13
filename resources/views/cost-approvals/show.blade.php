@@ -112,8 +112,8 @@
                 <td>{{ $ca->quotation_number }}</td>
             </tr>
             <tr>
-                <td><b>Due dilegence approved</b></td>
-                <td>{{ $ca->due_dilgenced_approved ? 'Yes' : 'No' }}</td>
+                <td><b>Due diligence approved</b></td>
+                <td>{{ $ca->due_diligence_approved ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
                 <td><b>Purpose of request</b></td>
