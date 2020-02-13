@@ -9,6 +9,7 @@ use View;
 use File;
 use App\Models\MaxNumber;
 use App\Models\Vendor;
+use DB;
 
 class CostApprovalsController extends Controller
 {
@@ -210,11 +211,13 @@ class CostApprovalsController extends Controller
     */
     public function save($id)
     {
+        DB::beginTransaction();
+
         $ca = CostApproval::findOrFail($id);
 
         if($ca->number) return 'The cost approval has been already assigned a number. Please return to the homepage.';
 
-        $numberPrefix = 'CA-'.Carbon::now()->format('Y-m');
+        $numberPrefix = 'CA-'.Carbon::now()->format('Y');
         $maxNumber = MaxNumber::lockForUpdate()->firstOrCreate([
             'name' => $numberPrefix,
         ], [
@@ -222,9 +225,12 @@ class CostApprovalsController extends Controller
         ]);
 
         $number = ++$maxNumber->value;
+        $maxNumber->save();
 
         $ca->number = 'CA/'.$ca->cost_center->code.'-'.$number.'/'.now()->format('Y');
         $ca->save();
+
+        DB::commit();
 
         return redirect()->route('cost-approvals.show', ['id' => $ca->id]);
     }
