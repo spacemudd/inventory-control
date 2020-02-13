@@ -35,36 +35,37 @@
   </div>
 </div>
 <hr>
+
 <div class="row">
-  <div class="col-12-sm" style="border: 2px solid black;padding:10px;padding-right:0px">
-  <table class="pure-table tight-table" style="width:100%;border:0;font-size:12px;"  cellspacing="0" cellpadding="0">
-  <colgroup>
-  <col style="width:15%;">
-  <col style="width:25%;">
-  <col style="width:15%;">
-  <col style="width:25%;">
-  </colgroup>
-      <tbody>
-        <tr>
-            <td style="border:0"><b>Requested by</b></td>
-            <td style="border:0"><b>:</b> {{ optional($data->requested_by)->name }}</td>
-            <td style="border:0"><b>Cost Center</b></td>
-            <td style="border:0"><b>:</b> {{ optional($data->cost_center)->code }}</td>
-        </tr>
-        <tr>
-          <td style="border:0;"><b>Date</b></td>
-          <td style="border:0;"><b>:</b> {{ $data->date->format('d-m-Y') }}</td>
-          <td style="border:0;"><b>Project location</b></td>
-          <td style="border:0"><b>:</b> {{ optional($data->cost_center)->description }}</td>
-        </tr>
-        <tr>
-          <td style="border:0;"><b>Vendor</b></td>
-          <td style="border:0;"><b>:</b>{{ optional($data->vendor)->display_name }}</td>
-          <td style="border:0;"><b>Quotation number</b></td>
-          <td style="border:0;"><b>:</b> {{ $data->quotation_number }}</td>
-        </tr>
-      </tbody>
-  </table>
+  <div class="col-12-sm" style="border: 2px solid black;padding:10px;margin-left:-1px;width:640px;">
+    <table class="pure-table tight-table" style="width:100%;border:0;font-size:12px;margin-left:-1px;" cellspacing="0" cellpadding="0">
+      <colgroup>
+      <col style="width:15%;">
+      <col style="width:25%;">
+      <col style="width:15%;">
+      <col style="width:25%;">
+      </colgroup>
+          <tbody>
+            <tr>
+                <td style="border:0"><b>Requested by</b></td>
+                <td style="border:0"><b>:</b> {{ optional($data->requested_by)->name }}</td>
+                <td style="border:0"><b>Cost Center</b></td>
+                <td style="border:0"><b>:</b> {{ optional($data->cost_center)->code }}</td>
+            </tr>
+            <tr>
+              <td style="border:0;"><b>Date</b></td>
+              <td style="border:0;"><b>:</b> {{ $data->date->format('d-m-Y') }}</td>
+              <td style="border:0;"><b>Project location</b></td>
+              <td style="border:0"><b>:</b> {{ optional($data->cost_center)->description }}</td>
+            </tr>
+            <tr>
+              <td style="border:0;"><b>Vendor</b></td>
+              <td style="border:0;"><b>:</b>{{ optional($data->vendor)->display_name }}</td>
+              <td style="border:0;"><b>Quotation number</b></td>
+              <td style="border:0;"><b>:</b> {{ $data->quotation_number }}</td>
+            </tr>
+          </tbody>
+      </table>
   </div>
 </div>
 

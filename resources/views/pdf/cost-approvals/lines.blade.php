@@ -1,7 +1,8 @@
+
 {{-- Items --}}
 <div class="row">
-    <div class="col-12-sm">
-        <table class="pure-table pure-table-bordered tight-table" style="font-size:12px;border-color:black;">
+{{--    <div class="col-12-sm" style="margin-left:1px;">--}}
+        <table class="pure-table pure-table-bordered tight-table" style="font-size:12px;border-color:black;width:100%;">
             <colgroup>
                 <col style='width:10%;'>
                 <col>
@@ -98,5 +99,5 @@
         </div>
     </div>
 
-</div>
+{{--</div>--}}
 </div>
