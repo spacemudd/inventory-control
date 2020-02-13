@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Employee;
 use App\Models\Department;
 use App\Models\Vendor;
+use Illuminate\Support\Str;
 use NumberFormatter;
 
 class CostApproval extends Model
@@ -85,8 +86,14 @@ class CostApproval extends Model
         $formatter = new NumberFormatter("en", NumberFormatter::SPELLOUT);
 
         $moneyText = $formatter->format($grandTotal);
-        
-        $moneyTextWithCurrency = ucwords($moneyText) . ' Saudi Riyals Only';
+        $moneyText = ucwords($moneyText);
+
+        if (Str::contains($moneyText, 'Point')) {
+            $moneyText = Str::replaceFirst('Point', 'Saudi Riyals And', $moneyText);
+            $moneyTextWithCurrency = $moneyText.' Halals Only';
+        } else {
+            $moneyTextWithCurrency = $moneyText.' Saudi Riyals';
+        }
 
         return implode('-', array_map('ucfirst', explode('-', $moneyTextWithCurrency)));
     }
