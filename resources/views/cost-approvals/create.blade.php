@@ -113,9 +113,10 @@
                 <div class="field">
 
                     <div class="control">
-                        <b-checkbox name="due_diligence_approved" size="is-small">
+                        <label class="checkbox" for="due_diligence_approved">
+                            <input type="checkbox" id="due_diligence_approved" name="due_diligence_approved" value="true">
                             Due diligence approved
-                        </b-checkbox>
+                        </label>
                     </div>
 
                     <!-- <div class="control">

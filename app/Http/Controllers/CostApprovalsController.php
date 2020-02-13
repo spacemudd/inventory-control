@@ -53,8 +53,9 @@ class CostApprovalsController extends Controller
           "quotation_number" => "nullable|string|max:255",
         ]);
 
+        $ar = $request->toArray();
         $due = false;
-        if (array_key_exists('due_diligence_approved', $request))
+        if (array_key_exists('due_diligence_approved', $ar))
         {
             if ($request->due_diligence_approved === 'false') {
                 $due = false;
@@ -64,6 +65,8 @@ class CostApprovalsController extends Controller
                 $due = true;
             }
         }
+
+        dd([$request->toArray(), $due]);
 
         $ca = CostApproval::create([
             'requested_by_id' => $request->requested_by_id,
