@@ -109,7 +109,15 @@
             </tr>
             <tr>
                 <td><b>Quotation #</b></td>
-                <td>{{ $ca->quotation_number }}</td>
+                <td>
+                    @if ($ca->quotation_number)
+                        {{ $ca->quotation_number }}
+                    @else
+                        @foreach ($ca->quotations as $quotation)
+                            <p>({{ $quotation->vendor->name }}) - {{ $quotation->vendor_quotation_number }}</p><br/>
+                        @endforeach
+                    @endif
+                </td>
             </tr>
             <tr>
                 <td><b>Due diligence approved</b></td>
@@ -127,6 +135,8 @@
 </div>
 
 <div class="column is-12">
-    <cost-approval-items :cost-approval-id="{{ $ca->id }}"></cost-approval-items>
+    <cost-approval-items :multi-vendor-support="{{ $ca->quotations->count()>1 ? 'true' : 'false' }}"
+                         :quotations="{{ json_encode($ca->quotations()->toArray()) }}"
+                         :cost-approval-id="{{ $ca->id }}"></cost-approval-items>
 </div>
 @endsection

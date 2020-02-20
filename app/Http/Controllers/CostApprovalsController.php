@@ -68,6 +68,7 @@ class CostApprovalsController extends Controller
           "due_diligence_approved" => "nullable",
           "vendor_id" => "nullable|exists:vendors,id",
           "quotation_number" => "nullable|string|max:255",
+          "quotation_ids.*" =>  'nullable',
         ]);
 
         $ar = $request->toArray();
@@ -83,8 +84,7 @@ class CostApprovalsController extends Controller
             }
         }
 
-        //dd([$request->toArray(), $due]);
-
+        DB::beginTransaction();
         $ca = CostApproval::create([
             'requested_by_id' => $request->requested_by_id,
             'cost_center_id' => $request->cost_center_id,
@@ -100,6 +100,9 @@ class CostApprovalsController extends Controller
                 ['name' => 'Fahad A. Alkadi', 'title' => 'Head of Retail Banking'],
                 ]),
             ]);
+
+        $ca->quotations()->sync($request->quotation_ids);
+        DB::commit();
 
         return redirect(route('cost-approvals.show', $ca->id));
 

@@ -79,13 +79,15 @@
                 <hr>
 
                 {{-- Quotation --}}
-                <div class="field">
-                    <label for="quotation_number" class="label">Quotation #</label>
+{{--                <div class="field">--}}
+{{--                    <label for="quotation_number" class="label">Quotation #</label>--}}
 
-                    <div class="is-fullwidth">
-                        <input type="text" class="input" name="quotation_number">
-                    </div>
-                </div>
+{{--                    <div class="is-fullwidth">--}}
+{{--                        <input type="text" class="input" name="quotation_number">--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+
+                <multiple-quotation-selection></multiple-quotation-selection>
 
                 <hr>
 

@@ -293,6 +293,8 @@ Vue.component('assign-stock-information', require('./components/AssignStockInfor
 Vue.component('new-cost-approval-form', require('./components/NewCostApprovalForm').default);
 Vue.component('cost-approval-items', require('./components/CostApprovalItems').default);
 Vue.component('select-approver-for-cost-approval', require('./components/SelectApproverForCostApproval').default);
+Vue.component('multiple-quotation-selection', require('./components/MultipleQuotationSelection').default);
+Vue.component('select-quotation', require('./components/SelectQuotation/SelectQuotation').default);
 
 
 /**

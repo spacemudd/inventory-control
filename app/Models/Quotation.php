@@ -45,7 +45,9 @@ class Quotation extends Model
         static::addGlobalScope(new LimitByRegionScope);
 
         static::creating(function($jobOrder) {
-            $jobOrder->region_id = auth()->user()->region_id;
+            if (auth()->user()) {
+                $jobOrder->region_id = auth()->user()->region_id;
+            }
         });
     }
 
