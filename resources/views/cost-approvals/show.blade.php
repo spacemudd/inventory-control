@@ -136,7 +136,7 @@
 
 <div class="column is-12">
     <cost-approval-items :multi-vendor-support="{{ $ca->quotations->count()>1 ? 'true' : 'false' }}"
-                         :quotations="{{ json_encode($ca->quotations()->toArray()) }}"
+                         :quotations="{{ json_encode($ca->quotations()->get()->toArray()) }}"
                          :cost-approval-id="{{ $ca->id }}"></cost-approval-items>
 </div>
 @endsection
