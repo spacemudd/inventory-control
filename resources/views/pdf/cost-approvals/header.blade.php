@@ -58,14 +58,14 @@
               <td style="border:0;"><b>Project location</b></td>
               <td style="border:0"><b>:</b> {{ optional($data->cost_center)->description }}</td>
             </tr>
-            @if ($data->adhoc_quotations()->count() <= 1)
-                <tr>
-                  <td style="border:0;"><b>Vendor</b></td>
-                  <td style="border:0;"><b>:</b>{{ optional($data->vendor)->display_name }}</td>
-                  <td style="border:0;"><b>Quotation number</b></td>
-                  <td style="border:0;"><b>:</b> {{ $data->quotation_number ?: optional($data->adhoc_quotations()->first())->quotation_number }}</td>
-                </tr>
-            @endif
+            <tr>
+              <td style="border:0;"><b>Vendor</b></td>
+              <td style="border:0;"><b>:</b>{{ optional($data->vendor)->display_name }}</td>
+              @if ($data->adhoc_quotations()->count() <= 1)
+                <td style="border:0;"><b>Quotation number</b></td>
+                <td style="border:0;"><b>:</b> {{ $data->quotation_number ?: optional($data->adhoc_quotations()->first())->quotation_number }}</td>
+              @endif
+            </tr>
           </tbody>
       </table>
   </div>
