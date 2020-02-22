@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CostApprovalQuotation;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use App\CostApproval;
@@ -68,7 +69,7 @@ class CostApprovalsController extends Controller
           "due_diligence_approved" => "nullable",
           "vendor_id" => "nullable|exists:vendors,id",
           "quotation_number" => "nullable|string|max:255",
-          "quotation_ids.*" =>  'nullable',
+          "quotation_numbers.*" =>  'nullable',
         ]);
 
         $ar = $request->toArray();
@@ -101,12 +102,12 @@ class CostApprovalsController extends Controller
                 ]),
             ]);
 
-        $ca->quotations()->sync($request->quotation_ids);
+        foreach ($request->quotation_numbers as $number) {
+            $ca->adhoc_quotations()->save(new CostApprovalQuotation(['quotation_number' => $number]));
+        }
         DB::commit();
 
         return redirect(route('cost-approvals.show', $ca->id));
-
-        
     }
 
     /**

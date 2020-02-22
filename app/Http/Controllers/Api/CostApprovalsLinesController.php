@@ -20,6 +20,7 @@ class CostApprovalsLinesController extends Controller
     		'description' => 'required|string|max:255',
     		'unit_price' => 'required',
     		'qty' => 'required',
+            'quotation_number' => 'required',
     		]);
 
     	$line = $request->toArray();

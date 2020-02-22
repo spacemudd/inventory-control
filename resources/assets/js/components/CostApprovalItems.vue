@@ -2,6 +2,7 @@
     <div>
         <table class="table is-fullwidth is-narrow is-size-7">
             <colgroup>
+                <col v-if="quotations.length>1" style="width:100px;">
                 <col style="width:100px;">
                 <col style="width:100px;">
                 <col style="width:100px;">
@@ -10,6 +11,7 @@
             </colgroup>
             <thead>
             <tr>
+                <th v-if="quotations.length>1">Quote</th>
                 <th>Description</th>
                 <th>Unit Price</th>
                 <th>Quantity</th>
@@ -19,10 +21,8 @@
             </thead>
             <tbody>
             <tr class="item" v-for="item in items">
-                <td v-if="multiVendorSupport">
-                    <select name="" id="">
-                        <option value="" v-for="quotation in quotations">{{ quotation.id }}</option>
-                    </select>
+                <td v-if="quotations.length>1">
+                    <input disabled type="text" class="input is-small" v-model="item.quotation_number">
                 </td>
                 <td><input disabled class="input is-small" v-model="item.description" /></td>
                 <td><input disabled class="input is-small" type="number" v-model="item.unit_price" /></td>
@@ -36,6 +36,15 @@
                 </td>
             </tr>
             <tr class="newItem" v-if="isAdding">
+                <td v-if="quotations.length>1">
+                    <div class="select is-fullwidth">
+                        <select name="quotation_number" v-model="newItem.quotation_number">
+                            <option v-for="quotation in quotations" :value="quotation.quotation_number">
+                                {{ quotation.quotation_number }}
+                            </option>
+                        </select>
+                    </div>
+                </td>
                 <td><input class="input is-small" v-model="newItem.description" /></td>
                 <td><input class="input is-small" type="number" v-model="newItem.unit_price" /></td>
                 <td class="d-flex"><input class="input is-small" type="number" v-if="!newItem.lump_sum" v-model="newItem.qty" /> LS: <input type="checkbox" v-model="newItem.lump_sum"></td>
@@ -79,7 +88,7 @@
     data () {
       return {
         items: [],
-        newItem: { cost_approval_id: null, description: "", qty: 1, unit_price: 0, lump_sum: false },
+        newItem: { quotation_number: '', cost_approval_id: null, description: "", qty: 1, unit_price: 0, lump_sum: false },
         isAdding: false,
       }
     },
@@ -113,9 +122,12 @@
       saveItem()
       {
         this.newItem.cost_approval_id = this.costApprovalId;
+        if (this.quotations.length<=1) {
+          this.newItem.quotation_number = this.quotations[0].quotation_number;
+        }
         axios.post(this.apiUrl()+'/cost-approvals/'+this.costApprovalId+'/lines', this.newItem)
           .then(response => {
-            this.newItem = { description: "", qty: 1, unit_price: 0, lump_sum: false };
+            this.newItem = { quotation_number: '', description: "", qty: 1, unit_price: 0, lump_sum: false };
             this.items.push(response.data);
             this.addRow();
           })

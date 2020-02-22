@@ -1,6 +1,7 @@
 <template>
     <div class="is-fullwidth">
         <div class="label">Quotation #</div>
+        <!--
         <b-autocomplete
                 v-model="search"
                 :data="quotations"
@@ -15,16 +16,18 @@
                 </a>
             </template>
         </b-autocomplete>
+        -->
+        <div class="is-flex">
+            <input type="text" v-model="quotationNumber" class="input"><button @click.prevent="addQuotation" class="button is-primary" style="border-top-left-radius: 0;border-bottom-left-radius: 0;">Add</button>
+        </div>
+        <span class="has-text-secondary is-help is-size-7">Add single or multiple quotations to the cost approval.</span>
         <!-- HTML helper -->
-        <input v-for="quote in selectedQuotations" type="hidden" name="quotation_ids[]" :value="quote.id">
+        <input v-for="quote in selectedQuotations" type="hidden" name="quotation_numbers[]" :value="quote">
         <ul class="content">
             <li v-for="quote in selectedQuotations">
                 <div class="is-flex">
                     <div>
-                        <span v-if="quote.vendor">
-                            ({{ quote.vendor.name }}) -
-                        </span>
-                        {{ quote.vendor_quotation_number }}
+                        {{ quote }}
                     </div>
                 </div>
             </li>
@@ -43,11 +46,18 @@
         selectedQuotations: [],
         search: null,
         quotations: [],
+        quotationNumber: '',
       }
     },
     methods: {
       selectQuotation(quotation) {
         this.selectedQuotations.push(quotation);
+      },
+      addQuotation() {
+        if (this.quotationNumber) {
+          this.selectedQuotations.push(this.quotationNumber);
+          this.quotationNumber = null;
+        }
       },
       getData: debounce(function () {
         this.quotations = []

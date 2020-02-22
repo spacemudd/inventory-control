@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\CostApprovalQuotation;
 use App\Models\Quotation;
 use Illuminate\Database\Eloquent\Model;
 
@@ -64,6 +65,11 @@ class CostApproval extends Model
     public function quotations()
     {
         return $this->belongsToMany(Quotation::class, 'quotation_cost_approval');
+    }
+
+    public function adhoc_quotations()
+    {
+        return $this->hasMany(CostApprovalQuotation::class);
     }
 
     public function getTotalPriceAttribute()

@@ -32,16 +32,13 @@ class CreateCostApprovalsTest extends TestCase
         $costCenter = factory(Department::class)->create();
         $supplier = factory(Vendor::class)->create();
 
-        $quotation = factory(Quotation::class)->create(['vendor_id' => $supplier->id, 'cost_center_id' => $costCenter->id]);
-        $quotation_2 = factory(Quotation::class)->create(['vendor_id' => $supplier->id, 'cost_center_id' => $costCenter->id]);
-
         $url = route('cost-approvals.store');
 
         $response = $this->actingAs($user)->post($url, [
             'requested_by_id' => $employee->id,
             'cost_center_id' => $costCenter->id,
             'vendor_id' => $supplier->id,
-            'quotation_ids' => [$quotation->id, $quotation_2->id],
+            'quotation_numbers' => ['ByeBye', 'HelloHello'],
             'date' => now()->toDateString(),
             'purpose_of_request' => 'This is a test',
             'due_diligence_approved' => false,
@@ -49,6 +46,6 @@ class CreateCostApprovalsTest extends TestCase
 
         $costApproval = CostApproval::first();
 
-        $this->assertEquals(2, $costApproval->quotations()->count());
+        $this->assertEquals(2, $costApproval->adhoc_quotations()->count());
     }
 }

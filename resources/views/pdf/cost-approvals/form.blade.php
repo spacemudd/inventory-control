@@ -9,8 +9,13 @@
 </head>
 <body>
 
-@component('pdf.cost-approvals.lines', ['data' => $data])
-@endcomponent
+@if ($data->adhoc_quotations->count() > 1)
+    @component('pdf.cost-approvals.lines-with-quotation', ['data' => $data])
+    @endcomponent
+@else
+    @component('pdf.cost-approvals.lines', ['data' => $data])
+    @endcomponent
+@endif
 
 </body>
 </html>

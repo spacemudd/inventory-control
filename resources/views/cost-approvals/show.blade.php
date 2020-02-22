@@ -113,8 +113,8 @@
                     @if ($ca->quotation_number)
                         {{ $ca->quotation_number }}
                     @else
-                        @foreach ($ca->quotations as $quotation)
-                            <p>({{ $quotation->vendor->name }}) - {{ $quotation->vendor_quotation_number }}</p><br/>
+                        @foreach ($ca->adhoc_quotations as $quotation)
+                            <p style="margin:0;padding:0">- {{ $quotation->quotation_number }}</p>
                         @endforeach
                     @endif
                 </td>
@@ -135,8 +135,7 @@
 </div>
 
 <div class="column is-12">
-    <cost-approval-items :multi-vendor-support="{{ $ca->quotations->count()>1 ? 'true' : 'false' }}"
-                         :quotations="{{ json_encode($ca->quotations()->get()->toArray()) }}"
+    <cost-approval-items :quotations="{{ json_encode($ca->adhoc_quotations()->get()->toArray()) }}"
                          :cost-approval-id="{{ $ca->id }}"></cost-approval-items>
 </div>
 @endsection
