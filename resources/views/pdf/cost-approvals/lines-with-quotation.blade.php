@@ -2,14 +2,14 @@
 {{-- Items --}}
 <div class="row">
 {{--    <div class="col-12-sm" style="margin-left:1px;">--}}
-        <table class="pure-table pure-table-bordered tight-table" style="font-size:12px;border-color:black;width:100%;">
+        <table class="pure-table pure-table-bordered tight-table" style="font-size:12px;border-color:black;width:100%;border-collapse: collapse">
             <colgroup>
                 <col style='width:10%;'>
                 <col style='width:12%;'>
                 <col>
-                <col style='width:5%;'>
-                <col style='width:9%;'>
-                <col style='width:16%;'>
+                <col style='width:12%;'>
+                <col style='width:10%;'>
+                <col style='width:14%;'>
         </colgroup>
         <thead>
             <tr>
@@ -46,19 +46,19 @@
     </table>
 
     <div style="page-break-inside: avoid !important;display:block;">
-        <table class="pure-table pure-table-bordered tight-table" style="border-color:black;">
+        <table class="pure-table pure-table-bordered tight-table" style="border-color:black;border-collapse:collapse;margin-top:-2px;">
             <colgroup>
                 <col style='width:10%;'>
                 <col style='width:12%;'>
                 <col>
-                <col style='width:8.5%;'>
-                <col style='width:9%;'>
-                <col style='width:16%;'>
+                <col style='width:12%;'>
+                <col style='width:10%;'>
+                <col style='width:14%;'>
             </colgroup>
             <tbody>
                 @foreach($data->lines as $counter => $item)
                 @if(($counter ===  (count($data->lines) - 1) || $counter ===  (count($data->lines) - 2)))
-                <tr style="border-top:2px black solid;font-size:12px;">
+                <tr style="font-size:12px;border-collapse: collapse">
                     <td style="border-color:black;padding:10px;" class="center">{{ ++$counter }}</td>
                     <td style="border-color:black;padding:10px;">{{ $item->quotation_number }}</td>
                     <td style="border-color:black;padding:10px;">{{ $item->description }}</td>
