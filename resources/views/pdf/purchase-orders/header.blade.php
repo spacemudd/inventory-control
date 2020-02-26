@@ -24,31 +24,31 @@ Premises & Admin. Services Dept.
 
 <div class="row">
   <div class="col-6-sm">
-      Our Ref. No. MA/ {{ $data->number ? $data->number : 'DRAFT' }} / {{ $data->date->format('y') }}
+      Our Ref. No. MA/ <b>{{ $data->number ? $data->number : 'DRAFT' }}</b> /{{ $data->date->format('Y') }}
   </div>
     <div class="col-6-sm" style="text-align: right">
-        Date: <strong><span>{{ optional($data->date)->format('d/m/y') }}</span></strong>
+        Date: <strong><span>{{ optional($data->date)->format('d F Y') }}</span></strong>
     </div>
 </div>
 <hr>
 <div class="row">
   <div class="col-12-sm">
-  <table class="pure-table tight-table" style="width:100%;">
+  <table class="pure-table tight-table" style="width:100%;border:0;border-top:2px solid black;border-bottom:2px solid black;" cellspacing="0" cellpadding="0">
   <colgroup>
   <col style="width:10%;">
   </colgroup>
       <tbody>
         <tr>
-            <td>To</td>
-            <td>: {{ $data->to }}</td>
+            <td style="border:0">To</td>
+            <td style="border:0">: {{ optional($data->vendor)->name }}</td>
         </tr>
         <tr>
-          <td>Subject</td>
-          <td>: {{ $data->subject }}
+          <td style="border:0">Subject</td>
+          <td style="border:0">: {{ ucfirst($data->subject) }}
         </tr>
         <tr>
-          <td>Location</td>
-          <td>: {{ optional($data->cost_center)->display_name }}</td>
+          <td style="border:0">Location</td>
+          <td style="border:0">: {{ optional($data->cost_center)->display_name }}</td>
         </tr>
       </tbody>
   </table>

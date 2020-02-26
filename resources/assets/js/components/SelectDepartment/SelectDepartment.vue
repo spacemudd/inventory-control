@@ -5,6 +5,7 @@
         <input v-if="selected"
                type="text"
                class="input"
+               :class="inputClass"
                :value="selected.code + ' - ' + selected.description"
                @click="selected=search=null"
                readonly>
@@ -17,6 +18,7 @@
                     :loading="isLoading"
                     field="code"
                     @input="getData"
+                    :size="inputClass"
                     @select="selectDepartment">
             <template slot="empty" v-if="!isLoading">No results found</template>
             <template slot-scope="props">
@@ -47,7 +49,11 @@
             newVal: {
               type: Object,
               required: false,
-            }
+            },
+          inputClass: {
+              type: String,
+                required: false,
+          }
         },
         data() {
             return {

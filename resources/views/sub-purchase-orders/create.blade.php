@@ -121,9 +121,9 @@
 
                                 <span class="help">Search by code or name</span>
                                 @if ($errors->has('supplier_id'))
-                                    <span class="help is-danger">
-								{{ $errors->first('supplier_id') }}
-							</span>
+                                     <span class="help is-danger">
+                                        {{ $errors->first('supplier_id') }}
+                                    </span>
                                 @endif
                             </div>
                         </div>

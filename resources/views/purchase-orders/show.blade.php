@@ -58,20 +58,6 @@
 							<div class="column has-text-right">
 								<toggle-preview-purchase-order></toggle-preview-purchase-order>
 
-								@if(!$purchase_order->is_draft)
-									<a href="{{ route('purchase-orders.sub.create', ['id' => $purchase_order->id]) }}"
-									   class="button is-small">
-										New Sub-PO
-									</a>
-								@endif
-
-								@if($purchase_order->sub_purchase_orders()->count())
-									<a href="{{ route('purchase-orders.sub.index', ['id' => $purchase_order->id]) }}"
-									   class="button is-small">
-										Show Sub-POs ({{ $purchase_order->sub_purchase_orders()->count() }})
-									</a>
-								@endif
-
 								<button class="button is-small" @click="showNotesAndFilesSidebar=!showNotesAndFilesSidebar">
 									Attachments and Notes
 								</button>
@@ -82,15 +68,6 @@
 											{{ csrf_field() }}
 											<input type="hidden" name="_method" value="delete">
 											<button type="submit" class="button is-danger is-small">Delete</button>
-										</form>
-									@endif
-								@endcan
-
-								@can('create-purchase-orders')
-									@if($purchase_order->is_draft)
-										<form class="button is-warning is-small" action="{{ route('purchase-orders.save', ['id' => $purchase_order->id]) }}" method="post">
-											{{ csrf_field() }}
-											<button type="submit" class="button is-warning is-small">Save</button>
 										</form>
 									@endif
 								@endcan
@@ -113,78 +90,16 @@
 									<tbody>
 									<tr>
 										<td><strong>Date</strong></td>
-										<td>
-											<datetime-token :id.number="{{ $purchase_order->id }}"
-															name="date"
-															value="{{ $purchase_order->date_string }}"
-															:highlighted="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
-															placeholder="PURCHASE ORDER DATE"
-															url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
-															:can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
-											></datetime-token>
-										</td>
+										<td>{{ $purchase_order->date_string }}</td>
 									</tr>
 									<tr>
-										<td><strong>Supplier</strong></td>
-										<td>
-											<edit-supplier-token name="vendor_id"
-																 value="{{  $purchase_order->vendor_json_display_name }}"
-																 :highlighted="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
-																 placeholder="SUPPLIER ID"
-																 url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
-																 :can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
-											></edit-supplier-token>
-										</td>
+										<td><strong>Cost Center</strong></td>
+										<td class="is-capitalized">{{ optional($purchase_order->cost_center)->display_name }}</td>
 									</tr>
 									<tr>
-										<td><strong>Delivery Date</strong> <b-tooltip label="To supply the items not later than..."><span class="icon is-small"><i class="fa fa-question-circle"></i></span></b-tooltip></td>
+										<td><strong>Subject</strong></td>
 										<td>
-											<delivery-date-token :id.number="{{ $purchase_order->id }}"
-																 name="delivery_date"
-																 display_name="delivery_date_string"
-																 value="{{ $purchase_order->delivery_date_string }}"
-																 :highlighted="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
-																 placeholder="DELIVERY DATE DATE"
-																 url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
-																 :can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
-											></delivery-date-token>
-										</td>
-									</tr>
-									<tr>
-										<td><strong>Billing Address</strong></td>
-										<td>
-											<address-field-token :id.number="{{ $purchase_order->id }}"
-																 name="billing_address_id"
-																 @if($purchase_order->billing_address_json)
-																 :value="{{ $purchase_order->billing_address_json ? collect($purchase_order->billing_address_json)->toJson() : null }}"
-																 @endif
-																 placeholder="BILLING ADDRESS"
-																 url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
-																 search-url="{{ route('api.search.billing-addresses') }}"
-																 :is-billing="true"
-																 :can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
-											></address-field-token>
-										</td>
-									</tr>
-									<tr>
-										<td><strong>Shipping Address</strong></td>
-										<td>
-											<address-field-token :id.number="{{ $purchase_order->id }}"
-																 name="shipping_address_id"
-																 @if($purchase_order->shipping_address_json)
-																 :value="{{ $purchase_order->shipping_address_json ? collect($purchase_order->shipping_address_json)->toJson() : null }}"
-																 @endif
-																 placeholder="SHIPPING ADDRESS"
-																 url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
-																 search-url="{{ route('api.search.shipping-addresses') }}"
-																 :can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
-											></address-field-token>
-										</td>
-									</tr>
-									<tr>
-										<td><strong>Project Code</strong></td>
-										<td>
-											{{ optional($purchase_order->project)->display_name }}
+											{{ ucfirst($purchase_order->subject) }}
 										</td>
 									</tr>
 									</tbody>
@@ -197,12 +112,12 @@
 									</colgroup>
 									<tbody>
 									<tr>
-										<td><strong>Created by</strong></td>
-										<td>
-											@if($purchase_order->created_by)
-												{{ optional($purchase_order->created_by)->username }} - {{ optional($purchase_order->created_by)->name }}
-											@endif
-										</td>
+										<td><strong>Supplier</strong></td>
+										<td>{{ optional($purchase_order->vendor)->display_name }}</td>
+									</tr>
+									<tr>
+										<td><strong>Quote #</strong></td>
+										<td>{{ $purchase_order->quote_reference_number }}</td>
 									</tr>
 									<tr>
 										<td>
@@ -222,69 +137,11 @@
 										</td>
 									</tr>
 									<tr>
-										<td><strong>Quote Ref. No.</strong></td>
+										<td><strong>Created by</strong></td>
 										<td>
-											<string-token :id.number="{{ $purchase_order->id }}"
-														  name="quote_reference_number"
-														  value="{{ $purchase_order->quote_reference_number }}"
-														  :highlighted="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
-														  placeholder="QUOTE REFERENCE NUMBER"
-														  url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
-														  :can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
-											></string-token>
-										</td>
-									</tr>
-									<tr>
-										<td><strong>Quote Date</strong></td>
-										<td>
-											<datetime-token :id.number="{{ $purchase_order->id }}"
-															name="quote_date"
-															display-name="quote_date_string"
-															value="{{ $purchase_order->quote_date_string }}"
-															:highlighted="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
-															placeholder="QUOTE DATE"
-															url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
-															:can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
-											></datetime-token>
-										</td>
-									</tr>
-									<tr>
-										<td><strong>Cost Center</strong></td>
-										<td class="is-capitalized">
-											<edit-department-token  :id.number="{{ $purchase_order->id }}"
-																	prop-department-id="{{ $purchase_order->cost_center_id }}"
-																	value="{{ optional($purchase_order->cost_center)->display_name }}"
-																	name="cost_center_id"
-																	url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
-																	:can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
-											>
-											</edit-department-token>
-										</td>
-									</tr>
-									<tr>
-										<td><strong>Requested for</strong></td>
-										<td class="is-capitalized">
-											<edit-employee-token  :id.number="{{ $purchase_order->id }}"
-																  prop-employee-id="{{ $purchase_order->requested_for_employee_id }}"
-																  value="{{ optional($purchase_order->requested_for_employee)->display_name }}"
-																  name="requested_for_employee_id"
-																  url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
-																  :can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
-											>
-											</edit-employee-token>
-										</td>
-									</tr>
-									<tr>
-										<td><strong>Requested by</strong></td>
-										<td class="is-capitalized">
-											<edit-employee-token  :id.number="{{ $purchase_order->id }}"
-																  prop-employee-id="{{ $purchase_order->requested_by_employee_id }}"
-																  value="{{ optional($purchase_order->requested_by_employee)->display_name }}"
-																  name="requested_by_employee_id"
-																  url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
-																  :can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
-											>
-											</edit-employee-token>
+											@if($purchase_order->created_by)
+												{{ optional($purchase_order->created_by)->username }} - {{ optional($purchase_order->created_by)->name }}
+											@endif
 										</td>
 									</tr>
 									</tbody>
@@ -386,57 +243,6 @@
 								</div>
 							</div>
 						@endif
-					</div>
-				</div>
-			</div>
-			{{-- Delivery & Terms --}}
-			<div class="columns">
-				<div class="column is-4">
-					<h2 class="title is-5 has-text-weight-light">Purchase Terms</h2>
-				</div>
-			</div>
-			<div class="columns">
-				<div class="column">
-					<div class="box purchase-terms">
-						@if($purchase_order->is_draft || $purchase_order->other_terms)
-							<div class="columns">
-								<div class="column is-4">
-									<p class="title is-7">Other Terms</p>
-								</div>
-								<div class="column is-size-7">
-									<other-terms-token :id.number="{{ $purchase_order->id }}"
-													   name="other_terms"
-													   value="{{ $purchase_order->other_terms  }}"
-													   placeholder="OTHER TERMS"
-													   url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
-													   :can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
-									></other-terms-token>
-								</div>
-							</div>
-						@endif
-						@foreach($purchase_order->terms_json as $key => $terms)
-							@if($key === 'Others')
-								@break
-							@endif
-							<div class="columns">
-								<div class="column is-4">
-									<p class="title is-7">{{ $key }}</p>
-								</div>
-								<div class="column">
-									@foreach($terms as $term)
-										<ul>
-											<toggle-purchase-term :term-id.number="{{ $term->value->id }}"
-																  :po-id.number="{{ $purchase_order->id }}"
-																  :enabled-prop.number="{{ $term->enabled ? 'true' : 'false' }}"
-																  :can-toggle="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
-											>
-												{{ $term->value->value }}
-											</toggle-purchase-term>
-										</ul>
-									@endforeach
-								</div>
-							</div>
-						@endforeach
 					</div>
 				</div>
 			</div>

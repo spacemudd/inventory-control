@@ -11,6 +11,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Clarimount\Service\InventoryPurchaseOrderService;
 use App\Clarimount\Service\PurchaseOrderService;
 use App\Clarimount\Service\VendorBankService;
 use App\Model\PurchaseTermsType;
@@ -20,6 +21,7 @@ use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Vendor;
 use App\Models\Quotation;
+use Illuminate\Http\Request;
 
 class PurchaseOrderController extends Controller
 {
@@ -28,10 +30,13 @@ class PurchaseOrderController extends Controller
 
     protected $vendorBankService;
 
-    public function __construct(PurchaseOrderService $service, VendorBankService $vendorBankService)
+    protected $inventoryPoService;
+
+    public function __construct(PurchaseOrderService $service, VendorBankService $vendorBankService, InventoryPurchaseOrderService $inventoryPoService)
     {
         $this->service = $service;
         $this->vendorBankService = $vendorBankService;
+        $this->inventoryPoService = $inventoryPoService;
     }
 
     /**
@@ -101,15 +106,17 @@ class PurchaseOrderController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      * @see  \App\Clarimount\Service\PurchaseOrderService@store
      */
-    public function store()
+    public function store(Request $request)
     {
         $this->authorize('create-purchase-orders');
 
-        $request = request()->except('_token');
-
-        $po = $this->service->store($request);
+        $po = $this->inventoryPoService->store($request);
 
         return redirect()->route('purchase-orders.show', ['id' => $po->id]);
     }

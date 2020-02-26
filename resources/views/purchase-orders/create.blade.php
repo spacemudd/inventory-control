@@ -28,66 +28,88 @@
 
 		{{-- Cost center --}}
 		<div class="columns">
-			<div class="column is-3"><p class="title is-5">Information</p></div>
-			<div class="column is-4">
-				<div class="field">
-					<label for="cost_center_id" class="label">Cost Center</label>
+			<div class="column is-3"><p class="title is-5">General</p></div>
+		</div>
 
+		<div class="columns">
+			<div class="column is-3">
+				<div class="field">
+					<label class="label has-text-weight-normal">Purchase order number</label>
+					<div class="control">
+						<input name="number" class="input is-small" type="text" autofocus autocomplete="off">
+						<p class="help">Leave blank to be auto-generated.</p>
+					</div>
+				</div>
+			</div>
+			<div class="column is-3">
+				<div class="field">
+					<label class="label has-text-weight-normal">Cost Center</label>
 					<div class="control">
 						<select-department name="cost_center_id"
+										   input-class="is-small"
 										   url="{{ route('api.search.department') }}">
 						</select-department>
-						<p class="help">Search by department code or name</p>
-						<button type="button" class="is-small button is-text" @click="$store.commit('Department/showNewModal', true)">
-							New
-						</button>
+						<div class="is-flex" style="justify-content:space-between">
+							<p class="help">Search by department code or name</p>
+							<button style="margin-top:5px;height:20px;border-color:#078af3;" type="button" class="is-small button" @click="$store.commit('Department/showNewModal', true)">
+								New
+							</button>
+						</div>
 					</div>
 				</div>
-				<hr>
-
-				{{-- To --}}
-				<div class="field">
-					<label for="to" class="label">To</label>
-
-					<div class="control">
-						<input type="text" class="input" name="to">
-					</div>
-				</div>
-
-				<hr>
-
-				
-				{{-- Subject --}}
-				<div class="field">
-					<label for="subject" class="label">Subject</label>
-
-					<div class="control">
-						<input type="text" class="input" name="subject">
-					</div>
-				</div>
-
-				<hr>
-
-				{{-- Quote --}}
-				<div class="field">
-					<label for="subject" class="label">Ref. Quote</label>
-
-					<div class="select is-fullwidth">
-						<select class="select is-fullwidth" name="quotation_id" id="quotation_id">
-							<option value=""></option>
-							@foreach ($quotes as $quote)
-								<option value="{{ $quote->id }}">{{ $quote->vendor_quotation_number }}</option>
-							@endforeach
-						</select>
-					</div>
-				</div>
-
 			</div>
 		</div>
 
+		<div class="columns">
+			<div class="column is-3">
+				<div class="field">
+					<label class="label has-text-weight-normal">Date</label>
+					<div class="control">
+						<input name="date" class="input is-small" type="date" autofocus>
+					</div>
+				</div>
+			</div>
+			<div class="column is-3">
+				<div class="field">
+					<label class="label has-text-weight-normal">Subject</label>
+					<div class="control">
+						<input name="subject" class="input is-small" type="text" autofocus autocomplete="off">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="columns">
+			<div class="column is-3">
+				<div class="field">
+					<label class="label has-text-weight-normal">Supplier</label>
+					<div class="control">
+						<select-vendors name="vendor_id"
+										input-class="is-small"
+										url="{{ route('api.search.vendor') }}">
+						</select-vendors>
+
+						<span class="help">Search by code or name</span>
+						@if ($errors->has('supplier_id'))
+							<span class="help is-danger">
+								{{ $errors->first('supplier_id') }}
+							</span>
+						@endif
+					</div>
+				</div>
+			</div>
+			<div class="column is-3">
+				<div class="field">
+					<label class="label has-text-weight-normal">Quote number</label>
+					<div class="control">
+						<input name="quote_reference_number" class="input is-small" type="text" autofocus autocomplete="off">
+					</div>
+				</div>
+			</div>
+		</div>
 
 		{{-- -- Form done. --}}
-		<div class="column is-7 has-text-right">
+		<div class="column is-6 has-text-right">
 			<a class="button is-text" href="{{ route('purchase-orders.index') }}">Cancel</a>
 			<button type="submit" class="button is-primary">Save</button>
 		</div>

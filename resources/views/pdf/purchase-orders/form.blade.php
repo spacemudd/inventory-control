@@ -12,9 +12,11 @@
 {{-- Purchase and Supplier Information --}}
 <div class="row">
     <div class="col-12-sm">
-        <p>Sir,</p>
+        <p><b>Sir,</b></p>
         @if ($data->quotation)
         <p>With reference to your quotation <b>{{ $data->quotation->vendor_quotation_number }}</b> dated on <b>{{ $data->quotation->created_at->format('d-m-Y') }}</b> for the below mentioned we confirm the acceptance for your offer amounting as follows,</p>
+        @elseif ($data->quote_reference_number)
+            <p>With reference to your quotation <b>{{ $data->quote_reference_number }}</b> for the below mentioned we confirm the acceptance for your offer amounting as follows,</p>
         @endif
     </div>
 </div>
@@ -25,8 +27,8 @@
 <div style="page-break-inside: avoid !important;">
     <div class="row">
         <div class="col-12-sm" style="margin-top:-10px;">
-            <p>Please proceed immediately,</p>
-            <p>Thanks and Best regards,</p>
+            <p>Please deliver immediately,</p>
+            <p>Thanks and best regards,</p>
             
 
             {{-- Signatures block --}}

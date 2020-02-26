@@ -4,17 +4,19 @@
         <table class="pure-table pure-table-bordered tight-table">
             <colgroup>
                 <col style='width:60px;'>
-                <col style='width:600px;'>
+                <col>
+                <col style='width:100px;'>
+                <col style='width:100px;'>
                 <col style='width:100px;'>
             </colgroup>
             <thead>
             <tr>
-                <th class="center">Item</th>
-                <th class="center">Description of items to be supplied</th>
+                <th class="center">No.</th>
+                <th class="center">Description</th>
+                <th class="center">Price</th>
                 <th class="center">Qty</th>
                 <th class="center">
-                    Currency: <u>{{ $data->currency }}</u><br/>
-                    Total Price
+                    Price (SAR)
                 </th>
             </tr>
             </thead>
