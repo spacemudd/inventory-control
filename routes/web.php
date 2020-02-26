@@ -263,6 +263,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::post('vendors/store', 'Api\VendorController@store');
 
     // PO
+    Route::put('purchase-orders/{id}', 'Api\PurchaseOrderController@update');
     Route::put('purchase-orders/{id}/update', 'Api\PurchaseOrderController@update');
     Route::post('purchase-orders/show', 'Api\PurchaseOrderController@show');
     Route::post('purchase-orders', 'Api\PurchaseOrderController@store');
@@ -291,6 +292,9 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::post('purchase-orders/{purchase_order_id}/items/update', 'Api\PurchaseOrderItemController@itemsUpdate'); // This one takes all the items array from js.
     Route::delete('procedures/purchase-orders/{purchase_order_id}/items/{item_id}/delete', 'Api\PurchaseOrderItemController@delete');
     Route::post('procedures/purchase-orders/{purchase_order_id}/items/{item_id}/received', 'Api\PurchaseOrderItemController@attemptToReceiveItem');
+
+    // PO lines.
+    Route::resource('purchase-orders/{id}/lines', 'Api\PurchaseOrderLinesController');
 
     // PO Service Items
     Route::post('purchase-orders/service-items', 'Api\PurchaseOrderItemController@showServicesItems');

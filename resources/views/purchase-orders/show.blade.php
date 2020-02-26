@@ -85,23 +85,43 @@
 							<div class="column is-6">
 								<table class="table is-size-7 is-fullwidth">
 									<colgroup>
-										<col width="50%">
+										<col width="30%">
 									</colgroup>
 									<tbody>
-									<tr>
-										<td><strong>Date</strong></td>
-										<td>{{ $purchase_order->date_string }}</td>
-									</tr>
-									<tr>
-										<td><strong>Cost Center</strong></td>
-										<td class="is-capitalized">{{ optional($purchase_order->cost_center)->display_name }}</td>
-									</tr>
-									<tr>
-										<td><strong>Subject</strong></td>
-										<td>
-											{{ ucfirst($purchase_order->subject) }}
-										</td>
-									</tr>
+										<tr>
+											<td><strong>Date</strong></td>
+											<td>{{ $purchase_order->date_string }}</td>
+										</tr>
+										<tr>
+											<td><strong>Cost Center</strong></td>
+											<td class="is-capitalized">{{ optional($purchase_order->cost_center)->display_name }}</td>
+										</tr>
+										<tr>
+											<td><strong>Subject</strong></td>
+											<td>
+												{{ ucfirst($purchase_order->subject) }}
+											</td>
+										</tr>
+										<tr>
+											<td><strong>Approver 1</strong></td>
+											<td>
+												<select-approver-for-purchase-order
+														purchase-order-id="{{ $purchase_order->id }}"
+														selected-approver-id="{{ $purchase_order->approver_one_id }}"
+														field-name="approver_one_id">
+												</select-approver-for-purchase-order>
+											</td>
+										</tr>
+										<tr>
+											<td><strong>Approver 2</strong></td>
+											<td>
+												<select-approver-for-purchase-order
+														purchase-order-id="{{ $purchase_order->id }}"
+														selected-approver-id="{{ $purchase_order->approver_two_id }}"
+														field-name="approver_two_id">
+												</select-approver-for-purchase-order>
+											</td>
+										</tr>
 									</tbody>
 								</table>
 							</div>
@@ -170,7 +190,9 @@
 					{{-- Items --}}
 					<div class="box">
 						@if($purchase_order->is_draft)
-							<purchase-order-items :po-id.number="{{ $purchase_order->id }}"></purchase-order-items>
+							<purchase-order-lines :lines="{{ json_encode($purchase_order->lines()->get()->toArray()) }}"
+												  :purchase-order-id="{{ $purchase_order->id }}">
+							</purchase-order-lines>
 						@else
 							<table class="table is-fullwidth">
 								<thead>

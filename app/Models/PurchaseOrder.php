@@ -76,6 +76,9 @@ class PurchaseOrder extends Model implements AuditableContract
         'quotation_id',
         'to',
         'subject',
+        'approver_one_id',
+        'approver_two_id',
+        'approver_three_id',
     ];
 
     protected $dates = ['date', 'delivery_date', 'quote_date'];
@@ -92,6 +95,30 @@ class PurchaseOrder extends Model implements AuditableContract
         'terms_json' => 'object',
     ];
 
+    public function lines()
+    {
+        return $this->hasMany(PurchaseOrderLine::class);
+    }
+
+    public function approver_one()
+    {
+        return $this->belongsTo(Employee::class, 'approver_one_id');
+    }
+
+    public function approver_two()
+    {
+        return $this->belongsTo(Employee::class, 'approver_two_id');
+    }
+
+    public function approver_three()
+    {
+        return $this->belongsTo(Employee::class, 'approver_three_id');
+    }
+
+    /**
+     * @deprecated
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function items()
     {
         return $this->hasMany(PurchaseOrdersItem::class);

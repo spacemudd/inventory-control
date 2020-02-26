@@ -185,13 +185,13 @@ public function saveTermsToPo($id)
 	{
 		$this->validate($purchaseOrder)->validate();
 
-		if(array_key_exists('date', $purchaseOrder) && $purchaseOrder['date']) {
-            $purchaseOrder['date'] = Carbon::createFromFormat('d/m/Y', $purchaseOrder['date']);
-        }
-
-        if(array_key_exists('delivery_date', $purchaseOrder) && $purchaseOrder['delivery_date']) {
-            $purchaseOrder['delivery_date'] = Carbon::createFromFormat('d/m/Y', $purchaseOrder['delivery_date']);
-        }
+		//if(array_key_exists('date', $purchaseOrder) && $purchaseOrder['date']) {
+        //    $purchaseOrder['date'] = Carbon::createFromFormat('d/m/Y', $purchaseOrder['date']);
+        //}
+        //
+        //if(array_key_exists('delivery_date', $purchaseOrder) && $purchaseOrder['delivery_date']) {
+        //    $purchaseOrder['delivery_date'] = Carbon::createFromFormat('d/m/Y', $purchaseOrder['delivery_date']);
+        //}
 
 		return $this->repository->update($id, $purchaseOrder);
 	}

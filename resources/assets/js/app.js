@@ -295,6 +295,8 @@ Vue.component('cost-approval-items', require('./components/CostApprovalItems').d
 Vue.component('select-approver-for-cost-approval', require('./components/SelectApproverForCostApproval').default);
 Vue.component('multiple-quotation-selection', require('./components/MultipleQuotationSelection').default);
 Vue.component('select-quotation', require('./components/SelectQuotation/SelectQuotation').default);
+Vue.component('purchase-order-lines', require('./components/PurchaseOrderLines').default);
+Vue.component('select-approver-for-purchase-order', require('./components/SelectApproverForPurchaseOrder').default);
 
 
 /**

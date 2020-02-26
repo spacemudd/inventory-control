@@ -30,7 +30,6 @@ Premises & Admin. Services Dept.
         Date: <strong><span>{{ optional($data->date)->format('d F Y') }}</span></strong>
     </div>
 </div>
-<hr>
 <div class="row">
   <div class="col-12-sm">
   <table class="pure-table tight-table" style="width:100%;border:0;border-top:2px solid black;border-bottom:2px solid black;" cellspacing="0" cellpadding="0">
