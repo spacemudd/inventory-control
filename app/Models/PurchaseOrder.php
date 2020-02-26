@@ -200,14 +200,14 @@ class PurchaseOrder extends Model implements AuditableContract
         return $this->status == self::NEW;
     }
 
-    public function getIsCommittedAttribute()
+    public function getIsSavedAttribute()
     {
-        return $this->status == 'committed';
+        return $this->status == self::SAVED;
     }
 
     public function getIsVoidAttribute()
     {
-        return $this->status == 'void';
+        return $this->status == self::VOID;
     }
 
     public function getLinkAttribute()

@@ -225,7 +225,7 @@ class PurchaseOrderController extends Controller
             return redirect()->back();
         }
 
-        if(!$this->service->show($id)->items()->count()) {
+        if(!$this->service->show($id)->lines()->count()) {
             session()->flash('status', 'is-warning');
             session()->flash('messages', ['There are no items attached.']);
             return redirect()->back();

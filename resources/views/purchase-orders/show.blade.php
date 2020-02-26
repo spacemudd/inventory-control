@@ -62,6 +62,24 @@
 									Attachments and Notes
 								</button>
 
+								@can('create-purchase-orders')
+									@if($purchase_order->is_draft)
+										<form class="button is-warning is-small" action="{{ route('purchase-orders.save', ['id' => $purchase_order->id]) }}" method="post">
+											{{ csrf_field() }}
+											<button type="submit" class="button is-warning is-small">Save</button>
+										</form>
+									@endif
+								@endcan
+
+								@can('create-purchase-orders')
+									@if($purchase_order->is_saved)
+										<form class="button is-danger is-small" action="{{ route('api.purchase-orders.void', ['id' => $purchase_order->id]) }}" method="post">
+											{{ csrf_field() }}
+											<button type="submit" class="button is-danger is-small">Void</button>
+										</form>
+									@endif
+								@endcan
+
 								@can('delete-purchase-orders')
 									@if($purchase_order->is_draft)
 										<form class="button is-danger is-small" action="{{ route('purchase-orders.destroy', ['id' => $purchase_order->id]) }}" method="post">
@@ -149,10 +167,10 @@
 												<span class="circle is-warning"></span>
 											@endif
 											@if($purchase_order->isSaved)
-												<span class="circle is-warning"></span>
-											@endif
-											@if($purchase_order->isApproved)
 												<span class="circle is-success"></span>
+											@endif
+											@if($purchase_order->isVoid)
+												<span class="circle is-danger"></span>
 											@endif
 										</td>
 									</tr>

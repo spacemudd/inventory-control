@@ -120,11 +120,20 @@ class PurchaseOrderController extends Controller
     /**
      * Voids a purchase order.
      *
+     * @param \Illuminate\Http\Request $request
      * @return bool
      */
-    public function void()
+    public function void(Request $request)
     {
-        return $this->service->void();
+        $po = PurchaseOrder::find($request->id);
+        $po->status = PurchaseOrder::VOID;
+        $po->save();
+
+        if (request()->wantsJson()) {
+            return $po;
+        }
+
+        return redirect()->route('purchase-orders.show', ['id' => $po->id]);
     }
 
     public function attachments()
