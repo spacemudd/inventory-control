@@ -22,7 +22,7 @@ Premises & Admin. Services Dept.
     </div>
 </div>
 
-<div class="row">
+<div class="row" style="margin-top:50px">
   <div class="col-6-sm">
       Our Ref. No. <b>{{ $data->number ? $data->number : 'DRAFT' }}</b> @if($data->is_void) <span style="background-color:red;font-weight: bold;padding:0 10px;"><b>VOID</b></span> @endif
   </div>
@@ -32,22 +32,22 @@ Premises & Admin. Services Dept.
 </div>
 <div class="row">
   <div class="col-12-sm">
-  <table class="pure-table tight-table" style="width:100%;border:0;border-top:2px solid black;border-bottom:2px solid black;font-size:15px;" cellspacing="0" cellpadding="0">
+  <table class="pure-table tight-table" style="width:100%;border:0;border-top:2px solid black;border-bottom:2px solid black;font-size:18px;" cellspacing="0" cellpadding="0">
   <colgroup>
   <col style="width:10%;">
   </colgroup>
       <tbody>
         <tr>
-            <td style="border:0">To</td>
+            <td style="border:0"><b>To</b></td>
             <td style="border:0">: {{ optional($data->vendor)->name }}</td>
         </tr>
         <tr>
-          <td style="border:0">Subject</td>
-          <td style="border:0">: {{ ucfirst($data->subject) }}
+            <td style="border:0"><b>Subject</b></td>
+            <td style="border:0">: {{ ucfirst($data->subject) }}
         </tr>
         <tr>
-          <td style="border:0">Location</td>
-          <td style="border:0">: {{ optional($data->cost_center)->display_name }}</td>
+            <td style="border:0"><b>Location</b></td>
+            <td style="border:0">: {{ optional($data->cost_center)->display_name }}</td>
         </tr>
       </tbody>
   </table>
