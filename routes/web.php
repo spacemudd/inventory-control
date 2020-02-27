@@ -91,6 +91,10 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
 
         Route::get('equipments', 'EquipmentsController@index')->name('equipments.index');
 
+        // PO report
+        Route::get('purchase-orders/report', 'PurchaseOrderReportController@index')->name('purchase-orders.report.index');
+        Route::post('purchase-orders/report', 'PurchaseOrderReportController@generate')->name('purchase-orders.report.index');
+
         // Purchase orders
         Route::name('purchase-orders.')->prefix('purchase-orders')->group(function () {
             Route::get('draft', 'PurchaseOrderController@draft')->name('draft');

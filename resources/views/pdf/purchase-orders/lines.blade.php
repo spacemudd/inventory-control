@@ -36,7 +36,7 @@
         <div style="page-break-inside: avoid !important;">
             <table class="pure-table pure-table-bordered tight-table" style="border-color:black;">
                 <colgroup>
-                    <col style='width:10px;'>
+                    <col style='width:51px;'>
                     <col>
                     <col style='width:100px;'>
                     <col style='width:100px;'>
