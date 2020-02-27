@@ -30,7 +30,7 @@
                 </td>
                 <td class="has-text-right">{{ item.lump_sum ? item.unit_price : item.unit_price * item.qty | currency }}</td>
                 <td class="has-text-right">
-                    <button class="button is-danger is-small" @click="deleteItem(item)">Delete</button>
+                    <button class="button is-danger is-small" @click="deleteItem(item)" v-if="editable">Delete</button>
                 </td>
             </tr>
             <tr class="newItem" v-if="isAdding">
@@ -54,7 +54,7 @@
                     </button>
                 </td>
             </tr>
-            <tr>
+            <tr v-if="editable">
                 <td colspan="6">
                     <button v-if="!isAdding" class="button is-secondary is-small" @click="addRow">Add row</button>
                     <button v-else class="button is-secondary is-small" @click="isAdding=false">Cancel adding</button>
@@ -87,6 +87,11 @@
       },
       lines: {
         required: false,
+      },
+      editable: {
+        required: false,
+        default: true,
+        type: Boolean,
       }
     },
     data () {
