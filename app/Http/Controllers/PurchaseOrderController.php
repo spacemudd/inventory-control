@@ -154,11 +154,11 @@ class PurchaseOrderController extends Controller
 
         $purchase_order = $this->service->edit($id);
 
-        $vendors = Vendor::active()->get();
-        $departments = Department::active()->get();
-        $employees = Employee::active()->get();
+        //$vendors = Vendor::active()->get();
+        //$departments = Department::active()->get();
+        //$employees = Employee::active()->get();
 
-        return view('purchase-orders.edit', compact('purchase_order', 'vendors', 'departments', 'employees'));
+        return view('purchase-orders.edit', compact('purchase_order'));
     }
 
     /**

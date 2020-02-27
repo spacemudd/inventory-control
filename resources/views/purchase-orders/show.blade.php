@@ -63,6 +63,14 @@
 								</button>
 
 								@can('create-purchase-orders')
+									@if($purchase_order->is_draft)
+										<a class="button is-small" href="{{ route('purchase-orders.edit', ['id' => $purchase_order->id]) }}">
+											Edit
+										</a>
+									@endif
+								@endcan
+
+								@can('create-purchase-orders')
 									@if($purchase_order->is_saved && !$purchase_order->supplier_invoice)
 										<a class="button is-primary is-small" href="{{ route('purchase-orders.invoice.create', ['id' => $purchase_order->id]) }}">
 											Submit invoice
