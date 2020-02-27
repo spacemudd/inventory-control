@@ -148,6 +148,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::name('users.show')->get('users/{id}', 'Back\UsersController@show');
 
         // Cost approvals
+        Route::post('purchase-orders/{id}/to-po', 'CostApprovalsController@toPurchaseOrder')->name('cost-approvals.to-po');
         Route::get('cost-approvals/{id}/save', 'CostApprovalsController@save')->name('cost-approvals.save');
         Route::get('cost-approvals/{id}/print', 'CostApprovalsController@print')->name('cost-approvals.print');
         Route::resource('cost-approvals', 'CostApprovalsController');

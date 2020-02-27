@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\CostApprovalLine;
 use App\Models\CostApprovalQuotation;
 use App\Models\Department;
+use App\Models\PurchaseOrder;
+use App\Models\PurchaseOrderLine;
 use Illuminate\Http\Request;
 use App\CostApproval;
 use Carbon\Carbon;
@@ -253,5 +256,36 @@ class CostApprovalsController extends Controller
         DB::commit();
 
         return redirect()->route('cost-approvals.show', ['id' => $ca->id]);
+    }
+
+    public function toPurchaseOrder($id)
+    {
+        $ca = CostApproval::find($id);
+
+        \Illuminate\Support\Facades\DB::beginTransaction();
+        $po = new PurchaseOrder();
+
+        $po->vendor_id = $ca->vendor_id;
+        $po->cost_center_id = $ca->cost_center_id;
+        $po->date = now();
+        $po->status = PurchaseOrder::NEW;
+        $po->created_by_id = auth()->user()->id;
+        $po->quote_reference_number = $ca->adhoc_quotations()->pluck('quotation_number')->implode('-');
+        $po->save();
+
+        $poLines = [];
+        foreach ($ca->lines as $line) {
+            $poLine = new PurchaseOrderLine();
+            $poLine->description = $line->description;
+            $poLine->unit_price = $line->unit_price;
+            $poLine->qty = $line->qty;
+            $poLine->lump_sum = $line->lump_sum;
+            $poLines[] = $poLine;
+        }
+
+        $po->lines()->saveMany($poLines);
+        \Illuminate\Support\Facades\DB::commit();
+
+        return redirect()->route('purchase-orders.show', ['id' => $po->id]);
     }
 }

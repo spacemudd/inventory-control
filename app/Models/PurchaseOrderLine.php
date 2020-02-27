@@ -15,6 +15,8 @@ class PurchaseOrderLine extends Model
         parent::boot();
 
         static::creating(function($line) {
+            $line->subtotal = Money::of($line->unit_price, 'SAR')->multipliedBy($line->qty)->getAmount()->toFloat();
+
             if ($line->lump_sum) $line->subtotal = $line->unit_price;
 
             $line->vat = Money::of($line->subtotal, 'SAR')->multipliedBy(0.05)->getAmount()->toFloat();
@@ -22,6 +24,8 @@ class PurchaseOrderLine extends Model
         });
 
         static::updating(function($line) {
+            $line->subtotal = Money::of($line->unit_price, 'SAR')->multipliedBy($line->qty)->getAmount()->toFloat();
+
             if ($line->lump_sum) $line->subtotal = $line->unit_price;
 
             $line->vat = Money::of($line->subtotal, 'SAR')->multipliedBy(0.05)->getAmount()->toFloat();

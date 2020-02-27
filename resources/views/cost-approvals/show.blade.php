@@ -28,6 +28,13 @@
 <div class="box">
     <div class="columns is-multiline">
         <div class="column is-12 has-text-right">
+            @if ($ca->number)
+                <form method="post" action="{{ route('cost-approvals.to-po', $ca->id) }}" class="is-inline">
+                    {{ @csrf_field() }}
+                    <button class="button is-warning is-small is-secondary">Copy to PO</button>
+                </form>
+            @endif
+
             <a target="_blank" href="{{ route('cost-approvals.print', $ca->id) }}" class="button is-small is-secondary">Print</a>
             <form method="post" action="{{ route('cost-approvals.destroy', $ca->id) }}" class="is-inline">
                 {{ @csrf_field() }}
