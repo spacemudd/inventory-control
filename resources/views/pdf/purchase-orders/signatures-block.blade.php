@@ -3,7 +3,7 @@
     <div class="row" style="margin-top:80px;">
         @if ($data->approver_one)
             <div class="col-4-sm center">
-                <div style="border-top:2px solid black;width:100%;font-size:11px;">
+                <div style="border-top:2px solid black;width:100%;font-size:20px;">
                     <strong>
                         {{ optional($data->approver_one)->name }}
                         <br/>
@@ -16,7 +16,7 @@
         </div>
         @if ($data->approver_two)
         <div class="col-4-sm center">
-            <div style="border-top:2px solid black;width:100%;font-size:11px;">
+            <div style="border-top:2px solid black;width:100%;font-size:20px;">
                 <strong>
                     {{ optional($data->approver_two)->name }}
                     <br/>

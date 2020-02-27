@@ -22,7 +22,7 @@ Premises & Admin. Services Dept.
     </div>
 </div>
 
-<div class="row" style="margin-top:50px">
+<div class="row" style="margin-top:50px;font-size:20px;">
   <div class="col-6-sm">
       Our Ref. No. <b>{{ $data->number ? $data->number : 'DRAFT' }}</b> @if($data->is_void) <span style="background-color:red;font-weight: bold;padding:0 10px;"><b>VOID</b></span> @endif
   </div>
@@ -32,7 +32,7 @@ Premises & Admin. Services Dept.
 </div>
 <div class="row">
   <div class="col-12-sm">
-  <table class="pure-table tight-table" style="width:100%;border:0;border-top:2px solid black;border-bottom:2px solid black;font-size:18px;" cellspacing="0" cellpadding="0">
+  <table class="pure-table tight-table" style="width:100%;border:0;border-top:2px solid black;border-bottom:2px solid black;font-size:20px;" cellspacing="0" cellpadding="0">
   <colgroup>
   <col style="width:10%;">
   </colgroup>

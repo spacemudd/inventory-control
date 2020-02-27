@@ -2,11 +2,11 @@
     <div>
         <p class="is-size-7" :class="{'transparent-highlighter-bg': canEdit}" @click="edit">
             {{ old_value }}
-            <span v-if="!old_value"><i>[Quote Reference Number]</i></span>
+            <span v-if="!old_value"><i>[{{ placeholder }}]</i></span>
         </p>
         <div v-if="is_editing" style="margin-top:20px">
             <div class="field">
-                <b-input v-model="quote_reference_number" @keyup.enter="save"></b-input>
+                <b-input v-model="loadedValue" size="is-small" @keyup.enter="save"></b-input>
             </div>
             <div class="field">
                 <div class="control has-text-right">
@@ -49,17 +49,22 @@
             canEdit: {
                 type: Boolean,
                 default: false,
-            }
+            },
+          placeholder: {
+            type: String,
+            default: '[]',
+            default: false,
+          }
         },
         data() {
             return {
                 is_editing: false,
                 old_value: this.value,
-                quote_reference_number: '',
+                loadedValue: false,
             }
         },
         mounted() {
-          this.quote_reference_number = this.value;
+          this.loadedValue = this.value;
         },
         methods: {
             edit() {
@@ -77,13 +82,13 @@
 
                   axios.put(this.apiUrl() + '/purchase-orders/' + this.id + '/tokens', {
                     'name': this.name,
-                    'value': this.quote_reference_number,
+                    'value': this.loadedValue,
                   })
                     .then(response => {
                         this.$endLoading('SAVING_QUOTE_REF_TOKEN');
                         this.is_editing = false;
 
-                        this.old_value = response.data.quote_reference_number ? response.data.quote_reference_number : '';
+                        this.old_value = response.data[this.name] ? response.data[this.name] : '';
 
                         this.$toast.open({
                             message: 'Saved',
@@ -113,7 +118,7 @@
             },
             clearValue() {
                 this.old_value = '';
-                this.quote_reference_number = '';
+                this.loadedValue = '';
                 this.save();
             },
         }

@@ -133,7 +133,14 @@
 										<tr>
 											<td><strong>Subject</strong></td>
 											<td>
-												{{ ucfirst($purchase_order->subject) }}
+												<string-token :id.number="{{ $purchase_order->id }}"
+															  name="subject"
+															  value="{{ $purchase_order->subject }}"
+															  :highlighted="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
+															  placeholder="SUBJECT"
+															  url="{{ route('purchase-orders.tokens', ['id' => $purchase_order->id]) }}"
+															  :can-edit="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
+												></string-token>
 											</td>
 										</tr>
 										<tr>

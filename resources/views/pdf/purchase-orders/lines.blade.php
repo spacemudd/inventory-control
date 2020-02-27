@@ -1,9 +1,9 @@
 {{-- Items --}}
 <div class="row">
     <div class="col-12-sm">
-        <table class="pure-table pure-table-bordered tight-table" style="border-color:black;">
+        <table class="pure-table pure-table-bordered tight-table" style="border-color:black;font-size:20px;">
             <colgroup>
-                <col style='width:10px;'>
+                <col style='width:51px;'>
                 <col>
                 <col style='width:100px;'>
                 <col style='width:100px;'>
@@ -15,7 +15,7 @@
                 <th style="border-color:black;" class="center">Description</th>
                 <th style="border-color:black;" class="center">Price</th>
                 <th style="border-color:black;" class="center">Qty</th>
-                <th style="border-color:black;" class="right">Price (SAR)</th>
+                <th style="border-color:black;" class="center">Price</th>
             </tr>
             </thead>
             <tbody>
@@ -34,9 +34,9 @@
         </table>
 
         <div style="page-break-inside: avoid !important;">
-            <table class="pure-table pure-table-bordered tight-table" style="border-color:black;">
+            <table class="pure-table pure-table-bordered tight-table" style="border-color:black;font-size:20px;">
                 <colgroup>
-                    <col style='width:51px;'>
+                    <col style='width:70px;'>
                     <col>
                     <col style='width:100px;'>
                     <col style='width:100px;'>
@@ -54,15 +54,15 @@
                             </tr>
                         @endif
                     @endforeach
-                    <tr style="font-size:12px;">
+                    <tr style="font-size:20px;">
                         <td style="border-color:black;padding:5px;" colspan="4" class="right">Total</td>
                         <td style="border-color:black;padding:5px;" class="right">{{ number_format($data->lines()->sum('subtotal'), 2) }}</td>
                     </tr>
-                    <tr style="font-size:12px;">
+                    <tr style="font-size:20px;">
                         <td style="border-color:black;padding:5px;" colspan="4" class="right">VAT 5%</td>
                         <td style="border-color:black;padding:5px;" class="right">{{ number_format($data->lines()->sum('vat'), 2) }}</td>
                     </tr>
-                    <tr style="font-size:12px;">
+                    <tr style="font-size:20px;">
                         <td style="border-color:black;padding:5px;" colspan="4" class="right"><strong>Grand Total:</strong> {{ $data->grandTotalInWords() }}</td>
                         <td style="border-color:black;padding:5px;" class="right"><strong>{{ number_format($data->lines()->sum('grand_total'), 2) }}</strong></td>
                     </tr>
