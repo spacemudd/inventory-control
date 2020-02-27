@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderLine;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -41,5 +42,19 @@ class PurchaseOrderLinesController extends Controller
         return response()->json([
             'success' => true,
         ]);
+    }
+
+    public function update(Request $request, $poId, $lineId)
+    {
+        $request->validate([
+            'serial_number' => 'nullable|string|max:255',
+            'tag_number' => 'nullable|string|max:255',
+        ]);
+
+        $po = PurchaseOrderLine::find($lineId);
+        $po->update($request->only(['serial_number', 'tag_number']));
+        $po->save();
+
+        return $po;
     }
 }

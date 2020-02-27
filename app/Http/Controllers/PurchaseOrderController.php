@@ -172,7 +172,8 @@ class PurchaseOrderController extends Controller
     {
         $this->authorize('update-purchase-orders');
 
-        $successful = $this->service->update($id);
+        $data = request()->except(['_token', '_method']);
+        $successful = $this->service->update($id, $data);
 
         if($successful) {
             session()->flash('status', 'success');

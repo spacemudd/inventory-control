@@ -79,6 +79,7 @@ class PurchaseOrder extends Model implements AuditableContract
         'approver_one_id',
         'approver_two_id',
         'approver_three_id',
+        'remarks',
     ];
 
     protected $dates = ['date', 'delivery_date', 'quote_date'];
@@ -208,6 +209,11 @@ class PurchaseOrder extends Model implements AuditableContract
     public function getIsVoidAttribute()
     {
         return $this->status == self::VOID;
+    }
+
+    public function supplier_invoice()
+    {
+        return $this->hasOne(SupplierInvoice::class);
     }
 
     public function getLinkAttribute()

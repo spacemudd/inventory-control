@@ -63,6 +63,14 @@
 								</button>
 
 								@can('create-purchase-orders')
+									@if($purchase_order->is_saved && !$purchase_order->supplier_invoice)
+										<a class="button is-primary is-small" href="{{ route('purchase-orders.invoice.create', ['id' => $purchase_order->id]) }}">
+											Submit invoice
+										</a>
+									@endif
+								@endcan
+
+								@can('create-purchase-orders')
 									@if($purchase_order->is_draft)
 										<form class="button is-warning is-small" action="{{ route('purchase-orders.save', ['id' => $purchase_order->id]) }}" method="post">
 											{{ csrf_field() }}
@@ -146,7 +154,7 @@
 							<div class="column is-6">
 								<table class="table is-size-7 is-fullwidth">
 									<colgroup>
-										<col width="50%">
+										<col width="30%">
 									</colgroup>
 									<tbody>
 									<tr>
@@ -182,6 +190,19 @@
 											@endif
 										</td>
 									</tr>
+									<tr>
+										<td><strong>Remark</strong></td>
+										<td>
+											<form method="post" action="{{ route('purchase-orders.update', ['id' => $purchase_order->id]) }}">
+												{{ csrf_field() }}
+												<input type="hidden" name="_method" value="put">
+												<textarea class="textarea" name="remarks">{{ $purchase_order->remarks }}</textarea>
+												<div class="has-text-right">
+													<button class="button is-small is-primary" style="margin-top: 5px;">Save</button>
+												</div>
+											</form>
+										</td>
+									</tr>
 									</tbody>
 								</table>
 							</div>
@@ -196,24 +217,50 @@
 						<div class="column">
 							<h2 class="title is-5 has-text-weight-light">Items</h2>
 						</div>
-						{{--
-                        <div class="column has-text-right">
-                            @if($purchase_order->is_draft)
-                                <new-po-item-from-pr-button :po-id.number="{{ $purchase_order->id }}"></new-po-item-from-pr-button>
-                            @endif
-                        </div>
-                        --}}
 					</div>
-
-					{{-- Items --}}
 					<div class="box">
 						<purchase-order-lines :lines="{{ json_encode($purchase_order->lines()->get()->toArray()) }}"
-											  :editable="false"
+											  :editable="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
 											  :purchase-order-id="{{ $purchase_order->id }}">
 						</purchase-order-lines>
 					</div>
 				</div>
 			</div>
+
+			{{-- Invoice details --}}
+			@if ((!$purchase_order->is_draft) && $purchase_order->supplier_invoice)
+				<div class="columns">
+					<div class="column">
+						<div class="columns">
+							<div class="column">
+								<h2 class="title is-5 has-text-weight-light">Invoice</h2>
+							</div>
+						</div>
+						<div class="box">
+							<table class="table is-size-7 is-fullwidth">
+								<colgroup>
+									<col width="20%">
+								</colgroup>
+								<tbody>
+								<tr>
+									<td><strong>Invoice number</strong></td>
+									<td>{{ $purchase_order->supplier_invoice->number }}</td>
+								</tr>
+								<tr>
+									<td><strong>Proceeded date</strong></td>
+									<td>{{ $purchase_order->supplier_invoice->proceeded_date->format('d-m-Y') }}</td>
+								</tr>
+								</tbody>
+							</table>
+							<hr>
+							<purchase-order-invoice-lines :lines="{{ json_encode($purchase_order->lines()->get()->toArray()) }}"
+														  :purchase-order-id="{{ $purchase_order->id }}">
+							</purchase-order-invoice-lines>
+						</div>
+					</div>
+				</div>
+			@endif
+
 		</div>
 		<transition enter-active-class="animated fadeInRight" mode="out-in">
 			<div class="column" v-if="showNotesAndFilesSidebar">

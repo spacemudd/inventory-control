@@ -12,5 +12,6 @@ class SupplierInvoice extends Model
     	'created_at',
     	'updated_at',
     	'date',
+        'proceeded_date',
     ];
 }

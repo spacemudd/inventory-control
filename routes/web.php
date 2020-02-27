@@ -99,6 +99,8 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         });
         Route::get('purchase-orders/{id}/pdf', 'PurchaseOrderController@pdf')->name('purchase-orders.pdf');
         Route::post('purchase-orders/{id}/save', 'PurchaseOrderController@save')->name('purchase-orders.save');
+        Route::get('purchase-orders/{id}/invoice/create', 'PurchaseOrderInvoiceController@create')->name('purchase-orders.invoice.create');
+        Route::post('purchase-orders/{id}/invoice', 'PurchaseOrderInvoiceController@store')->name('purchase-orders.invoice.store');
         Route::resource('purchase-orders', 'PurchaseOrderController');
 
         // Purchase Order Sub-PO
