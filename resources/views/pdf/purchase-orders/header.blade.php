@@ -24,7 +24,7 @@ Premises & Admin. Services Dept.
 
 <div class="row">
   <div class="col-6-sm">
-      Our Ref. No. MA/ <b>{{ $data->number ? $data->number : 'DRAFT' }}</b> /{{ $data->date->format('Y') }} @if($data->is_void) <span style="background-color:red;font-weight: bold;padding:0 10px;"><b>VOID</b></span> @endif
+      Our Ref. No. <b>{{ $data->number ? $data->number : 'DRAFT' }}</b> @if($data->is_void) <span style="background-color:red;font-weight: bold;padding:0 10px;"><b>VOID</b></span> @endif
   </div>
     <div class="col-6-sm" style="text-align: right">
         Date: <strong><span>{{ optional($data->date)->format('d F Y') }}</span></strong>
@@ -32,7 +32,7 @@ Premises & Admin. Services Dept.
 </div>
 <div class="row">
   <div class="col-12-sm">
-  <table class="pure-table tight-table" style="width:100%;border:0;border-top:2px solid black;border-bottom:2px solid black;" cellspacing="0" cellpadding="0">
+  <table class="pure-table tight-table" style="width:100%;border:0;border-top:2px solid black;border-bottom:2px solid black;font-size:15px;" cellspacing="0" cellpadding="0">
   <colgroup>
   <col style="width:10%;">
   </colgroup>

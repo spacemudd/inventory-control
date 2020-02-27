@@ -369,7 +369,7 @@ public function saveTermsToPo($id)
         $pdf->setOption('no-stop-slow-scripts', true);
         $pdf->setOption('no-background', false);
         // $pdf->setOption('margin-top', $marginTopDb ? $marginTopDb->value : 55);
-        $pdf->setOption('margin-left', 5);
+        $pdf->setOption('margin-left', 25);
         $pdf->setOption('margin-right', 5);
         $pdf->setOption('margin-top', 80);
         $pdf->setOption('margin-bottom', 10);

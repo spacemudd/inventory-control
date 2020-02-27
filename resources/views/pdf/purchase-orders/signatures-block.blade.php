@@ -26,7 +26,6 @@
         </div>
         @endif
     </div>
-    <hr>
     {{-- <p class="center" style="font-size:11px;">The accompanying Terms and Conditions form an integral part of this Purchase Order</p>
     <p class="center" style="font-size:10px;">Prepared by {{ $data->created_by->username }} - {{ $data->created_by->name }}</p> --}}
 </div>

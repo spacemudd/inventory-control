@@ -15,7 +15,7 @@
                 <th style="border-color:black;" class="center">Description</th>
                 <th style="border-color:black;" class="center">Price</th>
                 <th style="border-color:black;" class="center">Qty</th>
-                <th style="border-color:black;" class="center">Price (SAR)</th>
+                <th style="border-color:black;" class="right">Price (SAR)</th>
             </tr>
             </thead>
             <tbody>
@@ -24,8 +24,8 @@
                     <tr style="border-top:2px black solid;">
                         <td style="border-color:black;" class="center">{{ ++$counter }}</td>
                         <td style="border-color:black;">{{ $item->description }}</td>
-                        <td style="border-color:black;" class="right">{{ number_format($item->unit_price, 2) }}</td>
-                        <td style="border-color:black;" class="center">{{ $item->lump_sum ? 'LS' : $item->qty }}</td>
+                        <td style="border-color:black;" class="center">{{ number_format($item->unit_price, 2) }}</td>
+                        <td style="border-color:black;" class="center">{{ $item->lump_sum ? 'LS' : floatval($item->qty) }}</td>
                         <td style="border-color:black;" class="right">{{ number_format($item->subtotal, 2) }}</td>
                     </tr>
                 @endif
@@ -49,7 +49,7 @@
                                 <td style="border-color:black;" class="center">{{ ++$counter }}</td>
                                 <td style="border-color:black;">{{ $item->description }}</td>
                                 <td style="border-color:black;" class="center">{{ number_format($item->unit_price, 2) }}</td>
-                                <td style="border-color:black;" class="center">{{ $item->lump_sum ? 'LS' : $item->qty }}</td>
+                                <td style="border-color:black;" class="center">{{ $item->lump_sum ? 'LS' : floatval($item->qty) }}</td>
                                 <td style="border-color:black;" class="right">{{ number_format($item->subtotal, 2) }}</td>
                             </tr>
                         @endif
@@ -63,7 +63,7 @@
                         <td style="border-color:black;padding:5px;" class="right">{{ number_format($data->lines()->sum('vat'), 2) }}</td>
                     </tr>
                     <tr style="font-size:12px;">
-                        <td style="border-color:black;padding:5px;" colspan="4" class="right"><strong>Grand Total:</strong></td>
+                        <td style="border-color:black;padding:5px;" colspan="4" class="right"><strong>Grand Total:</strong> {{ $data->grandTotalInWords() }}</td>
                         <td style="border-color:black;padding:5px;" class="right"><strong>{{ number_format($data->lines()->sum('grand_total'), 2) }}</strong></td>
                     </tr>
                 </tbody>
