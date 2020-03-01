@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Scopes\LimitByRegionScope;
+use Brick\Math\RoundingMode;
+use Brick\Money\Context\CashContext;
 use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,16 +21,16 @@ class PurchaseOrderLine extends Model
 
             if ($line->lump_sum) $line->subtotal = $line->unit_price;
 
-            $line->vat = Money::of($line->subtotal, 'SAR')->multipliedBy(0.05)->getAmount()->toFloat();
+            $line->vat = Money::of($line->subtotal, 'SAR', new CashContext(2), RoundingMode::HALF_UP)->multipliedBy(0.05, RoundingMode::HALF_UP)->getAmount()->toFloat();
             $line->grand_total = Money::of($line->subtotal, 'SAR')->plus($line->vat)->getAmount()->toFloat();
         });
 
         static::updating(function($line) {
-            $line->subtotal = Money::of($line->unit_price, 'SAR')->multipliedBy($line->qty)->getAmount()->toFloat();
+            $line->subtotal = Money::of($line->unit_price, 'SAR', new CashContext(2), RoundingMode::HALF_UP)->multipliedBy($line->qty, RoundingMode::HALF_UP)->getAmount()->toFloat();
 
             if ($line->lump_sum) $line->subtotal = $line->unit_price;
 
-            $line->vat = Money::of($line->subtotal, 'SAR')->multipliedBy(0.05)->getAmount()->toFloat();
+            $line->vat = Money::of($line->subtotal, 'SAR')->multipliedBy(0.05, RoundingMode::HALF_UP)->getAmount()->toFloat();
             $line->grand_total = Money::of($line->subtotal, 'SAR')->plus($line->vat)->getAmount()->toFloat();
         });
     }

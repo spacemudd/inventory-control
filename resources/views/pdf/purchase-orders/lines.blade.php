@@ -64,7 +64,7 @@
                     </tr>
                     <tr style="font-size:20px;">
                         <td style="border-color:black;padding:5px;" colspan="4" class="right"><strong>Grand Total:</strong> {{ $data->grandTotalInWords() }}</td>
-                        <td style="border-color:black;padding:5px;" class="right"><strong>{{ number_format($data->lines()->sum('grand_total'), 2) }}</strong></td>
+                        <td style="border-color:black;padding:5px;" class="right"><strong>{{ number_format($data->grand_total, 2) }}</strong></td>
                     </tr>
                 </tbody>
             </table>

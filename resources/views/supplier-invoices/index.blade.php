@@ -47,8 +47,8 @@
                     <tr>
                         <td>{{ $invoice->number }}</td>
                         <td>{{ optional($invoice->vendor)->display_name }}</td>
-                        <td>{{ optional($invoice->date)->format('d-m-Y') }}</td>
-                        <td><a href="{{ route('supplier-invoices.show', $invoice->id) }}">View</a></td>
+                        <td>{{ optional($invoice->proceeded_date)->format('d-m-Y') }}</td>
+                        <td></td>
                     </tr>
                 @endforeach
             </tbody>
