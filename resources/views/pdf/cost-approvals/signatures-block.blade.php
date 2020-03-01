@@ -12,7 +12,7 @@
         @if ($data->approver_two_id)
             <div class="col-4-sm"></div>
             <div class="col-4-sm center">
-                <div style="border-top:2px solid black;width:100%;font-size:10px;margin-top:90px;">
+                <div style="border-top:2px solid black;width:100%;font-size:10px;margin-top:90px;white-space:nowrap">
                     <strong>
                         {{ $data->approver_two->name }}
                         <br/>
@@ -28,7 +28,7 @@
         @endif
         @if ($data->approver_one_id)
             <div class="col-4-sm center">
-                <div style="border-top:2px solid black;width:100%;font-size:10px;">
+                <div style="border-top:2px solid black;width:100%;font-size:10px;white-space:nowrap">
                     <strong>
                         {{ $data->approver_one->name }}
                         <br/>
@@ -41,7 +41,7 @@
         @if ($data->approver_three_id)
             <div class="col-4-sm center"></div>
             <div class="col-4-sm center">
-                <div style="border-top:2px solid black;width:100%;font-size:10px;">
+                <div style="border-top:2px solid black;width:100%;font-size:10px;white-space:nowrap">
                     <strong>
                         {{ $data->approver_three->name }}
                         <br/>
