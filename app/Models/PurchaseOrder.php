@@ -13,6 +13,7 @@ namespace App\Models;
 
 use App\Model\PurchaseTerm;
 use App\Traits\HasFiles;
+use Brick\Math\RoundingMode;
 use Brick\Money\Context\CashContext;
 use Brick\Money\Money;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -382,7 +383,7 @@ class PurchaseOrder extends Model implements AuditableContract
     public function grandTotalInWords()
     {
         $converter = new Converter("Saudi Riyals", "Halalas");
-        $grandTotal = Money::of($this->lines()->sum('grand_total'), 'SAR')->getAmount();
+        $grandTotal = Money::of($this->lines()->sum('grand_total'), 'SAR', new CashContext(2), RoundingMode::HALF_UP)->getAmount();
         return ucwords($converter->convert($grandTotal));
     }
 }
