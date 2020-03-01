@@ -72,7 +72,7 @@ class DepartmentService
 	public function validate(array $data)
 	{
 		return Validator::make($data, [
-		    'code' => 'required|string|max:255|unique:departments',
+		    'code' => 'required|string|max:255',
             'description' => 'required|string|max:255',
             'head_department' => 'nullable|string|max:255',
         ]);
@@ -81,7 +81,7 @@ class DepartmentService
 	public function validateOnUpdate(array $data, $id)
 	{
         return Validator::make($data, [
-            'code' => 'required|string|max:255|unique:departments,code,' . $id,
+            'code' => 'required|string|max:255',
             'description' => 'required|string|max:255',
             'head_department' => 'nullable|string|max:255',
         ]);
