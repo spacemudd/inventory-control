@@ -64,7 +64,7 @@ class DepartmentController extends Controller
         $data = request();
 
         $data->validate([
-            'location_id' => 'required|numeric|max:255',
+            'location_id' => 'required',
         ]);
 
         if($data->location_id == 0) {
