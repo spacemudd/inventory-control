@@ -271,6 +271,7 @@ class CostApprovalsController extends Controller
         $po->status = PurchaseOrder::NEW;
         $po->created_by_id = auth()->user()->id;
         $po->quote_reference_number = $ca->adhoc_quotations()->pluck('quotation_number')->implode('-');
+        $po->cost_approval_id = $ca->id;
         $po->save();
 
         $poLines = [];

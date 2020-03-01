@@ -56,6 +56,15 @@
 
     <div class="column is-12">
         <table class="table is-fullwidth is-size-7">
+            <colgroup>
+                <col style="width:13%;">
+                <col style="width:10%;">
+                <col>
+                <col style="width:10%;">
+                <col style="width:20%;">
+                <col style="width:15%;">
+                <col style="width:10%;">
+            </colgroup>
             <thead>
                 <th>
                     @if (request()->has('sort_by') && request()->sort_by === 'number-desc')
@@ -72,6 +81,7 @@
                 <th>Cost Center</th>
                 <th>Requested by</th>
                 <th>Purpose of request</th>
+                <th>PO Processed</th>
                 <th></th>
             </thead>
             <tbody>
@@ -82,7 +92,13 @@
                         <td>{{ optional($ca->cost_center)->display_name }}</td>
                         <td>{{ optional($ca->requested_by)->display_name }}</td>
                         <td>{{ $ca->purpose_of_request }}</td>
-                        <td><a href="{{ route('cost-approvals.show', ['id' => $ca->id]) }}">View</a></td>
+                        <td>
+                            @foreach ($ca->purchase_orders as $po)
+                                <p><a href="{{ $po->link }}">{{ $po->number }}</a></p>
+                                <p><a href="{{ $po->link }}">{{ $po->number }}</a></p>
+                            @endforeach
+                        </td>
+                        <td class="has-text-right"><a class="button is-small" href="{{ route('cost-approvals.show', ['id' => $ca->id]) }}">View</a></td>
                     </tr>
                 @endforeach
             </tbody>

@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models\CostApprovalQuotation;
+use App\Models\PurchaseOrder;
 use App\Models\Quotation;
 use Illuminate\Database\Eloquent\Model;
 
@@ -60,6 +61,11 @@ class CostApproval extends Model
     public function approver_three()
     {
         return $this->belongsTo(Employee::class, 'approver_three_id');
+    }
+
+    public function purchase_orders()
+    {
+        return $this->hasMany(PurchaseOrder::class);
     }
 
     public function quotations()
