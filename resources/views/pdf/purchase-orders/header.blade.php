@@ -8,14 +8,14 @@
 </head>
 <body>
 
-<div class="row big-font">
+<div class="row big-font" style="margin-bottom:0px;padding-bottom:0">
     <div class="col-2-sm">
         <div class="center" style="width: 225px;">
             <!--<img style="width: 150px;" src="{{ asset('img/brand/brand_pdf_logo.png') }}">-->
         </div>
     </div>
-    <div class="col-12-sm" style="text-align: right">
-        <h3><span>
+    <div class="col-12-sm" style="text-align: right;padding-bottom:0">
+        <h3 style="margin-bottom:0px;padding-bottom:0"><span>
         إدارة المباني والخدمـات الإدارية<br/>
 Premises & Admin. Services Dept.
         </span></h3>
