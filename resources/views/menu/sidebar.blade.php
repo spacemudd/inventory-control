@@ -196,6 +196,11 @@
                                                              title="{{ __('words.approvers') }}">
                                         </sidebar-links-group>
 
+                                        <sidebar-links-group link="{{ route('locations.index') }}"
+                                                             icon="location-arrow"
+                                                             title="{{ __('words.locations') }}">
+                                        </sidebar-links-group>
+
                                         <sidebar-links-group link="{{ route('categories.index') }}"
                                                              icon="bookmark" title="Categories">
                                         </sidebar-links-group>
@@ -213,22 +218,22 @@
                                         @endcan
 
                                         {{--@can('view-sales-taxes')--}}
-                                            <sidebar-links-group link="{{ route('sales-taxes.index') }}"
-                                                                 icon="balance-scale"
-                                                                 title="Sales Taxes">
-                                            </sidebar-links-group>
+{{--                                            <sidebar-links-group link="{{ route('sales-taxes.index') }}"--}}
+{{--                                                                 icon="balance-scale"--}}
+{{--                                                                 title="Sales Taxes">--}}
+{{--                                            </sidebar-links-group>--}}
                                         {{--@endcan--}}
 
-                                        <sidebar-links-group link="{{ route('purchasing-terms.index') }}"
-                                                             icon="tree" title="PO Terms">
-                                        </sidebar-links-group>
+{{--                                        <sidebar-links-group link="{{ route('purchasing-terms.index') }}"--}}
+{{--                                                             icon="tree" title="PO Terms">--}}
+{{--                                        </sidebar-links-group>--}}
 
-                                        @can('create-addresses')
-                                            <sidebar-links-group link="{{ route('addresses.index') }}"
-                                                                 icon="map-marker"
-                                                                 title="{{ __('words.addresses') }}">
-                                            </sidebar-links-group>
-                                        @endcan
+{{--                                        @can('create-addresses')--}}
+{{--                                            <sidebar-links-group link="{{ route('addresses.index') }}"--}}
+{{--                                                                 icon="map-marker"--}}
+{{--                                                                 title="{{ __('words.addresses') }}">--}}
+{{--                                            </sidebar-links-group>--}}
+{{--                                        @endcan--}}
 
                                         @can('show-users')
                                             <sidebar-links-group link="{{ route('users.index') }}"
