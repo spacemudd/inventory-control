@@ -102,19 +102,16 @@ class PurchaseOrderRepository
                 $number = ++$maxNumber->value;
                 // The updates.
                 $po->number = 'MA/ ' . sprintf('%05d', $number).' /'.now()->format('Y');
+
+                $maxNumber->value = $number;
+                $maxNumber->save();
+                Log::info('Updated max number ID: '.$maxNumber->id.' with value: ' . $number);
             }
 
             $po->status = PurchaseOrder:: SAVED;
             $po->save();
 
             Log::info('Updated PO with the number: '.$po->number);
-
-            // Save the new number.
-            if (!$po->number) {
-                $maxNumber->value = $number;
-                $maxNumber->save();
-                Log::info('Updated max number ID: '.$maxNumber->id.' with value: ' . $number);
-            }
 
             return $po;
         });
