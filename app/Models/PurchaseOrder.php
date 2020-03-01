@@ -382,7 +382,7 @@ class PurchaseOrder extends Model implements AuditableContract
     public function grandTotalInWords()
     {
         $converter = new Converter("Saudi Riyals", "Halalas");
-        $grandTotal = Money::of($this->lines()->sum('grand_total'), 'SAR', new CashContext(5))->getAmount();
+        $grandTotal = Money::of($this->lines()->sum('grand_total'), 'SAR', new CashContext(2))->getAmount();
         return ucwords($converter->convert($grandTotal));
     }
 }
