@@ -27,8 +27,8 @@
 <div style="page-break-inside: avoid !important;">
     <div class="row">
         <div class="col-12-sm">
-            <p style="font-size:20px;">Please deliver immediately,</p><br/>
-            <p style="font-size:20px;">Thanks and best regards,</p>
+            <p style="font-size:20px;padding-bottom:0px;margin-bottom:0px;">Please deliver immediately,</p>
+            <p style="font-size:20px;margin-top:10px;">Thanks and best regards,</p>
             
 
             {{-- Signatures block --}}
