@@ -101,7 +101,7 @@ class PurchaseOrderRepository
                 ]);
                 $number = ++$maxNumber->value;
                 // The updates.
-                $po->number = 'MA/ ' . sprintf('%05d', $number).' /'.now()->format('Y');
+                $po->number = 'MA/ ' . sprintf('%02d', $number).' /'.now()->format('Y');
 
                 $maxNumber->value = $number;
                 $maxNumber->save();
