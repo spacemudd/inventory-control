@@ -1,14 +1,11 @@
 <div>
     {{-- <strong>For and on behalf of Arab National Bank</strong> --}}
-    <div class="row" style="margin-top:80px;">
+    <div class="row" style="margin-top:80px;letter-spacing: 0.5px;">
         @if ($data->approver_one)
             <div class="col-4-sm center">
                 <div style="border-top:2px solid black;width:100%;font-size:20px;">
-                    <strong>
-                        {{ optional($data->approver_one)->name }}
-                        <br/>
-                        {{ optional($data->approver_one)->designation }}
-                    </strong>
+                    <strong>{{ optional($data->approver_one)->name }}</strong><br/>
+                    <strong><span style="font-size:12px;">{{ optional($data->approver_one)->designation }}</span></strong>
                 </div>
             </div>
         @endif
@@ -20,7 +17,7 @@
                 <strong>
                     {{ optional($data->approver_two)->name }}
                     <br/>
-                    {{ optional($data->approver_two)->designation }}
+                    <span style="font-size:12px;">{{ optional($data->approver_two)->designation }}</span>
                 </strong>
             </div>
         </div>
