@@ -13,7 +13,7 @@
         </div>
         @if ($data->approver_two)
         <div class="col-4-sm">
-            <div style="width:100%;font-size:20px;white-space: nowrap">
+            <div style="width:100%;font-size:20px;">
                 <strong style="font-family:Calibri;">{{ optional($data->approver_two)->name }}</strong><br/>
                 {{ optional($data->approver_two)->designation }}
             </div>
