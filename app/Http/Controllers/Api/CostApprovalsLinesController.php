@@ -17,7 +17,7 @@ class CostApprovalsLinesController extends Controller
     {
     	$request->validate([
     		'cost_approval_id' => 'required|exists:cost_approvals,id',
-    		'description' => 'required|string|max:255',
+    		'description' => 'required|string|max:800',
     		'unit_price' => 'required',
     		'qty' => 'required',
             'quotation_number' => 'required',

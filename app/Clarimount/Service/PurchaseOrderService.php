@@ -377,7 +377,7 @@ public function saveTermsToPo($id)
         $pdf->setOption('zoom', 0.78);
         $pdf->setOption('header-html', $this->generateHeaderTempFile($data));
         // $pdf->setOption('footer-html', resource_path('views/pdf/footer.html'));
-
+//return view('pdf.purchase-orders.form', compact('data'));
         return $pdf->loadView('pdf.purchase-orders.form', compact('data'));
     }
 
