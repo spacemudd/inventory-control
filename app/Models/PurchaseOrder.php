@@ -390,7 +390,7 @@ class PurchaseOrder extends Model implements AuditableContract
 
     public function getGrandTotalAttribute()
     {
-        return Money::of($this->lines()->sum('subtotal'), 'SAR', new CustomContext(2))
+        return Money::of($this->lines()->sum('subtotal'), 'SAR', new CustomContext(2), RoundingMode::HALF_UP)
             ->plus($this->lines()->sum('vat'), RoundingMode::HALF_UP)
             ->getAmount()
             ->toFloat();
