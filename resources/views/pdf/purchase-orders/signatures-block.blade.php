@@ -12,7 +12,7 @@
         <div class="col-4-sm center">
         </div>
         @if ($data->approver_two)
-            <div class="col-4-sm" style="margin-right: 0;background-color:yellow;padding-right:0;float:right;">
+            <div class="col-4-sm" style="margin-right: 0;padding-right:0;float:right;">
                 @if (optional($data->approver_two)->name === 'Ashraf Saeed')
                 <div style="font-size:20px;display:inline-block;float:right;padding-right:0;width:140px;">
                 @else

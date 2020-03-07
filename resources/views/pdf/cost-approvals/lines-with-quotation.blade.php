@@ -87,7 +87,7 @@
                     <td style="border-color:black;padding:5px;" class="right"><strong>{{ number_format($data->grand_total, 2) }}</strong></td>
                 </tr>
                 <tr>
-                    <td colspan="6"><p style="font-size:10px;"><b>Purpose of request:</b> {{ $data->purpose_of_request }}</p></td>
+                    <td colspan="6"><p style="font-size:10px;font-family: Calibri"><b style="font-family: Calibri;">Purpose of request:</b> {{ $data->purpose_of_request }}</p></td>
                 </tr>
             </tbody>
         </table>
