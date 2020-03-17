@@ -279,8 +279,12 @@ class CostApprovalsController extends Controller
             $poLine = new PurchaseOrderLine();
             $poLine->description = $line->description;
             $poLine->unit_price = $line->unit_price;
-            $poLine->qty = $line->qty;
-            $poLine->lump_sum = $line->lump_sum;
+            if ($qty) {
+              $poLine->qty = $line->qty;
+              $poLine->lump_sum = false;
+            } else {
+              $poLine->lump_sum = $line->lump_sum;
+            }
             $poLines[] = $poLine;
         }
 
