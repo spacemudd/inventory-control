@@ -12,6 +12,10 @@ class PurchaseOrderLine extends Model
 {
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'lump_sum' => 'boolean',
+    ];
+
     protected static function boot()
     {
         parent::boot();
