@@ -279,7 +279,7 @@ class CostApprovalsController extends Controller
             $poLine = new PurchaseOrderLine();
             $poLine->description = $line->description;
             $poLine->unit_price = $line->unit_price;
-            if ($qty) {
+            if ($line->qty) {
               $poLine->qty = $line->qty;
               $poLine->lump_sum = false;
             } else {
