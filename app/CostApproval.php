@@ -23,6 +23,7 @@ class CostApproval extends Model
     protected $casts = [
         'approved_by_text' => 'json',
         'prepared_by_text' => 'json',
+        'lump_sum' => 'boolean',
     ];
 
     protected $dates = [
