@@ -25,7 +25,8 @@ class PurchaseOrderLine extends Model
 
             if ($line->lump_sum) $line->subtotal = $line->unit_price;
 
-            $line->vat = Money::of($line->subtotal, 'SAR', new CashContext(2), RoundingMode::HALF_UP)->multipliedBy(0.05, RoundingMode::HALF_UP)->getAmount()->toFloat();
+           // $line->vat = Money::of($line->subtotal, 'SAR', new CashContext(2), RoundingMode::HALF_UP)->multipliedBy(0.05, RoundingMode::HALF_UP)->getAmount()->toFloat();
+            $line->vat = round($line->subtotal*0.05, 2);
             $line->grand_total = Money::of($line->subtotal, 'SAR')->plus($line->vat)->getAmount()->toFloat();
         });
 
@@ -34,7 +35,8 @@ class PurchaseOrderLine extends Model
 
             if ($line->lump_sum) $line->subtotal = $line->unit_price;
 
-            $line->vat = Money::of($line->subtotal, 'SAR')->multipliedBy(0.05, RoundingMode::HALF_UP)->getAmount()->toFloat();
+            //$line->vat = Money::of($line->subtotal, 'SAR')->multipliedBy(0.05, RoundingMode::HALF_UP)->getAmount()->toFloat();
+            $line->vat = round($line->subtotal*0.05, 2);
             $line->grand_total = Money::of($line->subtotal, 'SAR')->plus($line->vat)->getAmount()->toFloat();
         });
     }
