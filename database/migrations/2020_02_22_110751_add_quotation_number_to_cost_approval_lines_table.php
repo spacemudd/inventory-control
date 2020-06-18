@@ -14,7 +14,7 @@ class AddQuotationNumberToCostApprovalLinesTable extends Migration
     public function up()
     {
         Schema::table('cost_approval_lines', function (Blueprint $table) {
-            $table->string('quotation_number');
+            $table->string('quotation_number')->nullable();
         });
     }
 

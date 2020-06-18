@@ -66,7 +66,7 @@
                 <td></td>
             </tr>
             <tr class="vat">
-                <td colspan="4" class="has-text-right">VAT (5%):</td>
+                <td colspan="4" class="has-text-right">VAT ({{ currentRate }}%):</td>
                 <td colspan="1" class="has-text-right"><b>{{ vat | currency }}</b></td>
                 <td></td>
             </tr>
@@ -80,6 +80,7 @@
     </div>
 </template>
 <script>
+  import moment from 'moment';
   export default {
     props: {
       purchaseOrderId: {
@@ -104,7 +105,15 @@
     },
     computed: {
       total() {
-        return 1.05 * this.items.reduce(
+        let rate = 1.05;
+
+        var SpecialToDate = '20/06/2020'; // DD/MM/YYYY
+        var SpecialTo = moment(SpecialToDate, "DD/MM/YYYY");
+        if (moment() > SpecialTo) {
+          rate = 1.15;
+        }
+
+        return rate * this.items.reduce(
           (acc, item) => acc + item.unit_price * (item.lump_sum ? 1 : item.qty),
           0
         );
@@ -116,7 +125,15 @@
         );
       },
       vat() {
-        return 0.05 * this.items.reduce(
+        let rate = 0.05;
+
+        var SpecialToDate = '20/06/2020'; // DD/MM/YYYY
+        var SpecialTo = moment(SpecialToDate, "DD/MM/YYYY");
+        if (moment() > SpecialTo) {
+          rate = 0.15;
+        }
+
+        return rate * this.items.reduce(
           (acc, item) => acc + item.unit_price * (item.lump_sum ? 1 : item.qty),
           0
         );

@@ -59,7 +59,11 @@
                         <td style="border-color:black;padding:5px;" class="right">{{ number_format($data->lines()->sum('subtotal'), 2) }}</td>
                     </tr>
                     <tr style="font-size:20px;">
-                        <td style="border-color:black;padding:5px;" colspan="4" class="right">VAT 5%</td>
+                        @if (now()->greaterThan(now()->setDate(2020, 6, 20)))
+                            <td style="border-color:black;padding:5px;" colspan="4" class="right">VAT 15%</td>
+                        @else
+                            <td style="border-color:black;padding:5px;" colspan="4" class="right">VAT 5%</td>
+                        @endif
                         <td style="border-color:black;padding:5px;" class="right">{{ number_format($data->lines()->sum('vat'), 2) }}</td>
                     </tr>
                     <tr style="font-size:20px;">

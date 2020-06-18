@@ -93,7 +93,16 @@ class CostApproval extends Model
 
     public function getVatAttribute()
     {
-        return $this->total_price * 0.05;
+        $oldVat = 0.05;
+        $newSaudiVat = 0.15;
+
+        $d = now()->setDate(2020, 6, 20);
+
+        if (now()->greaterThan($d)) {
+            return $this->total_price * $newSaudiVat;
+        } else {
+            return $this->total_price * $oldVat;
+        }
     }
 
     public function getGrandTotalAttribute()

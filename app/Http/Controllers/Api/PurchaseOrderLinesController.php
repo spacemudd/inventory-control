@@ -30,7 +30,18 @@ class PurchaseOrderLinesController extends Controller
 
         $line = $request->toArray();
         $line['subtotal'] = $request['lump_sum'] ? $request['unit_price'] : round($request['unit_price']*$request['qty'], 2);
-        $line['vat'] = round($line['subtotal']*0.05,2);
+
+        $oldVat = 0.05;
+        $newSaudiVat = 0.15;
+
+        $d = now()->setDate(2020, 6, 20);
+
+        if (now()->greaterThan($d)) {
+            $line['vat'] = round($line['subtotal'] * $newSaudiVat,2);
+        } else {
+            $line['vat'] = round($line['subtotal'] * $oldVat,2);
+        }
+
         $line['grand_total'] = $line['subtotal']+$line['vat'];
 
         return PurchaseOrderLine::create($line);

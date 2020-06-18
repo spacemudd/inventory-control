@@ -26,7 +26,15 @@ class PurchaseOrderLine extends Model
             if ($line->lump_sum) $line->subtotal = $line->unit_price;
 
            // $line->vat = Money::of($line->subtotal, 'SAR', new CashContext(2), RoundingMode::HALF_UP)->multipliedBy(0.05, RoundingMode::HALF_UP)->getAmount()->toFloat();
-            $line->vat = round($line->subtotal*0.05, 2);
+            $oldVat = 0.05;
+            $newSaudiVat = 0.15;
+            $d = now()->setDate(2020, 6, 20);
+            if (now()->greaterThan($d)) {
+                $line->vat = round($line->subtotal*$newSaudiVat, 2);
+            } else {
+                $line->vat = round($line->subtotal*$oldVat, 2);
+            }
+
             $line->grand_total = Money::of($line->subtotal, 'SAR')->plus($line->vat)->getAmount()->toFloat();
         });
 
@@ -36,7 +44,14 @@ class PurchaseOrderLine extends Model
             if ($line->lump_sum) $line->subtotal = $line->unit_price;
 
             //$line->vat = Money::of($line->subtotal, 'SAR')->multipliedBy(0.05, RoundingMode::HALF_UP)->getAmount()->toFloat();
-            $line->vat = round($line->subtotal*0.05, 2);
+            $oldVat = 0.05;
+            $newSaudiVat = 0.15;
+            $d = now()->setDate(2020, 6, 20);
+            if (now()->greaterThan($d)) {
+                $line->vat = round($line->subtotal*$newSaudiVat, 2);
+            } else {
+                $line->vat = round($line->subtotal*$oldVat, 2);
+            }
             $line->grand_total = Money::of($line->subtotal, 'SAR')->plus($line->vat)->getAmount()->toFloat();
         });
     }

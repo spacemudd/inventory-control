@@ -61,7 +61,7 @@
             </tr>
             <tr class="vat">
                 <td colspan="3"></td>
-                <td><b>VAT (5%): {{ vat | currency }} SAR</b></td>
+                <td><b>VAT ({{ currentRate }}): {{ vat | currency }} SAR</b></td>
             </tr>
             <tr class="total">
                 <td colspan="3"></td>
@@ -72,6 +72,7 @@
     </div>
 </template>
 <script>
+  import moment from 'moment';
   export default {
     props: {
       costApprovalId: {
@@ -93,17 +94,44 @@
       }
     },
     computed: {
+      currentRate() {
+        var SpecialToDate = '20/06/2020'; // DD/MM/YYYY
+        var SpecialTo = moment(SpecialToDate, "DD/MM/YYYY");
+        if (moment() > SpecialTo) {
+          return '15%';
+        } else {
+          return '5%';
+        }
+      },
       total() {
-        return 1.05 * this.items.reduce(
-          (acc, item) => acc + item.unit_price * item.qty,
-          0
-        );
+        var SpecialToDate = '20/06/2020'; // DD/MM/YYYY
+        var SpecialTo = moment(SpecialToDate, "DD/MM/YYYY");
+        if (moment() > SpecialTo) {
+          return 1.15 * this.items.reduce(
+            (acc, item) => acc + item.unit_price * item.qty,
+            0
+          );
+        } else {
+          return 1.05 * this.items.reduce(
+            (acc, item) => acc + item.unit_price * item.qty,
+            0
+          );
+        }
       },
       vat() {
-        return 0.05 * this.items.reduce(
-          (acc, item) => acc + item.unit_price * item.qty,
-          0
-        );
+        var SpecialToDate = '20/06/2020'; // DD/MM/YYYY
+        var SpecialTo = moment(SpecialToDate, "DD/MM/YYYY");
+        if (moment() > SpecialTo) {
+          return 0.15 * this.items.reduce(
+            (acc, item) => acc + item.unit_price * item.qty,
+            0
+          );
+        } else {
+          return 0.05 * this.items.reduce(
+            (acc, item) => acc + item.unit_price * item.qty,
+            0
+          );
+        }
       }
     },
     mounted() {
