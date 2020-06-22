@@ -34,7 +34,7 @@ class PurchaseOrderLinesController extends Controller
         $oldVat = 0.05;
         $newSaudiVat = 0.15;
 
-        $d = now()->setDate(2020, 6, 20);
+        $d = now()->setDate(2020, 6, 21;
 
         if (now()->greaterThan($d)) {
             $line['vat'] = round($line['subtotal'] * $newSaudiVat,2);

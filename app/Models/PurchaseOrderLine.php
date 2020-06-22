@@ -28,7 +28,7 @@ class PurchaseOrderLine extends Model
            // $line->vat = Money::of($line->subtotal, 'SAR', new CashContext(2), RoundingMode::HALF_UP)->multipliedBy(0.05, RoundingMode::HALF_UP)->getAmount()->toFloat();
             $oldVat = 0.05;
             $newSaudiVat = 0.15;
-            $d = now()->setDate(2020, 6, 20);
+            $d = now()->setDate(2020, 6, 21);
             if (now()->greaterThan($d)) {
                 $line->vat = round($line->subtotal*$newSaudiVat, 2);
             } else {
@@ -46,7 +46,7 @@ class PurchaseOrderLine extends Model
             //$line->vat = Money::of($line->subtotal, 'SAR')->multipliedBy(0.05, RoundingMode::HALF_UP)->getAmount()->toFloat();
             $oldVat = 0.05;
             $newSaudiVat = 0.15;
-            $d = now()->setDate(2020, 6, 20);
+            $d = now()->setDate(2020, 6, 21);
             if (now()->greaterThan($d)) {
                 $line->vat = round($line->subtotal*$newSaudiVat, 2);
             } else {
