@@ -82,7 +82,7 @@
                     <td style="border-color:black;padding:5px;" class="right">{{ number_format($data->vat, 2) }}</td>
                 </tr>
                 <tr style="font-size:12px;">
-                    <td style="border-color:black;padding:5px;" colspan="4" class="right"><strong>Grand Total:</strong> {{ $data->grandTotalInWords() }}</td>
+                    <td style="border-color:black;padding:5px;" colspan="4" class="right"><strong>Grand Total:</strong> <span style="font-kerning:normal;text-rendering: optimizeLegibility;">{{ $data->grandTotalInWords() }}</span></td>
                     <td style="border-color:black;padding:5px;" class="right"><strong>{{ number_format($data->grand_total, 2) }}</strong></td>
                 </tr>
                 <tr>

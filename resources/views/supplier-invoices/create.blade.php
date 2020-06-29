@@ -75,7 +75,7 @@
                     <label for="date" class="label">Proceeded date</label>
 
                     <div class="control">
-                        <input type="date" class="input" name="date" required>
+                        <input type="date" class="input" name="proceeded_date" required>
                     </div>
                 </div>
 
@@ -83,10 +83,10 @@
 
                 {{-- Invoice number of the supplier --}}
                 <div class="field">
-                    <label for="number" class="label">Invoice #</label>
+                    <label for="number" class="label">Remarks</label>
 
                     <div class="is-fullwidth">
-                        <input type="text" class="input" name="number" required>
+                        <input type="text" class="input" name="remarks" required>
                     </div>
                 </div>
 

@@ -28,7 +28,7 @@ class SupplierInvoicesController extends Controller
     		'vendor_id' => 'required|exists:vendors,id',
     		'proceeded_date' => 'required',
     		'number' => 'required',
-    		'remarks' => 'remarks',
+    		'remarks' => 'nullable',
     		]);
 
     	$date = Carbon::parse($request->proceeded_date);
@@ -40,5 +40,7 @@ class SupplierInvoicesController extends Controller
     		'number' => $request->number,
     		'remarks' => $request->remarks,
     		]);
+
+    	return redirect()->route('invoices.show');
     }
 }
