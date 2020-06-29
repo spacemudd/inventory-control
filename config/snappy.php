@@ -31,7 +31,7 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 return array(
     'pdf' => array(
         'enabled' => true,
-        'binary'  => $base_path_pdf,
+        'binary'  => env('SNAPPY_PDF_PATH') ?: $base_path_pdf,
         'timeout' => false,
         'options' => array(),
         'env'     => array(),
