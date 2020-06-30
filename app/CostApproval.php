@@ -98,7 +98,7 @@ class CostApproval extends Model
 
         $d = now()->setDate(2020, 6, 30)->startOfDay();
 
-        if (now()->greaterThan($d)) {
+        if ($this->created_at->greaterThan($d)) {
             return $this->total_price * $newSaudiVat;
         } else {
             return $this->total_price * $oldVat;
