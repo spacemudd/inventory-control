@@ -79,7 +79,7 @@
                     <td style="border-color:black;padding:5px;" class="right">{{ number_format($data->total_price, 2) }}</td>
                 </tr>
                 <tr style="font-size:12px;">
-                    @if (now()->greaterThan(now()->setDate(2020, 6, 29)))
+                    @if (now()->greaterThan(now()->setDate(2020, 6, 30)->startOfDay()))
                         <td style="border-color:black;padding:5px;" colspan="5" class="right">VAT 15%</td>
                     @else
                         <td style="border-color:black;padding:5px;" colspan="5" class="right">VAT 5%</td>

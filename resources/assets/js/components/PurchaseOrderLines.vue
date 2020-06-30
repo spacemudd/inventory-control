@@ -105,7 +105,7 @@
     },
     computed: {
       currentRate() {
-        var SpecialToDate = '29/06/2020'; // DD/MM/YYYY
+        var SpecialToDate = '30/06/2020'; // DD/MM/YYYY
         var SpecialTo = moment(SpecialToDate, "DD/MM/YYYY");
         if (moment() > SpecialTo) {
           return '15%';
@@ -116,7 +116,7 @@
       total() {
         let rate = 1.05;
 
-        var SpecialToDate = '29/06/2020'; // DD/MM/YYYY
+        var SpecialToDate = '30/06/2020'; // DD/MM/YYYY
         var SpecialTo = moment(SpecialToDate, "DD/MM/YYYY");
         if (moment() > SpecialTo) {
           rate = 1.15;
@@ -136,7 +136,7 @@
       vat() {
         let rate = 0.05;
 
-        var SpecialToDate = '29/06/2020'; // DD/MM/YYYY
+        var SpecialToDate = '30/06/2020'; // DD/MM/YYYY
         var SpecialTo = moment(SpecialToDate, "DD/MM/YYYY");
         if (moment() > SpecialTo) {
           rate = 0.15;
