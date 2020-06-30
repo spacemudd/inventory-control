@@ -393,7 +393,7 @@ class PurchaseOrder extends Model implements AuditableContract
         $oldVat = 0.05;
         $newSaudiVat = 0.15;
 
-        $d = now()->setDate(2020, 6, 21);
+        $d = now()->setDate(2020, 6, 29);
 
         if (now()->greaterThan($d)) {
             return Money::of($this->lines()->sum('subtotal'), 'SAR', new CustomContext(2), RoundingMode::HALF_UP)

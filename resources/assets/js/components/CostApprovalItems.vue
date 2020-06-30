@@ -95,7 +95,7 @@
     },
     computed: {
       currentRate() {
-        var SpecialToDate = '21/06/2020'; // DD/MM/YYYY
+        var SpecialToDate = '29/06/2020'; // DD/MM/YYYY
         var SpecialTo = moment(SpecialToDate, "DD/MM/YYYY");
         if (moment() > SpecialTo) {
           return '15%';
@@ -104,7 +104,7 @@
         }
       },
       total() {
-        var SpecialToDate = '21/06/2020'; // DD/MM/YYYY
+        var SpecialToDate = '29/06/2020'; // DD/MM/YYYY
         var SpecialTo = moment(SpecialToDate, "DD/MM/YYYY");
         if (moment() > SpecialTo) {
           return 1.15 * this.items.reduce(
@@ -119,7 +119,7 @@
         }
       },
       vat() {
-        var SpecialToDate = '21/06/2020'; // DD/MM/YYYY
+        var SpecialToDate = '29/06/2020'; // DD/MM/YYYY
         var SpecialTo = moment(SpecialToDate, "DD/MM/YYYY");
         if (moment() > SpecialTo) {
           return 0.15 * this.items.reduce(

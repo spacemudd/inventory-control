@@ -72,7 +72,7 @@ class QuotationItemsController extends Controller
         $oldVat = 0.05;
         $newSaudiVat = 0.15;
 
-        $d = now()->setDate(2020, 6, 21);
+        $d = now()->setDate(2020, 6, 29);
 
         if (now()->greaterThan($d)) {
             $vat = Money::ofMinor($totalPriceExVat->getMinorAmount()->toInt(), 'SAR')
