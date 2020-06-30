@@ -143,6 +143,8 @@
 
 <div class="column is-12">
     <cost-approval-items :quotations="{{ json_encode($ca->adhoc_quotations()->get()->toArray()) }}"
-                         :cost-approval-id="{{ $ca->id }}"></cost-approval-items>
+                         :cost-approval-id="{{ $ca->id }}"
+                         created-at="{{ $ca->created_at }}">
+    </cost-approval-items>
 </div>
 @endsection

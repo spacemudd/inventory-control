@@ -66,7 +66,7 @@
                 <td></td>
             </tr>
             <tr class="vat">
-                <td colspan="4" class="has-text-right">VAT ({{ currentRate }}%):</td>
+                <td colspan="4" class="has-text-right">VAT ({{ currentRate }}):</td>
                 <td colspan="1" class="has-text-right"><b>{{ vat | currency }}</b></td>
                 <td></td>
             </tr>
@@ -93,6 +93,10 @@
         required: false,
         default: true,
         type: Boolean,
+      },
+      createdAt: {
+        required: false,
+        type: String,
       }
     },
     data () {
@@ -118,7 +122,7 @@
 
         var SpecialToDate = '30/06/2020'; // DD/MM/YYYY
         var SpecialTo = moment(SpecialToDate, "DD/MM/YYYY");
-        if (moment() > SpecialTo) {
+        if (moment(this.createdAt) > SpecialTo) {
           rate = 1.15;
         }
 
@@ -138,7 +142,7 @@
 
         var SpecialToDate = '30/06/2020'; // DD/MM/YYYY
         var SpecialTo = moment(SpecialToDate, "DD/MM/YYYY");
-        if (moment() > SpecialTo) {
+        if (moment(this.createdAt) > SpecialTo) {
           rate = 0.15;
         }
 
