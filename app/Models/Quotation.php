@@ -38,6 +38,10 @@ class Quotation extends Model
         'vendor_quotation_number' => 'string',
     ];
 
+    protected $dates = [
+        'created_at', 'updated_at',
+    ];
+
     protected static function boot()
     {
         parent::boot();
