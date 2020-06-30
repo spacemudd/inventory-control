@@ -270,7 +270,8 @@
 							</table>
 							<hr>
 							<purchase-order-invoice-lines :lines="{{ json_encode($purchase_order->lines()->get()->toArray()) }}"
-														  :purchase-order-id="{{ $purchase_order->id }}">
+														  :purchase-order-id="{{ $purchase_order->id }}"
+														   created-at="{{ $purchase_order->created_at }}">
 							</purchase-order-invoice-lines>
 						</div>
 					</div>

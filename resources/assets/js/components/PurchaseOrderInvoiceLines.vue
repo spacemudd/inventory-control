@@ -45,6 +45,10 @@
         required: false,
         default: true,
         type: Boolean,
+      },
+      createdAt: {
+        required: false,
+        type: String,
       }
     },
     data () {
@@ -56,12 +60,21 @@
       }
     },
     computed: {
+      currentRate() {
+        var SpecialToDate = '30/06/2020'; // DD/MM/YYYY
+        var SpecialTo = moment(SpecialToDate, "DD/MM/YYYY");
+        if (moment(this.createdAt) > SpecialTo) {
+          return '15%';
+        } else {
+          return '5%';
+        }
+      },
       total() {
         let rate = 1.05;
 
         var SpecialToDate = '30/06/2020'; // DD/MM/YYYY
         var SpecialTo = moment(SpecialToDate, "DD/MM/YYYY");
-        if (moment() > SpecialTo) {
+        if (moment(this.createdAt) > SpecialTo) {
           rate = 1.15;
         }
 
@@ -81,7 +94,7 @@
 
         var SpecialToDate = '30/06/2020'; // DD/MM/YYYY
         var SpecialTo = moment(SpecialToDate, "DD/MM/YYYY");
-        if (moment() > SpecialTo) {
+        if (moment(this.createdAt) > SpecialTo) {
           rate = 0.15;
         }
 

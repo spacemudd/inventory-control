@@ -111,7 +111,7 @@
       currentRate() {
         var SpecialToDate = '30/06/2020'; // DD/MM/YYYY
         var SpecialTo = moment(SpecialToDate, "DD/MM/YYYY");
-        if (moment() > SpecialTo) {
+        if (moment(this.createdAt) > SpecialTo) {
           return '15%';
         } else {
           return '5%';
