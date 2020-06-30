@@ -104,6 +104,15 @@
       }
     },
     computed: {
+      currentRate() {
+        var SpecialToDate = '29/06/2020'; // DD/MM/YYYY
+        var SpecialTo = moment(SpecialToDate, "DD/MM/YYYY");
+        if (moment() > SpecialTo) {
+          return '15%';
+        } else {
+          return '5%';
+        }
+      },
       total() {
         let rate = 1.05;
 
