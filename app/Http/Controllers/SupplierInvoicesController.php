@@ -11,7 +11,10 @@ class SupplierInvoicesController extends Controller
 {
     public function index()
     {
-    	$invoices = SupplierInvoice::get();
+    	$invoices = SupplierInvoice::all();
+    	
+    	//return var_dump($invoices);
+    	
     	return view('supplier-invoices.index', compact('invoices'));
     }
 
@@ -40,7 +43,8 @@ class SupplierInvoicesController extends Controller
     		'number' => $request->number,
     		'remarks' => $request->remarks,
     		]);
-
-    	return redirect()->route('invoices.show');
+    	//return redirect()->route('invoices.show');
+    	return redirect()->route('supplier-invoices.index');
+    	
     }
 }

@@ -7,6 +7,7 @@ use App\Models\PurchaseOrder;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\User;
 
 class PurchaseOrderReportController extends Controller
 {
@@ -44,11 +45,17 @@ class PurchaseOrderReportController extends Controller
                     'Tag#',
                     'Serial No.',
                     'Remarks',
+                	'Created by'
                 ]);
 
                 $po->each(function ($purchaseOrder) use ($sheet) {
+                	
+                	$createdBy = User::find($purchaseOrder->created_by_id);
+                	
+                	$PONumber = $purchaseOrder->number==null ? "Drafted by: ".$createdBy->username." - ".$createdBy->name : $purchaseOrder->number;
+                	
                     $sheet->appendRow([
-                        $purchaseOrder->number,
+                    	$PONumber,
                         $purchaseOrder->vendor->name,
                         $purchaseOrder->cost_center->description,
                         $purchaseOrder->cost_center->code,
@@ -62,6 +69,7 @@ class PurchaseOrderReportController extends Controller
                         $purchaseOrder->lines()->pluck('tag_number')->implode('-'),
                         $purchaseOrder->lines()->pluck('serial_number')->implode('-'),
                         $purchaseOrder->remarks,
+                    	
                     ]);
                 });
             });

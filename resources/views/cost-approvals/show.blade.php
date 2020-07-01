@@ -1,3 +1,5 @@
+
+
 @extends('layouts.app', ['title' => 'Cost approvals'])
 
 @section('header')
@@ -36,11 +38,13 @@
             @endif
 
             <a target="_blank" href="{{ route('cost-approvals.print', $ca->id) }}" class="button is-small is-secondary">Print</a>
+            @can('delete-cost-approvals')
             <form method="post" action="{{ route('cost-approvals.destroy', $ca->id) }}" class="is-inline">
                 {{ @csrf_field() }}
                 <input type="hidden" name="_method" value="delete">
                 <button class="button is-danger is-small is-secondary">Delete</button>
             </form>
+            @endcan
             @if (!$ca->number)
             <a href="{{ route('cost-approvals.save', $ca->id) }}" class="button is-small is-success">Save</a>
             @endif
