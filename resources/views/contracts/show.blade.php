@@ -71,7 +71,7 @@
             </tbody>
         </table>
     </div>
-    <div class="column is-5 is-offset-1">
+        <div class="column is-5 is-offset-1">
         <table class="table is-small is-size-7 is-fullwidth">
             <colgroup>
             <col style="width:40%;">
@@ -89,14 +89,48 @@
                 <td><b>Supplier Reference Number</b></td>
                 <td>{{ $contract->vendor_reference }}</td>
             </tr>
+            <tr>
+                <td><b>Remarks</b></td>
+                <td>{{ $contract->remarks }}</td>
+            </tr>
         </tbody>
     </table>
 </div>
-
+    </div>
 </div>
+
+<div class="columns">
+    <div class="column is-6">
+        <p><b>Equipments</b></p>
+    </div>
+    <div class="column is-6 has-text-right">
+        @if ($contract->status == \App\Models\Contract::STATUS_DRAFT)
+            <a class="button is-small is-primary" href="{{ route('contracts.equipments.create', $contract->id) }}">Add</a>
+        @endif
+    </div>
 </div>
-
-<div class="column is-12">
-
+<div class="box">
+    <div class="column is-12">
+        @if (!$contract->equipments()->count())
+            <p style="text-align: center; font-size: 12px;"><i>There are no equipments attached</i></p>
+        @else
+            <table class="table is-small is-size-7 is-fullwidth">
+            <thead>
+            <tr>
+            	<th>Equipment</th>
+                <th>Location</th>
+            </tr>
+            </thead>
+            	<tbody>
+                    @foreach ($contract->equipments as $equip)
+            			<tr>
+            				<td>{{ $equip->name }}</td>
+                            <td>{{ optional(\App\Models\Location::find($equip->pivot->location_id))->name }}</td>
+            			</tr>
+                    @endforeach
+            	</tbody>
+            </table>
+        @endif
+    </div>
 </div>
 @endsection

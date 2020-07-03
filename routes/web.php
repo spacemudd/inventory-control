@@ -54,6 +54,10 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         // Contracts
         Route::resource('contracts', 'ContractsController');
 
+        // Contract equipments
+        Route::get('contracts/{id}/equipments/create', 'ContractEquipmentsController@create')->name('contracts.equipments.create');
+        Route::post('contracts/{id}/equipments', 'ContractEquipmentsController@store')->name('contracts.equipments.store');
+
         // Quotations
         Route::resource('quotations', 'QuotationsController');
         Route::get('makeQuotationItem/change/{itemId}', 'QuotationsController@changeStatus');
@@ -417,6 +421,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::get('/approvers', 'Api\ApproversController@index');
 
     // Equip tree management
+    Route::get('/equipments/all', 'Api\EquipmentsController@index');
     Route::post('/equipment/add-node', 'Api\EquipmentsController@addNode');
     Route::post('/equipment/change-node', 'Api\EquipmentsController@changeNode');
     Route::delete('/equipment/{name}/delete', 'Api\EquipmentsController@deleteNode');

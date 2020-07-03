@@ -9,6 +9,11 @@ use App\Http\Controllers\Controller;
 
 class EquipmentsController extends Controller
 {
+    public function index()
+    {
+        return Equipment::where('type', 'equipment')->get();
+    }
+
     /**
      *
      * @param \Illuminate\Http\Request $request

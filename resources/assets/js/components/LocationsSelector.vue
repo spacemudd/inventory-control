@@ -4,7 +4,8 @@
          tabindex="1">
         <label class="label">Location <span class="has-text-danger">*</span></label>
         <input type="text"
-               class="input is-small"
+               class="input"
+               :class="{'is-small': small}"
                v-model="locationSearch"
                ref="locationField"
                id="location-field"
@@ -45,6 +46,11 @@
       location: {
         type: Object,
         required: false,
+      },
+      small: {
+        type: Boolean,
+        required: false,
+        default: true,
       }
     },
     data() {
