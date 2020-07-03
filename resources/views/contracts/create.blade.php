@@ -35,7 +35,7 @@
         <div class="columns">
             <div class="column is-3">
                 <div class="field">
-                    <label class="label has-text-weight-normal">Contract Date <span class="has-text-danger">*</span></label>
+                    <label class="label has-text-weight-normal is-small">Contract Date <span class="has-text-danger">*</span></label>
                     <div class="control">
                         <input name="issued_at" class="input is-small" type="date" value="{{ now()->firstOfMonth()->format('Y-m-d') }}" autofocus>
                         @if ($errors->has('issued_at'))
@@ -48,7 +48,7 @@
             </div>
             <div class="column is-3">
                 <div class="field">
-                    <label class="label has-text-weight-normal">Contract Expiry Date <span class="has-text-danger">*</span></label>
+                    <label class="label has-text-weight-normal is-small">Contract Expiry Date <span class="has-text-danger">*</span></label>
                     <div class="control">
                         <input name="expires_at" class="input is-small" type="date" value="{{ now()->addYear()->firstOfMonth()->format('Y-m-d') }}" autofocus>
                         @if ($errors->has('expires_at'))
@@ -64,7 +64,7 @@
         <div class="columns">
             <div class="column is-3">
                 <div class="field">
-                    <label class="label has-text-weight-normal">Cost Center</label>
+                    <label class="label has-text-weight-normal is-small">Cost Center</label>
                     <div class="control">
                         <select-department name="cost_center_id"
                                            input-class="is-small"
@@ -86,7 +86,7 @@
             </div>
             <div class="column is-3">
                 <div class="field">
-                    <label class="label has-text-weight-normal">Supplier <span class="has-text-danger">*</span></label>
+                    <label class="label has-text-weight-normal is-small">Supplier <span class="has-text-danger">*</span></label>
                     <div class="control">
                         <select-vendors name="vendor_id"
                                         input-class="is-small"
@@ -104,7 +104,7 @@
             </div>
             <div class="column is-3">
                 <div class="field">
-                    <label class="label has-text-weight-normal">Supplier Reference No. <span class="has-text-danger">*</span></label>
+                    <label class="label has-text-weight-normal is-small">Supplier Reference No. <span class="has-text-danger">*</span></label>
                     <div class="control">
                         <input name="vendor_reference" class="input is-small" type="text" value="{{ old('vendor_reference') }}" required>
                         @if ($errors->has('vendor_reference'))
@@ -120,7 +120,7 @@
         <div class="columns">
             <div class="column is-6">
                 <div class="field">
-                    <label class="label has-text-weight-normal">Remarks</label>
+                    <label class="label has-text-weight-normal is-small">Remarks</label>
                     <div class="control">
                         <textarea name="remarks" class="textarea is-small" type="text" value="{{ old('remarks') }}"></textarea>
                         @if ($errors->has('remarks'))
@@ -140,7 +140,7 @@
         <div class="columns">
             <div class="column is-3">
                 <div class="field">
-                    <label class="label has-text-weight-normal">Cost <span class="has-text-danger">*</span></label>
+                    <label class="label has-text-weight-normal is-small">Cost <span class="has-text-danger">*</span></label>
                     <div class="control">
                         <input name="cost" class="input is-small" type="number" step="0.01" min="0" value="{{ old('cost') }}" required>
                         <span class="help">Amount paid depending on frequency</span>
@@ -155,7 +155,22 @@
 
             <div class="column is-3">
                 <div class="field">
-                    <label class="label has-text-weight-normal">Frequency <span class="has-text-danger">*</span></label>
+                    <label class="label has-text-weight-normal is-small">Total Cost <span class="has-text-danger">*</span></label>
+                    <div class="control">
+                        <input name="total_cost" class="input is-small" type="number" step="0.01" min="0" value="{{ old('total_cost') }}" required>
+                        <span class="help">The overall cost of the contract</span>
+                        @if ($errors->has('total_cost'))
+                            <span class="help is-danger">
+                                {{ $errors->first('total_cost') }}
+                            </span>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            <div class="column is-3">
+                <div class="field">
+                    <label class="label has-text-weight-normal is-small">Frequency <span class="has-text-danger">*</span></label>
                     <div class="control select is-fullwidth">
                         <select class="select is-small" name="payment_frequency" id="payment_frequency">
                             <option value="monthly" selected>Monthly</option>

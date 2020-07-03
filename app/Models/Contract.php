@@ -15,11 +15,12 @@ class Contract extends Model
         'status',
         'issued_at',
         'expires_at',
-        'department_id',
+        'cost_center_id',
         'vendor_id',
         'vendor_reference',
         'remarks',
         'cost',
+        'total_cost',
         'payment_frequency',
         'created_by_id',
     ];
@@ -55,6 +56,6 @@ class Contract extends Model
 
     public function cost_center()
     {
-        return $this->belongsTo(Department::class);
+        return $this->belongsTo(Department::class, 'cost_center_id');
     }
 }

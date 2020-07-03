@@ -25,8 +25,9 @@ class CreateContractsTable extends Migration
             $table->unsignedBigInteger('cost_center_id')->nullable();
             $table->foreign('cost_center_id')->references('id')->on('departments');
             $table->string('remarks', 1000)->nullable();
-            $table->decimal('cost', 10, 2);
+            $table->decimal('cost', 10, 2)->comment('Cost per payment');
             $table->string('payment_frequency');
+            $table->decimal('total_cost', 10, 2)->comment('The total contract value');
             $table->unsignedBigInteger('created_by_id');
             $table->foreign('created_by_id')->references('id')->on('users');
             $table->timestamps();
