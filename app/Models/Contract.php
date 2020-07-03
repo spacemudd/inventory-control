@@ -26,13 +26,14 @@ class Contract extends Model
 
     protected $dates = [
         'issued_at',
+        'expires_at',
+        'created_at',
+        'updated_at',
     ];
 
     protected static function boot()
     {
         parent::boot();
-
-        static::addGlobalScope(new LimitByRegionScope);
 
         static::creating(function($model) {
             $model->status = self::STATUS_DRAFT;

@@ -16,7 +16,6 @@ class ContractsController extends Controller
     public function index()
     {
         $contracts = Contract::paginate(100);
-
         return view('contracts.index', compact('contracts'));
     }
 
@@ -62,7 +61,8 @@ class ContractsController extends Controller
      */
     public function show($id)
     {
-        //
+        $contract = Contract::findOrFail($id);
+        return view('contracts.show', compact('contract'));
     }
 
     /**
