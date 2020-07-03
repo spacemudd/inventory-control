@@ -26,11 +26,15 @@ class CostApprovalsController extends Controller
     public function index()
     {
         $cas = CostApproval::query();
-
+		
+        
+        //return request();
+        
         if (request()->sort_by === 'number-desc') {
             $cas = $cas->orderBy('number', 'desc');
         } else {
-            $cas->latest();
+        //return "hello";
+         $cas->latest();
         }
 
         if (request()->has('cost_center_id') && request()->cost_center_id) {
@@ -40,7 +44,9 @@ class CostApprovalsController extends Controller
         $cas =  $cas->paginate(100);
 
         $departments = Department::orderBy('code')->get();
-
+		
+        
+        
         return view('cost-approvals.index', compact('cas', 'departments'));
     }
 
@@ -166,9 +172,20 @@ class CostApprovalsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
+    {  
+    	$this->authorize('delete-cost-approvals');
+    	
+    	DB::beginTransaction();
+    	
+    	$caq = CostApprovalQuotation::where('cost_approval_id', $id);
+    	$caq->delete();
+    	
+    	
         $ca = CostApproval::find($id);
         $ca->delete();
+        
+        DB::commit();
+        
         return redirect()->route('cost-approvals.index');
     }
 
@@ -182,8 +199,8 @@ class CostApprovalsController extends Controller
         $pdf->setOption('page-size', 'A4');
         $pdf->setOption('orientation', 'portrait');
         $pdf->setOption('encoding', 'utf-8');
-        $pdf->setOption('dpi', 72);
-        $pdf->setOption('image-dpi', 72);
+        $pdf->setOption('dpi', 300);
+        $pdf->setOption('image-dpi', 300);
         $pdf->setOption('lowquality', false);
         $pdf->setOption('no-background', false);
         $pdf->setOption('enable-internal-links', true);

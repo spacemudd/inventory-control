@@ -35,19 +35,22 @@
     </div>
 
     <div class="column is-12">
+    	
         <table class="table is-fullwidth is-size-7">
             <thead>
                 <th>No.</th>
                 <th>Supplier</th>
                 <th>Proceeded date</th>
+                <th>P.O Number</th>
                 <th></th>
             </thead>
             <tbody>
                 @foreach ($invoices as $invoice)
                     <tr>
                         <td>{{ $invoice->number }}</td>
-                        <td>{{ optional($invoice->vendor)->display_name }}</td>
+                        <td>{{ $invoice->vendors->name }}</td>
                         <td>{{ optional($invoice->proceeded_date)->format('d-m-Y') }}</td>
+                        <td>{{ $invoice->po_number }}</td>
                         <td></td>
                     </tr>
                 @endforeach

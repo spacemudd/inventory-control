@@ -35,7 +35,6 @@
 
 	<div class="columns">
 		<div class="column">
-
 			<p>Assign permissions to the role <strong>{{ $role->name }}</strong>.</p>
 		</div>
 	</div>
@@ -91,55 +90,60 @@
 		<div class="column is-12">
 			<div class="panel">
 				<p class="panel-heading">
-					Vendors
+					Roles
 				</p>
 				<div class="panel-block">
 					<toggle-permission :role-id.number="{{ $role->id }}"
-									   :enabled-prop.number="{{ $role->hasPermissionTo('create-vendor') ? 'true' : 'false' }}"
-									   permission-name="create-vendor">
-						Create Vendor
+									   :enabled-prop.number="{{ $role->hasPermissionTo('new-role') ? 'true' : 'false' }}"
+									   permission-name="new-role">
+						New Role
 					</toggle-permission>
 				</div>
+
 				<div class="panel-block">
 					<toggle-permission :role-id.number="{{ $role->id }}"
-									   :enabled-prop.number="{{ $role->hasPermissionTo('view-vendor') ? 'true' : 'false' }}"
-									   permission-name="view-vendor">
-						View Vendor
+									   :enabled-prop.number="{{ $role->hasPermissionTo('edit-roles') ? 'true' : 'false' }}"
+									   permission-name="edit-roles">
+						Edit Roles
 					</toggle-permission>
 				</div>
+
 				<div class="panel-block">
 					<toggle-permission :role-id.number="{{ $role->id }}"
-									   :enabled-prop.number="{{ $role->hasPermissionTo('update-vendor') ? 'true' : 'false' }}"
-									   permission-name="update-vendor">
-						Update Vendor
+									   :enabled-prop.number="{{ $role->hasPermissionTo('show-users') ? 'true' : 'false' }}"
+									   permission-name="show-users">
+						Show Users <span class="help">Allow user to see all users registered.</span>
 					</toggle-permission>
 				</div>
+
 				<div class="panel-block">
 					<toggle-permission :role-id.number="{{ $role->id }}"
-									   :enabled-prop.number="{{ $role->hasPermissionTo('delete-vendor') ? 'true' : 'false' }}"
-									   permission-name="delete-vendor">
-						Delete Vendor
+									   :enabled-prop.number="{{ $role->hasPermissionTo('edit-user-roles') ? 'true' : 'false' }}"
+									   permission-name="edit-user-roles">
+						Edit User Roles <span class="help">Allow user to edit another user's roles</span>
 					</toggle-permission>
 				</div>
+
 				<div class="panel-block">
 					<toggle-permission :role-id.number="{{ $role->id }}"
-									   :enabled-prop.number="{{ $role->hasPermissionTo('create-vendor-representative') ? 'true' : 'false' }}"
-									   permission-name="create-vendor-representative">
-						Create vendor representative
+									   :enabled-prop.number="{{ $role->hasPermissionTo('invite-users') ? 'true' : 'false' }}"
+									   permission-name="invite-users">
+						Invite User
 					</toggle-permission>
 				</div>
+			</div>
+		</div>
+
+		<div class="column is-12">
+			<div class="panel">
+				<p class="panel-heading">
+					Cost Approvals
+				</p>
 				<div class="panel-block">
 					<toggle-permission :role-id.number="{{ $role->id }}"
-									   :enabled-prop.number="{{ $role->hasPermissionTo('create-vendor-bank') ? 'true' : 'false' }}"
-									   permission-name="create-vendor-bank">
-						Create vendor bank
-					</toggle-permission>
-				</div>
-				<div class="panel-block">
-					<toggle-permission :role-id.number="{{ $role->id }}"
-									   :enabled-prop.number="{{ $role->hasPermissionTo('delete-vendor-bank') ? 'true' : 'false' }}"
-									   permission-name="delete-vendor-bank">
-						Delete vendor bank
+									   :enabled-prop.number="{{ $role->hasPermissionTo('delete-cost-approvals') ? 'true' : 'false' }}"
+									   permission-name="delete-cost-approvals">
+						Delete cost approval
 					</toggle-permission>
 				</div>
 			</div>

@@ -7,6 +7,7 @@ use App\Models\PurchaseOrder;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\User;
 
 class PurchaseOrderReportController extends Controller
 {
@@ -39,11 +40,13 @@ class PurchaseOrderReportController extends Controller
                     'VAT %5',
                     'Grand total',
                     'P.O. Date',
+                    'Void',
                     'Proceeding Date',
                     'Invoice Number',
                     'Tag#',
                     'Serial No.',
                     'Remarks',
+                	'Created by',
                 ]);
 
                 $po->each(function ($purchaseOrder) use ($sheet) {
@@ -57,16 +60,18 @@ class PurchaseOrderReportController extends Controller
                         $purchaseOrder->lines()->sum('vat'),
                         $purchaseOrder->lines()->sum('grand_total'),
                         $purchaseOrder->date->toDateString(),
+                        $purchaseOrder->status_name === 'void' ? 'VOID' : '',
                         optional(optional($purchaseOrder->supplier_invoice)->proceeded_date)->toDateString(),
                         optional($purchaseOrder->supplier_invoice)->number,
                         $purchaseOrder->lines()->pluck('tag_number')->implode('-'),
                         $purchaseOrder->lines()->pluck('serial_number')->implode('-'),
                         $purchaseOrder->remarks,
+                        optional($purchaseOrder->created_by)->display_name,
                     ]);
                 });
             });
         });
 
-        return $excel->download('csv');
+        return $excel->download('xlsx');
     }
 }
