@@ -51,6 +51,9 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::get('material-requests/{id}/pdf', 'MaterialRequestsController@streamPdf')->name('material-requests.pdf');
         Route::get('material-requests/{itemName}/search', 'MaterialRequestsController@searchItem');
 
+        // Contracts
+        Route::resource('contracts', 'ContractsController');
+
         // Quotations
         Route::resource('quotations', 'QuotationsController');
         Route::get('makeQuotationItem/change/{itemId}', 'QuotationsController@changeStatus');

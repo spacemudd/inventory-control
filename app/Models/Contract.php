@@ -10,6 +10,8 @@ class Contract extends Model
         'number',
         'status',
         'issued_at',
+        'expires_at',
+        'department_id',
         'vendor_id',
         'vendor_reference',
         'remarks',
@@ -28,5 +30,10 @@ class Contract extends Model
     public function created_by()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function cost_center()
+    {
+        return $this->belongsTo(Department::class, 'id', 'department_id');
     }
 }

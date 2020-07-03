@@ -129,7 +129,7 @@
                                     <sidebar-links-group selected="{{ (request()->route()->getName() === '.index') }}"
                                                          icon="file"
                                                          title="Contracts"
-                                                         link="{{ route('supplier-invoices.index') }}">
+                                                         link="{{ route('contracts.index') }}">
                                     </sidebar-links-group>
 
                                     {{-- TODO: Job Orders --}}

@@ -18,15 +18,20 @@ class CreateContractsTable extends Migration
             $table->string('number')->nullable();
             $table->tinyInteger('status');
             $table->timestamp('issued_at');
+            $table->timestamp('expires_at');
             $table->unsignedBigInteger('vendor_id')->nullable();
             $table->foreign('vendor_id')->references('id')->on('vendors');
             $table->string('vendor_reference')->nullable();
+            $table->unsignedBigInteger('department_id')->nullable();
+            $table->foreign('department_id')->references('id')->on('departments');
             $table->string('remarks', 1000)->nullable();
             $table->decimal('cost', 10, 2);
             $table->string('payment_frequency');
             $table->unsignedBigInteger('created_by_id');
             $table->foreign('created_by_id')->references('id')->on('users');
             $table->timestamps();
+
+            $table->unique(['vendor_id', 'vendor_reference']);
         });
     }
 
