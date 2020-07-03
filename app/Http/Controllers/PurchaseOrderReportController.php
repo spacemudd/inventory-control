@@ -40,22 +40,18 @@ class PurchaseOrderReportController extends Controller
                     'VAT %5',
                     'Grand total',
                     'P.O. Date',
+                    'Void',
                     'Proceeding Date',
                     'Invoice Number',
                     'Tag#',
                     'Serial No.',
                     'Remarks',
-                	'Created by'
+                	'Created by',
                 ]);
 
                 $po->each(function ($purchaseOrder) use ($sheet) {
-                	
-                	$createdBy = User::find($purchaseOrder->created_by_id);
-                	
-                	$PONumber = $purchaseOrder->number==null ? "Drafted by: ".$createdBy->username." - ".$createdBy->name : $purchaseOrder->number;
-                	
                     $sheet->appendRow([
-                    	$PONumber,
+                        $purchaseOrder->number,
                         $purchaseOrder->vendor->name,
                         $purchaseOrder->cost_center->description,
                         $purchaseOrder->cost_center->code,
@@ -64,17 +60,18 @@ class PurchaseOrderReportController extends Controller
                         $purchaseOrder->lines()->sum('vat'),
                         $purchaseOrder->lines()->sum('grand_total'),
                         $purchaseOrder->date->toDateString(),
+                        $purchaseOrder->status_name === 'void' ? 'VOID' : '',
                         optional(optional($purchaseOrder->supplier_invoice)->proceeded_date)->toDateString(),
                         optional($purchaseOrder->supplier_invoice)->number,
                         $purchaseOrder->lines()->pluck('tag_number')->implode('-'),
                         $purchaseOrder->lines()->pluck('serial_number')->implode('-'),
                         $purchaseOrder->remarks,
-                    	
+                        optional($purchaseOrder->created_by)->display_name,
                     ]);
                 });
             });
         });
 
-        return $excel->download('csv');
+        return $excel->download('xlsx');
     }
 }
