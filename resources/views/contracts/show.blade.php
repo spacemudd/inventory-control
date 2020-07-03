@@ -1,6 +1,4 @@
-
-
-@extends('layouts.app', ['title' => 'Cost approvals'])
+@extends('layouts.app', ['title' => 'Contracts - ' . $ca->id])
 
 @section('header')
 <nav class="breadcrumb" aria-label="breadcrumbs">

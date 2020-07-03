@@ -33,12 +33,25 @@ class ContractsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @return void
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'issued_at' => 'required|string',
+            'expires_at' => 'required|string',
+            'vendor_id' => 'required|exists:vendors,id',
+            'vendor_reference' => 'required|string',
+            'cost_center_id' => 'required|exists:departments,id',
+            'remarks' => 'nullable|string|max:1000',
+            'cost' => 'required',
+            'payment_frequency' => 'required',
+        ]);
+
+        $contract = Contract::create($request->except('_token'));
+
+        return redirect()->route('contracts.show', $contract->id);
     }
 
     /**

@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
+use App\Scopes\LimitByRegionScope;
 use Illuminate\Database\Eloquent\Model;
 
 class Contract extends Model
 {
+    const STATUS_DRAFT = 0;
+    const STATUS_SAVED = 1;
+
     protected $fillable = [
         'number',
         'status',
@@ -15,12 +19,28 @@ class Contract extends Model
         'vendor_id',
         'vendor_reference',
         'remarks',
+        'cost',
+        'payment_frequency',
         'created_by_id',
     ];
 
     protected $dates = [
         'issued_at',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new LimitByRegionScope);
+
+        static::creating(function($model) {
+            $model->status = self::STATUS_DRAFT;
+            if (auth()->user()) {
+                $model->created_by_id = auth()->user()->id;
+            }
+        });
+    }
 
     public function vendor()
     {
@@ -34,6 +54,6 @@ class Contract extends Model
 
     public function cost_center()
     {
-        return $this->belongsTo(Department::class, 'id', 'department_id');
+        return $this->belongsTo(Department::class);
     }
 }

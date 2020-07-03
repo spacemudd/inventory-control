@@ -76,6 +76,11 @@
                                 New
                             </button>
                         </div>
+                        @if ($errors->has('cost_center_id'))
+                            <span class="help is-danger">
+								{{ $errors->first('cost_center_id') }}
+							</span>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -89,9 +94,9 @@
                         </select-vendors>
 
                         <span class="help">Search by code or name</span>
-                        @if ($errors->has('supplier_id'))
+                        @if ($errors->has('vendor_id'))
                             <span class="help is-danger">
-								{{ $errors->first('supplier_id') }}
+								{{ $errors->first('vendor_id') }}
 							</span>
                         @endif
                     </div>

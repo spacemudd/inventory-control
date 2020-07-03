@@ -22,8 +22,8 @@ class CreateContractsTable extends Migration
             $table->unsignedBigInteger('vendor_id')->nullable();
             $table->foreign('vendor_id')->references('id')->on('vendors');
             $table->string('vendor_reference')->nullable();
-            $table->unsignedBigInteger('department_id')->nullable();
-            $table->foreign('department_id')->references('id')->on('departments');
+            $table->unsignedBigInteger('cost_center_id')->nullable();
+            $table->foreign('cost_center_id')->references('id')->on('departments');
             $table->string('remarks', 1000)->nullable();
             $table->decimal('cost', 10, 2);
             $table->string('payment_frequency');
