@@ -95,7 +95,7 @@
                         <td>
                             @foreach ($ca->purchase_orders as $po)
                                 <p><a href="{{ $po->link }}">{{ $po->number }}</a></p>
-                                <p><a href="{{ $po->link }}">{{ $po->number }}</a></p>
+                                
                             @endforeach
                         </td>
                         <td class="has-text-right"><a class="button is-small" href="{{ route('cost-approvals.show', ['id' => $ca->id]) }}">View</a></td>

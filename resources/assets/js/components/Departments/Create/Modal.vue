@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-modal :active="showModal" @close="close()">
-        <div class="modal-card">
+        <div class="modal-card" style="height: auto">
             <div class="modal-card-head">
                 <p class="modal-card-title">
                    {{ $t('words.new-department') }}
@@ -48,10 +48,29 @@
                                 <div class="select is-fullwidth">
                                     <select name="location_id" @onchange="getLocationValue(this.value)" id="locationId">
                                         <option value=""></option>
-                                        <option v-for="(location, key) in locations" :value="location.id" class="input">{{ location.name }}</option>
+                                        <option v-for="(location, key) in locations " :key="key" :value="location.id" class="input">{{ location.name }}</option>
                                     </select>
+                                    <span class="help" v-if="!isAddingLocation">
+                                        Click here to <a target="_blank" @click="isAddingLocation=true;">add new locations.</a>
+                                    </span>
                                 </div>
+                                
                             </div>
+
+                            <div v-if="isAddingLocation">
+                                    <div class="field">
+                                        <b-input v-model="locationName" placeholder="New Location" size="is-small"></b-input>
+                                    </div>
+                                    <div class="field">
+                                        <div class="control has-text-right">
+                                            <button class="button is-small is-text" @click="isAddingLocation=false;">{{ $t('words.cancel') }}</button>
+                                            <button class="button is-small is-primary"
+                                                    :class="{'is-loading': isLoadingNewLoc}"
+                                                    @click.prevent="saveNewLocation">Save</button>
+                                        </div>
+                                    </div>
+                            </div>
+
                         </div>
 
                     </div>
@@ -80,6 +99,11 @@
             // Handled by Vue.
             isLoading: false,
             createdSuccess: false,
+            
+            //added new variable 7/2/2020 for adding Locations
+            isAddingLocation: false,
+            locationName: '', //model for the new location
+            isLoadingNewLoc: false
         }
     }
     export default {
@@ -105,6 +129,42 @@
             reset() {
                 Object.assign(this.$data, initialState());
             },
+
+            saveNewLocation() {
+                this.isLoadingNewLoc = true;
+                let vm = this;
+                axios.post('addNewLocations', {
+                name: this.locationName,
+                }).then(response => {
+                this.isLoadingNewLoc = false;
+               
+               // console.log(response.data.name);
+               // this.optionValueId = response.data.id
+               // this.optionValue = response.data.name
+                
+                vm.locations.push({
+                    id: response.data.id,
+                    name: response.data.name
+                })
+
+                this.$toast.open({
+                            message: 'Saved',
+                            type: 'is-success',
+                        });
+                
+                vm.isAddingLocation = false
+                
+                
+                document.getElementById('location').innerHTML += ("<option value='"+response.data.id+"'>"+response.data.name+"</option>")
+                document.getElementById('location').value = response.data.id;
+                }).catch(error => {
+                alert(error.response.data.message);
+                vm.isLoadingNewLoc = false;
+                })
+               // console.log(this.options);
+            },
+
+
             save() {
               var locationId = Number($("#locationId").val());
               this.isLoading = true;

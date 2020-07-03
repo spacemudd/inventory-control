@@ -12,7 +12,7 @@ class SalesTaxesController extends Controller
 {
     public function index()
     {
-        $this->authorize('view-sales-taxes');
+        //$this->authorize('view-sales-taxes');
 
         $salesTaxes = SalesTax::get();
 

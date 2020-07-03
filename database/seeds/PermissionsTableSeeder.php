@@ -69,6 +69,7 @@ class PermissionsTableSeeder extends Seeder
             'create-employees',
             'update-employees',
             'delete-employees',
+        	
 
             'view-purchase-orders',
             'create-purchase-orders',
@@ -101,6 +102,12 @@ class PermissionsTableSeeder extends Seeder
             'view-po-terms',
             'edit-po-terms',
             'delete-po-terms',
+        	
+        	/*added my freelancer h.. -clear laravel cache, clear pur_permissions table and pur_model_has_roles..
+        	 * then reseed this Class.
+        	 *  */
+        	'delete-cost-approvals',
+        	'view-all-regions'
         ];
 
         // Creating a super admin role.

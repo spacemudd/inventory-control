@@ -22,12 +22,12 @@
         </div>
         <span class="has-text-secondary is-help is-size-7">Add single or multiple quotations to the cost approval.</span>
         <!-- HTML helper -->
-        <input v-for="quote in selectedQuotations" type="hidden" name="quotation_numbers[]" :value="quote">
+        <input v-for="(quote, index) in selectedQuotations" :key="index" type="hidden" name="quotation_numbers[]" :value="quote">
         <ul class="content">
-            <li v-for="quote in selectedQuotations">
+            <li v-for="(quote, index) in selectedQuotations" :key="index">
                 <div class="is-flex">
                     <div>
-                        {{ quote }}
+                        {{ quote }} <a @click="removeQuotation(index)" class="delete is-small"></a>
                     </div>
                 </div>
             </li>
@@ -59,6 +59,11 @@
           this.quotationNumber = null;
         }
       },
+
+      removeQuotation(index){
+        this.selectedQuotations.splice(index, 1)         
+      },
+
       getData: debounce(function () {
         this.quotations = []
         this.isLoading = true
