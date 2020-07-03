@@ -27,13 +27,13 @@ class JobOrderController extends Controller
      */
     public function index()
     {
-        if (request()->has('all')) {
-            $jobOrders = JobOrder::latest()->paginate(100);
-        } elseif (request()->has('completed')) {
-            $jobOrders = JobOrder::completed()->latest()->paginate(100);
-        } else {
-            $jobOrders = JobOrder::pending()->latest()->paginate(100);
-        }
+        $jobOrders = JobOrder::latest()->paginate(100);
+        return view('job-orders.index', compact('jobOrders'));
+    }
+
+    public function completed()
+    {
+        $jobOrders = JobOrder::completed()->latest()->paginate(100);
         return view('job-orders.index', compact('jobOrders'));
     }
 
@@ -45,6 +45,18 @@ class JobOrderController extends Controller
     public function create()
     {
         return view('job-orders.create');
+    }
+
+    public function pending()
+    {
+        $jobOrders = JobOrder::pending()->latest()->paginate(100);
+        return view('job-orders.index', compact('jobOrders'));
+    }
+
+    public function pendingRaw()
+    {
+        $jobOrders = JobOrder::pending()->latest()->get();
+        return view('job-orders.pending', compact('jobOrders'));
     }
 
     /**

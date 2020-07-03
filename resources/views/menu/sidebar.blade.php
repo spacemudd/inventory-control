@@ -113,6 +113,25 @@
                                                          link="{{ route('purchase-orders.index') }}">
                                     </sidebar-links-group>
 
+                                    <sidebar-links-group selected="{{ (request()->route()->getName() === '.index') }}"
+                                                         icon="file"
+                                                         title="{{ __('words.cost-approvals') }}"
+                                                         link="{{ route('cost-approvals.index') }}">
+                                    </sidebar-links-group>
+
+                                    <sidebar-links-group selected="{{ (request()->route()->getName() === '.index') }}"
+                                                         icon="file"
+                                                         title="Invoices"
+                                                         link="{{ route('supplier-invoices.index') }}">
+                                    </sidebar-links-group>
+
+
+                                    <sidebar-links-group selected="{{ (request()->route()->getName() === '.index') }}"
+                                                         icon="file"
+                                                         title="Contracts"
+                                                         link="{{ route('supplier-invoices.index') }}">
+                                    </sidebar-links-group>
+
                                     {{-- TODO: Job Orders --}}
                                     <sidebar-links-group selected="{{ (request()->route()->getName() === 'job-orders.index') }}"
                                                          icon="paper-plane-o"
@@ -172,9 +191,14 @@
                                     <sidebar-links-group icon="cog"
                                                          title="{{ __('words.settings') }}">
 
-                                        <sidebar-links-group link="{{ route('vendors.index') }}"
+                                        <sidebar-links-group link="{{ route('approvers.index') }}"
                                                              icon="pencil"
-                                                             title="{{ __('words.cost-approvers') }}">
+                                                             title="{{ __('words.approvers') }}">
+                                        </sidebar-links-group>
+
+                                        <sidebar-links-group link="{{ route('locations.index') }}"
+                                                             icon="location-arrow"
+                                                             title="{{ __('words.locations') }}">
                                         </sidebar-links-group>
 
                                         <sidebar-links-group link="{{ route('categories.index') }}"
@@ -194,22 +218,22 @@
                                         @endcan
 
                                         {{--@can('view-sales-taxes')--}}
-                                            <sidebar-links-group link="{{ route('sales-taxes.index') }}"
-                                                                 icon="balance-scale"
-                                                                 title="Sales Taxes">
-                                            </sidebar-links-group>
+{{--                                            <sidebar-links-group link="{{ route('sales-taxes.index') }}"--}}
+{{--                                                                 icon="balance-scale"--}}
+{{--                                                                 title="Sales Taxes">--}}
+{{--                                            </sidebar-links-group>--}}
                                         {{--@endcan--}}
 
-                                        <sidebar-links-group link="{{ route('purchasing-terms.index') }}"
-                                                             icon="tree" title="PO Terms">
-                                        </sidebar-links-group>
+{{--                                        <sidebar-links-group link="{{ route('purchasing-terms.index') }}"--}}
+{{--                                                             icon="tree" title="PO Terms">--}}
+{{--                                        </sidebar-links-group>--}}
 
-                                        @can('create-addresses')
-                                            <sidebar-links-group link="{{ route('addresses.index') }}"
-                                                                 icon="map-marker"
-                                                                 title="{{ __('words.addresses') }}">
-                                            </sidebar-links-group>
-                                        @endcan
+{{--                                        @can('create-addresses')--}}
+{{--                                            <sidebar-links-group link="{{ route('addresses.index') }}"--}}
+{{--                                                                 icon="map-marker"--}}
+{{--                                                                 title="{{ __('words.addresses') }}">--}}
+{{--                                            </sidebar-links-group>--}}
+{{--                                        @endcan--}}
 
                                         @can('show-users')
                                             <sidebar-links-group link="{{ route('users.index') }}"

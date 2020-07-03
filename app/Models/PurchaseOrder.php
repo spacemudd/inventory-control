@@ -13,11 +13,15 @@ namespace App\Models;
 
 use App\Model\PurchaseTerm;
 use App\Traits\HasFiles;
+use Brick\Math\RoundingMode;
+use Brick\Money\Context\CashContext;
+use Brick\Money\Context\CustomContext;
 use Brick\Money\Money;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Auditable;
+use TNkemdilim\MoneyToWords\Converter;
 
 class PurchaseOrder extends Model implements AuditableContract
 {
@@ -73,6 +77,13 @@ class PurchaseOrder extends Model implements AuditableContract
         'quote_reference_number',
         'quote_date',
         'project_id',
+        'quotation_id',
+        'to',
+        'subject',
+        'approver_one_id',
+        'approver_two_id',
+        'approver_three_id',
+        'remarks',
     ];
 
     protected $dates = ['date', 'delivery_date', 'quote_date'];
@@ -89,6 +100,30 @@ class PurchaseOrder extends Model implements AuditableContract
         'terms_json' => 'object',
     ];
 
+    public function lines()
+    {
+        return $this->hasMany(PurchaseOrderLine::class);
+    }
+
+    public function approver_one()
+    {
+        return $this->belongsTo(Employee::class, 'approver_one_id');
+    }
+
+    public function approver_two()
+    {
+        return $this->belongsTo(Employee::class, 'approver_two_id');
+    }
+
+    public function approver_three()
+    {
+        return $this->belongsTo(Employee::class, 'approver_three_id');
+    }
+
+    /**
+     * @deprecated
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function items()
     {
         return $this->hasMany(PurchaseOrdersItem::class);
@@ -122,6 +157,11 @@ class PurchaseOrder extends Model implements AuditableContract
     public function project()
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function quotation()
+    {
+        return $this->belongsTo(Quotation::class);
     }
 
     public function getStatusNameAttribute()
@@ -165,14 +205,19 @@ class PurchaseOrder extends Model implements AuditableContract
         return $this->status == self::NEW;
     }
 
-    public function getIsCommittedAttribute()
+    public function getIsSavedAttribute()
     {
-        return $this->status == 'committed';
+        return $this->status == self::SAVED;
     }
 
     public function getIsVoidAttribute()
     {
-        return $this->status == 'void';
+        return $this->status == self::VOID;
+    }
+
+    public function supplier_invoice()
+    {
+        return $this->hasOne(SupplierInvoice::class);
     }
 
     public function getLinkAttribute()
@@ -334,5 +379,33 @@ class PurchaseOrder extends Model implements AuditableContract
     public function scopeVoid($q)
     {
         $q->where('status', self::VOID);
+    }
+
+    public function grandTotalInWords()
+    {
+        $converter = new Converter("Saudi Riyals", "Halalas");
+        $grandTotal = Money::of($this->grand_total, 'SAR', new CustomContext(2), RoundingMode::HALF_UP)->getAmount();
+        return ucwords($converter->convert($grandTotal));
+    }
+
+    public function getGrandTotalAttribute()
+    {
+        $oldVat = 0.05;
+        $newSaudiVat = 0.15;
+
+        $d = now()->setDate(2020, 6, 30)->startOfDay();
+
+        if ($this->created_at->greaterThan($d)) {
+            return Money::of($this->lines()->sum('subtotal'), 'SAR', new CustomContext(2), RoundingMode::HALF_UP)
+                ->plus($this->lines()->sum('subtotal') * $newSaudiVat, RoundingMode::HALF_UP)
+                ->getAmount()
+                ->toFloat();
+        } else {
+            return Money::of($this->lines()->sum('subtotal'), 'SAR', new CustomContext(2), RoundingMode::HALF_UP)
+                ->plus($this->lines()->sum('subtotal') * $oldVat, RoundingMode::HALF_UP)
+                ->getAmount()
+                ->toFloat();
+        }
+
     }
 }

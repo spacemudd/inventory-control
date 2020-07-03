@@ -30,13 +30,21 @@
     <div class="columns">
         <div class="column">
             <table class="table is-fullwidth is-size-7">
+                <colgroup>
+                    <col style="width:100px;">
+                    <col style="width:100px;">
+                    <col style="width:100px;">
+                    <col style="width:100px;">
+                    <col style="width:100px;">
+                    <col>
+                </colgroup>
             <thead>
             <tr>
             	<th>Code</th>
                 <th>Name</th>
                 <th>Department</th>
                 <th>Financial Authority</th>
-                <th></th>
+                <th>Actions</th>
             </tr>
             </thead>
             	<tbody>
@@ -46,9 +54,9 @@
                             <td>{{ $approver->name }}</td>
                             <td>{{ $approver->department->display_name }}</td>
                             <td>{{ $approver->financial_authority_human }}</td>
-                            <td>
+                            <td class="has-text-right">
                                 <a href="{{ route('approvers.show', ['id' => $approver->id]) }}"
-                                   class="button is-text is-small">
+                                   class="button is-secondary is-small">
                                     View
                                 </a>
                             </td>

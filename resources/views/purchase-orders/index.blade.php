@@ -71,6 +71,7 @@
 	@can('create-purchase-orders')
 		<div class="columns">
 			<div class="column is-12 has-text-right">
+				<a class="button" href="{{ route('purchase-orders.report.index') }}">Excel</a>
 				<a class="button is-primary" href="{{ route('purchase-orders.create') }}">New Purchase Order</a>
 			</div>
 		</div>
@@ -83,21 +84,23 @@
 				<table class="table is-fullwidth is-narrow is-size-7">
 					<colgroup>
 						<col style="width:5%;">
+						<col style="width:15%">
 						<col>
 						<col style="width:15%;">
 						<col style="width:15%;">
 						<col style="width:15%;">
-						<col style="width:90px;">
-						<col style="width:90px;">
+						<col style="width:50px;">
+						<col>
 					</colgroup>
 					<thead>
 					<tr>
 						<th>ID</th>
 						<th>Purchase Order Number</th>
-						<th>Department</th>
-						<th>Employee</th>
+						<th>Cost Center</th>
 						<th>Supplier</th>
-						<th>Updated at</th>
+						<th>Status</th>
+						<th>Invoice processed</th>
+						<th>Last updated</th>
 						<th></th>
 					</tr>
 					</thead>
@@ -116,8 +119,26 @@
 								<a href="{{ $record->link }}">{{ $record->number }}</a>
 							</td>
 							<td>{{ optional($record->cost_center)->display_name }}</td>
-							<td>{{ optional($record->requested_by_employee)->display_name }}</td>
 							<td>{{ optional($record->vendor)->display_name }}</td>
+							<td>
+								@if($record->isDraft)
+									<span class="circle is-warning"></span>
+								@endif
+								@if($record->isSaved)
+									<span class="circle is-success"></span>
+								@endif
+								@if($record->isVoid)
+									<span class="circle is-danger"></span>
+								@endif
+								{{ ucfirst($record->status_name) }}
+							</td>
+							<td>
+								@if ($record->supplier_invoice)
+								    <span class="circle is-success"></span> {{ $record->supplier_invoice->number }}
+								@else
+									<span class="circle is-danger"></span>
+								@endif
+							</td>
 							<td>{{ $record->updated_at->format('Y-m-d') }}</td>
 							<td class="has-text-right"><a href="{{ $record->link }}" class="button is-small">Show</a></td>
 						</tr>

@@ -84,7 +84,7 @@ class PurchaseOrderItemController extends Controller
 
 	/**
 	 * Attempt to receive a PO's item as received and duplicates it to the assets table.
-	 * 
+	 *
 	 * @param  int $purchase_order_id
 	 * @param  int $id
 	 * @return array ['status' => '', 'message' => '']

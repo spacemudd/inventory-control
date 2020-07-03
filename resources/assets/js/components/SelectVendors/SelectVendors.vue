@@ -5,6 +5,7 @@
         <input v-if="selectedVendor"
                type="text"
                class="input"
+               :class="inputClass"
                :value="selectedVendor.id + ' - ' + selectedVendor.name"
                @click="selectedVendor=search=null"
                readonly>
@@ -15,6 +16,7 @@
                     :data="vendors"
                     :loading="isLoading"
                     field="code"
+                    :size="inputClass"
                     @input="getData"
                     @select="selectVendor">
             <template slot="empty" v-if="!isLoading">No results found</template>
@@ -45,6 +47,10 @@
             },
           vendorData: {
               type: Object,
+            required: false,
+          },
+          inputClass: {
+              type: String,
             required: false,
           }
         },

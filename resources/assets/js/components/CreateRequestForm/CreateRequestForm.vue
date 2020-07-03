@@ -94,7 +94,7 @@
                             <input v-else
                                    type="text"
                                    class="input"
-                                   :value="selectedCostCenterFor.code + ' - ' + selectedCostCenterFor.description"
+                               :value="selectedCostCenterFor.code + ' - ' + selectedCostCenterFor.description"
                                    @click="emptyCostCenterFor"
                                    readonly>
                         </b-field>

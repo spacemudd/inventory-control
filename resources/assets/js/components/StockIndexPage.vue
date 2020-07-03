@@ -95,7 +95,7 @@
         loadingResults: false,
         total: 0,
         page: 1,
-        perPage: 100,
+        perPage: 15,
         defaultSortOrder: 'desc',
         sortField: 'description',
         sortOrder: 'desc',
@@ -130,6 +130,12 @@
             //this.stocks = response.data;
             this.stocks = [];
             this.total = response.data.total;
+            //let currentTotal = response.data.total
+            //if (response.data.total / this.page > 1000) {
+            //  currentTotal = this.page * 1000
+            //}
+            //this.total = currentTotal
+
             this.page = response.data.current_page
             response.data.data.forEach((item) => {
               this.stocks.push(item)

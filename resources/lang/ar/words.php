@@ -350,4 +350,5 @@
         'archive' => 'ارشيف',
         'job-orders' => 'طلبات عمل',
         'cost-approvers' => 'الموافقين',
+        'cost-approvals' => 'Cost approvals',
 	];

@@ -33,6 +33,7 @@ class JobOrder extends Model
         'time_end',
         'region_id',
         'equipment_id',
+        'equipment_general',
     ];
 
     protected $dates = [

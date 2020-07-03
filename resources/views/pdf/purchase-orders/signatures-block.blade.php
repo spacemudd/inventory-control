@@ -1,23 +1,29 @@
 <div>
-    <strong>For and on behalf of Arab National Bank</strong>
-    <div class="row" style="margin-top:80px;">
-        <div class="col-4-sm center">
-            <div style="border-top:2px solid black;width:100%;font-size:11px;">
-                <strong>Abdullah S. Alsowayel<br/>
-                    Head of Administration Services Center</strong>
+    {{-- <strong>For and on behalf of Arab National Bank</strong> --}}
+    <div class="row" style="margin-top:80px;margin-right:0;margin-left:0;padding-right:0">
+        @if ($data->approver_one)
+            <div class="col-4-sm" style="margin-left:0;padding-left:0;">
+                <div style="width:100%;font-size:20px;white-space: nowrap">
+                    <strong style="font-family:Calibri;">{{ optional($data->approver_one)->name }}</strong><br/>
+                    {{ optional($data->approver_one)->designation }}
+                </div>
             </div>
-        </div>
+        @endif
         <div class="col-4-sm center">
-
         </div>
-        <div class="col-4-sm center">
-            <div style="border-top:2px solid black;width:100%;font-size:11px;">
-                <strong>Mahmoud H. Al-Enezi<br/>
-                    Procurement Manager - Presmises & Admin</strong>
+        @if ($data->approver_two)
+            <div class="col-4-sm" style="margin-right: 0;padding-right:0;float:right;">
+                @if (optional($data->approver_two)->name === 'Ashraf Saeed')
+                <div style="font-size:20px;display:inline-block;float:right;padding-right:0;width:140px;">
+                @else
+                <div style="font-size:20px;display:inline-block;float:right;padding-right:0;">
+                @endif
+                    <strong style="font-family:Calibri;">{{ optional($data->approver_two)->name }}</strong><br/>
+                    {{ optional($data->approver_two)->designation }}
+                </div>
             </div>
-        </div>
+        @endif
     </div>
-    <hr>
-    <p class="center" style="font-size:11px;">The accompanying Terms and Conditions form an integral part of this Purchase Order</p>
-    <p class="center" style="font-size:10px;">Prepared by {{ $data->created_by->username }} - {{ $data->created_by->name }}</p>
+    {{-- <p class="center" style="font-size:11px;">The accompanying Terms and Conditions form an integral part of this Purchase Order</p>
+    <p class="center" style="font-size:10px;">Prepared by {{ $data->created_by->username }} - {{ $data->created_by->name }}</p> --}}
 </div>

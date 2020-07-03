@@ -69,8 +69,18 @@ class QuotationItemsController extends Controller
 
         $request['total_price_ex_vat'] = $totalPriceExVat->getMinorAmount()->toInt();
 
-        $vat = Money::ofMinor($totalPriceExVat->getMinorAmount()->toInt(), 'SAR')
-            ->multipliedBy(0.05, RoundingMode::HALF_UP);
+        $oldVat = 0.05;
+        $newSaudiVat = 0.15;
+
+        $d = now()->setDate(2020, 6, 30)->startOfDay();
+
+        if (now()->greaterThan($d)) {
+            $vat = Money::ofMinor($totalPriceExVat->getMinorAmount()->toInt(), 'SAR')
+                ->multipliedBy($newSaudiVat, RoundingMode::HALF_UP);
+        } else {
+            $vat = Money::ofMinor($totalPriceExVat->getMinorAmount()->toInt(), 'SAR')
+                ->multipliedBy($oldVat, RoundingMode::HALF_UP);
+        }
 
         $request['vat'] = $vat->getMinorAmount()
             ->toInt();

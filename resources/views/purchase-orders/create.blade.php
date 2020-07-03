@@ -25,103 +25,71 @@
 @section('content')
 	<form action="{{ route('purchase-orders.store') }}" method="post">
 		{{ csrf_field() }}
-		{{-- Currency --}}
+
+		{{-- Cost center --}}
 		<div class="columns">
-			<div class="column is-3">
-				<p class="title is-5">Purchase Currency</p>
-			</div>
-			<div class="column is-4">
-				<div class="field">
-					<label for="currency" class="label">Currency</label>
-
-					<div class="control">
-						<div class="select is-fullwidth">
-							<select tabindex="0" name="currency" class="{{ $errors->has('currency') ? ' is-danger' : '' }}" autofocus>
-								<option value=""></option>
-								@foreach($currencies as $currencyCode => $description)
-									<option value="{{ $currencyCode }}"{{ $currencyCode === 'SAR' ? ' selected' : '' }}>{{ $currencyCode }} - {{ $description }}</option>
-								@endforeach
-							</select>
-						</div>
-
-						@if ($errors->has('currency'))
-							<span class="help is-danger">
-								{{ $errors->first('currency') }}
-							</span>
-						@endif
-					</div>
-				</div>
-				<hr>
-			</div>
+			<div class="column is-3"><p class="title is-5">General</p></div>
 		</div>
 
-		{{-- Requested for --}}
 		<div class="columns">
-			<div class="column is-3"><p class="title is-5">Request Information</p></div>
-			<div class="column is-4">
+			<div class="column is-3">
 				<div class="field">
-					<label for="supplier_id" class="label">Employee (Requested by)</label>
-
+					<label class="label has-text-weight-normal">Purchase order number</label>
 					<div class="control">
-						<select-employee name="requested_by_employee_id"
-										 url="{{ route('api.search.employee') }}">
-						</select-employee>
-						<button type="button" class="is-small button is-text" @click="$store.commit('Employee/setNewEmployeeModal', true)">
-							New
-						</button>
+						<input name="number" class="input is-small" type="text" autofocus autocomplete="off">
+						<p class="help">Leave blank to be auto-generated.</p>
 					</div>
 				</div>
+			</div>
+			<div class="column is-3">
 				<div class="field">
-					<label for="supplier_id" class="label">Employee (Requested for)</label>
-
+					<label class="label has-text-weight-normal">Cost Center</label>
 					<div class="control">
-						<select-employee name="requested_for_employee_id"
-										 url="{{ route('api.search.employee') }}"
-										 tabindex="1"
-						>
-						</select-employee>
-						<button type="button" class="is-small button is-text" @click="$store.commit('Employee/setNewEmployeeModal', true)">
-							New
-						</button>
-					</div>
-				</div>
-				<div class="field">
-					<label for="supplier_id" class="label">Charged Cost Center</label>
-
-					<div class="control">9
 						<select-department name="cost_center_id"
+										   input-class="is-small"
 										   url="{{ route('api.search.department') }}">
 						</select-department>
-						<p class="help">Search by department code or name</p>
-						<button type="button" class="is-small button is-text" @click="$store.commit('Department/showNewModal', true)">
-							New
-						</button>
+						<div class="is-flex" style="justify-content:space-between">
+							<p class="help">Search by department code or name</p>
+							<button style="margin-top:5px;height:20px;border-color:#078af3;" type="button" class="is-small button" @click="$store.commit('Department/showNewModal', true)">
+								New
+							</button>
+						</div>
 					</div>
 				</div>
-				<hr>
 			</div>
 		</div>
 
-		{{-- Suppliers --}}
 		<div class="columns">
 			<div class="column is-3">
-				<p class="title is-5">Supplier</p>
-			</div>
-			<div class="column is-4">
 				<div class="field">
-					<label for="supplier_id" class="label">Supplier</label>
+					<label class="label has-text-weight-normal">Date</label>
+					<div class="control">
+						<input name="date" class="input is-small" type="date" autofocus>
+					</div>
+				</div>
+			</div>
+			<div class="column is-3">
+				<div class="field">
+					<label class="label has-text-weight-normal">Subject</label>
+					<div class="control">
+						<input name="subject" class="input is-small" type="text" autofocus autocomplete="off">
+					</div>
+				</div>
+			</div>
+		</div>
 
+		<div class="columns">
+			<div class="column is-3">
+				<div class="field">
+					<label class="label has-text-weight-normal">Supplier</label>
 					<div class="control">
 						<select-vendors name="vendor_id"
+										input-class="is-small"
 										url="{{ route('api.search.vendor') }}">
 						</select-vendors>
 
 						<span class="help">Search by code or name</span>
-
-						<button type="button" class="is-small button is-text" @click="$store.commit('Vendor/setNewModal', true)">
-							New
-						</button>
-
 						@if ($errors->has('supplier_id'))
 							<span class="help is-danger">
 								{{ $errors->first('supplier_id') }}
@@ -130,92 +98,18 @@
 					</div>
 				</div>
 			</div>
-		</div>
-
-		{{-- Project --}}
-		<div class="columns">
 			<div class="column is-3">
-				<p class="title is-5">Project</p>
-			</div>
-			<div class="column is-4">
 				<div class="field">
-					<label for="project_id" class="label">Project Code</label>
-
+					<label class="label has-text-weight-normal">Quote number</label>
 					<div class="control">
-						<select-projects name="project_id"
-										url="{{ route('api.search.projects') }}">
-						</select-projects>
-
-						<button type="button" class="is-small button is-text" @click="$store.commit('Project/setNewModal', true)">
-							New
-						</button>
-
-						@if ($errors->has('project_id'))
-							<span class="help is-danger">
-								{{ $errors->first('project_id') }}
-							</span>
-						@endif
+						<input name="quote_reference_number" class="input is-small" type="text" autofocus autocomplete="off">
 					</div>
 				</div>
 			</div>
 		</div>
 
-		 {{--Shipping Address --}}
-		{{--
-		<div class="columns">
-			<div class="column is-3">
-				<p class="title is-5">Shipping Address</p>
-			</div>
-			<div class="column is-4">
-				<div class="field">
-					<label for="shipping_address_id" class="label">Shipping Address</label>
-
-					<p class="control">
-						<select-address name="shipping_address_id"
-										url="{{ route('api.search.shipping-addresses') }}">
-						</select-address>
-
-						@if ($errors->has('shipping_address_id'))
-							<span class="help is-danger">
-								{{ $errors->first('shipping_address_id') }}
-							</span>
-						@endif
-					</p>
-				</div>
-				<hr>
-			</div>
-		</div>
-		--}}
-
-		{{--Billing Address --}}
-		{{--
-		<div class="columns">
-			<div class="column is-3">
-				<p class="title is-5">Billing Address</p>
-			</div>
-			<div class="column is-4">
-				<div class="field">
-					<label for="billing_address_id" class="label">Billing Address</label>
-
-					<p class="control">
-						<select-address name="billing_address_id"
-										url="{{ route('api.search.billing-addresses') }}">
-						</select-address>
-
-						@if ($errors->has('billing_address_id'))
-							<span class="help is-danger">
-								{{ $errors->first('billing_address_id') }}
-							</span>
-						@endif
-					</p>
-				</div>
-				<hr>
-			</div>
-		</div>
-		--}}
-
 		{{-- -- Form done. --}}
-		<div class="column is-7 has-text-right">
+		<div class="column is-6 has-text-right">
 			<a class="button is-text" href="{{ route('purchase-orders.index') }}">Cancel</a>
 			<button type="submit" class="button is-primary">Save</button>
 		</div>

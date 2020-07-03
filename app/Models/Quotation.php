@@ -38,6 +38,10 @@ class Quotation extends Model
         'vendor_quotation_number' => 'string',
     ];
 
+    protected $dates = [
+        'created_at', 'updated_at',
+    ];
+
     protected static function boot()
     {
         parent::boot();
@@ -45,7 +49,9 @@ class Quotation extends Model
         static::addGlobalScope(new LimitByRegionScope);
 
         static::creating(function($jobOrder) {
-            $jobOrder->region_id = auth()->user()->region_id;
+            if (auth()->user()) {
+                $jobOrder->region_id = auth()->user()->region_id;
+            }
         });
     }
 

@@ -20,6 +20,10 @@ class Stock extends Model
         'recommended_qty',
     ];
 
+    protected $casts = [
+        'rack_number' => 'integer',
+    ];
+
     protected $appends = [
         'on_hand_quantity'
     ];

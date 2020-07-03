@@ -11,6 +11,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Clarimount\Service\InventoryPurchaseOrderService;
 use App\Clarimount\Service\PurchaseOrderService;
 use App\Clarimount\Service\VendorBankService;
 use App\Model\PurchaseTermsType;
@@ -19,6 +20,8 @@ use App\Models\PurchaseOrder;
 use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Vendor;
+use App\Models\Quotation;
+use Illuminate\Http\Request;
 
 class PurchaseOrderController extends Controller
 {
@@ -27,10 +30,13 @@ class PurchaseOrderController extends Controller
 
     protected $vendorBankService;
 
-    public function __construct(PurchaseOrderService $service, VendorBankService $vendorBankService)
+    protected $inventoryPoService;
+
+    public function __construct(PurchaseOrderService $service, VendorBankService $vendorBankService, InventoryPurchaseOrderService $inventoryPoService)
     {
         $this->service = $service;
         $this->vendorBankService = $vendorBankService;
+        $this->inventoryPoService = $inventoryPoService;
     }
 
     /**
@@ -93,20 +99,24 @@ class PurchaseOrderController extends Controller
 
         $currencies = $this->vendorBankService->currencies();
 
-        return view('purchase-orders.create', compact('shipping_addresses', 'billing_addresses', 'vendors', 'currencies'));
+        $quotes = Quotation::savedQuotations()->get();
+
+        return view('purchase-orders.create', compact('shipping_addresses', 'billing_addresses', 'vendors', 'currencies', 'quotes'));
     }
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      * @see  \App\Clarimount\Service\PurchaseOrderService@store
      */
-    public function store()
+    public function store(Request $request)
     {
         $this->authorize('create-purchase-orders');
 
-        $request = request()->except('_token');
-
-        $po = $this->service->store($request);
+        $po = $this->inventoryPoService->store($request);
 
         return redirect()->route('purchase-orders.show', ['id' => $po->id]);
     }
@@ -144,11 +154,11 @@ class PurchaseOrderController extends Controller
 
         $purchase_order = $this->service->edit($id);
 
-        $vendors = Vendor::active()->get();
-        $departments = Department::active()->get();
-        $employees = Employee::active()->get();
+        //$vendors = Vendor::active()->get();
+        //$departments = Department::active()->get();
+        //$employees = Employee::active()->get();
 
-        return view('purchase-orders.edit', compact('purchase_order', 'vendors', 'departments', 'employees'));
+        return view('purchase-orders.edit', compact('purchase_order'));
     }
 
     /**
@@ -162,7 +172,8 @@ class PurchaseOrderController extends Controller
     {
         $this->authorize('update-purchase-orders');
 
-        $successful = $this->service->update($id);
+        $data = request()->except(['_token', '_method']);
+        $successful = $this->service->update($id, $data);
 
         if($successful) {
             session()->flash('status', 'success');
@@ -187,7 +198,7 @@ class PurchaseOrderController extends Controller
         $this->authorize('delete-purchase-orders');
 
         $result = $this->service->destroy($id);
-        
+
         if($result) {
             session()->flash('status', 'success');
             session()->flash('message', trans('statements.successfully-deleted'));
@@ -215,7 +226,7 @@ class PurchaseOrderController extends Controller
             return redirect()->back();
         }
 
-        if(!$this->service->show($id)->items()->count()) {
+        if(!$this->service->show($id)->lines()->count()) {
             session()->flash('status', 'is-warning');
             session()->flash('messages', ['There are no items attached.']);
             return redirect()->back();

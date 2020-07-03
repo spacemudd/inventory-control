@@ -127,6 +127,7 @@ class PurchaseOrderService
 
         $purchase_order['created_by_id'] = auth()->user()->id;
 
+
         $po = DB::transaction(function() use ($purchase_order) {
             $po = $this->repository->create($purchase_order);
             $this->saveTermsToPo($po->id);
@@ -142,7 +143,7 @@ class PurchaseOrderService
      * @param $id Purchase order ID.
      * @return \App\Models\PurchaseOrder
      */
-	public function saveTermsToPo($id)
+public function saveTermsToPo($id)
 	{
         $currentAvailableTerms = PurchaseTerm::get();
 
@@ -184,13 +185,13 @@ class PurchaseOrderService
 	{
 		$this->validate($purchaseOrder)->validate();
 
-		if(array_key_exists('date', $purchaseOrder) && $purchaseOrder['date']) {
-            $purchaseOrder['date'] = Carbon::createFromFormat('d/m/Y', $purchaseOrder['date']);
-        }
-
-        if(array_key_exists('delivery_date', $purchaseOrder) && $purchaseOrder['delivery_date']) {
-            $purchaseOrder['delivery_date'] = Carbon::createFromFormat('d/m/Y', $purchaseOrder['delivery_date']);
-        }
+		//if(array_key_exists('date', $purchaseOrder) && $purchaseOrder['date']) {
+        //    $purchaseOrder['date'] = Carbon::createFromFormat('d/m/Y', $purchaseOrder['date']);
+        //}
+        //
+        //if(array_key_exists('delivery_date', $purchaseOrder) && $purchaseOrder['delivery_date']) {
+        //    $purchaseOrder['delivery_date'] = Carbon::createFromFormat('d/m/Y', $purchaseOrder['delivery_date']);
+        //}
 
 		return $this->repository->update($id, $purchaseOrder);
 	}
@@ -237,9 +238,9 @@ class PurchaseOrderService
     {
         $po = $this->repository->find($id);
 
-        if(!$po->delivery_date) return false;
-        if(!$po->date) return false;
-        if(!$po->vendor_id) return false;
+        // if(!$po->delivery_date) return false;
+        // if(!$po->date) return false;
+        // if(!$po->vendor_id) return false;
 
         return true;
     }
@@ -278,6 +279,10 @@ class PurchaseOrderService
             'billing_address_id' => 'nullable|exists:addresses,id',
             'currency' => 'nullable|string|max:255',
             'project_id' => 'nullable',
+            'cost_center_id' => 'nullable|exists:departments,id',
+            'to' => 'nullable|string|max:255',
+            'subject' => 'nullable|string|max:255',
+            'quotation_id' => 'nullable|exists:quotations,id',
         ]);
 
 		return $validator;
@@ -364,15 +369,15 @@ class PurchaseOrderService
         $pdf->setOption('no-stop-slow-scripts', true);
         $pdf->setOption('no-background', false);
         // $pdf->setOption('margin-top', $marginTopDb ? $marginTopDb->value : 55);
-        $pdf->setOption('margin-left', 5);
+        $pdf->setOption('margin-left', 16);
         $pdf->setOption('margin-right', 5);
-        $pdf->setOption('margin-top', 40);
+        $pdf->setOption('margin-top', 70);
         $pdf->setOption('margin-bottom', 10);
         $pdf->setOption('disable-smart-shrinking', true);
         $pdf->setOption('zoom', 0.78);
         $pdf->setOption('header-html', $this->generateHeaderTempFile($data));
         // $pdf->setOption('footer-html', resource_path('views/pdf/footer.html'));
-
+//return view('pdf.purchase-orders.form', compact('data'));
         return $pdf->loadView('pdf.purchase-orders.form', compact('data'));
     }
 

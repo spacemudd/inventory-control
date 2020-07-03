@@ -8,8 +8,10 @@
 
         <div class="columns">
             <div class="column">
-                <loading-screen class="is-small" v-if="$isLoading('DELETING_ITEM') || $isLoading('LOADING_ITEMS')"></loading-screen>
-                <table class="table is-fullwidth is-bordered is-size-7">
+                <div class="is-fullwidth has-text-centered" v-if="$isLoading('DELETING_ITEM') || $isLoading('LOADING_ITEMS')">
+                    <loading-screen class="is-small"></loading-screen>
+                </div>
+                <table v-else class="table is-fullwidth is-bordered is-size-7">
                     <thead>
                     <tr>
                         <th width="50px" class="has-text-centered">#</th>

@@ -397,4 +397,5 @@
         'dispatch' => 'Dispatch',
         'dispatched' => 'Dispatched',
         'un-dispatched' => 'Undispatched',
+        'cost-approvals' => 'Cost approvals',
 	];

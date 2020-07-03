@@ -216,7 +216,7 @@ Vue.component('select-item-template', require('./components/SelectItemTemplate/S
 Vue.component('delete-prompt', require('./components/DeletePrompt/DeletePrompt').default);
 Vue.component('notes-container', require('./components/NotesContainer/NotesContainer').default);
 Vue.component('uploads-container', require('./components/UploadsContainer/UploadsContainer').default);
-Vue.component('new-upload-modal', require('./components/NewUploadFile/NewUploadFile'))
+Vue.component('new-upload-modal', require('./components/NewUploadFile/NewUploadFile').default)
 Vue.component('preview-pdf', require('./components/PreviewPdf/PreviewPdf').default);
 Vue.component('toggle-preview-requisition', require('./components/TogglePreviewRequisition/TogglePreviewRequisition').default);
 Vue.component('create-approver-page', require('./components/CreateApproverPage/CreateApproverPage').default);
@@ -290,6 +290,14 @@ Vue.component('stock-index-page', require('./components/StockIndexPage').default
 Vue.component('stocks-by-category', require('./components/StocksByCategory').default);
 Vue.component('assign-stock-information', require('./components/AssignStockInformation').default);
 
+Vue.component('new-cost-approval-form', require('./components/NewCostApprovalForm').default);
+Vue.component('cost-approval-items', require('./components/CostApprovalItems').default);
+Vue.component('select-approver-for-cost-approval', require('./components/SelectApproverForCostApproval').default);
+Vue.component('multiple-quotation-selection', require('./components/MultipleQuotationSelection').default);
+Vue.component('select-quotation', require('./components/SelectQuotation/SelectQuotation').default);
+Vue.component('purchase-order-lines', require('./components/PurchaseOrderLines').default);
+Vue.component('select-approver-for-purchase-order', require('./components/SelectApproverForPurchaseOrder').default);
+Vue.component('purchase-order-invoice-lines', require('./components/PurchaseOrderInvoiceLines').default);
 
 /**
  * API/App settings

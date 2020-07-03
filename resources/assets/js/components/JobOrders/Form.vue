@@ -248,6 +248,7 @@
                     <b-modal :active.sync="showEquipmentSelectorModal">
                         <equipment-selector
                                 @equipment:selected="addEquipment"
+                                @equipment:general="addGeneralEquipment"
                                 @close="showEquipmentSelectorModal=false"></equipment-selector>
                     </b-modal>
                     <div class="field">
@@ -270,6 +271,9 @@
                                 <tr v-if="equipment">
                                     <td>{{ equipment.name }}</td>
                                     <td></td>
+                                </tr>
+                                <tr v-if="equipment_general">
+                                    <td colspan="2">General</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -382,6 +386,7 @@
         costCenters: [],
         costCenterSearchCode: '',
 
+        equipment_general: false,
         equipment: null,
         equipment_id: null,
         showEquipmentSelectorModal: false,
@@ -574,7 +579,19 @@
         this.location = null;
         this.locationSearchCode = '';
       },
+      /**
+       * Save
+       *
+       */
       submitOrder() {
+        if ((!this.equipment) && (!this.equipment_general)) {
+          this.$toast.open({
+            message: 'Please select an equipment',
+            type: 'is-danger',
+          });
+          return false;
+        }
+
         this.$startLoading('SAVING_JOB_ORDER');
 
         // because the vue-tree list response is basically cant be serialized...
@@ -636,6 +653,11 @@
       },
       addEquipment(equip) {
         this.equipment = equip;
+        this.equipment_general = null;
+      },
+      addGeneralEquipment() {
+        this.equipment = null;
+        this.equipment_general = true;
       },
       addMaterial() {
         this.materials.push({

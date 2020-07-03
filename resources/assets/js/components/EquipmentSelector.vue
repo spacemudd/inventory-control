@@ -9,13 +9,25 @@
                     <div class="column is-12 is-content">
                         <loading-screen v-if="!data"></loading-screen>
                         <div v-else>
-                            <vue-tree-list
-                                    @click="onClick"
-                                    :model="data"
-                                    default-tree-node-name="new location"
-                                    default-leaf-node-name="new equipment"
-                                    v-bind:default-expanded="false">
-                            </vue-tree-list>
+                            <div v-if="view==='choosing'">
+                                <div class="is-flex" style="justify-content:space-around;">
+                                    <div class="">
+                                        <button type="button" class="button is-primary" @click="selectingGeneralEquipment">General</button>
+                                    </div>
+                                    <div>
+                                        <button type="button" class="button is-primary" @click="view='selecting-equipment'">Choose equipment</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-else>
+                                <vue-tree-list
+                                        @click="onClick"
+                                        :model="data"
+                                        default-tree-node-name="new location"
+                                        default-leaf-node-name="new equipment"
+                                        v-bind:default-expanded="false">
+                                </vue-tree-list>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -42,6 +54,7 @@
         oldName: '',
         newName: '',
         data: null,
+        view: 'choosing',
 
         isFetchingCategories: false,
         categories: [],
@@ -54,6 +67,10 @@
       this.getTree();
     },
     methods: {
+      selectingGeneralEquipment() {
+        this.$emit('equipment:general');
+        this.closeModal();
+      },
       getTree() {
         this.data = null;
         axios.get(this.apiUrl() + '/equipment/get-tree?disabled=true')
@@ -92,32 +109,6 @@
       },
       closeModal() {
         this.$emit('close');
-      },
-      save() {
-        this.$startLoading('ASSIGNING_STOCK_INFORMATION');
-
-        let item_id = this.$store.getters['AssignStockInformation/item_id'];
-        let description = this.$store.getters['AssignStockInformation/description'];
-
-        axios.post(this.apiUrl() + '/stocks', {
-          item_id: item_id,
-          code: this.code,
-          description: description,
-          rack_number: this.rack_number,
-          recommended_qty: this.recommended_qty,
-          category_id: this.category_id,
-        }).then(res => {
-          this.$emit('assign-stock-information:saved', this.item_id);
-          this.$emit('close');
-        }).catch(err => {
-          if (typeof err.response.data === 'object') {
-            this.form.errors = _.flatten(_.toArray(err.response.data.errors));
-          } else {
-            this.form.errors = ['Something went wrong. Please try again.'];
-          }
-        }).finally(() => {
-          this.$endLoading('ASSIGNING_STOCK_INFORMATION');
-        })
       },
     }
   }

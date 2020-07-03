@@ -14,7 +14,7 @@
         </tr>
         </thead>
         	<tbody>
-                <tr v-for="(item, index) in items">
+                <tr v-for="(item, index) in items" v-bind:key="item.id">
                     <!--
                     <td style="width:20px;" class="align-middle">
                         <button style="cursor:move;" class="button is-text has-icon" v-if="items.length > 1">
@@ -288,6 +288,9 @@
           //   });
           // },
           itemCatalogSelected(item, option) {
+            console.log('Selected');
+            console.log(item);
+            console.log(option);
             item.item_catalog = option;
             if(!item.qty) {
               item.qty = 1;
@@ -298,6 +301,8 @@
                 item.unit_price = option.unit_price;
               }
             }
+
+            console.log(item);
           },
           showCreateItemCatalogModal() {
             this.$store.commit('itemCatalog/showCreateModal', true);

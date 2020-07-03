@@ -22,6 +22,12 @@ class ApproversController extends Controller
         return $employees;
     }
 
+    public function index()
+    {
+        return Employee::where('approver', true)
+            ->get();
+    }
+
     public function search()
     {
         $search = request()->input('q');

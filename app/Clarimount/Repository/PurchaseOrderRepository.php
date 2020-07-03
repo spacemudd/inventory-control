@@ -91,32 +91,27 @@ class PurchaseOrderRepository
 
             Log::info('Saving PO ID: ' . $id);
 
-            // Calculating the new request number.
-            $numberPrefix = 'PO-' . Carbon::now()->format('Y-m');
-            $maxNumber = MaxNumber::lockForUpdate()->firstOrCreate([
-                'name' => $numberPrefix,
-            ], [
-                'value' => 0,
-            ]);
+            if (!$po->number) {
+                // Calculating the new request number.
+                $numberPrefix = 'MA-' . Carbon::now()->format('Y');
+                $maxNumber = MaxNumber::lockForUpdate()->firstOrCreate([
+                    'name' => $numberPrefix,
+                ], [
+                    'value' => 0,
+                ]);
+                $number = ++$maxNumber->value;
+                // The updates.
+                $po->number = 'MA/ ' . sprintf('%02d', $number).' /'.now()->format('Y');
 
-            Log::info('Max number for PO ID:'.$id.' is '.$maxNumber->value);
+                $maxNumber->value = $number;
+                $maxNumber->save();
+                Log::info('Updated max number ID: '.$maxNumber->id.' with value: ' . $number);
+            }
 
-            $number = ++$maxNumber->value;
-
-            Log::info('Memory max number for PO ID:'.$id.' is'.$number);
-
-            // The updates.
-            $po->number = $maxNumber->name . '-' . sprintf('%05d', $number);
             $po->status = PurchaseOrder:: SAVED;
             $po->save();
 
             Log::info('Updated PO with the number: '.$po->number);
-
-            // Save the new number.
-            $maxNumber->value = $number;
-            $maxNumber->save();
-
-            Log::info('Updated max number ID: '.$maxNumber->id.' with value: ' . $number);
 
             return $po;
         });

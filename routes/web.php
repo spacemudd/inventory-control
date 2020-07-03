@@ -34,6 +34,9 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::get('getRegions', 'RegionsController@getRegions');
 
         // Job Orders
+        Route::get('job-orders/completed', 'JobOrderController@completed')->name('job-orders.completed');
+        Route::get('job-orders/pending', 'JobOrderController@pending')->name('job-orders.pending');
+        Route::get('job-orders/pending/raw', 'JobOrderController@pendingRaw')->name('job-orders.pending.raw');
         Route::get('job-orders/excel', 'JobOrderController@excel')->name('job-orders.excel');
         Route::resource('job-orders', 'JobOrderController');
         Route::get('job-orders/{job_order_number}/pdf', 'JobOrderController@streamPdf')->name('job-orders.pdf');
@@ -55,6 +58,11 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
 
         // QSuppliers
         Route::resource('q-suppliers', 'QSuppliersController');
+
+        // Supplier invoices.
+        Route::get('invoices', 'SupplierInvoicesController@index')->name('supplier-invoices.index');
+        Route::get('invoices/create', 'SupplierInvoicesController@create')->name('supplier-invoices.create');
+        Route::post('invoices/store', 'SupplierInvoicesController@store')->name('supplier-invoices.store');
 
         // Purchase Requisitions.
         Route::get('purchase-requisitions/{id}/pdf', 'PurchaseRequisitionsController@pdf')->name('purchase-requisitions.pdf');
@@ -83,6 +91,10 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
 
         Route::get('equipments', 'EquipmentsController@index')->name('equipments.index');
 
+        // PO report
+        Route::get('purchase-orders/report', 'PurchaseOrderReportController@index')->name('purchase-orders.report.index');
+        Route::post('purchase-orders/report', 'PurchaseOrderReportController@generate')->name('purchase-orders.report.index');
+
         // Purchase orders
         Route::name('purchase-orders.')->prefix('purchase-orders')->group(function () {
             Route::get('draft', 'PurchaseOrderController@draft')->name('draft');
@@ -91,6 +103,8 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         });
         Route::get('purchase-orders/{id}/pdf', 'PurchaseOrderController@pdf')->name('purchase-orders.pdf');
         Route::post('purchase-orders/{id}/save', 'PurchaseOrderController@save')->name('purchase-orders.save');
+        Route::get('purchase-orders/{id}/invoice/create', 'PurchaseOrderInvoiceController@create')->name('purchase-orders.invoice.create');
+        Route::post('purchase-orders/{id}/invoice', 'PurchaseOrderInvoiceController@store')->name('purchase-orders.invoice.store');
         Route::resource('purchase-orders', 'PurchaseOrderController');
 
         // Purchase Order Sub-PO
@@ -132,6 +146,15 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         // Users.
         Route::name('users.index')->get('users', 'Back\UsersController@index');
         Route::name('users.show')->get('users/{id}', 'Back\UsersController@show');
+
+        // Cost approvals
+        Route::post('purchase-orders/{id}/to-po', 'CostApprovalsController@toPurchaseOrder')->name('cost-approvals.to-po');
+        Route::get('cost-approvals/{id}/save', 'CostApprovalsController@save')->name('cost-approvals.save');
+        Route::get('cost-approvals/{id}/print', 'CostApprovalsController@print')->name('cost-approvals.print');
+        Route::resource('cost-approvals', 'CostApprovalsController');
+        Route::resource('cost-approvals/{cost_approval_id}/lines', 'CostApprovalLinesController', [
+                'names' => 'cost-approvals.lines',
+            ]);
 
         Route::get('approvers', 'ApproversController@index')->name('approvers.index');
         Route::get('approvers/create', 'ApproversController@create')->name('approvers.create');
@@ -247,6 +270,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::post('vendors/store', 'Api\VendorController@store');
 
     // PO
+    Route::put('purchase-orders/{id}', 'Api\PurchaseOrderController@update');
     Route::put('purchase-orders/{id}/update', 'Api\PurchaseOrderController@update');
     Route::post('purchase-orders/show', 'Api\PurchaseOrderController@show');
     Route::post('purchase-orders', 'Api\PurchaseOrderController@store');
@@ -254,7 +278,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::get('purchase-orders', 'Api\PurchaseOrderController@index');
     Route::post('purchase-orders/save', 'Api\PurchaseOrderController@save');
     Route::post('purchase-orders/commit', 'Api\PurchaseOrderController@commit');
-    Route::post('purchase-orders/void', 'Api\PurchaseOrderController@void');
+    Route::post('purchase-orders/void', 'Api\PurchaseOrderController@void')->name('api.purchase-orders.void');
     Route::post('purchase-orders/attachments', 'Api\PurchaseOrderController@attachments');
     Route::post('purchase-orders/download-attachment', 'Api\PurchaseOrderController@downloadAttachment');
     Route::put('purchase-orders/{id}/tokens', 'Api\PurchaseOrderController@updateTokens')->name('purchase-orders.tokens');
@@ -275,6 +299,9 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::post('purchase-orders/{purchase_order_id}/items/update', 'Api\PurchaseOrderItemController@itemsUpdate'); // This one takes all the items array from js.
     Route::delete('procedures/purchase-orders/{purchase_order_id}/items/{item_id}/delete', 'Api\PurchaseOrderItemController@delete');
     Route::post('procedures/purchase-orders/{purchase_order_id}/items/{item_id}/received', 'Api\PurchaseOrderItemController@attemptToReceiveItem');
+
+    // PO lines.
+    Route::resource('purchase-orders/{id}/lines', 'Api\PurchaseOrderLinesController');
 
     // PO Service Items
     Route::post('purchase-orders/service-items', 'Api\PurchaseOrderItemController@showServicesItems');
@@ -378,6 +405,14 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
 
     Route::get('/equipment-categories', 'Api\EquipmentCategoriesController@index');
 
+    // Cost approvals
+    Route::get('/cost-approvals/{id}', 'CostApprovalsController@show');
+    Route::put('/cost-approvals/{id}', 'CostApprovalsController@update');
+    Route::get('/cost-approvals/{cost_approval_id}/lines', 'Api\CostApprovalsLinesController@index');
+    Route::post('/cost-approvals/{cost_approval_id}/lines', 'Api\CostApprovalsLinesController@store');
+    Route::delete('/cost-approvals/{cost_approval_id}/lines/{id}', 'Api\CostApprovalsLinesController@delete');
+    Route::get('/approvers', 'Api\ApproversController@index');
+
     // Equip tree management
     Route::post('/equipment/add-node', 'Api\EquipmentsController@addNode');
     Route::post('/equipment/change-node', 'Api\EquipmentsController@changeNode');
@@ -402,5 +437,6 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
         Route::get('stock', 'Api\StockController@search')->name('api.stock.search');
         Route::get('job-description', 'Api\SearchJobDescriptionController@search');
         Route::get('job-orders', 'Api\JobOrdersController@search');
+        Route::get('quotations', 'Api\QuotationsController@search');
     });
 });
