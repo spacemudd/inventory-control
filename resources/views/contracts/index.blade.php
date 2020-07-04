@@ -43,10 +43,11 @@
             <colgroup>
                 <col style="width:10%;">
                 <col style="width:10%;">
-                <col style="width:10%;">
-                <col style="width:10%;">
-                <col style="width:10%;">
                 <col>
+                <col style="width:10%;">
+                <col style="width:10%;">
+                <col style="width:10%;">
+                <col style="width:10%;">
                 <col style="width:10%;">
             </colgroup>
             <thead>
@@ -55,7 +56,8 @@
                 <th>Supplier</th>
                 <th>Cost</th>
                 <th>Frequency</th>
-                <th>Total payments</th>
+                <th>Contract value</th>
+                <th>Paid so far</th>
                 <th></th>
             </thead>
             <tbody>
@@ -69,8 +71,9 @@
                         <td>{{ optional($co->vendor)->display_name }}</td>
                         <td>{{ $co->cost }}</td>
                         <td>{{ ucwords($co->payment_frequency) }}</td>
+                        <td>{{ number_format($co->total_cost, 2) }}</td>
                         <td>
-                            {{-- TODO --}}
+                            {{ number_format($co->payments()->sum('cost'), 2) }}
                         </td>
                         <td class="has-text-right"><a class="button is-small" href="{{ route('contracts.show', ['id' => $co->id]) }}">View</a></td>
                     </tr>
