@@ -4,12 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ContractEquipment extends Model
+class ContractPayment extends Model
 {
     protected $fillable = [
         'contract_id',
-        'equipment_id',
-        'location_id',
+        'reference',
+        'issued_at',
+        'cost',
+    ];
+
+    protected $dates = [
+        'issued_at',
     ];
 
     protected static function boot()
@@ -26,15 +31,5 @@ class ContractEquipment extends Model
     public function contract()
     {
         return $this->belongsTo(Contract::class);
-    }
-
-    public function equipment()
-    {
-        return $this->belongsTo(Equipment::class);
-    }
-
-    public function location()
-    {
-        return $this->belongsTo(Location::class);
     }
 }

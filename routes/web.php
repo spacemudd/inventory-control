@@ -58,6 +58,11 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::get('contracts/{id}/equipments/create', 'ContractEquipmentsController@create')->name('contracts.equipments.create');
         Route::post('contracts/{id}/equipments', 'ContractEquipmentsController@store')->name('contracts.equipments.store');
 
+        // Contract payments
+        Route::resource('contracts/{contract_id}/payments', 'ContractPaymentsController', [
+            'names' => 'contracts.payments',
+        ]);
+
         // Quotations
         Route::resource('quotations', 'QuotationsController');
         Route::get('makeQuotationItem/change/{itemId}', 'QuotationsController@changeStatus');
@@ -79,7 +84,6 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
 
         // Purchase Requisitions Simple Items.
         Route::resource('purchase-requisition.simple-items', 'Api\PurchaseRequisitionSimpleItemsController');
-
 
         // Items. // deprecated?
         Route::get('items/browse', 'ItemController@browse')->name('items.browse');

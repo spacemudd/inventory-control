@@ -63,4 +63,9 @@ class Contract extends Model
     {
         return $this->belongsToMany(Equipment::class, 'contract_equipments')->withPivot('location_id');
     }
+
+    public function payments()
+    {
+        return $this->hasMany(ContractPayment::class);
+    }
 }

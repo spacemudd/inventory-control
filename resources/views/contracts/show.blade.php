@@ -110,11 +110,15 @@
     </div>
 </div>
 <div class="box">
-    <div class="column is-12">
+    <div class="columns">
+        <div class="column is-12">
         @if (!$contract->equipments()->count())
             <p style="text-align: center; font-size: 12px;"><i>There are no equipments attached</i></p>
         @else
             <table class="table is-small is-size-7 is-fullwidth">
+                <colgroup>
+                    <col style="width:30%;">
+                </colgroup>
             <thead>
             <tr>
             	<th>Equipment</th>
@@ -129,6 +133,45 @@
             			</tr>
                     @endforeach
             	</tbody>
+            </table>
+        @endif
+    </div>
+    </div>
+</div>
+
+<div class="columns">
+    <div class="column is-6">
+        <p><b>Payments</b></p>
+    </div>
+    <div class="column is-6 has-text-right">
+        <a class="button is-small is-primary" href="{{ route('contracts.payments.create', $contract->id) }}">Add</a>
+    </div>
+</div>
+<div class="box">
+    <div class="column is-12">
+        @if (!$contract->payments()->count())
+            <p style="text-align: center; font-size: 12px;"><i>There are no payments</i></p>
+        @else
+            <table class="table is-small is-size-7 is-fullwidth">
+                <colgroup>
+                    <col style="width:30%;">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>Reference</th>
+                    <th>Date</th>
+                    <th class="has-text-right">Amount</th>
+                </tr>
+                </thead>
+                <tbody>
+                    @foreach ($contract->payments as $payment)
+                        <tr>
+                            <td>{{ $payment->reference }}</td>
+                            <td>{{ $payment->issued_at->format('d-m-Y') }}</td>
+                            <td class="has-text-right">{{ number_format($payment->cost, 2) }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
             </table>
         @endif
     </div>
