@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Contract;
 use App\Models\Location;
+use App\Models\MaxNumber;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use DB;
 
 class ContractsController extends Controller
 {
@@ -157,5 +159,31 @@ class ContractsController extends Controller
         });
 
         return $excel->download('xlsx');
+    }
+
+    public function save($id)
+    {
+        $contract = Contract::findOrFail($id);
+
+        DB::beginTransaction();
+
+        if (!$contract->number) {
+            $numberPrefix = 'CO-'.Carbon::now()->format('Y');
+            $maxNumber = MaxNumber::lockForUpdate()->firstOrCreate([
+                'name' => $numberPrefix,
+            ], [
+                'value' => 0,
+            ]);
+            $number = ++$maxNumber->value;
+            $maxNumber->save();
+
+            $contract->number = 'CO/'.$number.'/'.now()->format('Y');
+        }
+        $contract->status = Contract::STATUS_SAVED;
+        $contract->save();
+
+        DB::commit();
+
+        return redirect()->route('contracts.show', $id);
     }
 }

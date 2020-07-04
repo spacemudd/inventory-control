@@ -54,6 +54,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         // Contracts
         Route::get('contracts/export', 'ContractsController@export')->name('contracts.export');
         Route::post('contracts/export/excel', 'ContractsController@excel')->name('contracts.export.excel');
+        Route::post('contracts/{id}/save', 'ContractsController@save')->name('contracts.save');
         Route::resource('contracts', 'ContractsController');
 
         // Contract equipments

@@ -36,9 +36,13 @@
                     <button class="button is-danger is-small is-secondary">Delete</button>
                 </form>
             @endcan
-{{--            @if (!$contract->number)--}}
-{{--                <a href="{{ route('cost-approvals.save', $contract->id) }}" class="button is-small is-success">Save</a>--}}
-{{--            @endif--}}
+            @if (!$contract->number)
+                <a href="{{ route('contracts.save', $contract->id) }}" onclick="event.preventDefault();document.getElementById('save-form').submit();"
+                   class="button is-small is-success">Save</a>
+                <form id="save-form" action="{{ route('contracts.save', $contract->id) }}" method="POST" style="display: none;">
+                    {{ csrf_field() }}
+                </form>
+            @endif
         </div>
         <div class="column is-5">
             <table class="table is-small is-size-7 is-fullwidth">
