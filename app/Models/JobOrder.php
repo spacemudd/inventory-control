@@ -124,7 +124,8 @@ class JobOrder extends Model
 
     public function location()
     {
-        return $this->belongsTo(Location::class);
+        //return $this->belongsTo(Location::class);
+        return $this->hasOne(Location::class, 'id', 'location_id'); //belongsTo(Location::class);
     }
 
     public function equipment()

@@ -152,7 +152,8 @@
 								<td>{{ $movement->in }}</td>
 								<td>{{ $movement->out }}</td>
 								<td>
-									<a href="{{ optional($movement->stockable)->url }}">{{ optional($movement->stockable)->display_name }}</a>
+								
+									<a href="{{ route($movement->stockable_type=='App\Models\JobOrder' ? 'job-orders.show' : 'quotations.show', ['id' => $movement->stockable_type=='App\Models\JobOrder' ? optional($movement->stockable)->display_name : $movement->stockable['quotation_id']]) }}">{{ optional($movement->stockable)->display_name }}</a>
 								</td>
 {{--								<td><a href="{{ route('job-orders.show', ['id' => $job_item->jobOrder->job_order_number]) }}">{{ $job_item->jobOrder->job_order_number }}</a></td>--}}
 								
@@ -167,13 +168,7 @@
 								</td>
 								
 								<td>
-									@if(count($movement_location_details[$movement->id."".$movement->stock_id])>=1)
-										@foreach($movement_location_details[$movement->id."".$movement->stock_id] as $stockmovement)
-										   
-											<a href="{{ route('job-orders.show', ['id' => $job_item->jobOrder->job_order_number]) }}">{{$stockmovement->location_name}}</a> <br/>
-										   
-										@endforeach
-									@endif
+									<a>{{optional($movement->stockable)->location['name']}}</a> <br/>
 								</td>
 							</tr>
 						@endforeach

@@ -114,13 +114,13 @@ class StockController extends Controller
         $stock = Stock::find($id);
         
     	/*
-    	 * I could have used morphMany() which is available in 5.6 but I dont think it will work
-    	 * in this area since the pointing of models is going the other way around.
+    	 * I have studied how you utilized the morphTo() method.. It was super coool.
+    	 * I just cant find a way to connect it to technicians though.
     	 */
     	
     	
         $movement_technician_details = array();
-        $movement_location_details = array();
+
         
         foreach ($stock->movement()->take(100)->get()as $row)
         {	$array_alias = $row->id."".$row->stock_id;
@@ -137,28 +137,18 @@ class StockController extends Controller
         			->where('stock_movements.id', '=', $row->id)
         			->get();
         		
-        		$movement_location_details[$array_alias] = DB::table('stock_movements')
-        			->join('job_orders', 'stock_movements.stockable_id', '=', 'job_orders.id')
-        		//	->join('job_order_technician', 'job_orders.id', '=', 'job_order_technician.job_order_id')
-        			->join('locations', 'job_orders.location_id', '=', 'locations.id')
-        		//	->join('employees', 'job_order_technician.technician_id', '=', 'employees.id')
-        			->select('locations.name as location_name')
-        			->where('stock_movements.id', '=', $row->id)
-        			->get();
+        	
         	}
         	
         	//skip for the meantime the QuotationItems
-        	else
-        	{
-        		$movement_technician_details[$array_alias] = [];
-        		$movement_location_details[$array_alias] = [];
-        	}
+        	else $movement_technician_details[$array_alias] = [];
+        	
         	
         	
         }
         
         
-        return view('stock.show', compact('stock', 'movement_technician_details', 'movement_location_details'));
+        return view('stock.show', compact('stock', 'movement_technician_details'));
     }
 
     public function destroy($id)
