@@ -7,6 +7,8 @@ use App\Models\Stock;
 use App\Services\StockService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\QuotationItem;
+use App\Models\JobOrder;
 
 class StockController extends Controller
 {
@@ -110,6 +112,16 @@ class StockController extends Controller
     public function show($id)
     {
         $stock = Stock::find($id);
+        
+    	/*
+    	 * I tried to use WhereHasMorph() in Laravel but the docs say it is available in 5.8.. I
+    	 * believe our Laravel version with this project is 5.6.. i may use left join instead :)
+    	 *
+    	 */
+    	
+    	
+       // $stock = Stock::query()->leftJoin('')
+        
         return view('stock.show', compact('stock'));
     }
 

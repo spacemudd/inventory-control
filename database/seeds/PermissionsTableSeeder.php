@@ -107,7 +107,10 @@ class PermissionsTableSeeder extends Seeder
         	 * then reseed this Class.
         	 *  */
         	'delete-cost-approvals',
-        	'view-all-regions'
+        	'view-all-regions',
+        	'view-sales-taxes',
+        	'edit-po-subject-after-approval'
+        	//--to add, create-sales-taxes
         ];
 
         // Creating a super admin role.
