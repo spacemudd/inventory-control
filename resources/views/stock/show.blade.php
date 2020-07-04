@@ -144,17 +144,17 @@
 						</tr>
 						</thead>
 						<tbody>
-						@foreach ($stock->movement()->take(100)->get() as $movement)
-							<tr>
-								<td>{{ $movement->created_at->format('d-m-Y') }}</td>
-								<td>{{ $movement->in }}</td>
-								<td>{{ $movement->out }}</td>
-								<td>
-									<a href="{{ optional($movement->stockable)->url }}">{{ optional($movement->stockable)->display_name }}</a>
-								</td>
-{{--								<td><a href="{{ route('job-orders.show', ['id' => $job_item->jobOrder->job_order_number]) }}">{{ $job_item->jobOrder->job_order_number }}</a></td>--}}
-							</tr>
-						@endforeach
+							@foreach ($stock->movement()->take(100)->get() as $movement)
+								<tr>
+									<td>{{ $movement->created_at->format('d-m-Y') }}</td>
+									<td>{{ $movement->in }}</td>
+									<td>{{ $movement->out }}</td>
+									<td>
+										<a href="{{ optional($movement->stockable)->url }}">{{ optional($movement->stockable)->display_name }}</a>
+									</td>
+	{{--								<td><a href="{{ route('job-orders.show', ['id' => $job_item->jobOrder->job_order_number]) }}">{{ $job_item->jobOrder->job_order_number }}</a></td>--}}
+								</tr>
+							@endforeach
 						</tbody>
 					</table>
 				</b-tab-item>

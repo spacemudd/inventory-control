@@ -51,6 +51,21 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::get('material-requests/{id}/pdf', 'MaterialRequestsController@streamPdf')->name('material-requests.pdf');
         Route::get('material-requests/{itemName}/search', 'MaterialRequestsController@searchItem');
 
+        // Contracts
+        Route::get('contracts/export', 'ContractsController@export')->name('contracts.export');
+        Route::post('contracts/export/excel', 'ContractsController@excel')->name('contracts.export.excel');
+        Route::post('contracts/{id}/save', 'ContractsController@save')->name('contracts.save');
+        Route::resource('contracts', 'ContractsController');
+
+        // Contract equipments
+        Route::get('contracts/{id}/equipments/create', 'ContractEquipmentsController@create')->name('contracts.equipments.create');
+        Route::post('contracts/{id}/equipments', 'ContractEquipmentsController@store')->name('contracts.equipments.store');
+
+        // Contract payments
+        Route::resource('contracts/{contract_id}/payments', 'ContractPaymentsController', [
+            'names' => 'contracts.payments',
+        ]);
+
         // Quotations
         Route::resource('quotations', 'QuotationsController');
         Route::get('makeQuotationItem/change/{itemId}', 'QuotationsController@changeStatus');
@@ -72,7 +87,6 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
 
         // Purchase Requisitions Simple Items.
         Route::resource('purchase-requisition.simple-items', 'Api\PurchaseRequisitionSimpleItemsController');
-
 
         // Items. // deprecated?
         Route::get('items/browse', 'ItemController@browse')->name('items.browse');
@@ -414,6 +428,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::get('/approvers', 'Api\ApproversController@index');
 
     // Equip tree management
+    Route::get('/equipments/all', 'Api\EquipmentsController@index');
     Route::post('/equipment/add-node', 'Api\EquipmentsController@addNode');
     Route::post('/equipment/change-node', 'Api\EquipmentsController@changeNode');
     Route::delete('/equipment/{name}/delete', 'Api\EquipmentsController@deleteNode');

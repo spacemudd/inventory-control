@@ -152,6 +152,43 @@
 		<div class="column is-12">
 			<div class="panel">
 				<p class="panel-heading">
+					Contracts
+				</p>
+				<div class="panel-block">
+					<toggle-permission :role-id.number="{{ $role->id }}"
+									   :enabled-prop.number="{{ $role->hasPermissionTo('view-contracts') ? 'true' : 'false' }}"
+									   permission-name="view-contracts">
+						View contracts
+					</toggle-permission>
+				</div>
+				<div class="panel-block">
+					<toggle-permission :role-id.number="{{ $role->id }}"
+									   :enabled-prop.number="{{ $role->hasPermissionTo('create-contracts') ? 'true' : 'false' }}"
+									   permission-name="create-contracts">
+						Create contracts
+					</toggle-permission>
+				</div>
+				<div class="panel-block">
+					<toggle-permission :role-id.number="{{ $role->id }}"
+									   :enabled-prop.number="{{ $role->hasPermissionTo('edit-contracts') ? 'true' : 'false' }}"
+									   permission-name="edit-contracts">
+						Edit contracts
+					</toggle-permission>
+				</div>
+				<div class="panel-block">
+					<toggle-permission :role-id.number="{{ $role->id }}"
+									   :enabled-prop.number="{{ $role->hasPermissionTo('delete-contracts') ? 'true' : 'false' }}"
+									   permission-name="delete-contracts">
+						Delete contracts
+					</toggle-permission>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="column is-12">
+			<div class="panel">
+				<p class="panel-heading">
 					Manufacturers
 				</p>
 				<div class="panel-block">
