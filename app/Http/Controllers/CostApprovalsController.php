@@ -199,8 +199,8 @@ class CostApprovalsController extends Controller
         $pdf->setOption('page-size', 'A4');
         $pdf->setOption('orientation', 'portrait');
         $pdf->setOption('encoding', 'utf-8');
-        $pdf->setOption('dpi', 72);
-        $pdf->setOption('image-dpi', 72);
+        $pdf->setOption('dpi', 300);
+        $pdf->setOption('image-dpi', 300);
         $pdf->setOption('lowquality', false);
         $pdf->setOption('no-background', false);
         $pdf->setOption('enable-internal-links', true);
