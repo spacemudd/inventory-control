@@ -114,15 +114,51 @@ class StockController extends Controller
         $stock = Stock::find($id);
         
     	/*
-    	 * I tried to use WhereHasMorph() in Laravel but the docs say it is available in 5.8.. I
-    	 * believe our Laravel version with this project is 5.6.. i may use left join instead :)
-    	 *
+    	 * I could have used morphMany() which is available in 5.6 but I dont think it will work
+    	 * in this area since the pointing of models is going the other way around.
     	 */
     	
     	
-       // $stock = Stock::query()->leftJoin('')
+        $movement_technician_details = array();
+        $movement_location_details = array();
         
-        return view('stock.show', compact('stock'));
+        foreach ($stock->movement()->take(100)->get()as $row)
+        {	$array_alias = $row->id."".$row->stock_id;
+        	
+        	if($row->stockable_type=='App\Models\JobOrder')
+        	{
+        		
+        		$movement_technician_details[$array_alias] = DB::table('stock_movements')
+        			->join('job_orders', 'stock_movements.stockable_id', '=', 'job_orders.id')
+        			->join('job_order_technician', 'job_orders.id', '=', 'job_order_technician.job_order_id')
+        		//	->join('locations', 'job_orders.location_id', '=', 'locations.id')
+        			->join('employees', 'job_order_technician.technician_id', '=', 'employees.id')
+        			->select('employees.code', 'employees.name as employee_name')
+        			->where('stock_movements.id', '=', $row->id)
+        			->get();
+        		
+        		$movement_location_details[$array_alias] = DB::table('stock_movements')
+        			->join('job_orders', 'stock_movements.stockable_id', '=', 'job_orders.id')
+        		//	->join('job_order_technician', 'job_orders.id', '=', 'job_order_technician.job_order_id')
+        			->join('locations', 'job_orders.location_id', '=', 'locations.id')
+        		//	->join('employees', 'job_order_technician.technician_id', '=', 'employees.id')
+        			->select('locations.name as location_name')
+        			->where('stock_movements.id', '=', $row->id)
+        			->get();
+        	}
+        	
+        	//skip for the meantime the QuotationItems
+        	else
+        	{
+        		$movement_technician_details[$array_alias] = [];
+        		$movement_location_details[$array_alias] = [];
+        	}
+        	
+        	
+        }
+        
+        
+        return view('stock.show', compact('stock', 'movement_technician_details', 'movement_location_details'));
     }
 
     public function destroy($id)

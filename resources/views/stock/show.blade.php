@@ -141,6 +141,8 @@
 							<th>In</th>
 							<th>Out</th>
 							<th>Reference</th>
+							<th>Technician</th>
+							<th>Location</th>
 						</tr>
 						</thead>
 						<tbody>
@@ -153,6 +155,26 @@
 									<a href="{{ optional($movement->stockable)->url }}">{{ optional($movement->stockable)->display_name }}</a>
 								</td>
 {{--								<td><a href="{{ route('job-orders.show', ['id' => $job_item->jobOrder->job_order_number]) }}">{{ $job_item->jobOrder->job_order_number }}</a></td>--}}
+								
+								<td>
+									@if(count($movement_technician_details[$movement->id."".$movement->stock_id])>=1)
+										@foreach($movement_technician_details[$movement->id."".$movement->stock_id] as $stockmovement)
+										   
+											<a href="{{ route('job-orders.show', ['id' => $job_item->jobOrder->job_order_number]) }}">{{$stockmovement->code." - ".$stockmovement->employee_name}}</a> <br/>
+										   
+										@endforeach
+									@endif
+								</td>
+								
+								<td>
+									@if(count($movement_location_details[$movement->id."".$movement->stock_id])>=1)
+										@foreach($movement_location_details[$movement->id."".$movement->stock_id] as $stockmovement)
+										   
+											<a href="{{ route('job-orders.show', ['id' => $job_item->jobOrder->job_order_number]) }}">{{$stockmovement->location_name}}</a> <br/>
+										   
+										@endforeach
+									@endif
+								</td>
 							</tr>
 						@endforeach
 						</tbody>

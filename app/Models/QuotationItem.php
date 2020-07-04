@@ -6,6 +6,8 @@ use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
+use App\Models\StockMovement;
+
 
 class QuotationItem extends Model implements AuditableContract
 {
@@ -43,5 +45,11 @@ class QuotationItem extends Model implements AuditableContract
         return Money::ofMinor($value, 'SAR')
             ->getAmount()
             ->toFloat();
+    }
+    
+    
+    public function stock_movements()
+    {
+    	return $this->morphMany(StockMovement::class, 'stockable');
     }
 }

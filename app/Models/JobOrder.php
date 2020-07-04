@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Scopes\LimitByRegionScope;
+use App\Models\StockMovement;
 
 
 class JobOrder extends Model
@@ -205,4 +206,10 @@ class JobOrder extends Model
     {
         return $q->where('status', self::COMPLETED);
     }
+    
+    public function stock_movements()
+    {
+    	return $this->morphMany(StockMovement::class, 'stockable');
+    }
+    
 }
