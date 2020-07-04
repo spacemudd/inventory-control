@@ -5,10 +5,10 @@
             <span v-if="!old_value"><i>[{{ placeholder }}]</i></span>
         </p>
         <div v-if="is_editing" style="margin-top:20px">
-            <div class="field">
-                <b-input v-model="loadedValue" size="is-small" @keyup.enter="save"></b-input>
+            <div  v-if="!isFieldDisabled()" class="field">
+                <b-input :disabled="isFieldDisabled()" v-model="loadedValue" size="is-small" @keyup.enter="save"></b-input>
             </div>
-            <div class="field">
+            <div v-if="!isFieldDisabled()" class="field">
                 <div class="control has-text-right">
                     <button class="button is-small is-text" @click="clearValue">Clear</button>
                     <button class="button is-small is-text" @click="rollback">{{ $t('words.cancel') }}</button>
@@ -16,6 +16,10 @@
                             :class="{'is-loading': $isLoading('SAVING_QUOTE_REF_TOKEN')}"
                             @click="save">Save</button>
                 </div>
+            </div>
+
+            <div v-else class="field">
+                    <p class="help">Insufficient Role access to edit/modify existing value. </p> <button class="button is-small is-text" @click="rollback">{{ $t('words.cancel') }}</button>
             </div>
         </div>
     </div>
@@ -39,6 +43,7 @@
             type: String,
             required: true,
           },
+
             /**
              * Saving endpoint.
              */
@@ -50,6 +55,14 @@
                 type: Boolean,
                 default: false,
             },
+
+            /*
+             * can edit multiple times
+             */
+             canMultipleEdit: {
+                 type: Boolean,
+                 default: false
+             },
           placeholder: {
             type: String,
             default: '[]',
@@ -67,6 +80,18 @@
           this.loadedValue = this.value;
         },
         methods: {
+
+            isFieldDisabled() {
+                if(this.old_value=="" || this.old_value==null) return false;
+                else
+                {
+                    if(this.canMultipleEdit)
+                    return false;
+                    else return true;
+                
+                };
+
+            },
             edit() {
                 if(this.canEdit) {
                     this.is_editing = true;

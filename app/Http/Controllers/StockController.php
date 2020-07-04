@@ -7,6 +7,8 @@ use App\Models\Stock;
 use App\Services\StockService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\QuotationItem;
+use App\Models\JobOrder;
 
 class StockController extends Controller
 {
@@ -110,7 +112,43 @@ class StockController extends Controller
     public function show($id)
     {
         $stock = Stock::find($id);
-        return view('stock.show', compact('stock'));
+        
+    	/*
+    	 * I have studied how you utilized the morphTo() method.. It was super coool.
+    	 * I just cant find a way to connect it to technicians though.
+    	 */
+    	
+    	
+        $movement_technician_details = array();
+
+        
+        foreach ($stock->movement()->take(100)->get()as $row)
+        {	$array_alias = $row->id."".$row->stock_id;
+        	
+        	if($row->stockable_type=='App\Models\JobOrder')
+        	{
+        		
+        		$movement_technician_details[$array_alias] = DB::table('stock_movements')
+        			->join('job_orders', 'stock_movements.stockable_id', '=', 'job_orders.id')
+        			->join('job_order_technician', 'job_orders.id', '=', 'job_order_technician.job_order_id')
+        		//	->join('locations', 'job_orders.location_id', '=', 'locations.id')
+        			->join('employees', 'job_order_technician.technician_id', '=', 'employees.id')
+        			->select('employees.code', 'employees.name as employee_name')
+        			->where('stock_movements.id', '=', $row->id)
+        			->get();
+        		
+        	
+        	}
+        	
+        	//skip for the meantime the QuotationItems
+        	else $movement_technician_details[$array_alias] = [];
+        	
+        	
+        	
+        }
+        
+        
+        return view('stock.show', compact('stock', 'movement_technician_details'));
     }
 
     public function destroy($id)
