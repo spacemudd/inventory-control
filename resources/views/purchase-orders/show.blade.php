@@ -131,10 +131,11 @@
 											<td class="is-capitalized">{{ optional($purchase_order->cost_center)->display_name }}</td>
 										</tr>
 										<tr>
-											<td><strong>Subject</strong></td>
+											<td><strong>Subject {{$purchase_order->cost_approval_id}}</strong></td>
 											<td>
 												<string-token :id.number="{{ $purchase_order->id }}"
 															  name="subject"
+															  :can-multiple-edit="{{auth()->user()->hasPermissionTo('edit-po-subject-after-approval')==1 ? 'true' : 'false'}}"
 															  value="{{ $purchase_order->subject }}"
 															  :highlighted="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
 															  placeholder="SUBJECT"

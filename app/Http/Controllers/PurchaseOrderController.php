@@ -130,8 +130,11 @@ class PurchaseOrderController extends Controller
      */
     public function show($id)
     {
-        $this->authorize('view-purchase-orders');
-
+        //$this->authorize('view-purchase-orders');
+		/*
+		 *  Enabled other user roles temporarily to allow other users access this page
+		 */
+    	
         $purchase_order = $this->service->show($id);
 
         if($purchase_order->purchase_order_main_id) return abort(404);
