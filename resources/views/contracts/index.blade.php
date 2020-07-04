@@ -31,7 +31,10 @@
     <div class="column is-6">
     </div>
     <div class="column is-6">
-        <div class="has-text-right">
+        <div class="has-text-right is-flex" style="justify-content:flex-end">
+            <div style="margin: 0 5px;">
+                <a href="{{ route('contracts.export') }}" class="button is-small">Export</a>
+            </div>
             <div>
                 <a href="{{ route('contracts.create') }}" class="button is-primary is-small">New</a>
             </div>

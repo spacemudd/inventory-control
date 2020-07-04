@@ -12,17 +12,6 @@ class ContractEquipment extends Model
         'location_id',
     ];
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function($model) {
-            if (auth()->user()) {
-                $model->created_by_id = auth()->user()->id;
-            }
-        });
-    }
-
     public function contract()
     {
         return $this->belongsTo(Contract::class);

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contract;
-use App\Models\SupplierInvoice;
+use App\Models\Location;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ContractsController extends Controller
 {
@@ -97,5 +99,63 @@ class ContractsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function export()
+    {
+        return view('contracts.export');
+    }
+
+    public function excel(Request $request)
+    {
+        $request->validate([
+            'date_from' => 'nullable',
+            'date_to' => 'nullable',
+        ]);
+
+        $contracts = Contract::query();
+
+        if ($request->date_from) $contracts->where('issued_at', '>=', Carbon::parse($request->date_from));
+        if ($request->date_to) $contracts->where('issued_at', '<=', Carbon::parse($request->date_to));
+
+        $excel = Excel::create(now()->format('Y-m-d').'-contracts', function($excel) use ($contracts) {
+            $excel->sheet('Sheet', function ($sheet) use ($contracts) {
+                $sheet->appendRow([
+                    'Contract No.',
+                    'Cost Center',
+                    'Supplier',
+                    'Supplier Reference No.',
+                    'Equipment',
+                    'Location',
+                    'Contract Start Date',
+                    'Contract End Date',
+                    'Contract Value',
+                    'Total paid',
+                    'Remaining',
+                    'Remarks',
+                ]);
+
+                $contracts->each(function ($contract) use ($sheet) {
+                    foreach ($contract->equipments()->get() as $equipment) {
+                        $sheet->appendRow([
+                            $contract->number,
+                            optional($contract->cost_center)->display_name,
+                            optional($contract->vendor)->display_name,
+                            $contract->vendor_reference_number,
+                            $equipment->name,
+                            optional(Location::find($equipment->pivot->location_id))->name,
+                            $contract->issued_at,
+                            $contract->expires_at,
+                            $contract->total_cost,
+                            $contract->payments()->sum('cost'),
+                            $contract->total_cost - $contract->payments()->sum('cost'),
+                            $contract->remarks,
+                        ]);
+                    }
+                });
+            });
+        });
+
+        return $excel->download('xlsx');
     }
 }

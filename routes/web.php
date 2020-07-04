@@ -52,6 +52,8 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::get('material-requests/{itemName}/search', 'MaterialRequestsController@searchItem');
 
         // Contracts
+        Route::get('contracts/export', 'ContractsController@export')->name('contracts.export');
+        Route::post('contracts/export/excel', 'ContractsController@excel')->name('contracts.export.excel');
         Route::resource('contracts', 'ContractsController');
 
         // Contract equipments
