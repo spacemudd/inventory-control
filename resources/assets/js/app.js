@@ -298,6 +298,8 @@ Vue.component('select-quotation', require('./components/SelectQuotation/SelectQu
 Vue.component('purchase-order-lines', require('./components/PurchaseOrderLines').default);
 Vue.component('select-approver-for-purchase-order', require('./components/SelectApproverForPurchaseOrder').default);
 Vue.component('purchase-order-invoice-lines', require('./components/PurchaseOrderInvoiceLines').default);
+Vue.component('equipments-search', require('./components/EquipmentsSearch').default);
+Vue.component('location-selector-ui', require('./components/LocationSelectorUi').default);
 
 /**
  * API/App settings

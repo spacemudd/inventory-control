@@ -108,6 +108,12 @@ class PermissionsTableSeeder extends Seeder
         	 *  */
         	'delete-cost-approvals',
         	'view-all-regions'
+
+
+            'view-contracts',
+            'create-contracts',
+            'edit-contracts',
+            'delete-contracts',
         ];
 
         // Creating a super admin role.

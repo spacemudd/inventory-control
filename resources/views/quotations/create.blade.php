@@ -33,7 +33,7 @@
                 @csrf
 
             <div class="field">
-                <label for="date" class="label">Material request number <span class="has-text-danger">*</span></label>
+                <label for="material_request_id" class="label">Material request number <span class="has-text-danger">*</span></label>
                 <material-requests-search></material-requests-search>
                 @if ($errors->has('material_request_id'))
                     <span class="help is-danger">
