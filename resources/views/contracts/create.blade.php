@@ -33,6 +33,23 @@
         </div>
 
         <div class="columns">
+            <div class="column is-6">
+                <div class="field">
+                    <label class="label has-text-weight-normal is-small">Contract Number</label>
+                    <div class="control">
+                        <input name="number" class="input is-small" type="text" value="{{ old('number') }}" autofocus>
+                        <span class="help">When not filled, it will be auto-generated.</span>
+                        @if ($errors->has('issued_at'))
+                            <span class="help is-danger">
+                                {{ $errors->first('issued_at') }}
+                            </span>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="columns">
             <div class="column is-3">
                 <div class="field">
                     <label class="label has-text-weight-normal is-small">Contract Date <span class="has-text-danger">*</span></label>

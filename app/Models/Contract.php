@@ -68,4 +68,25 @@ class Contract extends Model
     {
         return $this->hasMany(ContractPayment::class);
     }
+
+    public function isDraft()
+    {
+        return (int) $this->status === (int) self::STATUS_DRAFT;
+    }
+
+    public function isSaved()
+    {
+        return (int) $this->status === (int) self::STATUS_SAVED;
+    }
+
+    public function getStatusNameAttribute()
+    {
+        if ((int) $this->status === (int) self::STATUS_DRAFT) {
+            return 'Draft';
+        }
+
+        if ((int) $this->status === (int) self::STATUS_SAVED) {
+            return 'Saved';
+        }
+    }
 }

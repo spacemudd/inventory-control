@@ -47,8 +47,8 @@
             </colgroup>
             <tbody>
                 <tr>
-                    <td><b>Number</b></td>
-                    <td>{{ $contract->number ?: $contract->id }}</td>
+                    <td><b>Contract Number</b></td>
+                    <td>{{ $contract->number }}</td>
                 </tr>
                 <tr>
                     <td><b>Cost Center</b></td>
@@ -85,6 +85,18 @@
             <col style="width:40%;">
         </colgroup>
         <tbody>
+            <tr>
+                <td><b>Status</b></td>
+                <td class="is-capitalized">
+                    {{ $contract->status_name }}
+                    @if($contract->isDraft())
+                        <span class="circle is-warning"></span>
+                    @endif
+                    @if($contract->isSaved())
+                        <span class="circle is-success"></span>
+                    @endif
+                </td>
+            </tr>
             <tr>
                 <td><b>Supplier</b></td>
                 <td>{{ optional($contract->vendor)->display_name }}</td>
