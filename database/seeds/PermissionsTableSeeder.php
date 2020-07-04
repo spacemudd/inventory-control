@@ -109,8 +109,8 @@ class PermissionsTableSeeder extends Seeder
         	'delete-cost-approvals',
         	'view-all-regions',
         	'view-sales-taxes',
-        	'edit-po-subject-after-approval'
-        	//--to add, create-sales-taxes
+        	'edit-po-subject-after-approval',
+        	'create-sales-taxes',
         ];
 
         // Creating a super admin role.
@@ -119,20 +119,13 @@ class PermissionsTableSeeder extends Seeder
             'guard_name' => 'web'
         ]);
 
-        // Inserting the permissions to the database.
-        $permissionsToMake = [];
-        foreach($permissionsList as $type => $permissions) {
-            foreach($permissions as $permission) {
-                $permissionsToMake[] = [
-                    'name' => $permission,
-                    'guard_name' => 'web',
-                    'type' => $type,
-                    'created_at' => new \Carbon\Carbon(),
-                    'updated_at' => new \Carbon\Carbon(),
-                ];
-            }
+        foreach ($permissionsList['system'] as $permission) {
+            \Spatie\Permission\Models\Permission::firstOrCreate([
+                'name' => $permission,
+                'guard_name' => 'web',
+                'type' => 'system',
+            ]);
         }
-        \Spatie\Permission\Models\Permission::insert($permissionsToMake);
 
         // Assigning the permissions to the role.
         $superAdmin->givePermissionTo($permissionsList['system']);
