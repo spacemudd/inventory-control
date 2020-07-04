@@ -55,18 +55,26 @@
                     <td>{{ optional($contract->cost_center)->display_name }}</td>
                 </tr>
                 <tr>
-                    <td><b>Duration</b></td>
-                    <td>
-                        {{ optional($contract->issued_at)->format('d-m-Y') }} <span style="color:red;">&rarr;</span> {{ optional($contract->expires_at)->format('d-m-Y') }}
-                    </td>
-                </tr>
-                <tr>
                     <td><b>Contract total cost</b></td>
                     <td>{{ number_format($contract->total_cost, 2) }}</td>
                 </tr>
                 <tr>
                     <td><b>Payment interval</b></td>
                     <td><span style="color:#898989;">{{ ucfirst($contract->payment_frequency) }}</span> - {{ number_format($contract->cost, 2) }}</td>
+                </tr>
+                <tr>
+                    <td><b>Duration</b></td>
+                    <td>
+                        {{ optional($contract->issued_at)->format('d-m-Y') }} <span style="color:red;">&rarr;</span> {{ optional($contract->expires_at)->format('d-m-Y') }}
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Paid so far</b></td>
+                    <td>{{ number_format($contract->payments()->sum('cost'), 2) }}</td>
+                </tr>
+                <tr>
+                    <td><b>Remaining</b></td>
+                    <td>{{ number_format($contract->total_cost - $contract->payments()->sum('cost'), 2) }}</td>
                 </tr>
             </tbody>
         </table>

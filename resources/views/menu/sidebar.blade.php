@@ -127,7 +127,7 @@
 
 
                                     <sidebar-links-group selected="{{ (request()->route()->getName() === '.index') }}"
-                                                         icon="file"
+                                                         icon="file-text"
                                                          title="Contracts"
                                                          link="{{ route('contracts.index') }}">
                                     </sidebar-links-group>
