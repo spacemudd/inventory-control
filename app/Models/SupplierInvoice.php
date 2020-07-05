@@ -2,6 +2,7 @@
 
 namespace App\Models;
 use App\Models\Vendor;
+use App\Models\PurchaseOrder;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,5 +21,10 @@ class SupplierInvoice extends Model
     {
     	return $this->hasOne(Vendor::class, 'id', 'vendor_id');
     	//return $this->belongsTo(Vendor::class, 'suppldier_invoice_id');
+    }
+    
+    public function purchase_order()
+    {
+    	return $this->belongsTo(PurchaseOrder::class);
     }
 }

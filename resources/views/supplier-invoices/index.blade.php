@@ -50,7 +50,7 @@
                         <td>{{ $invoice->number }}</td>
                         <td>{{ $invoice->vendors->name }}</td>
                         <td>{{ optional($invoice->proceeded_date)->format('d-m-Y') }}</td>
-                        <td>{{ $invoice->po_number }}</td>
+                        <td>{{ $invoice->purchase_order == null ? $invoice->po_number : $invoice->purchase_order->number }}</td>
                         <td></td>
                     </tr>
                 @endforeach
