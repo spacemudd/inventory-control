@@ -65,7 +65,7 @@
 				<div class="field">
 					<label class="label has-text-weight-normal">Date</label>
 					<div class="control">
-						<input name="date" class="input is-small" type="date" autofocus>
+						<input name="date" class="input is-small" value="{{ now()->format('Y-m-d') }}" type="date" autofocus>
 					</div>
 				</div>
 			</div>
