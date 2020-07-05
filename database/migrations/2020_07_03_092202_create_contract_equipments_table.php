@@ -15,11 +15,11 @@ class CreateContractEquipmentsTable extends Migration
     {
         Schema::create('contract_equipments', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedBigInteger('contract_id');
+            $table->unsignedInteger('contract_id');
             $table->foreign('contract_id')->references('id')->on('contracts');
-            $table->unsignedBigInteger('equipment_id');
+            $table->unsignedInteger('equipment_id');
             $table->foreign('equipment_id')->references('id')->on('equipments');
-            $table->unsignedBigInteger('location_id')->nullable();
+            $table->unsignedInteger('location_id')->nullable();
             $table->foreign('location_id')->references('id')->on('locations');
             $table->timestamps();
         });
