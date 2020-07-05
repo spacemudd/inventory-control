@@ -15,12 +15,12 @@ class CreateContractPaymentsTable extends Migration
     {
         Schema::create('contract_payments', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedBigInteger('contract_id');
+            $table->unsignedInteger('contract_id');
             $table->foreign('contract_id')->references('id')->on('contracts');
             $table->string('reference');
             $table->timestamp('issued_at');
             $table->decimal('cost', 10, 2);
-            $table->unsignedBigInteger('created_by_id');
+            $table->unsignedInteger('created_by_id');
             $table->foreign('created_by_id')->references('id')->on('users');
             $table->timestamps();
         });
