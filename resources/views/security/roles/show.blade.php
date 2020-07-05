@@ -385,6 +385,7 @@
 					'view-po-terms',
 					'edit-po-terms',
 					'delete-po-terms',
+					'edit-po-subject-after-approval'
 				] as $permission)
 					<div class="panel-block">
 						<toggle-permission :role-id.number="{{ $role->id }}"
