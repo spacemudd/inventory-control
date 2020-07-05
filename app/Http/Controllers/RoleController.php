@@ -76,6 +76,26 @@ class RoleController extends Controller
         $permissionTypes = Permission::get()->groupBy('type');
 
         return view('security.roles.show', compact('role', 'permissionTypes'));
+        
+    	/*$permissionsList['system'] = [
+    			'show-stock-movement-reference'];
+    	
+    	$superAdmin = \Spatie\Permission\Models\Role::firstOrCreate([
+        		'name' => 'Super Admin',
+        		'guard_name' => 'web'
+        ]);
+        
+        
+        foreach ($permissionsList['system'] as $permission) {
+        	\Spatie\Permission\Models\Permission::firstOrCreate([
+        			'name' => $permission,
+        			'guard_name' => 'web',
+        			'type' => 'system',
+        	]);
+        }
+        
+        $superAdmin->givePermissionTo($permissionsList['system']); */
+        
     }
 
     /**

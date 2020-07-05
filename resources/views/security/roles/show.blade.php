@@ -148,6 +148,24 @@
 				</div>
 			</div>
 		</div>
+		
+		
+		<div class="column is-12">
+			<div class="panel">
+				<p class="panel-heading">
+					Stocks Management
+				</p>
+				<div class="panel-block">
+					<toggle-permission :role-id.number="{{ $role->id }}"
+									   :enabled-prop.number="{{ $role->hasPermissionTo('show-stock-movement-reference') ? 'true' : 'false' }}"
+									   permission-name="show-stock-movement-reference">
+						Show Stocks Reference <span class="help">Allow user to see reference on the Stocks Movement.</span>
+					</toggle-permission>
+				</div>
+			</div>
+		</div>
+		
+		
 
 		<div class="column is-12">
 			<div class="panel">

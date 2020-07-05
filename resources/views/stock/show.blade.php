@@ -152,8 +152,9 @@
 								<td>{{ $movement->in }}</td>
 								<td>{{ $movement->out }}</td>
 								<td>
-								
+								@can('show-stock-movement-reference')
 									<a href="{{ route($movement->stockable_type=='App\Models\JobOrder' ? 'job-orders.show' : 'quotations.show', ['id' => $movement->stockable_type=='App\Models\JobOrder' ? optional($movement->stockable)->display_name : $movement->stockable['quotation_id']]) }}">{{ optional($movement->stockable)->display_name }}</a>
+								@endcan
 								</td>
 {{--								<td><a href="{{ route('job-orders.show', ['id' => $job_item->jobOrder->job_order_number]) }}">{{ $job_item->jobOrder->job_order_number }}</a></td>--}}
 								
