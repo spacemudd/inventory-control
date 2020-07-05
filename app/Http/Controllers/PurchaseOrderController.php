@@ -52,8 +52,8 @@ class PurchaseOrderController extends Controller
         $draftCounter = PurchaseOrder::draft()->count();
         $committedCounter = PurchaseOrder::committed()->count();
         $voidCounter = PurchaseOrder::void()->count();
-
-        $data = PurchaseOrder::latest()->paginate(10);
+		
+        $data = PurchaseOrder::latest()->paginate(100);
 
         return view('purchase-orders.index', compact('draftCounter', 'committedCounter', 'voidCounter', 'data'));
     }
