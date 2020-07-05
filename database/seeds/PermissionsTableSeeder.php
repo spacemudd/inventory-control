@@ -107,7 +107,7 @@ class PermissionsTableSeeder extends Seeder
         	 * then reseed this Class.
         	 *  */
         	'delete-cost-approvals',
-        	'view-all-regions'
+        	'view-all-regions',
 
 
             'view-contracts',
