@@ -623,7 +623,7 @@
             this.$toast.open({
               message: 'Success! Redirecting...',
             });
-            window.location.href = this.baseUrl()+'/job-orders';
+            window.location.href = this.baseUrl()+'/job-orders/'+response.data.job_order_number;
           })
           .catch(e => {
             alert(e.response.data.message);
