@@ -20,7 +20,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr class="item" v-for="item in items">
+            <tr class="item" v-for="(item, index) in items" :key="index">
                 <td v-if="quotations.length>1">
                     <input disabled type="text" class="input is-small" v-model="item.quotation_number">
                 </td>
@@ -38,8 +38,8 @@
             <tr class="newItem" v-if="isAdding">
                 <td v-if="quotations.length>1">
                     <div class="select is-fullwidth">
-                        <select name="quotation_number" v-model="newItem.quotation_number">
-                            <option v-for="quotation in quotations" :value="quotation.quotation_number">
+                        <select @change="alterQuotations()"  name="quotation_number" v-model="newItem.quotation_number">
+                            <option v-for="(quotation, index) in mutated_quotations" :key="index" v-if="!quotation.hasChosen" :value="quotation.quotation_number">
                                 {{ quotation.quotation_number }}
                             </option>
                         </select>
@@ -73,6 +73,7 @@
 </template>
 <script>
   import moment from 'moment';
+  import _ from 'lodash';
   export default {
     props: {
       costApprovalId: {
@@ -91,10 +92,15 @@
       }
     },
     data () {
+
+      let mutated_quotations = _.cloneDeep(this.quotations)
       return {
         items: [],
+        mutated_quotations,
         newItem: { quotation_number: '', cost_approval_id: null, description: "", qty: 1, unit_price: 0, lump_sum: false },
         isAdding: false,
+        selectedQuotation: null,
+        groupOfSelectedQuotations: [],
       }
     },
     computed: {
@@ -146,22 +152,55 @@
         axios.get(this.apiUrl()+'/cost-approvals/'+this.costApprovalId+'/lines')
           .then(response => {
             this.items = response.data;
+            this.alterQuotations();
           })
       },
       addRow() {
         this.isAdding = true;
       },
+
+      alterQuotations()
+      {
+        let holder = _.cloneDeep(this.mutated_quotations);
+        this.mutated_quotations = [];
+
+       _.forEach(holder, (value)=>{
+
+          let isSelected = _.filter(this.items, itemval =>{
+            return itemval.quotation_number == value.quotation_number
+          }).length
+
+          console.log("napili ko? ", isSelected)
+
+          if(isSelected>=1)
+           value.hasChosen = true;
+            
+          
+
+          else
+           value.hasChosen = false
+            
+          
+          
+          this.mutated_quotations.push(value);
+
+       })
+
+
+      },
       saveItem()
       {
         this.newItem.cost_approval_id = this.costApprovalId;
-        if (this.quotations.length<=1) {
-          this.newItem.quotation_number = this.quotations[0].quotation_number;
+        if (this.mutated_quotations.length<=1) {
+          this.newItem.quotation_number = this.mutated_quotations[0].quotation_number;
         }
+        //this.newItem.quotation_number;
         axios.post(this.apiUrl()+'/cost-approvals/'+this.costApprovalId+'/lines', this.newItem)
           .then(response => {
             this.newItem = { quotation_number: '', description: "", qty: 1, unit_price: 0, lump_sum: false };
             this.items.push(response.data);
             this.addRow();
+            this.alterQuotations()
           })
       },
       deleteItem(item)
