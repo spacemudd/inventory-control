@@ -13,8 +13,6 @@ class SupplierInvoicesController extends Controller
     {
     	$invoices = SupplierInvoice::all();
     	
-    	//return var_dump($invoices);
-    	
     	return view('supplier-invoices.index', compact('invoices'));
     }
 
