@@ -83,6 +83,7 @@ class PurchaseOrder extends Model implements AuditableContract
         'approver_one_id',
         'approver_two_id',
         'approver_three_id',
+        'voided_by_id',
         'remarks',
     ];
 
@@ -322,6 +323,11 @@ class PurchaseOrder extends Model implements AuditableContract
     public function cost_center()
     {
         return $this->belongsTo(Department::class, 'cost_center_id');
+    }
+
+    public function voided_by()
+    {
+        return $this->belongsTo(User::class);
     }
 
     /**

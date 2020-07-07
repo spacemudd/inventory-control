@@ -127,6 +127,7 @@ class PurchaseOrderController extends Controller
     {
         $po = PurchaseOrder::find($request->id);
         $po->status = PurchaseOrder::VOID;
+        $po->voided_by_id = auth()->user()->id;
         $po->save();
 
         if (request()->wantsJson()) {
