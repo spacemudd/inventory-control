@@ -170,7 +170,6 @@
             return itemval.quotation_number == value.quotation_number
           }).length
 
-          console.log("napili ko? ", isSelected)
 
           if(isSelected>=1)
            value.hasChosen = true;

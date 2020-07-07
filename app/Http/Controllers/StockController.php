@@ -122,7 +122,7 @@ class StockController extends Controller
         $movement_technician_details = array();
 
         
-        foreach ($stock->movement()->take(100)->get()as $row)
+        foreach ($stock->movement()->paginate(100) as $row)
         {	$array_alias = $row->id."".$row->stock_id;
         	
         	if($row->stockable_type=='App\Models\JobOrder')
