@@ -50,6 +50,9 @@ class PurchaseOrderReportController extends Controller
                 ]);
 
                 $po->each(function ($purchaseOrder) use ($sheet) {
+
+                    $voidedBy = ' - '.optional($purchaseOrder->voided_by)->display_name;
+
                     $sheet->appendRow([
                         $purchaseOrder->number,
                         $purchaseOrder->vendor->name,
@@ -60,7 +63,7 @@ class PurchaseOrderReportController extends Controller
                         $purchaseOrder->lines()->sum('vat'),
                         $purchaseOrder->lines()->sum('grand_total'),
                         $purchaseOrder->date->toDateString(),
-                        $purchaseOrder->status_name === 'void' ? 'VOID' : '',
+                        $purchaseOrder->status_name === 'void' ? 'VOID'.$voidedBy : '',
                         optional(optional($purchaseOrder->supplier_invoice)->proceeded_date)->toDateString(),
                         optional($purchaseOrder->supplier_invoice)->number,
                         $purchaseOrder->lines()->pluck('tag_number')->implode('-'),
