@@ -47,11 +47,19 @@
             <tbody>
                 @foreach ($invoices as $invoice)
                     <tr>
-                        <td>{{ $invoice->number }}</td>
+                        <td id="current-number-{{$invoice->id}}">{{ $invoice->number }}</td>
                         <td>{{ $invoice->vendors->name }}</td>
                         <td>{{ optional($invoice->proceeded_date)->format('d-m-Y') }}</td>
                         <td>{{ $invoice->purchase_order == null ? $invoice->po_number : $invoice->purchase_order->number }}</td>
-                        <td></td>
+                        <?php 
+                       	 $newval = $invoice->number;
+                        ?>
+                        
+                        <td>
+                         @can('edit-invoices')
+                        	<a @click="$store.commit('SupplierInvoices/showEditInvoiceUpdateModal', true); $store.commit('SupplierInvoices/id', {{json_encode(['number'=>$newval, 'uid'=>$invoice->id])}});" class="button is-small">Edit</a>
+                         @endcan	
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
@@ -59,5 +67,9 @@
 
         {{-- $invoice->links('vendor.pagination.bulma') --}}
     </div>
+    
+    <supplier-invoice-update>
+    
+    </supplier-invoice-update>
 </div>
 @endsection

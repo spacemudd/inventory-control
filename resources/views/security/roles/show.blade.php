@@ -153,6 +153,22 @@
 		<div class="column is-12">
 			<div class="panel">
 				<p class="panel-heading">
+					Invoices
+				</p>
+				<div class="panel-block">
+					<toggle-permission :role-id.number="{{ $role->id }}"
+									   :enabled-prop.number="{{ $role->hasPermissionTo('edit-invoices') ? 'true' : 'false' }}"
+									   permission-name="edit-invoices">
+						Edit Invoices
+					</toggle-permission>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="column is-12">
+			<div class="panel">
+				<p class="panel-heading">
 					Stocks Management
 				</p>
 				<div class="panel-block">

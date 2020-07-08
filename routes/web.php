@@ -78,7 +78,8 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::get('invoices', 'SupplierInvoicesController@index')->name('supplier-invoices.index');
         Route::get('invoices/create', 'SupplierInvoicesController@create')->name('supplier-invoices.create');
         Route::post('invoices/store', 'SupplierInvoicesController@store')->name('supplier-invoices.store');
-
+        
+        
         // Purchase Requisitions.
         Route::get('purchase-requisitions/{id}/pdf', 'PurchaseRequisitionsController@pdf')->name('purchase-requisitions.pdf');
         Route::post('purchase-requisitions/{id}/save', 'PurchaseRequisitionsController@save')->name('purchase-requisitions.save');
@@ -211,6 +212,8 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     //    $response = ['message' => 'Hello! - API version ' . env('APP_API', '1')];
     //    return response()->json($response, 200);
     //});
+    
+	
 
     Route::post('audit/show', 'Api\AuditsController@show');
 
@@ -426,7 +429,8 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::post('/cost-approvals/{cost_approval_id}/lines', 'Api\CostApprovalsLinesController@store');
     Route::delete('/cost-approvals/{cost_approval_id}/lines/{id}', 'Api\CostApprovalsLinesController@delete');
     Route::get('/approvers', 'Api\ApproversController@index');
-
+    Route::post('/cost-approvals/{invoice_id}/changeinvoiceno', 'Api\CostApprovalsLinesController@storeinvoiceupdate');
+    
     // Equip tree management
     Route::get('/equipments/all', 'Api\EquipmentsController@index');
     Route::post('/equipment/add-node', 'Api\EquipmentsController@addNode');

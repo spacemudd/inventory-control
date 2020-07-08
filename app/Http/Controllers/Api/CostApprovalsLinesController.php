@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\CostApprovalLine;
+use App\Models\SupplierInvoice;
 
 class CostApprovalsLinesController extends Controller
 {
@@ -33,6 +34,34 @@ class CostApprovalsLinesController extends Controller
 
         return $line;
     }
+    
+    /*borrowed this controller to save invoice no. update, will transfer later.*/
+    public function storeinvoiceupdate($invoice_id, Request $request)
+    {
+    	try {
+    		$request->validate([
+    				'number' => 'required'
+    		]);
+    		
+    		$value = $request->toArray();
+    		
+    		$line = SupplierInvoice::find($invoice_id);
+    		$line->number = $value['number'];
+    		$line->save();
+    		
+    		return [
+    			'status'=>'saved',
+    			'message'=>''
+    		];
+    	} catch (\Exception $e) {
+    		return [
+    			'status'=>'failed',
+    			'message'=>$e->getMessage()
+    		];
+    	}
+    	
+    }
+    
 
     public function delete($cost_approval_id, $id)
     {
