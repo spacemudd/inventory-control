@@ -27,7 +27,39 @@ class JobOrderController extends Controller
      */
     public function index()
     {
-        $jobOrders = JobOrder::latest()->paginate(100);
+    	
+    	
+    	
+        if (request()->sort_by === 'description-desc') {
+        	$jobOrders = JobOrder::query();
+        	$jobOrders = $jobOrders->orderBy('job_description', 'desc')->paginate(100);
+        }
+        else if(request()->sort_by === 'description-asc') {
+        	$jobOrders = JobOrder::query();
+        	$jobOrders = $jobOrders->orderBy('job_description', 'asc')->paginate(100);
+        }
+        
+        else if(request()->sort_by === 'location-asc') {
+       		
+        	$jobOrders = JobOrder::selectRaw('pur_job_orders.*, pur_locations.id as locid, pur_locations.name, pur_locations.created_at, pur_locations.updated_at')
+        	->join('locations', 'job_orders.location_id', '=', 'locations.id')
+        	->orderBy('locations.name')
+        	->paginate(100);
+        }
+        
+        else if(request()->sort_by === 'location-desc') {
+        	$jobOrders = JobOrder::selectRaw('pur_job_orders.*, pur_locations.id as locid, pur_locations.name, pur_locations.created_at, pur_locations.updated_at')
+        	->join('locations', 'job_orders.location_id', '=', 'locations.id')
+        	->orderByDesc('locations.name')
+        	->paginate(100);        	
+        }
+        
+        else {
+        	//return "hello";
+        	$jobOrders = JobOrder::query();
+        	$jobOrders = $jobOrders->paginate(100);
+        }
+        
         return view('job-orders.index', compact('jobOrders'));
     }
 

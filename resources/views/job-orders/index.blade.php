@@ -61,8 +61,26 @@
         <tr>
         	<th style="width:100px;">No.</th>
             <th style="width:100px;">Status</th>
-            <th style="width:300px;">Description</th>
-            <th>Location</th>
+            <th style="width:300px;">
+            
+            @if (request()->has('sort_by') && request()->sort_by === 'description-desc')
+                        <a href="?sort_by=description-asc">Description <i class="fa fa-arrow-down"></i></a>
+                     @elseif(request()->has('sort_by') && request()->sort_by === 'description-asc')
+                        <a href="?sort_by=description-desc">Description <i class="fa fa-arrow-up"></i></a>                        
+                    @else
+                    	<a href="?sort_by=description-asc">Description </a>  
+                    @endif
+            </th>
+            
+            <th>
+            	 @if (request()->has('sort_by') && request()->sort_by === 'location-desc')
+                        <a href="?sort_by=location-asc">Location <i class="fa fa-arrow-down"></i></a>
+                 @elseif(request()->has('sort_by') && request()->sort_by === 'location-asc')
+                        <a href="?sort_by=location-desc">Location <i class="fa fa-arrow-up"></i></a>  
+                 @else                     
+                 		<a href="?sort_by=location-desc">Location </a>  
+                 @endif
+            </th>
             <th style="width:75px;">Extension</th>
             <th style="width:150px;">Equipment</th>
             <th style="width:200px;">Technicians</th>
@@ -90,7 +108,7 @@
                             <td>
                                 <p>{{ $jobOrder->job_description }}</p>
                             </td>
-                            <td>{{ optional($jobOrder->location)->name }}</td>
+                            <td>{{ optional($jobOrder->locationdesc)->name }}</td>
                             <td>{{ $jobOrder->ext }}</td>
                             <td>
                                 @if($jobOrder->equipment)
