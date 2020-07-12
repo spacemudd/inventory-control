@@ -191,6 +191,8 @@
                     <div class="control select is-fullwidth">
                         <select class="select is-small" name="payment_frequency" id="payment_frequency">
                             <option value="monthly" selected>Monthly</option>
+                            <option value="quarterly" selected>Quarterly</option>
+                            <option value="half-yearly" selected>Half Yearly</option>
                             <option value="yearly">Yearly</option>
                         </select>
                         @if ($errors->has('payment_frequency'))
