@@ -21,6 +21,17 @@ class PurchaseOrderUploadsController extends Controller
 
         return $uploads;
     }
+    
+    
+    /**
+     * Borrowed this function from PurchaseOrderUploadsController
+     * 
+     */
+    public function contractindex(Request $request)
+    {
+    	
+    }
+    
 
     /**
      * Saves files to the storage.

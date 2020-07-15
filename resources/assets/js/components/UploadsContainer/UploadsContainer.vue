@@ -96,6 +96,7 @@
             getUploads() {
                 axios.get(this.url)
                     .then(response => {
+                        console.log(response.data)
                         this.uploads = response.data;
                     });
             },

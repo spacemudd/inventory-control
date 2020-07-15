@@ -78,6 +78,30 @@ class Contract extends Model
     {
         return (int) $this->status === (int) self::STATUS_SAVED;
     }
+    
+    
+    /**
+     * Get all the media files associated with this record.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function media()
+    {
+    	return $this->morphMany(Media::class, 'model');
+    }
+    
+    
+    /**
+     * Get all the notes owned by this requisition.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function notes()
+    {
+    	return $this->morphMany(Note::class, 'notable');
+    }
+    
+    
 
     public function getStatusNameAttribute()
     {

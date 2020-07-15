@@ -307,8 +307,24 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     // Purchase Orders uploads.
     Route::post('purchase-orders/uploads', 'Api\PurchaseOrderUploadsController@store')->name('api.purchase-orders.uploads');
     Route::get('purchase-orders/uploads', 'Api\PurchaseOrderUploadsController@index')->name('api.purchase-orders.uploads');
-//    Route::get('purchase-orders/uploads/{id}/download', 'Api\PurchaseOrdersUploadController@download')->name('api.purchase-orders.download');
+    
+    //Contracts uploads.
+    Route::get('contracts/uploads', 'Api\ContractsUploadsController@index')->name('api.contracts.uploads');
+    Route::post('contracts/uploads', 'Api\ContractsUploadsController@store')->name('api.contracts.uploads');
+    
+    Route::post('contracts/notes', 'Api\ContractsNotesController@store')->name('api.contracts.notes');
+    Route::get('contracts/notes', 'Api\ContractsNotesController@index')->name('api.contracts.notes');
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     // PO Items
     Route::post('purchase-orders/items/partial-edit', 'Api\PurchaseOrderItemController@partialUpdate');
     Route::post('purchase-orders/{purchase_order_id}/items', 'Api\PurchaseOrderItemController@store');
