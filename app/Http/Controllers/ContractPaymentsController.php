@@ -37,11 +37,17 @@ class ContractPaymentsController extends Controller
      */
     public function store(Request $request)
     {
+    	
         $request->validate([
             'issued_at' => 'required',
             'reference' => 'required',
             'contract_id' => 'required',
             'cost' => 'required',
+        	'invoice_period_from' => 'required',
+        	'invoice_period_to' => 'required',
+        	'proceeded_date' => 'required',
+        	'invoice_no' => 'required',
+        	'invoice_tax_amount' => 'required'
         ]);
 
         ContractPayment::create($request->except('_token'));

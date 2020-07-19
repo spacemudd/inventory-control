@@ -65,6 +65,92 @@
                 </div>
             </div>
         </div>
+        
+         <div class="columns">
+         	<div class="column is-6">
+         		<div class="box">
+				    <p style="margin-bottom:10px;"><b>Invoice Details</b></p>
+					
+					<div class="columns">
+						<div class="column is-6">
+							<div class="field">
+			                    <label for="invoice_no" class="label">Invoice No. <span class="has-text-danger">*</span></label>
+			                    <input type="text" class="input is-small" name="invoice_no" required>
+			                    <span class="help">Source Invoice No. for which the payment is to be made</span>
+			                    @if ($errors->has('invoice_no'))
+			                        <span class="help is-danger">
+			                        {{ $errors->first('invoice_no') }}
+			                    </span>
+			                    @endif
+			                </div>
+						</div>
+						
+						<div class="column is-6">
+			                <div class="field">
+			                    <label for="proceeded_date" class="label">Proceeded Date <span class="has-text-danger">*</span></label>
+			                    <input type="date" class="input is-small" name="proceeded_date" value="{{ now()->format('Y-m-d') }}" required>
+			                    <span class="help">Date when the Invoice was created</span>
+			                    @if ($errors->has('proceeded_date'))
+			                        <span class="help is-danger">
+			                        {{ $errors->first('proceeded_date') }}
+			                    </span>
+			                    @endif
+			                </div>
+			            </div>
+					</div>
+					
+					<div class="columns">
+			            <div class="column is-6">
+			                <div class="field">
+			                    <label for="invoice_period_from" class="label">From <span class="has-text-danger">*</span></label>
+			                    <input type="date" class="input is-small" name="invoice_period_from" value="{{ now()->format('Y-m-d') }}" required>
+			                    <span class="help">Invoice Period (Beginning)</span>
+			                    @if ($errors->has('invoice_period_from'))
+			                        <span class="help is-danger">
+			                        {{ $errors->first('invoice_period_from') }}
+			                    </span>
+			                    @endif
+			                </div>
+			            </div>
+			            <div class="column is-6">
+			                <div class="field">
+			                    <label for="invoice_period_to" class="label">To <span class="has-text-danger">*</span></label>
+			                    <input type="date" class="input is-small" name="invoice_period_to" value="{{ now()->format('Y-m-d') }}" required>
+			                    <span class="help">Invoice Period (Ending)</span>
+			                    @if ($errors->has('invoice_period_to'))
+			                        <span class="help is-danger">
+			                        {{ $errors->first('invoice_period_to') }}
+			                    </span>
+			                    @endif
+			                </div>
+			            </div>
+			        </div>
+			        
+			        
+			        <div class="columns">
+			            <div class="column is-12">
+			                <div class="field">
+			                    <label for="invoice_tax_amount" class="label">Tax Invoice Amount <span class="has-text-danger">*</span></label>
+			                    <input type="number" step="0.01" min="0" class="input is-small" name="invoice_tax_amount" required>
+			                    @if ($errors->has('invoice_tax_amount'))
+			                        <span class="help is-danger">
+			                        {{ $errors->first('invoice_tax_amount') }}
+			                    </span>
+			                    @endif
+			                </div>
+			            </div>
+			        </div>
+					     
+				</div>
+         	</div>
+         	
+         </div>
+        
+			   
+			    
+	
+			
+			
 
         <div class="columns">
             <div class="column is-6">

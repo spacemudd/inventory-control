@@ -185,13 +185,15 @@
 			            <p style="text-align: center; font-size: 12px;"><i>There are no payments</i></p>
 			        @else
 			            <table class="table is-small is-size-7 is-fullwidth">
-			                <colgroup>
-			                    <col style="width:30%;">
-			                </colgroup>
+			               
 			                <thead>
 			                <tr>
 			                    <th>Reference</th>
 			                    <th>Date</th>
+			                    <th>Invoice No.</th>
+			                    <th>Proceeded Date</th>
+			                    <th>Invoice Period</th>
+			                    <th class="has-text-right">Invoice Tax Amount</th>
 			                    <th class="has-text-right">Amount</th>
 			                </tr>
 			                </thead>
@@ -200,6 +202,10 @@
 			                        <tr>
 			                            <td>{{ $payment->reference }}</td>
 			                            <td>{{ $payment->issued_at->format('d-m-Y') }}</td>
+			                            <td>{{ $payment->invoice_no }} </td>
+			                            <td>{{ date('d-m-Y', strtotime($payment->proceeded_date)) }} </td>
+			                            <td>{{ date('d-m-Y', strtotime($payment->invoice_period_from)) }}<span style="color:teal;">&rarr;</span> {{ date('d-m-Y', strtotime($payment->invoice_period_to)) }}</td>
+			                            <td class="has-text-right">{{ number_format($payment->invoice_tax_amount, 2) }}</td>
 			                            <td class="has-text-right">{{ number_format($payment->cost, 2) }}</td>
 			                        </tr>
 			                    @endforeach

@@ -149,6 +149,15 @@
                 </div>
             </div>
         </div>
+        
+        <div class="columns">
+        	<div class="column is-6">
+        		<label class="checkbox is-small" >
+				  <input name="automatic_renewal" type="checkbox" checked="checked">
+				  Automatic Renewal
+				</label>
+        	</div>
+        </div>
 
         <div class="columns">
             <div class="column is-3"><p class="title is-5">Payments</p></div>

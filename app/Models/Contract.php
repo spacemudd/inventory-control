@@ -23,6 +23,7 @@ class Contract extends Model
         'total_cost',
         'payment_frequency',
         'created_by_id',
+    	'automatic_renewal'
     ];
 
     protected $dates = [
