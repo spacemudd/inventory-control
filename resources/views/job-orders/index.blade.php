@@ -36,11 +36,11 @@
             <a href="{{ route('job-orders.completed') }}">Completed: {{ \App\Models\JobOrder::completed()->count() }}</a>
         </div>
         <div class="is-inline job-order-status-box{{ request()->route()->getName()==='job-orders.index' ? ' active' : ''}}" style="margin-left:10px;">
-            <a href="{{ route('job-orders.index') }}">All: {{ \App\Models\JobOrder::count() }}</a>
+            <a href="{{ route('job-orders.all') }}">All: {{ \App\Models\JobOrder::count() }}</a>
         </div>
     </div>
     <div class="column is-6">
-
+			hellow {{session('jo-tab') }}
         <div class="has-text-right">
             <a target="_blank" href="{{ route('job-orders.pending.raw') }}" class="button is-small">Pending</a>
 
