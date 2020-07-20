@@ -40,7 +40,6 @@
         </div>
     </div>
     <div class="column is-6">
-			hellow {{session('jo-tab') }}
         <div class="has-text-right">
             <a target="_blank" href="{{ route('job-orders.pending.raw') }}" class="button is-small">Pending</a>
 
