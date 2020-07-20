@@ -84,7 +84,8 @@
 	<div class="columns">
 		<div class="column">
 			<h1 class="has-text-weight-semibold">Activity</h1>
-			<b-tabs  size="is-small" style="margin-top:1rem;">
+			{{--"{{ request()->has('page') ? ' value="2"' : '' }}--}}
+			<b-tabs  size="is-small" style="margin-top:1rem;"{!! request()->has('page') ? ' value="1"' : '' !!}>
 				<b-tab-item label="Job orders">
 					<table class="table is-fullwidth is-bordered is-size-7 is-narrow">
 						<colgroup>
