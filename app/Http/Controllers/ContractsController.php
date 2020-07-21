@@ -120,32 +120,97 @@ class ContractsController extends Controller
             'date_to' => 'nullable',
         ]);
 
-        $contracts = Contract::query();
+        $contracts = Contract::where('issued_at', '>=', Carbon::parse($request->date_from))
+        					->where('issued_at', '<=', Carbon::parse($request->date_to))->get();
 
-        if ($request->date_from) $contracts->where('issued_at', '>=', Carbon::parse($request->date_from));
-        if ($request->date_to) $contracts->where('issued_at', '<=', Carbon::parse($request->date_to));
+      //  if ($request->date_from) $contracts->where('issued_at', '>=', Carbon::parse($request->date_from));
+       // if ($request->date_to) $contracts->where('issued_at', '<=', Carbon::parse($request->date_to));
 
         $excel = Excel::create(now()->format('Y-m-d').'-contracts', function($excel) use ($contracts) {
             $excel->sheet('Sheet', function ($sheet) use ($contracts) {
-                $sheet->appendRow([
-                    'Contract No.',
-                    'Cost Center',
-                    'Supplier',
-                    'Supplier Reference No.',
-                    'Equipment',
-                    'Location',
-                    'Contract Start Date',
-                    'Contract End Date',
-                    'Contract Value',
-                    'Total paid',
-                    'Remaining',
-                    'Remarks',
-                ]);
+               
+                
+                $row = 0;
+                foreach ($contracts as $contract)
+                {
+                	$sheet->appendRow([
+                			'Contract No.',
+                			'Cost Center',
+                			'Supplier',
+                			'Supplier Reference No.',
+                			'Equipment',
+                			'Location',
+                			'Contract Start Date',
+                			'Contract End Date',
+                			'Contract Value',
+                			'Total paid',
+                			'Remaining',
+                			'Remarks',
+                	]);
+                	$row++;
+                	
+                	$sheet->appendRow([
+                			$contract->number,//$contract->number,
+                			optional($contract->cost_center)->display_name,
+                			optional($contract->vendor)->display_name,
+                			$contract->vendor_reference_number,
+                			'heelow',
+                			'hi',//optional(Location::find($equipment->pivot->location_id))->name,
+                			$contract->issued_at,
+                			$contract->expires_at,
+                			$contract->total_cost,
+                			$contract->payments()->sum('cost'),
+                			$contract->total_cost - $contract->payments()->sum('cost'),
+                			$contract->remarks,
+                	]);
+                	$row++;
+                	
+                	
+                	$sheet->appendRow([
+                			"paymets of Contract No.: ".$contract->number
+                	]);
+                	
+                	$row++;
+                	
+                	$sheet->mergeCells('A'.$row.':E'.$row);
+                	
+                	$sheet->appendRow([
+                			'Invoice Period',
+                			'Proceeded Amount',
+                			'Proceeded Date',
+                			'Invoice No',
+                			'Tax Invoice Amount'
+                	]);
+                	$row++;
+                	
+                	
+                	foreach ($contract->payments()->get() as $payment)
+                	{
+                		$sheet->appendRow([
+                				$payment->invoice_period_from." to ".$payment->invoice_period_to,
+                				$payment->cost,
+                				$payment->proceeded_date,
+                				$payment->invoice_no,
+                				$payment->invoice_tax_amount
+                		]);
+                		$row++;
+                	}
+                	
+                	$sheet->appendRow([
+                			'<<<<End of Line, Nothing Follows>>>>'
+                	]);
+                	$row++;
+                	
+                	$sheet->appendRow([
+                			''
+                	]);
+                	$row++;
+                }
 
-                $contracts->each(function ($contract) use ($sheet) {
+              /*  $contracts->each(function ($contract) use ($sheet) {
                     foreach ($contract->equipments()->get() as $equipment) {
                         $sheet->appendRow([
-                            $contract->number,
+                            'ningpayat',//$contract->number,
                             optional($contract->cost_center)->display_name,
                             optional($contract->vendor)->display_name,
                             $contract->vendor_reference_number,
@@ -159,7 +224,7 @@ class ContractsController extends Controller
                             $contract->remarks,
                         ]);
                     }
-                });
+                }); */
             });
         });
 
