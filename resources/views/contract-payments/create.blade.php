@@ -127,18 +127,39 @@
 			        </div>
 			        
 			        
-			        <div class="columns">
-			            <div class="column is-12">
-			                <div class="field">
-			                    <label for="invoice_tax_amount" class="label">Tax Invoice Amount <span class="has-text-danger">*</span></label>
-			                    <input type="number" step="0.01" min="0" class="input is-small" name="invoice_tax_amount" required>
-			                    @if ($errors->has('invoice_tax_amount'))
-			                        <span class="help is-danger">
-			                        {{ $errors->first('invoice_tax_amount') }}
-			                    </span>
-			                    @endif
-			                </div>
-			            </div>
+			        <div class="columns is-multiline">
+                        <div class="column is-9">
+                            <div class="field">
+                                <label for="cost" class="label">Amount paid (ex. VAT)<span class="has-text-danger">*</span></label>
+                                <input type="number" step="0.01" min="0" class="input is-small" name="cost" required>
+                                @if ($errors->has('cost'))
+                                    <span class="help is-danger">
+                                        {{ $errors->first('cost') }}
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="column is-3">
+                            <div class="field">
+                                <label class="label" for="tax">VAT %</label>
+                                <div class="select is-small is-fullwidth">
+                                    <select name="tax_percentage" class="select">
+                                        <option value="0.15">15%</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+			            {{--<div class="column is-12">--}}
+			            {{--    <div class="field">--}}
+			            {{--        <label for="invoice_tax_amount" class="label">Tax Invoice Amount <span class="has-text-danger">*</span></label>--}}
+			            {{--        <input type="number" step="0.01" min="0" class="input is-small" name="invoice_tax_amount" required>--}}
+			            {{--        @if ($errors->has('invoice_tax_amount'))--}}
+			            {{--            <span class="help is-danger">--}}
+			            {{--            {{ $errors->first('invoice_tax_amount') }}--}}
+			            {{--        </span>--}}
+			            {{--        @endif--}}
+			            {{--    </div>--}}
+			            {{--</div>--}}
 			        </div>
 					     
 				</div>
@@ -153,17 +174,7 @@
 			
 
         <div class="columns">
-            <div class="column is-6">
-                <div class="field">
-                    <label for="cost" class="label">Amount paid <span class="has-text-danger">*</span></label>
-                    <input type="number" step="0.01" min="0" class="input is-small" name="cost" required>
-                    @if ($errors->has('cost'))
-                        <span class="help is-danger">
-                        {{ $errors->first('cost') }}
-                    </span>
-                    @endif
-                </div>
-            </div>
+
         </div>
 
         <div class="column is-6 has-text-right">
