@@ -19,6 +19,7 @@ import ResourceSidebar from './modules/ResourceSidebar/state';
 import PurchaseOrder from './modules/PurchaseOrder/state';
 import Employee from './modules/Employee/state';
 import Department from './modules/Department/state';
+import SupplierInvoices from './modules/SupplierInvoices/state';
 import Location from './modules/Location/state';
 import Vendor from './modules/Vendor/state';
 import Manufacturer from './modules/Manufacturer/state';
@@ -56,6 +57,10 @@ export const store = new Vuex.Store({
           namespaced: true,
           ...Department
         },
+        'SupplierInvoices': {
+            namespaced: true,
+            ...SupplierInvoices
+          },
         'Location': {
             namespaced: true,
             ...Location

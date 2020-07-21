@@ -10,10 +10,10 @@ use Illuminate\Http\Request;
 class SupplierInvoicesController extends Controller
 {
     public function index()
-    {
+    {    	
     	$invoices = SupplierInvoice::all();
     	
-    	return view('supplier-invoices.index', compact('invoices'));
+    	return view('supplier-invoices.index', compact('invoices'));  
     }
 
     public function create()

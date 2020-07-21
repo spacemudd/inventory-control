@@ -84,7 +84,8 @@
 	<div class="columns">
 		<div class="column">
 			<h1 class="has-text-weight-semibold">Activity</h1>
-			<b-tabs size="is-small" style="margin-top:1rem;">
+			{{--"{{ request()->has('page') ? ' value="2"' : '' }}--}}
+			<b-tabs  size="is-small" style="margin-top:1rem;"{!! request()->has('page') ? ' value="1"' : '' !!}>
 				<b-tab-item label="Job orders">
 					<table class="table is-fullwidth is-bordered is-size-7 is-narrow">
 						<colgroup>
@@ -146,7 +147,7 @@
 						</tr>
 						</thead>
 						<tbody>
-						@foreach ($stock->movement()->take(100)->get() as $movement)
+						@foreach ($stock->movement()->paginate(100) as $movement)
 							<tr>
 								<td>{{ $movement->created_at->format('d-m-Y') }}</td>
 								<td>{{ $movement->in }}</td>
@@ -174,7 +175,9 @@
 							</tr>
 						@endforeach
 						</tbody>
+						
 					</table>
+						{{ $stock->movement()->paginate(100)->links('vendor.pagination.bulma') }}
 				</b-tab-item>
 			</b-tabs>
 		</div>

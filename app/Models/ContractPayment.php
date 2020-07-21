@@ -11,6 +11,11 @@ class ContractPayment extends Model
         'reference',
         'issued_at',
         'cost',
+    	'invoice_period_from',
+    	'invoice_period_to',
+    	'proceeded_date',
+    	'invoice_no',
+    	'invoice_tax_amount'
     ];
 
     protected $dates = [

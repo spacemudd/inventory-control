@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Contract;
 use App\Models\ContractPayment;
+use Brick\Math\RoundingMode;
+use Brick\Money\Context\CustomContext;
+use Brick\Money\Money;
 use Illuminate\Http\Request;
 
 class ContractPaymentsController extends Controller
@@ -37,14 +40,26 @@ class ContractPaymentsController extends Controller
      */
     public function store(Request $request)
     {
+    	
         $request->validate([
             'issued_at' => 'required',
             'reference' => 'required',
             'contract_id' => 'required',
             'cost' => 'required',
+        	'invoice_period_from' => 'required',
+        	'invoice_period_to' => 'required',
+        	'proceeded_date' => 'required',
+        	'invoice_no' => 'required',
+            'tax_percentage' => 'required',
         ]);
 
-        ContractPayment::create($request->except('_token'));
+        $payment = $request->except('_token', 'tax_percentage');
+        $payment['invoice_tax_amount'] = Money::of($request->cost, 'AUD', new CustomContext(2), RoundingMode::HALF_UP)
+            ->multipliedBy($request->tax_percentage, RoundingMode::HALF_UP)
+            ->getAmount()
+            ->toFloat();
+
+        ContractPayment::create($payment);
 
         return redirect()->route('contracts.show', $request->contract_id);
     }

@@ -36,6 +36,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         // Job Orders
         Route::get('job-orders/completed', 'JobOrderController@completed')->name('job-orders.completed');
         Route::get('job-orders/pending', 'JobOrderController@pending')->name('job-orders.pending');
+        Route::get('job-orders/all', 'JobOrderController@all')->name('job-orders.all');
         Route::get('job-orders/pending/raw', 'JobOrderController@pendingRaw')->name('job-orders.pending.raw');
         Route::get('job-orders/excel', 'JobOrderController@excel')->name('job-orders.excel');
         Route::resource('job-orders', 'JobOrderController');
@@ -78,7 +79,8 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::get('invoices', 'SupplierInvoicesController@index')->name('supplier-invoices.index');
         Route::get('invoices/create', 'SupplierInvoicesController@create')->name('supplier-invoices.create');
         Route::post('invoices/store', 'SupplierInvoicesController@store')->name('supplier-invoices.store');
-
+        
+        
         // Purchase Requisitions.
         Route::get('purchase-requisitions/{id}/pdf', 'PurchaseRequisitionsController@pdf')->name('purchase-requisitions.pdf');
         Route::post('purchase-requisitions/{id}/save', 'PurchaseRequisitionsController@save')->name('purchase-requisitions.save');
@@ -211,6 +213,8 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     //    $response = ['message' => 'Hello! - API version ' . env('APP_API', '1')];
     //    return response()->json($response, 200);
     //});
+    
+	
 
     Route::post('audit/show', 'Api\AuditsController@show');
 
@@ -304,8 +308,24 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     // Purchase Orders uploads.
     Route::post('purchase-orders/uploads', 'Api\PurchaseOrderUploadsController@store')->name('api.purchase-orders.uploads');
     Route::get('purchase-orders/uploads', 'Api\PurchaseOrderUploadsController@index')->name('api.purchase-orders.uploads');
-//    Route::get('purchase-orders/uploads/{id}/download', 'Api\PurchaseOrdersUploadController@download')->name('api.purchase-orders.download');
+    
+    //Contracts uploads.
+    Route::get('contracts/uploads', 'Api\ContractsUploadsController@index')->name('api.contracts.uploads');
+    Route::post('contracts/uploads', 'Api\ContractsUploadsController@store')->name('api.contracts.uploads');
+    
+    Route::post('contracts/notes', 'Api\ContractsNotesController@store')->name('api.contracts.notes');
+    Route::get('contracts/notes', 'Api\ContractsNotesController@index')->name('api.contracts.notes');
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     // PO Items
     Route::post('purchase-orders/items/partial-edit', 'Api\PurchaseOrderItemController@partialUpdate');
     Route::post('purchase-orders/{purchase_order_id}/items', 'Api\PurchaseOrderItemController@store');
@@ -426,7 +446,8 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     Route::post('/cost-approvals/{cost_approval_id}/lines', 'Api\CostApprovalsLinesController@store');
     Route::delete('/cost-approvals/{cost_approval_id}/lines/{id}', 'Api\CostApprovalsLinesController@delete');
     Route::get('/approvers', 'Api\ApproversController@index');
-
+    Route::post('/cost-approvals/{invoice_id}/changeinvoiceno', 'Api\CostApprovalsLinesController@storeinvoiceupdate');
+    
     // Equip tree management
     Route::get('/equipments/all', 'Api\EquipmentsController@index');
     Route::post('/equipment/add-node', 'Api\EquipmentsController@addNode');

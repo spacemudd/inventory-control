@@ -300,6 +300,7 @@ Vue.component('select-approver-for-purchase-order', require('./components/Select
 Vue.component('purchase-order-invoice-lines', require('./components/PurchaseOrderInvoiceLines').default);
 Vue.component('equipments-search', require('./components/EquipmentsSearch').default);
 Vue.component('location-selector-ui', require('./components/LocationSelectorUi').default);
+Vue.component('supplier-invoice-update', require('./components/SupplierInvoiceUpdate').default);
 
 /**
  * API/App settings

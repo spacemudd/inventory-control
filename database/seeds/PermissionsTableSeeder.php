@@ -117,6 +117,9 @@ class PermissionsTableSeeder extends Seeder
         	'view-sales-taxes',
         	'edit-po-subject-after-approval',
         	'create-sales-taxes',
+
+            'edit-invoices',
+            'show-stock-movement-reference',
         ];
 
         // Creating a super admin role.
@@ -134,8 +137,8 @@ class PermissionsTableSeeder extends Seeder
         }
 
         // Assigning the permissions to the role.
-        $superAdmin->givePermissionTo($permissionsList['system']);
+        // $superAdmin->givePermissionTo($permissionsList['system']);
 
-        \App\Models\User::find(1)->assignRole($superAdmin);
+        // \App\Models\User::find(1)->assignRole($superAdmin);
     }
 }

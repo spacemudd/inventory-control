@@ -8,6 +8,7 @@ use App\Http\Requests\JobOrderRequest;
 use App\Services\StockService;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Cookie;
 
 class JobOrderController extends Controller
 {
@@ -27,13 +28,62 @@ class JobOrderController extends Controller
      */
     public function index()
     {
-        $jobOrders = JobOrder::latest()->paginate(100);
-        return view('job-orders.index', compact('jobOrders'));
+    	if(session('jo-tab')=='completed')
+    	return redirect('job-orders/completed');
+    	
+    	else if(session('jo-tab')=='pending')
+    	return redirect('job-orders/pending');
+    	
+    	else return redirect('job-orders/all');
+    	
+
+    }
+    
+    public function all()
+    {
+    	
+    	if (request()->sort_by === 'description-desc') {
+    		$jobOrders = JobOrder::query();
+    		$jobOrders = $jobOrders->orderBy('job_description', 'desc')->paginate(100);
+    	}
+    	else if(request()->sort_by === 'description-asc') {
+    		$jobOrders = JobOrder::query();
+    		$jobOrders = $jobOrders->orderBy('job_description', 'asc')->paginate(100);
+    	}
+    	
+    	else if(request()->sort_by === 'location-asc') {
+    		
+    		$jobOrders = JobOrder::selectRaw('pur_job_orders.*, pur_locations.id as locid, pur_locations.name, pur_locations.created_at, pur_locations.updated_at')
+    		->join('locations', 'job_orders.location_id', '=', 'locations.id')
+    		->orderBy('locations.name')
+    		->paginate(100);
+    	}
+    	
+    	else if(request()->sort_by === 'location-desc') {
+    		$jobOrders = JobOrder::selectRaw('pur_job_orders.*, pur_locations.id as locid, pur_locations.name, pur_locations.created_at, pur_locations.updated_at')
+    		->join('locations', 'job_orders.location_id', '=', 'locations.id')
+    		->orderByDesc('locations.name')
+    		->paginate(100);
+    	}
+    	
+    	else {
+    		//return "hello";
+    		$jobOrders = JobOrder::query();
+    		$jobOrders = $jobOrders->paginate(100);
+    	}
+    	
+    	session(['jo-tab'=>'all']);
+    	
+    	return view('job-orders.index', compact('jobOrders'));
     }
 
     public function completed()
-    {
+    {	
+	
         $jobOrders = JobOrder::completed()->latest()->paginate(100);
+       
+
+		session(['jo-tab'=>'completed']);
         return view('job-orders.index', compact('jobOrders'));
     }
 
@@ -48,8 +98,12 @@ class JobOrderController extends Controller
     }
 
     public function pending()
-    {
+    {	
+    			
         $jobOrders = JobOrder::pending()->latest()->paginate(100);
+        
+        session(['jo-tab'=>'pending']);
+        
         return view('job-orders.index', compact('jobOrders'));
     }
 
@@ -90,6 +144,8 @@ class JobOrderController extends Controller
     public function show(JobOrder $jobOrder)
     {
         $jobOrder->load('technicians', 'items.stock', 'items.technician');
+        
+        
         
         return view('job-orders.show', compact('jobOrder'));
     }

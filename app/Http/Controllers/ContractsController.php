@@ -51,6 +51,11 @@ class ContractsController extends Controller
             'cost' => 'required',
             'payment_frequency' => 'required',
         ]);
+        
+        $request->offsetSet('automatic_renewal', $request->input('automatic_renewal')!==null ? 1 : 0);
+        	
+      
+ 
 
         $contract = Contract::create($request->except('_token'));
 
