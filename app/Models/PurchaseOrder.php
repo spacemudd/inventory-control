@@ -409,4 +409,10 @@ class PurchaseOrder extends Model implements AuditableContract
         }
 
     }
+    
+    public function adhoc_quotations()
+    {
+    	return $this->hasMany(PurchaseOrderQuotation::class);
+    }
+    
 }

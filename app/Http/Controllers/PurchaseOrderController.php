@@ -22,6 +22,8 @@ use App\Models\Employee;
 use App\Models\Vendor;
 use App\Models\Quotation;
 use Illuminate\Http\Request;
+use App\Models\PurchaseOrderQuotation;
+use DB;
 
 class PurchaseOrderController extends Controller
 {
@@ -115,8 +117,15 @@ class PurchaseOrderController extends Controller
     public function store(Request $request)
     {
         $this->authorize('create-purchase-orders');
-
+	
+        DB::beginTransaction();
         $po = $this->inventoryPoService->store($request);
+        
+        foreach ($request->quotation_numbers as $number) {
+        	$po->adhoc_quotations()->save(new PurchaseOrderQuotation(['quotation_number' => $number]));
+        }
+        
+        DB::commit();
 
         return redirect()->route('purchase-orders.show', ['id' => $po->id]);
     }

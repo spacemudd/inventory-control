@@ -26,6 +26,10 @@ class InventoryPurchaseOrderService
         $poRequest = $request->except('_token');
         $poRequest['status'] = PurchaseOrder::NEW;
         $poRequest['created_by_id'] = auth()->user()->id;
+        
+        
+        
+        //$po = PurchaseOrder::create($poRequest);
 
         return PurchaseOrder::create($poRequest);
     }

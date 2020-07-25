@@ -179,7 +179,11 @@
 									</tr>
 									<tr>
 										<td><strong>Quote #</strong></td>
-										<td>{{ $purchase_order->quote_reference_number }}</td>
+										<td> 
+										@foreach ($purchase_order->adhoc_quotations as $quotation)
+				                            <p style="margin:0;padding:0">- {{ $quotation->quotation_number }}</p>
+				                        @endforeach
+										</td>
 									</tr>
 									<tr>
 										<td>

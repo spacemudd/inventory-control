@@ -99,12 +99,14 @@
 				</div>
 			</div>
 			<div class="column is-3">
-				<div class="field">
+				<div style="display:none;" class="field">
 					<label class="label has-text-weight-normal">Quote number</label>
-					<div class="control">
-						<input name="quote_reference_number" class="input is-small" type="text" autofocus autocomplete="off">
+					<div  class="control">
+						<input name="quote_reference_number" class="input is-small" type="text" value="-" autofocus autocomplete="off">
 					</div>
 				</div>
+				
+				<multiple-quotation-selection></multiple-quotation-selection>
 			</div>
 		</div>
 
