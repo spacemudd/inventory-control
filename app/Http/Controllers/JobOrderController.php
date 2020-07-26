@@ -53,14 +53,14 @@ class JobOrderController extends Controller
     	
     	else if(request()->sort_by === 'location-asc') {
     		
-    		$jobOrders = JobOrder::selectRaw('pur_job_orders.*, pur_locations.id as locid, pur_locations.name, pur_locations.created_at, pur_locations.updated_at')
+    		$jobOrders = JobOrder::selectRaw('inv_job_orders.*, inv_locations.id as locid, inv_locations.name, inv_locations.created_at, inv_locations.updated_at')
     		->join('locations', 'job_orders.location_id', '=', 'locations.id')
     		->orderBy('locations.name')
     		->paginate(100);
     	}
     	
     	else if(request()->sort_by === 'location-desc') {
-    		$jobOrders = JobOrder::selectRaw('pur_job_orders.*, pur_locations.id as locid, pur_locations.name, pur_locations.created_at, pur_locations.updated_at')
+    		$jobOrders = JobOrder::selectRaw('inv_job_orders.*, inv_locations.id as locid, inv_locations.name, inv_locations.created_at, inv_locations.updated_at')
     		->join('locations', 'job_orders.location_id', '=', 'locations.id')
     		->orderByDesc('locations.name')
     		->paginate(100);
