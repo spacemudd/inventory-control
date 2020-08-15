@@ -147,21 +147,32 @@
 										<tr>
 											<td><strong>Approver 1</strong></td>
 											<td>
+											@can('change-po-approvers')
 												<select-approver-for-purchase-order
 														purchase-order-id="{{ $purchase_order->id }}"
 														selected-approver-id="{{ $purchase_order->approver_one_id }}"
 														field-name="approver_one_id">
 												</select-approver-for-purchase-order>
+											@else
+												{{$purchase_order->approver_one->name}}
+											@endcan
+												
 											</td>
 										</tr>
 										<tr>
 											<td><strong>Approver 2</strong></td>
 											<td>
+												
+												
+											@can('change-po-approvers')
 												<select-approver-for-purchase-order
 														purchase-order-id="{{ $purchase_order->id }}"
 														selected-approver-id="{{ $purchase_order->approver_two_id }}"
 														field-name="approver_two_id">
 												</select-approver-for-purchase-order>
+											@else
+												{{$purchase_order->approver_two->name}}
+											@endcan
 											</td>
 										</tr>
 									</tbody>

@@ -32,9 +32,8 @@ class QuotationsController extends Controller
      */
     public function index()
     {
+		
     	
-    	
-
     	if (request()->tab=='all') {
     		
     		if(request()->sort_by=='material-desc')
@@ -185,7 +184,7 @@ class QuotationsController extends Controller
         DB::beginTransaction();
 
         // Stock count must be readjusted.
-        if ($quotation->status === Quotation::SAVED) {
+        if ($quotation->status == Quotation::SAVED) {
             foreach ($quotation->items as $item) {
                 Log::info('Deleting quotation: Moving '.$item->description.' out by: '.$item->qty);
                 $this->stockService->moveOut($item->description, $item->qty, $item);
