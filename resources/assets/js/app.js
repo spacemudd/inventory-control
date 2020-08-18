@@ -302,6 +302,7 @@ Vue.component('equipments-search', require('./components/EquipmentsSearch').defa
 Vue.component('location-selector-ui', require('./components/LocationSelectorUi').default);
 Vue.component('supplier-invoice-update', require('./components/SupplierInvoiceUpdate').default);
 
+Vue.component('purchase-order-search', require('./components/PurchaseOrderSearch').default);
 /**
  * API/App settings
  */

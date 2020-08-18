@@ -474,5 +474,6 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
         Route::get('job-description', 'Api\SearchJobDescriptionController@search');
         Route::get('job-orders', 'Api\JobOrdersController@search');
         Route::get('quotations', 'Api\QuotationsController@search');
+        Route::get('purchase-orders-custom-search', 'Api\PurchaseOrderController@customSearch');
     });
 });

@@ -67,9 +67,20 @@
 				</a>
 			</div>
 	</div>
-
+	
+	@can('view-purchase-orders')
+	<div class="columns">
+		<div class="column">
+			<purchase-order-search>
+				
+			</purchase-order-search>
+		</div>
+	</div>
+	@endcan
+	
 	@can('create-purchase-orders')
 		<div class="columns">
+			
 			<div class="column is-12 has-text-right">
 				<a class="button" href="{{ route('purchase-orders.report.index') }}">Excel</a>
 				<a class="button is-primary" href="{{ route('purchase-orders.create') }}">New Purchase Order</a>
@@ -81,6 +92,8 @@
 	@can('view-purchase-orders')
 		<div class="columns">
 			<div class="column">
+				
+				
 				<table class="table is-fullwidth is-narrow is-size-7">
 					<colgroup>
 						<col style="width:5%;">

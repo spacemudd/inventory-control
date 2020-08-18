@@ -48,6 +48,7 @@ class QuotationItem extends Model implements AuditableContract
     }
     
     
+    
     public function stock_movements()
     {
     	return $this->morphMany(StockMovement::class, 'stockable');

@@ -324,6 +324,11 @@ class PurchaseOrder extends Model implements AuditableContract
     {
         return $this->belongsTo(Department::class, 'cost_center_id');
     }
+    
+    public function location()
+    {
+    	return $this->hasOne(Department::class, 'id', 'cost_center_id');
+    }
 
     /**
      * Total price after VAT.

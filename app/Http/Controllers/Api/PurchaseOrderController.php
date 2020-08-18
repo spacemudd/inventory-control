@@ -76,6 +76,68 @@ class PurchaseOrderController extends Controller
 
         return $purchaseOrders->paginate(15);
     }
+    
+    public function customSearch()
+    {
+    	$searchtype = request()->input('p');
+    	$search = request()->input('q');
+    	
+    	$res = array();
+    	if($searchtype=='po_number')
+    	{
+    		$res = PurchaseOrder::where('number', 'LIKE', '%' . $search . '%')
+    				->with('location')
+    				->with('vendor')
+    				->get();
+    		
+    			//return $search;
+    	}
+    	
+    	else if($searchtype=='vendor')
+    	{
+    		$resx = PurchaseOrder::query()
+    		->join('vendors', 'purchase_orders.vendor_id', '=', 'vendors.id')
+    		->where('vendors.name', 'LIKE', '%' . $search . '%')
+    		->select('purchase_orders.*')
+    		->get();
+    		
+    		foreach ($resx as $row)
+    		{
+    			$res_row = PurchaseOrder::where('id', '=', $row->id)
+    			->with('location')
+    			->with('vendor')
+    			->get();
+    			
+    			$res[] = (object)$res_row;
+    			
+    		}
+    	}
+    	
+    	
+    	else if($searchtype=='location')
+    	{
+    		$resx = PurchaseOrder::query()
+    		->join('departments', 'purchase_orders.cost_center_id', '=', 'departments.id')
+    		->where('departments.description', 'LIKE', '%' . $search . '%')
+    		->select('purchase_orders.*')
+    		->get();
+    		
+    		foreach ($resx as $row)
+    		{
+    			$res_row = PurchaseOrder::where('id', '=', $row->id)
+    			->with('location')
+    			->with('vendor')
+    			->get();
+    			
+    			$res[] = (object)$res_row;
+    			
+    		}
+    	}
+    	
+    	
+
+    	return $res;
+    }
 
     public function parseDatePeriodDates()
     {
@@ -179,4 +241,6 @@ class PurchaseOrderController extends Controller
 
         return $po;
     }
+    
+   
 }
