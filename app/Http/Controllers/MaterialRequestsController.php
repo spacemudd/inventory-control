@@ -69,13 +69,18 @@ class MaterialRequestsController extends Controller
      */
     public function store(Request $request)
     {
+    	DB::beginTransaction();
+    	
+    	$latestTransaction = MaterialRequest::where('created_at', '>=', date('Y-m-d'))->count();
+    	$latestTransaction++; //--restores back to 1 every day.
+    	
         if ($request->number) {
             $request->merge([
-                'number' => $request['date'].' - '.$request['number'],
+            		'number' => $request['date'].' - '.$request['number'].' - '.$latestTransaction,
             ]);
         } else {
             $request->merge([
-                'number' => $request['date'].' - '.Department::find($request->cost_center_id)->description,
+            		'number' => $request['date'].' - '.Department::find($request->cost_center_id)->description.' - '.$latestTransaction,
             ]);
         }
 
@@ -88,7 +93,7 @@ class MaterialRequestsController extends Controller
             //'region_id' => 'required|numeric|exists:regions,id'
         ]);
 
-        DB::beginTransaction();
+   
         if (isset($request->department_code_number)):
             $locationName = Location::find($request->location_id);
             $id = Department::insertGetId([
