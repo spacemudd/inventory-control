@@ -45,7 +45,7 @@ class PurchaseOrderInvoiceController extends Controller
             'number' => 'required|string|max:255',
             'proceeded_date' => 'required|string|max:255',
             'lines.*.serial_number' => 'nullable|string|max:255',
-            'lines.*.tag_number' => 'nullable|string|max:255',
+            'lines.*.tag_number' => 'required|string|max:255',
         ]);
 
         DB::beginTransaction();
