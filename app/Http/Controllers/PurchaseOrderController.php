@@ -51,13 +51,13 @@ class PurchaseOrderController extends Controller
     {
         $this->authorize('view-purchase-orders');
 
-        $draftCounter = PurchaseOrder::draft()->count();
+      //  $draftCounter = PurchaseOrder::draft()->count(); --commented this to minimize memory allocation/usage.
         $committedCounter = PurchaseOrder::committed()->count();
         $voidCounter = PurchaseOrder::void()->count();
 		
         $data = PurchaseOrder::latest()->paginate(100);
 
-        return view('purchase-orders.index', compact('draftCounter', 'committedCounter', 'voidCounter', 'data'));
+        return view('purchase-orders.index', compact('committedCounter', 'voidCounter', 'data'));
     }
 
     public function draft()

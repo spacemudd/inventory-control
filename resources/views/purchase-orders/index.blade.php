@@ -24,7 +24,7 @@
 @section('content')
 
 	<div class="columns">
-			<div class="column is-4">
+		{{--	<div class="column is-4">
 				<p class="title is-6">
 					{{ trans('words.draft') }} {{ trans('words.purchase-orders') }}
 				</p>
@@ -36,9 +36,9 @@
 						</p>
 					</div>
 				</a>
-			</div>
+			</div>  --}}
 
-			<div class="column is-4">
+			<div class="column is-6">
 					<p class="title is-6">
 						{{ trans('words.committed') }} {{ trans('words.purchase-orders') }}
 					</p>
@@ -53,7 +53,7 @@
 			</div>
 
 
-			<div class="column is-4">
+			<div class="column is-6">
 					<p class="title is-6">
 						{{ trans('words.void') }} {{ trans('words.purchase-orders') }}
 					</p>
