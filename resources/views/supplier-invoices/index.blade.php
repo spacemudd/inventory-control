@@ -25,6 +25,14 @@
 @endsection
 
 @section('content')
+<div class="columns">
+		<div class="column">
+			<supplier-invoice-search>
+				
+			</supplier-invoice-search>
+		</div>
+	</div>
+	
 <div class="columns is-multiline">
     <div class="column is-12">
         <div class="has-text-right">
