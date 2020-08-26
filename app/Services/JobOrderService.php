@@ -46,6 +46,8 @@ class JobOrderService
      */
     public function save(Request $request)
     {
+        DB::beginTransaction();
+
         if($request->employee_id == null && $request->employeeName) {
             $department = Department::firstOrCreate([
                 'code' => 'UNGROUPED',
@@ -95,6 +97,8 @@ class JobOrderService
 
         $jobOrder = JobOrder::create($jobData);
 
+        DB::commit();
+
         return $jobOrder;
     }
 
@@ -107,17 +111,23 @@ class JobOrderService
 
     
     /**
-     * Generate unique job number
+     * Generate unique job number.
      *
      * @return string
      */
     public function generateJobNumber()
     {
-        if (env('START_JOB_ORDERS_NUMBER_FROM')) {
-            return env('START_JOB_ORDERS_NUMBER_FROM') + optional(JobOrder::latest()->first())->id;
-        }
+        $maxNumber = MaxNumber::lockForUpdate()->firstOrCreate([
+            'name' => 'JO',
+        ], [
+            'value' => optional(JobOrder::latest()->first())->job_order_number ?: 0,
+        ]);
 
-        return (1000) + optional(JobOrder::latest()->first())->id;
+        $number = ++$maxNumber->value;
+
+        $maxNumber->save();
+
+        return $number;
     }
 
 
