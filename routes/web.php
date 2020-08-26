@@ -80,7 +80,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::get('invoices/create', 'SupplierInvoicesController@create')->name('supplier-invoices.create');
         Route::get('invoices/{id}', 'SupplierInvoicesController@show')->name('supplier-invoices.show');
         Route::post('invoices/store', 'SupplierInvoicesController@store')->name('supplier-invoices.store');
-        
+        Route::delete('invoices/destroy/{id}', 'SupplierInvoicesController@destroy')->name('supplier-invoices.destroy');
         
         // Purchase Requisitions.
         Route::get('purchase-requisitions/{id}/pdf', 'PurchaseRequisitionsController@pdf')->name('purchase-requisitions.pdf');

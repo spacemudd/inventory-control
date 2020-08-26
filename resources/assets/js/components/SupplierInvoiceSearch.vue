@@ -29,7 +29,6 @@
                        class="dropdown-item result">
                         <div class="stock-result">
                             <p class="stock-description">
-                                
                                 {{result.number}}
                             </p>
                             <div class="stats">

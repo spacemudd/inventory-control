@@ -91,7 +91,21 @@
 									@if($purchase_order->is_saved)
 										<form class="button is-danger is-small" action="{{ route('api.purchase-orders.void', ['id' => $purchase_order->id]) }}" method="post">
 											{{ csrf_field() }}
-											<button type="submit" class="button is-danger is-small">Void</button>
+											<?php 
+											$buttonlabelx = "Void";
+					                        $messagex = "Are you sure you want to void this PO? This action is irreversible.";
+					                        $idx = "deletebutton";
+					                        ?>
+											
+											<confirmation-prompt
+											:button_label="{{json_encode($buttonlabelx)}}"
+					                        :message="{{json_encode($messagex)}}"
+					                        :id="{{json_encode($idx)}}"
+					                        >
+					                        
+					                        </confirmation-prompt>
+					                        
+											<button id="deletebutton" style="display:none;"  type="submit" class="button is-danger is-small">Void</button>
 										</form>
 									@endif
 								@endcan

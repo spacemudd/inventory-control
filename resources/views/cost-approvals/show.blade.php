@@ -41,8 +41,23 @@
             @can('delete-cost-approvals')
             <form method="post" action="{{ route('cost-approvals.destroy', $ca->id) }}" class="is-inline">
                 {{ @csrf_field() }}
+                
+                <?php 
+					$buttonlabelx = "Delete";
+					$messagex = "Are you sure you want to delete this Cost Approval? This action is irreversible.";
+					$idx = "deletebutton";
+				?>
+				
+				<confirmation-prompt
+					:button_label="{{json_encode($buttonlabelx)}}"
+					:message="{{json_encode($messagex)}}"
+					:id="{{json_encode($idx)}}"
+				>
+					                        
+				</confirmation-prompt>
+                
                 <input type="hidden" name="_method" value="delete">
-                <button class="button is-danger is-small is-secondary">Delete</button>
+                <button id="deletebutton" style="display:none;" class="button is-danger is-small is-secondary">Delete</button>
             </form>
             @endcan
             @if (!$ca->number)

@@ -66,6 +66,26 @@
                         <td>
                          @can('edit-invoices')
                         	<a @click="$store.commit('SupplierInvoices/showEditInvoiceUpdateModal', true); $store.commit('SupplierInvoices/id', {{json_encode(['number'=>$newval, 'uid'=>$invoice->id])}});" class="button is-small">Edit</a>
+                        	
+                        	<form  class="is-inline-block" method="post" action="{{ route('supplier-invoices.destroy', ['id' => $invoice->id]) }}">
+                        	{{ @csrf_field() }}
+                        	
+                        	<?php 
+								$buttonlabelx = "Delete";
+					            $messagex = "Are you sure you want to delete Invoice $invoice->number? This action is irreversible.";
+					            $idx = $invoice->id.$invoice->number;
+					         ?>
+                        	<input type="hidden" name="_method" value="delete">
+                        	<confirmation-prompt
+		                        :button_label="{{json_encode($buttonlabelx)}}"
+		                        :message="{{json_encode($messagex)}}"
+		                        :id="{{json_encode($idx)}}"
+		                        >
+		                        
+		                        </confirmation-prompt>
+                        
+                        	<button style="display:none;"  id="{{$idx}}" href="{{ route('supplier-invoices.destroy', ['id' => $invoice->id]) }}" class="button is-small is-danger">Delete</button>
+                        	</form>
                          @endcan	
                         </td>
                     </tr>

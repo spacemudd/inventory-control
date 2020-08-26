@@ -64,4 +64,12 @@ class SupplierInvoicesController extends Controller
     	return redirect()->route('supplier-invoices.index');
     	
     }
+    
+    public function destroy($id)
+    {
+    	$invoice = SupplierInvoice::find($id);
+    	$invoice->delete();
+    	
+    	return redirect()->route('supplier-invoices.index');
+    }
 }
