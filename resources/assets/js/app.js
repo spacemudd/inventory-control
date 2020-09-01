@@ -301,7 +301,10 @@ Vue.component('purchase-order-invoice-lines', require('./components/PurchaseOrde
 Vue.component('equipments-search', require('./components/EquipmentsSearch').default);
 Vue.component('location-selector-ui', require('./components/LocationSelectorUi').default);
 Vue.component('supplier-invoice-update', require('./components/SupplierInvoiceUpdate').default);
+Vue.component('supplier-invoice-search', require('./components/SupplierInvoiceSearch').default);
 
+Vue.component('purchase-order-search', require('./components/PurchaseOrderSearch').default);
+Vue.component('confirmation-prompt', require('./components/ConfirmationPromt').default);
 /**
  * API/App settings
  */

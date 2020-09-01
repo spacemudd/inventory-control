@@ -22,14 +22,14 @@
 @section('content')
 <div class="columns is-multiline">
     <div class="column is-6">
-        <div class="is-inline job-order-status-box{{ request()->has('saved') || request()->has('all')  ? '' : ' active' }}">
-            <a href="{{ route('quotations.index').'?draft' }}">Draft: {{ \App\Models\Quotation::draft()->count() }}</a>
+        <div class="is-inline job-order-status-box{{ request()->tab == 'draft' || !request()->has('tab')  ? 'active' : '' }}">
+            <a href="{{ route('quotations.index').'?tab=draft' }}">Draft: {{ \App\Models\Quotation::draft()->count() }}</a>
         </div>
-        <div class="is-inline job-order-status-box{{ request()->has('saved') ? ' active' : ''}}" style="margin-left:10px;">
-            <a href="{{ route('quotations.index').'?saved' }}">Saved: {{ \App\Models\Quotation::SavedQuotations()->count() }}</a>
+        <div class="is-inline job-order-status-box{{ request()->tab == 'saved' ? ' active' : ''}}" style="margin-left:10px;">
+            <a href="{{ route('quotations.index').'?tab=saved' }}">Saved: {{ \App\Models\Quotation::SavedQuotations()->count() }}</a>
         </div>
-        <div class="is-inline job-order-status-box{{ request()->has('all') ? ' active' : ''}}" style="margin-left:10px;">
-            <a href="{{ route('quotations.index').'?all' }}">All: {{ \App\Models\Quotation::count() }}</a>
+        <div class="is-inline job-order-status-box{{ request()->tab == 'all' ? ' active' : ''}}" style="margin-left:10px;">
+            <a href="{{ route('quotations.index').'?tab=all' }}">All: {{ \App\Models\Quotation::count() }}</a>
         </div>
     </div>
     <div class="column is-6">
@@ -42,9 +42,26 @@
         <thead>
         <tr>
         	<th width="200px">Code</th>
-            <th width="200px">Material Request No.</th>
+            <th width="200px">
+            
+            		@if (request()->has('sort_by') && request()->sort_by === 'material-desc')
+                        <a href="?tab={{request()->tab}}&sort_by=material-asc">Material Request No. <i class="fa fa-arrow-down"></i></a>
+                     @elseif(request()->has('sort_by') && request()->sort_by === 'material-asc')
+                        <a href="?tab={{request()->tab}}&sort_by=material-desc">Material Request No. <i class="fa fa-arrow-up"></i></a>                        
+                    @else
+                    	<a href="?tab={{request()->tab}}&sort_by=material-asc">Material Request No. </a>  
+                    @endif
+            </th>
             <th>Cost Center</th>
-            <th width="100px">Vendor</th>
+            <th width="100px">
+            		@if (request()->has('sort_by') && request()->sort_by === 'vendor-desc')
+                        <a href="?tab={{request()->tab}}&sort_by=vendor-asc">Vendor <i class="fa fa-arrow-down"></i></a>
+                     @elseif(request()->has('sort_by') && request()->sort_by === 'vendor-asc')
+                        <a href="?tab={{request()->tab}}&sort_by=vendor-desc">Vendor <i class="fa fa-arrow-up"></i></a>                        
+                    @else
+                    	<a href="?tab={{request()->tab}}&sort_by=vendor-asc">Vendor </a>  
+                    @endif
+            </th>
             <th width="100px">Items</th>
             <th width="100px">Total</th>
             <th width="100px">Status</th>

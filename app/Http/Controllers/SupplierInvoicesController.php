@@ -21,6 +21,25 @@ class SupplierInvoicesController extends Controller
     	$vendors = Vendor::get();
     	return view('supplier-invoices.create', compact('vendors'));
     }
+    
+    public function show($id)
+    {
+    	//return "bokya ".$id;
+    	/*return $this->model->where('id', $id)
+    	->with([
+    			'items',
+    			'vendor',
+    			'files',
+    			'department',
+    			'employee',
+    			'project',
+    	])
+    	->firstOrFail(); */
+    	$invoice = SupplierInvoice::where('id', $id)->firstOrFail();
+    	
+    	return view('supplier-invoices.show', compact('invoice'));
+    	
+    }
 
     public function store(Request $request)
     {
@@ -44,5 +63,13 @@ class SupplierInvoicesController extends Controller
     	//return redirect()->route('invoices.show');
     	return redirect()->route('supplier-invoices.index');
     	
+    }
+    
+    public function destroy($id)
+    {
+    	$invoice = SupplierInvoice::find($id);
+    	$invoice->delete();
+    	
+    	return redirect()->route('supplier-invoices.index');
     }
 }

@@ -325,6 +325,11 @@ class PurchaseOrder extends Model implements AuditableContract
     {
         return $this->belongsTo(Department::class, 'cost_center_id');
     }
+    
+    public function location()
+    {
+    	return $this->hasOne(Department::class, 'id', 'cost_center_id');
+    }
 
     public function voided_by()
     {
@@ -415,4 +420,10 @@ class PurchaseOrder extends Model implements AuditableContract
         }
 
     }
+    
+    public function adhoc_quotations()
+    {
+    	return $this->hasMany(PurchaseOrderQuotation::class);
+    }
+    
 }

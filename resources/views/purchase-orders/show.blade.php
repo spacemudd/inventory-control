@@ -91,7 +91,21 @@
 									@if($purchase_order->is_saved)
 										<form class="button is-danger is-small" action="{{ route('api.purchase-orders.void', ['id' => $purchase_order->id]) }}" method="post">
 											{{ csrf_field() }}
-											<button type="submit" class="button is-danger is-small">Void</button>
+											<?php 
+											$buttonlabelx = "Void";
+					                        $messagex = "Are you sure you want to void this PO? This action is irreversible.";
+					                        $idx = "deletebutton";
+					                        ?>
+											
+											<confirmation-prompt
+											:button_label="{{json_encode($buttonlabelx)}}"
+					                        :message="{{json_encode($messagex)}}"
+					                        :id="{{json_encode($idx)}}"
+					                        >
+					                        
+					                        </confirmation-prompt>
+					                        
+											<button id="deletebutton" style="display:none;"  type="submit" class="button is-danger is-small">Void</button>
 										</form>
 									@endif
 								@endcan
@@ -147,21 +161,32 @@
 										<tr>
 											<td><strong>Approver 1</strong></td>
 											<td>
+											@can('change-po-approvers')
 												<select-approver-for-purchase-order
 														purchase-order-id="{{ $purchase_order->id }}"
 														selected-approver-id="{{ $purchase_order->approver_one_id }}"
 														field-name="approver_one_id">
 												</select-approver-for-purchase-order>
+											@else
+												{{$purchase_order->approver_one->name}}
+											@endcan
+												
 											</td>
 										</tr>
 										<tr>
 											<td><strong>Approver 2</strong></td>
 											<td>
+												
+												
+											@can('change-po-approvers')
 												<select-approver-for-purchase-order
 														purchase-order-id="{{ $purchase_order->id }}"
 														selected-approver-id="{{ $purchase_order->approver_two_id }}"
 														field-name="approver_two_id">
 												</select-approver-for-purchase-order>
+											@else
+												{{$purchase_order->approver_two->name}}
+											@endcan
 											</td>
 										</tr>
 									</tbody>
@@ -179,7 +204,11 @@
 									</tr>
 									<tr>
 										<td><strong>Quote #</strong></td>
-										<td>{{ $purchase_order->quote_reference_number }}</td>
+										<td> 
+										@foreach ($purchase_order->adhoc_quotations as $quotation)
+				                            <p style="margin:0;padding:0">- {{ $quotation->quotation_number }}</p>
+				                        @endforeach
+										</td>
 									</tr>
 									<tr>
 										<td>

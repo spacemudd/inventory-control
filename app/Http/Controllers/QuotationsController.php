@@ -32,16 +32,51 @@ class QuotationsController extends Controller
      */
     public function index()
     {
+		
+    	
+    	if (request()->tab=='all') {
+    		
+    		if(request()->sort_by=='material-desc')
+        		$quotations = Quotation::sortByMaterialRequest('desc')->get();
+        	else if(request()->sort_by=='material-asc')
+        		$quotations = Quotation::sortByMaterialRequest('asc')->get();
+        	else if(request()->sort_by=='vendor-desc')
+        		$quotations = Quotation::sortByVendor('desc')->get();
+        	else if(request()->sort_by=='vendor-asc')
+        		$quotations = Quotation::sortByVendor('asc')->get();
+        	else
+        		$quotations = Quotation::get();
+        	
 
-        if (request()->has('all')) {
-            $quotations = Quotation::get();
-        } elseif (request()->has('saved')) {
-            $quotations = Quotation::savedQuotations()->get();
-        } elseif (request()->has('draft')) {
-            $quotations = Quotation::draft()->get();
+        } elseif (request()->tab=='saved') {
+        	
+        	if(request()->sort_by=='material-desc')
+        		$quotations = Quotation::sortByMaterialRequest('desc')->savedQuotations()->get();
+        	else if(request()->sort_by=='material-asc')
+        		$quotations = Quotation::sortByMaterialRequest('asc')->savedQuotations()->get();
+        	else if(request()->sort_by=='vendor-desc')
+        		$quotations = Quotation::sortByVendor('desc')->savedQuotations()->get();
+        	else if(request()->sort_by=='vendor-asc')
+        		$quotations = Quotation::sortByVendor('asc')->savedQuotations()->get();
+        	else
+        		$quotations = Quotation::orderBy('id', 'asc')->savedQuotations()->get();
+        					
+        						
         } else {
-            $quotations = Quotation::draft()->get();
+
+        	if(request()->sort_by=='material-desc')
+        		$quotations = Quotation::sortByMaterialRequest('desc')->draft()->get();
+        	else if(request()->sort_by=='material-asc')
+        		$quotations = Quotation::sortByMaterialRequest('asc')->draft()->get();
+        	else if(request()->sort_by=='vendor-desc')
+        		$quotations = Quotation::sortByVendor('desc')->draft()->get();
+        	else if(request()->sort_by=='vendor-asc')
+        		$quotations = Quotation::sortByVendor('asc')->draft()->get();
+        	else
+        		$quotations = Quotation::orderBy('id', 'asc')->draft()->get();
         }
+        
+       // $quotations = $quotations->orderBy('vendor_quotation_number', 'desc');
 
 
         return view('quotations.index', compact('quotations'));
@@ -149,7 +184,7 @@ class QuotationsController extends Controller
         DB::beginTransaction();
 
         // Stock count must be readjusted.
-        if ($quotation->status === Quotation::SAVED) {
+        if ($quotation->status == Quotation::SAVED) {
             foreach ($quotation->items as $item) {
                 Log::info('Deleting quotation: Moving '.$item->description.' out by: '.$item->qty);
                 $this->stockService->moveOut($item->description, $item->qty, $item);

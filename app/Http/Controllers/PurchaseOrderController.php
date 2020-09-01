@@ -22,6 +22,8 @@ use App\Models\Employee;
 use App\Models\Vendor;
 use App\Models\Quotation;
 use Illuminate\Http\Request;
+use App\Models\PurchaseOrderQuotation;
+use DB;
 
 class PurchaseOrderController extends Controller
 {
@@ -49,13 +51,13 @@ class PurchaseOrderController extends Controller
     {
         $this->authorize('view-purchase-orders');
 
-        $draftCounter = PurchaseOrder::draft()->count();
+      //  $draftCounter = PurchaseOrder::draft()->count(); --commented this to minimize memory allocation/usage.
         $committedCounter = PurchaseOrder::committed()->count();
         $voidCounter = PurchaseOrder::void()->count();
 		
         $data = PurchaseOrder::latest()->paginate(100);
 
-        return view('purchase-orders.index', compact('draftCounter', 'committedCounter', 'voidCounter', 'data'));
+        return view('purchase-orders.index', compact('committedCounter', 'voidCounter', 'data'));
     }
 
     public function draft()
@@ -115,8 +117,15 @@ class PurchaseOrderController extends Controller
     public function store(Request $request)
     {
         $this->authorize('create-purchase-orders');
-
+	
+        DB::beginTransaction();
         $po = $this->inventoryPoService->store($request);
+        
+        foreach ($request->quotation_numbers as $number) {
+        	$po->adhoc_quotations()->save(new PurchaseOrderQuotation(['quotation_number' => $number]));
+        }
+        
+        DB::commit();
 
         return redirect()->route('purchase-orders.show', ['id' => $po->id]);
     }

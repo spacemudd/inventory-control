@@ -103,11 +103,24 @@ class Quotation extends Model
 
     public function scopeDraft($q)
     {
-        $q->where('status', self::DRAFT);
+        $q->where('quotations.status', self::DRAFT);
     }
 
     public function scopeSavedQuotations($q)
     {
-        $q->where('status', self::SAVED);
+        $q->where('quotations.status', self::SAVED);
     }
+    
+    public static function sortByVendor($sortType='asc')
+    {
+    	return	static::join('vendors', 'quotations.vendor_id', '=', 'vendors.id')->select('quotations.*')->orderBy('vendors.name', $sortType);
+    }
+    
+    public static function sortByMaterialRequest($sortType='asc')
+    {
+    	
+    	
+    	return	static::join('material_requests', 'quotations.material_request_id', '=', 'material_requests.id')->select('quotations.*')->orderBy('material_requests.number', $sortType);
+    }
+    
 }

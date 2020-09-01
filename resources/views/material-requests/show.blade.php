@@ -46,8 +46,22 @@
                 <div class="column is-6 has-text-right">
                         <form class="is-inline-block" method="post" action="{{ route('material-requests.destroy', ['id' => $mRequest->id]) }}">
                             @csrf
+                            <?php 
+								$buttonlabelx = "Delete";
+					            $messagex = "Are you sure you want to delete this Material Request? This action is irreversible.";
+					            $idx = "deletebutton";
+					        ?>
+					        
+					        <confirmation-prompt
+											:button_label="{{json_encode($buttonlabelx)}}"
+					                        :message="{{json_encode($messagex)}}"
+					                        :id="{{json_encode($idx)}}"
+					                        >
+					                        
+					        </confirmation-prompt>
+					                        
                             <input type="hidden" name="_method" value="delete">
-                            <button href="{{ route('material-requests.destroy', ['id' => $mRequest->id]) }}" class="button is-small is-danger">Delete</button>
+                            <button id="deletebutton" style="display:none;"  href="{{ route('material-requests.destroy', ['id' => $mRequest->id]) }}" class="button is-small is-danger">Delete</button>
                         </form>
 
 {{--                    @if (!$mRequest->approved_at)--}}

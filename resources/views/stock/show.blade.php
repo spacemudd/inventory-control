@@ -45,8 +45,23 @@
 			      action="{{ route('stock.destroy', ['id' => $stock->id]) }}"
 			      style="margin-right: 20px;">
 			      @csrf
+			      
+			      <?php 
+					$buttonlabelx = "Delete";
+					$messagex = "Are you sure you want to delete $stock->description? This action is irreversible.";
+					$idx = "deletebutton";
+				 ?>                        
 			      <input type="hidden" name="_method" value="delete">
-				<button class="button is-danger">Delete</button>
+			      
+			      <confirmation-prompt
+											:button_label="{{json_encode($buttonlabelx)}}"
+					                        :message="{{json_encode($messagex)}}"
+					                        :id="{{json_encode($idx)}}"
+					                        >
+					                        
+					                        </confirmation-prompt>
+					                        
+				<button id="deletebutton" style="display:none;" class="button is-danger">Delete</button>
 			</form>
 
 			<a class="button is-outlined is-primary" href="{{ route('stock.edit', ['id' => $stock->id]) }}">

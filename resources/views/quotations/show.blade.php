@@ -38,8 +38,21 @@
                 <div class="column is-6 has-text-right">
                     <form  class="is-inline-block" method="post" action="{{ route('quotations.destroy', ['id' => $quotation->id]) }}">
                         @csrf
+                        
+                        <?php
+                        $buttonlabelx = "Delete";
+                        $messagex = "Are you sure you want to delete this Quotation? This action is irreversible.";
+                        $idx = "deletebutton";
+                        ?>
                         <input type="hidden" name="_method" value="delete">
-                        <button href="{{ route('quotations.destroy', ['id' => $quotation->id]) }}" class="button is-small is-danger">Delete</button>
+                        <confirmation-prompt
+                        :button_label="{{json_encode($buttonlabelx)}}"
+                        :message="{{json_encode($messagex)}}"
+                        :id="{{json_encode($idx)}}"
+                        >
+                        
+                        </confirmation-prompt>
+                        <button style="display:none;" id="deletebutton" href="{{ route('quotations.destroy', ['id' => $quotation->id]) }}" class="button is-small is-danger">Delete</button>
                     </form>
 
                     <a href="{{ route('quotations.edit', ['quotation_number' => $quotation->id]) }}" class="button is-small is-grey">Edit</a>

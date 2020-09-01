@@ -15,7 +15,7 @@ class ContractsUploadsController extends Controller
     public function index(Request $request)
     {
         $request->validate([
-            'id' => 'required|numeric|exists:purchase_orders',
+            'id' => 'required|numeric|exists:contracts',
         ]);
 
         //$uploads = PurchaseOrder::findOrFail($request->id)->media()->with('user')->get();
@@ -36,7 +36,7 @@ class ContractsUploadsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'id' => 'required|exists:purchase_orders',
+            'id' => 'required|exists:contracts',
             'files' => 'required',
             'purpose' => 'nullable|string|max:255',
         ]);

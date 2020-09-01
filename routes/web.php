@@ -10,7 +10,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
     Route::post('accept', 'InvitesController@processAccept')->name('invite.process-accept');
 
     Route::middleware(['auth'])->group(function () {
-        Route::get('/', 'DashboardController@index')->name('dashboard.index');
+       Route::get('/', 'DashboardController@index')->name('dashboard.index');
 
         Route::name('profile.')->prefix('profile')->group(function () {
             Route::name('inbox.')->prefix('inbox')->group(function () {
@@ -19,7 +19,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         });
 
         // Invitation System.
-        Route::get('invite', 'InvitesController@index')->name('invite');
+        	Route::get('invite', 'InvitesController@index')->name('invite');
         Route::delete('invite/{id}', 'InvitesController@delete')->name('invite.destroy');
         Route::post('invite', 'InvitesController@process')->name('invite.process');
 
@@ -78,8 +78,9 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         // Supplier invoices.
         Route::get('invoices', 'SupplierInvoicesController@index')->name('supplier-invoices.index');
         Route::get('invoices/create', 'SupplierInvoicesController@create')->name('supplier-invoices.create');
+        Route::get('invoices/{id}', 'SupplierInvoicesController@show')->name('supplier-invoices.show');
         Route::post('invoices/store', 'SupplierInvoicesController@store')->name('supplier-invoices.store');
-        
+        Route::delete('invoices/destroy/{id}', 'SupplierInvoicesController@destroy')->name('supplier-invoices.destroy');
         
         // Purchase Requisitions.
         Route::get('purchase-requisitions/{id}/pdf', 'PurchaseRequisitionsController@pdf')->name('purchase-requisitions.pdf');
@@ -122,9 +123,9 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::get('purchase-orders/{id}/invoice/create', 'PurchaseOrderInvoiceController@create')->name('purchase-orders.invoice.create');
         Route::post('purchase-orders/{id}/invoice', 'PurchaseOrderInvoiceController@store')->name('purchase-orders.invoice.store');
         Route::resource('purchase-orders', 'PurchaseOrderController');
-
+        
         // Purchase Order Sub-PO
-        Route::get('purchase-orders/{purchase_order_id}/sub-po/create', 'Back\PurchaseOrdersSubController@create')->name('purchase-orders.sub.create');
+       Route::get('purchase-orders/{purchase_order_id}/sub-po/create', 'Back\PurchaseOrdersSubController@create')->name('purchase-orders.sub.create');
         Route::post('purchase-orders/{purchase_order_id}/sub-po', 'Back\PurchaseOrdersSubController@store')->name('purchase-orders.sub.store');
         Route::get('purchase-orders/{purchase_order_id}/sub-po', 'Back\PurchaseOrdersSubController@index')->name('purchase-orders.sub.index');
         Route::post('purchase-orders/{purchase_order_id}/sub-po/{id}', 'Back\PurchaseOrdersSubController@save')->name('purchase-orders.sub.save');
@@ -187,7 +188,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
             Route::resource('sales-taxes', 'SalesTaxesController');
         });
 
-        Route::get('search', 'SearchController@index')->name('search.index');
+        Route::get('search', 'SearchController@index')->name('search.index'); 
     });
 
 
@@ -198,7 +199,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
     Route::post('login', 'Auth\LoginController@login');
 
     Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
-    Route::post('register', 'Auth\RegisterController@register');
+    Route::post('register', 'Auth\RegisterController@register'); 
 
     // Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkPurchase RequisitionForm')->name('password.request');
     // Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
@@ -474,5 +475,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
         Route::get('job-description', 'Api\SearchJobDescriptionController@search');
         Route::get('job-orders', 'Api\JobOrdersController@search');
         Route::get('quotations', 'Api\QuotationsController@search');
+        Route::get('purchase-orders-custom-search', 'Api\PurchaseOrderController@customSearch');
+        Route::get('supplier-invoice-search', 'Api\SupplierInvoiceController@customSearch');
     });
 });
