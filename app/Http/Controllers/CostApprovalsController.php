@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\CostApprovalLine;
 use App\Models\CostApprovalQuotation;
 use App\Models\Department;
+use App\Models\Employee;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderLine;
 use Illuminate\Http\Request;
@@ -289,6 +290,8 @@ class CostApprovalsController extends Controller
         $po->created_by_id = auth()->user()->id;
         $po->quote_reference_number = $ca->adhoc_quotations()->pluck('quotation_number')->implode('-');
         $po->cost_approval_id = $ca->id;
+        $po->approver_two_id = optional(Employee::where('name', 'LIKE', '%Saleh%')->first())->id;
+        $po->approver_one_id = optional(Employee::where('name', 'LIKE', 'Ashraf Saeed')->first())->id;
         $po->save();
 
         $poLines = [];
