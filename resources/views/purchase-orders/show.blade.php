@@ -168,7 +168,7 @@
 														field-name="approver_one_id">
 												</select-approver-for-purchase-order>
 											@else
-												{{$purchase_order->approver_one->name}}
+												{{ optional($purchase_order->approver_one)->name}}
 											@endcan
 												
 											</td>
@@ -185,7 +185,7 @@
 														field-name="approver_two_id">
 												</select-approver-for-purchase-order>
 											@else
-												{{$purchase_order->approver_two->name}}
+												{{ optional($purchase_order->approver_two)->name }}
 											@endcan
 											</td>
 										</tr>

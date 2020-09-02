@@ -24,29 +24,11 @@ class InventoryPurchaseOrderService
             'quote_reference_number' => 'required|string|max:255',
         ]);
         
-       /* $approvers = Employee::where('approver', true)
-        ->andWhere('name', 'LIKE', '%' . $search . '%')
-        ->orWhere('name', 'LIKE', '%' . $search . '%')
-        ->get(); */
-        
-        $approvers = Employee::where(function ($query) {
-        	$query->where('approver', true);        	
-        })->where(function ($query) {
-        	$query->where('name', 'LIKE', 'Ashraf%')
-        	->orWhere('name', 'LIKE', '%Saleh%');
-        })->get();
-        
-
         $poRequest = $request->except('_token');
         $poRequest['status'] = PurchaseOrder::NEW;
-        $poRequest['approver_one_id'] = $approvers[0]->id;
-        $poRequest['approver_two_id'] = $approvers[1]->id;
+        $poRequest['approver_one_id'] = optional(Employee::where('name', 'LIKE', 'Ashraf Saeed')->first())->id;
+        $poRequest['approver_two_id'] = optional(Employee::where('name', 'LIKE', '%Saleh%')->first())->id;
         $poRequest['created_by_id'] = auth()->user()->id;
-        
-        
-        
-        
-        //$po = PurchaseOrder::create($poRequest);
 
         return PurchaseOrder::create($poRequest);
     }
