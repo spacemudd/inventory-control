@@ -34,12 +34,6 @@ class PurchaseOrderController extends Controller
 
     protected $inventoryPoService;
 
-    protected $casts = [
-        'created_at'  => 'date:d-m-Y',
-    ];
-
-    protected $dateFormat = 'd-m-Y';
-
     public function __construct(PurchaseOrderService $service, VendorBankService $vendorBankService, InventoryPurchaseOrderService $inventoryPoService)
     {
         $this->service = $service;

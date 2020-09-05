@@ -10,12 +10,6 @@ class PurchaseOrderQuotation extends Model
 	protected $fillable = [
 			'quotation_number',
 	];
-
-    protected $casts = [
-        'created_at'  => 'date:d-m-Y',
-    ];
-
-    protected $dateFormat = 'd-m-Y';
 	
 	public function purchase_order()
 	{

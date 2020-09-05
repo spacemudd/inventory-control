@@ -18,12 +18,12 @@
                 <p style="font-size:20px;">With reference to your quotations:</p>
                 <ul>
                     @foreach ($data->adhoc_quotations()->get() as $aq)
-                        <li>{{ $aq->quotation_number }} - {{ $aq->created_at }}</li>
+                        <li>{{ $aq->quotation_number }} - {{ $aq->created_at->format('d-m-Y') }}</li>
                     @endforeach
                 </ul>
                 <p style="font-size:20px;">for the below mentioned we confirm the acceptance for your offer amounting as follows,</p>
             @else
-                <p style="font-size:20px;">With reference to your quotation <b>{{ $data->adhoc_quotations()->first()->quotation_number }}</b> dated on <b>{{ $data->adhoc_quotations()->first()->created_at }}</b> for the below mentioned we confirm the acceptance for your offer amounting as follows,</p>
+                <p style="font-size:20px;">With reference to your quotation <b>{{ $data->adhoc_quotations()->first()->quotation_number }}</b> dated on <b>{{ $data->adhoc_quotations()->first()->created_at->format('d-m-Y') }}</b> for the below mentioned we confirm the acceptance for your offer amounting as follows,</p>
             @endif
         @else
             @if ($data->quotation)
