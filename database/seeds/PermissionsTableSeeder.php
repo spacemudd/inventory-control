@@ -97,11 +97,13 @@ class PermissionsTableSeeder extends Seeder
             'view-approvers',
             'edit-approvers',
             'delete-approvers',
+            'change-po-approvers',
 
             'create-po-terms',
             'view-po-terms',
             'edit-po-terms',
             'delete-po-terms',
+
         	
         	/*added my freelancer h.. -clear laravel cache, clear pur_permissions table and pur_model_has_roles..
         	 * then reseed this Class.
