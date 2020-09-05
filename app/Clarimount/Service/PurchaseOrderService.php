@@ -73,9 +73,10 @@ class PurchaseOrderService
 	{
 		$status = PurchaseOrder::where('id', $id)->firstOrFail()->status;
 
-		if($status != PurchaseOrder::NEW) {
-		    throw new \Exception('A non-draft PO cannot be deleted');
-		}
+		
+		//if($status != PurchaseOrder::NEW) {
+		//    throw new \Exception('A non-draft PO cannot be deleted');
+		//}
 	}
 
 	public function store(array $data)
