@@ -38,6 +38,8 @@ class PurchaseOrderController extends Controller
         'created_at'  => 'date:d-m-Y',
     ];
 
+    protected $dateFormat = 'd-m-Y';
+
     public function __construct(PurchaseOrderService $service, VendorBankService $vendorBankService, InventoryPurchaseOrderService $inventoryPoService)
     {
         $this->service = $service;

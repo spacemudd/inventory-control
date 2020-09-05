@@ -14,6 +14,8 @@ class PurchaseOrderQuotation extends Model
     protected $casts = [
         'created_at'  => 'date:d-m-Y',
     ];
+
+    protected $dateFormat = 'd-m-Y';
 	
 	public function purchase_order()
 	{
