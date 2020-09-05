@@ -120,9 +120,11 @@ class PurchaseOrderController extends Controller
 	
         DB::beginTransaction();
         $po = $this->inventoryPoService->store($request);
-        
-        foreach ($request->quotation_numbers as $number) {
-        	$po->adhoc_quotations()->save(new PurchaseOrderQuotation(['quotation_number' => $number]));
+
+        if ($request->quotation_numbers) {
+            foreach ($request->quotation_numbers as $number) {
+                $po->adhoc_quotations()->save(new PurchaseOrderQuotation(['quotation_number' => $number]));
+            }
         }
         
         DB::commit();
