@@ -93,6 +93,7 @@
       onAddNode (params) {
         console.log(params)
         axios.post(this.apiUrl()+'/equipment/add-node', {
+          leaf: params.isLeaf,
           name: params.name,
           parent: params.parent ? params.parent.name : '',
         })
@@ -111,7 +112,7 @@
         var node = new TreeNode({ name: 'new location', isLeaf: false })
         if (!this.data.children) this.data.children = []
         this.data.addChildren(node)
-        this.onAddNode({'parent': '', 'name': 'new location'});
+        this.onAddNode({'parent': '', 'name': 'new location', 'isLeaf': false});
       },
 
       getNewTree () {
