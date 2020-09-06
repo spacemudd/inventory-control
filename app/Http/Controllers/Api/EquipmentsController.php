@@ -24,16 +24,21 @@ class EquipmentsController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'parent' => 'nullable|string|max:255',
+            'isLeaf' => 'nullable',
         ]);
+
+        $category = $request->isLeaf ? 'category' : 'equipment';
 
         if ($request->parent) {
             $parent = Equipment::where('name', $request->parent)->first();
             $child = new Equipment();
             $child->name = $request->name;
+            $child->category = $category;
             $parent->children()->save($child);
         } else {
             Equipment::create([
                 'name' => $request->name,
+                'category' => $category,
             ]);
         }
 

@@ -291,8 +291,8 @@ class CostApprovalsController extends Controller
         $po->quote_reference_number = $ca->adhoc_quotations()->pluck('quotation_number')->implode('-');
         $po->cost_approval_id = $ca->id;
         // Because they want Saleh to be on the right, and Ashraf on the left.
-        $po->approver_two_id = $po->approver_one_id ?: optional(Employee::where('name', 'LIKE', '%Saleh N. Al-Zunaidi%')->first())->id;
-        $po->approver_one_id = $po->approver_two_id ?: optional(Employee::where('name', 'LIKE', 'Ashraf Saeed')->first())->id;
+        $po->approver_two_id = $po->approver_one_id;
+        $po->approver_one_id = $po->approver_two_id;
         $po->save();
 
         $poLines = [];
