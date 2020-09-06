@@ -104,7 +104,7 @@
 					                        >
 					                        
 					                        </confirmation-prompt>
-					                        
+
 											<button id="deletebutton" style="display:none;"  type="submit" class="button is-danger is-small">Void</button>
 										</form>
 									@endif
@@ -202,10 +202,13 @@
 									</tr>
 									<tr>
 										<td><strong>Quote #</strong></td>
-										<td> 
+										<td>
 										@foreach ($purchase_order->adhoc_quotations as $quotation)
 				                            <p style="margin:0;padding:0">- {{ $quotation->quotation_number }}</p>
 				                        @endforeach
+										@if ($purchase_order->quote_reference_number)
+											<p style="margin:0;padding:0">- {{ $quotation->quote_reference_number }}</p>
+										@endforeach
 										</td>
 									</tr>
 									<tr>
