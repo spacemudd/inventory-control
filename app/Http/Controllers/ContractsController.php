@@ -120,12 +120,16 @@ class ContractsController extends Controller
             'date_to' => 'nullable',
         ]);
 
-        $contracts = Contract::whereBetween('issued_at', [Carbon::parse($request->date_from), Carbon::parse($request->date_to)])
-            ->get();
+        $contracts = Contract::where('issued_at', '>=', Carbon::parse($request->date_from))
+        					->where('issued_at', '<=', Carbon::parse($request->date_to))->get();
+
+      //  if ($request->date_from) $contracts->where('issued_at', '>=', Carbon::parse($request->date_from));
+       // if ($request->date_to) $contracts->where('issued_at', '<=', Carbon::parse($request->date_to));
 
         $excel = Excel::create(now()->format('Y-m-d').'-contracts', function($excel) use ($contracts) {
             $excel->sheet('Sheet', function ($sheet) use ($contracts) {
-
+               
+                
                 $row = 0;
                 foreach ($contracts as $contract)
                 {
@@ -146,12 +150,12 @@ class ContractsController extends Controller
                 	$row++;
                 	
                 	$sheet->appendRow([
-                			$contract->number,
+                			$contract->number,//$contract->number,
                 			optional($contract->cost_center)->display_name,
                 			optional($contract->vendor)->display_name,
                 			$contract->vendor_reference_number,
-                            $contract->equipments()->pluck('name')->implode(' - '),
-                			'',//optional(Location::find($equipment->pivot->location_id))->name,
+                			'heelow',
+                			'hi',//optional(Location::find($equipment->pivot->location_id))->name,
                 			$contract->issued_at,
                 			$contract->expires_at,
                 			$contract->total_cost,
@@ -160,9 +164,10 @@ class ContractsController extends Controller
                 			$contract->remarks,
                 	]);
                 	$row++;
-
+                	
+                	
                 	$sheet->appendRow([
-                			"Payments of Contract No.: ".$contract->number
+                			"paymets of Contract No.: ".$contract->number
                 	]);
                 	
                 	$row++;
@@ -178,6 +183,7 @@ class ContractsController extends Controller
                 	]);
                 	$row++;
                 	
+                	
                 	foreach ($contract->payments()->get() as $payment)
                 	{
                 		$sheet->appendRow([
@@ -191,7 +197,7 @@ class ContractsController extends Controller
                 	}
                 	
                 	$sheet->appendRow([
-                			'<<<< End of Line, Nothing Follows >>>>'
+                			'<<<<End of Line, Nothing Follows>>>>'
                 	]);
                 	$row++;
                 	
