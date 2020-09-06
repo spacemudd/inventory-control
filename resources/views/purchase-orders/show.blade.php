@@ -207,7 +207,7 @@
 				                            <p style="margin:0;padding:0">- {{ $quotation->quotation_number }}</p>
 				                        @endforeach
 										@if ($purchase_order->quote_reference_number)
-											<p style="margin:0;padding:0">- {{ $quotation->quote_reference_number }}</p>
+											<p style="margin:0;padding:0">- {{ $purchase_order->quote_reference_number }}</p>
 										@endif
 										</td>
 									</tr>
