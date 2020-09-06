@@ -477,5 +477,6 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
         Route::get('quotations', 'Api\QuotationsController@search');
         Route::get('purchase-orders-custom-search', 'Api\PurchaseOrderController@customSearch');
         Route::get('supplier-invoice-search', 'Api\SupplierInvoiceController@customSearch');
+        Route::get('job-orders-custom', 'Api\JobOrdersController@searchCustom');
     });
 });

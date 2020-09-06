@@ -1,5 +1,16 @@
 <template>
     <div class="search-input">
+        <div class="select">
+            <select v-model="searchby">
+                <option value="job_order_num">Search by JO no.</option>
+                <option value="employee">Search by Employee</option>
+                <option value="materials">Search by Materials</option>
+                <option value="equipment">Search by Equipment</option>
+            </select>
+
+             
+        </div>
+
         <div class="dropdown is-active" v-click-outside="onSearchBlur">
             <div class="dropdown-trigger">
                 <p class="control has-icons-right has-icons-left is-expanded">
@@ -16,7 +27,7 @@
                 </p>
             </div>
         </div>
-
+       
         <!--Results-->
         <div class="dropdown-menu" id="dropdown-menu" role="menu" v-if="open && results.length">
             <div class="items-container box" v-if="showingItems.length">
@@ -33,7 +44,7 @@
                     </thead>
                     <tbody>
                     <tr v-for="item in showingItems">
-                        <td>{{ item.stock.description }}</td>
+                        <td>{{ item.stock == null ? '(undeclared)' : item.stock.description }}</td>
                         <td class="has-text-right">{{ item.qty }}</td>
                     </tr>
                     </tbody>
@@ -65,8 +76,14 @@
                 </div>
             </div>
         </div>
-
+        
+        <div >
+            <span v-if="searchby!='job_order_num'" style="font-size: 10px; padding: 2px;"><i class="fa fa-exclamation"></i> Searching other than JO No. may take some time (15-30 secs) due to the heavy load of data. </span>
+        </div>
+        
     </div>
+
+
 </template>
 
 <script>
@@ -96,6 +113,8 @@
             "description",
           ],
         },
+         
+         searchby: 'job_order_num'
       }
     },
     watch: {
@@ -156,13 +175,27 @@
       sendSearchRequest: _.debounce(function(search) {
         this.loading = true;
         this.results = [];
-        axios.get(this.apiUrl() + '/search/job-orders', {
+        
+
+        axios.get(this.apiUrl() + '/search/job-orders-custom', {
           params: {
-            q: search
+            q: search,
+            p: this.searchby
           },
         }).then(response => {
+            console.log("kauli ra jud ko balay", response.data)
+         
+         if(response.data.data)
           this.results = response.data.data;
+
           this.loading = false;
+        }).catch(err=>{
+            this.loading = false;
+            this.$toast.open({
+                        duration: 1500,
+                        message: 'Request timeout for ' + search + '. Maximum 30secs execution reached.',
+                        type: 'is-danger',
+                    });
         })
       }, 500),
     },

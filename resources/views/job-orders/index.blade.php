@@ -52,7 +52,9 @@
         </div>
     </div>
     <div class="column is-12">
-        <job-orders-search></job-orders-search>
+        <job-orders-search>
+        
+        </job-orders-search>
     </div>
     <div class="column">
         <table class="table is-fullwidth is-bordered is-size-7 is-narrow is-striped">
