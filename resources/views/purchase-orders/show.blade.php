@@ -208,7 +208,7 @@
 				                        @endforeach
 										@if ($purchase_order->quote_reference_number)
 											<p style="margin:0;padding:0">- {{ $quotation->quote_reference_number }}</p>
-										@endforeach
+										@endif
 										</td>
 									</tr>
 									<tr>
