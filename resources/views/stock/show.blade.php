@@ -146,54 +146,56 @@
 {{--				<b-tab-item label="Quotations">--}}
 {{--					...--}}
 {{--				</b-tab-item>--}}
-				<b-tab-item label="Stock movement">
-					<table class="table is-fullwidth is-bordered is-size-7 is-narrow">
-						<colgroup>
-							<col style="width:1rem;">
-						</colgroup>
-						<thead>
-						<tr>
-							<th>Date</th>
-							<th>In</th>
-							<th>Out</th>
-							<th>Reference</th>
-							<th>Technician</th>
-							<th>Location</th>
-						</tr>
-						</thead>
-						<tbody>
-						@foreach ($stock->movement()->paginate(100) as $movement)
+
+				@can('show-stock-movement-reference')
+					<b-tab-item label="Stock movement">
+						<table class="table is-fullwidth is-bordered is-size-7 is-narrow">
+							<colgroup>
+								<col style="width:1rem;">
+							</colgroup>
+							<thead>
 							<tr>
-								<td>{{ $movement->created_at->format('d-m-Y') }}</td>
-								<td>{{ $movement->in }}</td>
-								<td>{{ $movement->out }}</td>
-								<td>
-								@can('show-stock-movement-reference')
-									<a href="{{ route($movement->stockable_type=='App\Models\JobOrder' ? 'job-orders.show' : 'quotations.show', ['id' => $movement->stockable_type=='App\Models\JobOrder' ? optional($movement->stockable)->display_name : $movement->stockable['quotation_id']]) }}">{{ optional($movement->stockable)->display_name }}</a>
-								@endcan
-								</td>
-{{--								<td><a href="{{ route('job-orders.show', ['id' => $job_item->jobOrder->job_order_number]) }}">{{ $job_item->jobOrder->job_order_number }}</a></td>--}}
-								
-								<td>
-									@if(count($movement_technician_details[$movement->id."".$movement->stock_id])>=1)
-										@foreach($movement_technician_details[$movement->id."".$movement->stock_id] as $stockmovement)
-										   
-											<a href="{{ route('job-orders.show', ['id' => $job_item->jobOrder->job_order_number]) }}">{{$stockmovement->code." - ".$stockmovement->employee_name}}</a> <br/>
-										   
-										@endforeach
-									@endif
-								</td>
-								
-								<td>
-									<a>{{optional($movement->stockable)->location['name']}}</a> <br/>
-								</td>
+								<th>Date</th>
+								<th>In</th>
+								<th>Out</th>
+								<th>Reference</th>
+								<th>Technician</th>
+								<th>Location</th>
 							</tr>
-						@endforeach
-						</tbody>
-						
-					</table>
-						{{ $stock->movement()->paginate(100)->links('vendor.pagination.bulma') }}
-				</b-tab-item>
+							</thead>
+							<tbody>
+							@foreach ($stock->movement()->paginate(100) as $movement)
+								<tr>
+									<td>{{ $movement->created_at->format('d-m-Y') }}</td>
+									<td>{{ $movement->in }}</td>
+									<td>{{ $movement->out }}</td>
+									<td>
+										<a href="{{ route($movement->stockable_type=='App\Models\JobOrder' ? 'job-orders.show' : 'quotations.show', ['id' => $movement->stockable_type=='App\Models\JobOrder' ? optional($movement->stockable)->display_name : $movement->stockable['quotation_id']]) }}">{{ optional($movement->stockable)->display_name }}</a>
+									</td>
+	{{--								<td><a href="{{ route('job-orders.show', ['id' => $job_item->jobOrder->job_order_number]) }}">{{ $job_item->jobOrder->job_order_number }}</a></td>--}}
+
+									<td>
+										@if(count($movement_technician_details[$movement->id."".$movement->stock_id])>=1)
+											@foreach($movement_technician_details[$movement->id."".$movement->stock_id] as $stockmovement)
+
+												<a href="{{ route('job-orders.show', ['id' => $job_item->jobOrder->job_order_number]) }}">{{$stockmovement->code." - ".$stockmovement->employee_name}}</a> <br/>
+
+											@endforeach
+										@endif
+									</td>
+
+									<td>
+										<a>{{optional($movement->stockable)->location['name']}}</a> <br/>
+									</td>
+								</tr>
+							@endforeach
+							</tbody>
+
+						</table>
+							{{ $stock->movement()->paginate(100)->links('vendor.pagination.bulma') }}
+					</b-tab-item>
+				@endcan
+
 			</b-tabs>
 		</div>
 	</div>
