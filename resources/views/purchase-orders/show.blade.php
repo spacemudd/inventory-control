@@ -146,6 +146,7 @@
 											<td><strong>Subject {{$purchase_order->cost_approval_id}}</strong></td>
 											<td>
 												<string-token :id.number="{{ $purchase_order->id }}"
+															  :auto-save="true"
 															  name="subject"
 															  :can-multiple-edit="{{auth()->user()->hasPermissionTo('edit-po-subject-after-approval')==1 ? 'true' : 'false'}}"
 															  value="{{ $purchase_order->subject }}"

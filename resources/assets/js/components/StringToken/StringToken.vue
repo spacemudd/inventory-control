@@ -8,18 +8,20 @@
             <div  v-if="!isFieldDisabled()" class="field">
                 <b-input :disabled="isFieldDisabled()" v-model="loadedValue" size="is-small" @keyup.enter="save"></b-input>
             </div>
-            <div v-if="!isFieldDisabled()" class="field">
-                <div class="control has-text-right">
-                    <button class="button is-small is-text" @click="clearValue">Clear</button>
-                    <button class="button is-small is-text" @click="rollback">{{ $t('words.cancel') }}</button>
-                    <button class="button is-small is-primary"
-                            :class="{'is-loading': $isLoading('SAVING_QUOTE_REF_TOKEN')}"
-                            @click="save">Save</button>
+            <template v-if="!autoSave">
+                <div v-if="!isFieldDisabled()" class="field">
+                    <div class="control has-text-right">
+                        <button class="button is-small is-text" @click="clearValue">Clear</button>
+                        <button class="button is-small is-text" @click="rollback">{{ $t('words.cancel') }}</button>
+                        <button class="button is-small is-primary"
+                                :class="{'is-loading': $isLoading('SAVING_QUOTE_REF_TOKEN')}"
+                                @click="save">Save</button>
+                    </div>
                 </div>
-            </div>
+            </template>
 
             <div v-else class="field">
-                    <p class="help">Insufficient Role access to edit/modify existing value. </p> <button class="button is-small is-text" @click="rollback">{{ $t('words.cancel') }}</button>
+                <p class="help">Insufficient Role access to edit/modify existing value. </p> <button class="button is-small is-text" @click="rollback">{{ $t('words.cancel') }}</button>
             </div>
         </div>
     </div>
@@ -28,6 +30,10 @@
 <script>
     export default {
         props: {
+          autoSave: {
+            type: Boolean,
+            default: false,
+          },
           id: {
             type: Number,
             required: true,
@@ -66,9 +72,15 @@
           placeholder: {
             type: String,
             default: '[]',
-            default: false,
           }
         },
+      watch: {
+        loadedValue() {
+          if (this.autoSave) {
+            this.saveAuto();
+          }
+        }
+      },
         data() {
             return {
                 is_editing: false,
@@ -102,6 +114,25 @@
                   })
                 }
             },
+          saveAuto: _.debounce(function() {
+            this.$startLoading('SAVING_QUOTE_REF_TOKEN');
+
+            axios.put(this.apiUrl() + '/purchase-orders/' + this.id + '/tokens', {
+              'name': this.name,
+              'value': this.loadedValue,
+            })
+              .then(response => {
+                this.$endLoading('SAVING_QUOTE_REF_TOKEN');
+                //this.is_editing = false;
+
+                this.old_value = response.data[this.name] ? response.data[this.name] : '';
+
+                this.$toast.open({
+                  message: 'Saved',
+                  type: 'is-success',
+                });
+              })
+          }, 200),
             save() {
                 this.$startLoading('SAVING_QUOTE_REF_TOKEN');
 
