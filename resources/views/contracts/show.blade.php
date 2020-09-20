@@ -80,6 +80,12 @@
 			                        {{ optional($contract->issued_at)->format('d-m-Y') }} <span style="color:red;">&rarr;</span> {{ optional($contract->expires_at)->format('d-m-Y') }}
 			                    </td>
 			                </tr>
+							<tr>
+								<td><b>Auto Renewal</b></td>
+								<td>
+									{{ $contract->automatic_renewal ? 'Yes' : 'No' }}
+								</td>
+							</tr>
 			                <tr>
 			                    <td><b>Paid so far</b></td>
 			                    <td>{{ number_format($contract->payments()->sum('cost'), 2) }}</td>

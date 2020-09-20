@@ -123,13 +123,9 @@ class ContractsController extends Controller
         $contracts = Contract::where('issued_at', '>=', Carbon::parse($request->date_from))
         					->where('issued_at', '<=', Carbon::parse($request->date_to))->get();
 
-      //  if ($request->date_from) $contracts->where('issued_at', '>=', Carbon::parse($request->date_from));
-       // if ($request->date_to) $contracts->where('issued_at', '<=', Carbon::parse($request->date_to));
-
         $excel = Excel::create(now()->format('Y-m-d').'-contracts', function($excel) use ($contracts) {
             $excel->sheet('Sheet', function ($sheet) use ($contracts) {
-               
-                
+
                 $row = 0;
                 foreach ($contracts as $contract)
                 {
@@ -142,6 +138,7 @@ class ContractsController extends Controller
                 			'Location',
                 			'Contract Start Date',
                 			'Contract End Date',
+                			'Auto Renewal',
                 			'Contract Value',
                 			'Total paid',
                 			'Remaining',
@@ -158,6 +155,7 @@ class ContractsController extends Controller
                 			'hi',//optional(Location::find($equipment->pivot->location_id))->name,
                 			$contract->issued_at,
                 			$contract->expires_at,
+                			$contract->auto_renewal ? 'Yes' : 'No',
                 			$contract->total_cost,
                 			$contract->payments()->sum('cost'),
                 			$contract->total_cost - $contract->payments()->sum('cost'),
