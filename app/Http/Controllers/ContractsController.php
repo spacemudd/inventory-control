@@ -254,4 +254,14 @@ class ContractsController extends Controller
 
         return redirect()->route('contracts.show', $id);
     }
+
+    public function search()
+    {
+        $search = request()->input('q');
+
+        $contracts = Contract::where('number', 'LIKE', '%' . $search . '%')
+            ->orWhere('vendor.name', 'LIKE', '%' . $search . '%');
+
+        return $contracts->paginate(15);
+    }
 }

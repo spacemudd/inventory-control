@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Note;
-use App\Models\PurchaseOrder;
 use Illuminate\Http\Request;
 use App\Models\Contract;
 
@@ -16,9 +15,7 @@ class ContractsNotesController extends Controller
             'id' => 'required|numeric|exists:purchase_orders',
         ]);
 
-        $notes = Contract::findOrFail($request->id)->notes()->with('user')->get();
-
-        return $notes;
+        return Contract::findOrFail($request->id)->notes()->with('user')->get();
     }
 
     public function store(Request $request)
@@ -33,11 +30,9 @@ class ContractsNotesController extends Controller
             'user_id' => auth()->user()->id,
         ]);
 
-        $requisition = Contract::findOrFail($request->id)
+        return Contract::findOrFail($request->id)
             ->notes()
             ->save($note)
             ->load('user');
-
-        return $requisition;
     }
 }

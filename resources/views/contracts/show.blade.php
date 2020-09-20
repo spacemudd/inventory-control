@@ -229,7 +229,7 @@
 			<div class="column" v-if="showNotesAndFilesSidebar">
 				{{-- Notes section --}}
 				<notes-container url="{{ route('api.contracts.notes', ['id' => $contract->id]) }}"
-								 resource-id.number="{{ $contract->id }}"
+								 resource-id.number="{{ $contract->number }}"
 				>
 				</notes-container>
 
