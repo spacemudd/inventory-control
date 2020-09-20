@@ -157,13 +157,13 @@
                                                          link="{{ route('regions.index') }}">
                                     </sidebar-links-group>
 
-                                    {{--
+                                 
                                     <sidebar-links-group selected="{{ (request()->route()->getName() === 'reports.index') }}"
                                                          icon="bar-chart"
                                                          title="{{ __('words.report') }}"
                                                          link="{{ route('reports.index') }}">
                                     </sidebar-links-group>
-                                    --}}
+                                   
 
                                     @can('view-employees')
                                     <sidebar-links-group link="{{ route('employees.index') }}"

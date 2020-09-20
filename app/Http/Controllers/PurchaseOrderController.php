@@ -264,4 +264,7 @@ class PurchaseOrderController extends Controller
 
         return $pdf->inline();
     }
+    
+    
+    
 }

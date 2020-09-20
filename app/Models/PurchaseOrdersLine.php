@@ -27,4 +27,9 @@ class PurchaseOrdersLine extends Model implements AuditableContract
     {
         return $this->hasOne(User::class, 'id', 'received_by_id');
     }
+    
+    public function sum()
+    {
+    	
+    }
 }

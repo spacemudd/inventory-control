@@ -122,6 +122,7 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
         Route::post('purchase-orders/{id}/save', 'PurchaseOrderController@save')->name('purchase-orders.save');
         Route::get('purchase-orders/{id}/invoice/create', 'PurchaseOrderInvoiceController@create')->name('purchase-orders.invoice.create');
         Route::post('purchase-orders/{id}/invoice', 'PurchaseOrderInvoiceController@store')->name('purchase-orders.invoice.store');
+        
         Route::resource('purchase-orders', 'PurchaseOrderController');
         
         // Purchase Order Sub-PO
@@ -205,6 +206,12 @@ Route::prefix(Localization::setLocale())->middleware(['localeSessionRedirect', '
     // Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
     // Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
     // Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+    Route::get('/reports', 'ReportController@index')->name('reports.index');
+    Route::get('purchase-order-report/purchase-orders-issued-to-suppliers', 'PurchaseOrderReportController@PurchaseOrdersIssuedToSuppliersParams')->name('purchase-orders-issued-to-suppliers');
+    Route::post('purchase-orders/report', 'PurchaseOrderReportController@generateReport')->name('purchase-orders.report.genreport');
+    Route::post('purchase-order-report/generate-report-grouped', 'PurchaseOrderReportController@generateReportGrouped')->name('purchase-orders.report.genreportgrouped');
+    
+    
 });
 
 
