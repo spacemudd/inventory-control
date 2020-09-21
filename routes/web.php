@@ -467,6 +467,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
         Route::get('items', 'Api\ItemController@search');
         Route::get('item-templates', 'Api\ItemTemplateController@search')->name('api.search.item-templates');
         Route::get('purchase-orders', 'Api\PurchaseOrderController@search');
+        Route::get('contracts', 'Api\ContractsController@search');
         Route::get('vendors', 'Api\VendorController@search')->name('api.search.vendor');
         Route::get('manufacturers', 'Api\ManufacturerController@search')->name('api.search.manufacturer');
         Route::get('employees', 'Api\EmployeeController@search')->name('api.search.employee');

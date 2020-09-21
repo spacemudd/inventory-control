@@ -74,7 +74,7 @@ class JobOrdersController extends Controller
 				    		   ->select('job_orders.*')
 				    		   ->with(['items' => function($q) {$q->with('stock');}])
 				    		   ->with('technicians') 
-				    		   ->paginate(1000);
+				    		   ->paginate(30);
 				    		  
     		  
     		  return $jo;
@@ -91,7 +91,7 @@ class JobOrdersController extends Controller
     		//})->with(['items' => function($q) {$q->with('stock');}])
     		->with(['items' => function($q) {$q->with('stock');}])
     		
-    		->paginate(1000);
+    		->paginate(30);
     	}
     	
     	
@@ -104,7 +104,7 @@ class JobOrdersController extends Controller
     						->where('stock.description', 'LIKE', '%'.$search.'%')
     						->with(['items' => function($q) {$q->with('stock');}])
     		
-    						->paginate(1000);
+    						->paginate(30);
     	}
     	
     	else if($searchType=='equipment')
@@ -114,7 +114,7 @@ class JobOrdersController extends Controller
     		->where('equipments.name', 'LIKE', '%'.$search.'%')
     		->with(['items' => function($q) {$q->with('stock');}])
     		
-    		->paginate(1000);
+    		->paginate(30);
     	}
     	
     	

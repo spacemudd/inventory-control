@@ -305,6 +305,7 @@ Vue.component('supplier-invoice-search', require('./components/SupplierInvoiceSe
 
 Vue.component('purchase-order-search', require('./components/PurchaseOrderSearch').default);
 Vue.component('confirmation-prompt', require('./components/ConfirmationPromt').default);
+Vue.component('contracts-search', require('./components/ContractsSearch').default);
 /**
  * API/App settings
  */

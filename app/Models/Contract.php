@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Scopes\LimitByRegionScope;
 use Illuminate\Database\Eloquent\Model;
 
 class Contract extends Model
@@ -31,6 +30,10 @@ class Contract extends Model
         'expires_at',
         'created_at',
         'updated_at',
+    ];
+
+    protected $appends = [
+        'show_url',
     ];
 
     protected static function boot()
@@ -79,8 +82,7 @@ class Contract extends Model
     {
         return (int) $this->status === (int) self::STATUS_SAVED;
     }
-    
-    
+
     /**
      * Get all the media files associated with this record.
      *
@@ -90,8 +92,7 @@ class Contract extends Model
     {
     	return $this->morphMany(Media::class, 'model');
     }
-    
-    
+
     /**
      * Get all the notes owned by this requisition.
      *
@@ -101,8 +102,6 @@ class Contract extends Model
     {
     	return $this->morphMany(Note::class, 'notable');
     }
-    
-    
 
     public function getStatusNameAttribute()
     {
@@ -113,5 +112,10 @@ class Contract extends Model
         if ((int) $this->status === (int) self::STATUS_SAVED) {
             return 'Saved';
         }
+    }
+
+    public function getShowUrlAttribute()
+    {
+        return route('contracts.show', $this->id);
     }
 }

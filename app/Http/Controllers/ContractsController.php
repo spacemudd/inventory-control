@@ -120,16 +120,21 @@ class ContractsController extends Controller
             'date_to' => 'nullable',
         ]);
 
-        $contracts = Contract::where('issued_at', '>=', Carbon::parse($request->date_from))
-        					->where('issued_at', '<=', Carbon::parse($request->date_to))->get();
+        $contracts = Contract::whereHas('payments', function($q) use ($request) {
+            $q->whereBetween('proceeded_date', [Carbon::parse($request->date_from), Carbon::parse($request->date_to)]);
+        })->get();
 
-      //  if ($request->date_from) $contracts->where('issued_at', '>=', Carbon::parse($request->date_from));
-       // if ($request->date_to) $contracts->where('issued_at', '<=', Carbon::parse($request->date_to));
+        $excel = Excel::create(now()->format('Y-m-d').'-contracts', function($excel) use ($contracts, $request) {
+            $excel->sheet('Sheet', function ($sheet) use ($contracts, $request) {
 
-        $excel = Excel::create(now()->format('Y-m-d').'-contracts', function($excel) use ($contracts) {
-            $excel->sheet('Sheet', function ($sheet) use ($contracts) {
-               
-                
+                $sheet->appendRow([
+                    'Selected Period:',
+                    Carbon::parse($request->date_from)->format('d-m-Y').' to '.Carbon::parse($request->date_to)->format('d-m-Y'),
+                ]);
+
+                $sheet->appendRow(['']);
+                $sheet->appendRow(['']);
+
                 $row = 0;
                 foreach ($contracts as $contract)
                 {
@@ -142,6 +147,7 @@ class ContractsController extends Controller
                 			'Location',
                 			'Contract Start Date',
                 			'Contract End Date',
+                			'Auto Renewal',
                 			'Contract Value',
                 			'Total paid',
                 			'Remaining',
@@ -154,10 +160,11 @@ class ContractsController extends Controller
                 			optional($contract->cost_center)->display_name,
                 			optional($contract->vendor)->display_name,
                 			$contract->vendor_reference_number,
-                			'heelow',
-                			'hi',//optional(Location::find($equipment->pivot->location_id))->name,
+                			'', // equipment
+                			'', // optional(Location::find($equipment->pivot->location_id))->name,
                 			$contract->issued_at,
                 			$contract->expires_at,
+                			$contract->auto_renewal ? 'Yes' : 'No',
                 			$contract->total_cost,
                 			$contract->payments()->sum('cost'),
                 			$contract->total_cost - $contract->payments()->sum('cost'),
@@ -167,7 +174,7 @@ class ContractsController extends Controller
                 	
                 	
                 	$sheet->appendRow([
-                			"paymets of Contract No.: ".$contract->number
+                			"Payments of Contract No.: ".$contract->number
                 	]);
                 	
                 	$row++;
@@ -197,7 +204,7 @@ class ContractsController extends Controller
                 	}
                 	
                 	$sheet->appendRow([
-                			'<<<<End of Line, Nothing Follows>>>>'
+                			'<<<< End of line - Nothing follows >>>>'
                 	]);
                 	$row++;
                 	
@@ -255,5 +262,15 @@ class ContractsController extends Controller
         DB::commit();
 
         return redirect()->route('contracts.show', $id);
+    }
+
+    public function search()
+    {
+        $search = request()->input('q');
+
+        $contracts = Contract::where('number', 'LIKE', '%' . $search . '%')
+            ->orWhere('vendor.name', 'LIKE', '%' . $search . '%');
+
+        return $contracts->paginate(15);
     }
 }

@@ -104,7 +104,7 @@
 					                        >
 					                        
 					                        </confirmation-prompt>
-					                        
+
 											<button id="deletebutton" style="display:none;"  type="submit" class="button is-danger is-small">Void</button>
 										</form>
 									@endif
@@ -146,6 +146,7 @@
 											<td><strong>Subject {{$purchase_order->cost_approval_id}}</strong></td>
 											<td>
 												<string-token :id.number="{{ $purchase_order->id }}"
+															  :auto-save="true"
 															  name="subject"
 															  :can-multiple-edit="{{auth()->user()->hasPermissionTo('edit-po-subject-after-approval')==1 ? 'true' : 'false'}}"
 															  value="{{ $purchase_order->subject }}"
@@ -202,10 +203,13 @@
 									</tr>
 									<tr>
 										<td><strong>Quote #</strong></td>
-										<td> 
+										<td>
 										@foreach ($purchase_order->adhoc_quotations as $quotation)
 				                            <p style="margin:0;padding:0">- {{ $quotation->quotation_number }}</p>
 				                        @endforeach
+										@if ($purchase_order->quote_reference_number)
+											<p style="margin:0;padding:0">- {{ $purchase_order->quote_reference_number }}</p>
+										@endif
 										</td>
 									</tr>
 									<tr>

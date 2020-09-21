@@ -29,6 +29,7 @@
 @section('content')
 <div class="columns is-multiline">
     <div class="column is-6">
+        <contracts-search></contracts-search>
     </div>
     <div class="column is-6">
         <div class="has-text-right is-flex" style="justify-content:flex-end">
