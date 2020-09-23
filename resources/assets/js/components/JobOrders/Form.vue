@@ -584,6 +584,9 @@
        *
        */
       submitOrder() {
+
+        
+
         if ((!this.equipment) && (!this.equipment_general)) {
           this.$toast.open({
             message: 'Please select an equipment',
@@ -617,6 +620,7 @@
         //}
 
         data.cost_center_id = this.cost_center ? this.cost_center.id : null;
+
 
         axios.post(this.baseUrl()+'/job-orders', data)
           .then(response => {
@@ -653,7 +657,7 @@
       },
       addEquipment(equip) {
         this.equipment = equip;
-        this.equipment_general = null;
+        this.equipment_general = false;
       },
       addGeneralEquipment() {
         this.equipment = null;
