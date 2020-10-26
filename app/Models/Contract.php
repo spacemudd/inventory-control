@@ -118,4 +118,12 @@ class Contract extends Model
     {
         return route('contracts.show', $this->id);
     }
+
+
+    public static function SortBySupplier($sortType='asc')
+    {
+    	return static::join('vendors', 'vendor_id', '=', 'vendors.id')->select('contracts.*')->orderBy('vendors.name', $sortType);
+    }
+
+
 }
