@@ -40,6 +40,10 @@ class ContractsController extends Controller
             $contracts = Contract::query()->orderBy('total_cost', 'desc')->paginate(100);
         else if(request()->sort_by=='value-asc')
             $contracts = Contract::query()->orderBy('total_cost', 'asc')->paginate(100);
+        else if(request()->sort_by=='paid-asc')
+            $contracts = Contract::sortByPaid('asc')->paginate(100);
+        else if(request()->sort_by=='paid_desc')
+            $contracts = Contract::sortByPaid('desc')->paginate(100);
         else
             $contracts = Contract::paginate(100);
 

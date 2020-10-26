@@ -99,7 +99,13 @@
                         @endif
                 </th>
                 <th>    
-                    Paid So Far
+                        @if (request()->has('sort_by') && request()->sort_by === 'paid-desc')
+                            <a href="?tab={{request()->tab}}&sort_by=paid-asc">Paid So Far <i class="fa fa-arrow-down"></i></a>
+                        @elseif(request()->has('sort_by') && request()->sort_by === 'paid-asc')
+                            <a href="?tab={{request()->tab}}&sort_by=paid-desc">Paid So Far<i class="fa fa-arrow-up"></i></a>                        
+                        @else
+                            <a href="?tab={{request()->tab}}&sort_by=paid-asc">Paid So Far </a>  
+                        @endif
                 </th>
                 <th></th>
             </thead>
