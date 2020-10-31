@@ -11,12 +11,13 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 class Equipment extends Model implements AuditableContract
 {
     use Auditable, NodeTrait;
-
+     public $incrementing = false;
     protected $table = 'equipments';
-
     protected $fillable = [
+        'id',
         'name',
         'type',
+        'is_leaf',
     ];
 
     protected $appends = [
@@ -37,7 +38,6 @@ class Equipment extends Model implements AuditableContract
             }
         });
     }
-
     public function getdragDisabledAttribute()
     {
         return false;
