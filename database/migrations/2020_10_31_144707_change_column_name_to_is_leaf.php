@@ -14,7 +14,7 @@ class ChangeColumnNameToIsLeaf extends Migration
     public function up()
     {
         Schema::table('equipments', function (Blueprint $table) {
-            $table->boolean('is_leaf');
+            $table->boolean('is_leaf')->nullable();
         });
     }
 
