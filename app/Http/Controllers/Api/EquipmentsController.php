@@ -23,17 +23,27 @@ class EquipmentsController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'parent' => 'nullable|string|max:255',
+            'pid' => 'nullable',
+            'leaf' => 'boolean',
         ]);
+        
+        $type = ($request->leaf != False ? 'location' : 'equipment');
 
-        if ($request->parent) {
-            $parent = Equipment::where('name', $request->parent)->first();
-            $child = new Equipment();
+        if ($request->pid) {
+            $parent = Equipment::where('id', (int)$request->pid)->first();
+            $child =  new Equipment();
             $child->name = $request->name;
+            $child->id = (int)$request->id;
+            $child->is_leaf = $request->leaf;
+            $child->parent_id = (int)$request->pid;
+            $child->type = $type;
             $parent->children()->save($child);
         } else {
             Equipment::create([
+                'id' => (int)$request->id,
                 'name' => $request->name,
+                'type' => $type,
+                'is_leaf' => $request->leaf,
             ]);
         }
 
@@ -44,11 +54,25 @@ class EquipmentsController extends Controller
     {
         $request->validate([
             'new_name' => 'required|string|max:255',
-            'old_name' => 'required|string|max:255',
+            'id' => 'nullable',
         ]);
 
-        $equip = Equipment::where('name', $request->old_name)->first();
+        $equip = Equipment::where('id', $request->id)->first();
         $equip->name = $request->new_name;
+        $equip->save();
+
+        return $equip;
+    }
+
+    public function dropNode(Request $request)
+    {
+        $request->validate([
+            'pid' => 'nullable',
+            'id' => 'required',
+        ]);
+
+        $equip = Equipment::where('id', $request->id)->first();
+        $equip->parent_id = $request->pid;
         $equip->save();
 
         return $equip;
@@ -62,68 +86,13 @@ class EquipmentsController extends Controller
 
     public function toJsTree()
     {
-        $eq = Equipment::get()->toTree()->toArray();
-
+        $eq = Equipment::get(['is_leaf as isLeaf', 'equipments.*'])->toTree()->toArray();
+        
         if (request()->has('disabled')) {
             return $eq = EquipmentDisabled::get()->toTree()->toArray();
         }
 
         return $eq;
 
-        $tree = [
-            'id' => 1,
-            'name' => 'Head Office',
-            'dragDisabled' => false,
-            'addTreeNodeDisabled' => false,
-            'addLeafNodeDisabled' => false,
-            'editNodeDisabled' => false,
-            'delNodeDisabled' => false,
-            'children' => [
-                [
-                    'name' => 'Chiller Equipment',
-                    'children' => [
-                        ['name' => 'H.O Chiller 1'],
-                    ],
-                ],
-            ]
-        ];
-
-        return $tree;
-        //
-        //{
-        //    name: 'Head Office',
-        //    id: 1,
-        //    pid: 0,
-        //    dragDisabled: false,
-        //    addTreeNodeDisabled: false,
-        //    addLeafNodeDisabled: false,
-        //    editNodeDisabled: false,
-        //    delNodeDisabled: false,
-        //    children: [
-        //      {
-        //        name: 'Chiller Equipment',
-        //        id: 2,
-        //        //isLeaf: true,
-        //        pid: 1,
-        //        children: [
-        //          {
-        //              name: 'H.O Chiller 1',
-        //
-        //          }
-        //        ],
-        //      }
-        //    ]
-        //  },
-        //{
-        //    name: 'Group 2',
-        //    id: 3,
-        //    pid: 0,
-        //    disabled: false
-        //  },
-        //{
-        //    name: 'Group 3',
-        //    id: 4,
-        //    pid: 0
-        //  }
     }
 }
