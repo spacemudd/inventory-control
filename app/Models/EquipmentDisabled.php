@@ -12,7 +12,6 @@ class EquipmentDisabled extends Equipment
         'addLeafNodeDisabled',
         'editNodeDisabled',
         'delNodeDisabled',
-        'isLeaf',
     ];
 
     public function getdragDisabledAttribute()
@@ -38,10 +37,5 @@ class EquipmentDisabled extends Equipment
     public function getdelNodeDisabledAttribute()
     {
         return true;
-    }
-
-    public function getisLeafAttribute()
-    {
-        return $this->type === 'equipment';
     }
 }

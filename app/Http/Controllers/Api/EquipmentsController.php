@@ -27,7 +27,7 @@ class EquipmentsController extends Controller
             'leaf' => 'boolean',
         ]);
         
-        $type = ($request->leaf != False ? 'location' : 'equipment');
+        $type = ($request->leaf != False ? 'equipment' : 'location');
 
         if ($request->pid) {
             $parent = Equipment::where('id', (int)$request->pid)->first();
@@ -89,7 +89,7 @@ class EquipmentsController extends Controller
         $eq = Equipment::get(['is_leaf as isLeaf', 'equipments.*'])->toTree()->toArray();
         
         if (request()->has('disabled')) {
-            return $eq = EquipmentDisabled::get()->toTree()->toArray();
+            $eq = EquipmentDisabled::get(['is_leaf as isLeaf', 'equipments.*'])->toTree()->toArray();
         }
 
         return $eq;
