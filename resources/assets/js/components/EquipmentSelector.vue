@@ -79,6 +79,7 @@
           })
       },
       onClick (params) {
+        console.log(params)
         if (params.isLeaf) {
           this.$emit('equipment:selected', params);
           this.closeModal();

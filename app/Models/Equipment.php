@@ -26,6 +26,7 @@ class Equipment extends Model implements AuditableContract
         'addLeafNodeDisabled',
         'editNodeDisabled',
         'delNodeDisabled',
+        'isLeaf',
     ];
 
     protected static function boot()
@@ -37,6 +38,14 @@ class Equipment extends Model implements AuditableContract
                 $equipment->type = 'equipment'; // and 'category'.
             }
         });
+    }
+    public function getIsLeafAttribute()
+    {
+        if ($this->type == "equipment") {
+            return true;
+        } else {
+            return false;
+        }
     }
     public function getdragDisabledAttribute()
     {

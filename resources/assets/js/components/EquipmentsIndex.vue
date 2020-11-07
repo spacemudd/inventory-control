@@ -161,6 +161,7 @@
         this.data = null; 
         axios.get(this.apiUrl() + '/equipment/get-tree')
           .then(response => {
+            console.log(response.data);
             this.data = new Tree(response.data);
           })
       },
