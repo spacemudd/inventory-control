@@ -15,6 +15,14 @@ class EquipmentDisabled extends Equipment
         'isLeaf',
     ];
 
+    public function getIsLeafAttribute()
+    {
+        if ($this->type == "equipment") {
+            return true;
+        } else {
+            return false;
+        }
+    }
     public function getdragDisabledAttribute()
     {
         return true;
@@ -38,10 +46,5 @@ class EquipmentDisabled extends Equipment
     public function getdelNodeDisabledAttribute()
     {
         return true;
-    }
-
-    public function getisLeafAttribute()
-    {
-        return $this->type === 'equipment';
     }
 }

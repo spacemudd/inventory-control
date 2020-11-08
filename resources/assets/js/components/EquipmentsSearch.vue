@@ -35,6 +35,7 @@
     methods: {
       initiateSearchList() {
         axios.get(this.apiUrl() + '/equipments/all').then((response) => {
+          console.log(response.data)
           this.equipments = response.data;
         })
       },
