@@ -653,7 +653,7 @@
       },
       addEquipment(equip) {
         this.equipment = equip;
-        this.equipment_general = null;
+        this.equipment_general = false;
       },
       addGeneralEquipment() {
         this.equipment = null;
