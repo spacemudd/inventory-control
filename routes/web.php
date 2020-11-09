@@ -459,6 +459,7 @@ Route::prefix('api/v' . env('APP_API', '1'))->middleware('auth')->group(function
     // Equip tree management
     Route::get('/equipments/all', 'Api\EquipmentsController@index');
     Route::post('/equipment/add-node', 'Api\EquipmentsController@addNode');
+    Route::post('/equipment/drop-node', 'Api\EquipmentsController@dropNode');
     Route::post('/equipment/change-node', 'Api\EquipmentsController@changeNode');
     Route::delete('/equipment/{name}/delete', 'Api\EquipmentsController@deleteNode');
     Route::get('/equipment/get-tree', 'Api\EquipmentsController@toJsTree');

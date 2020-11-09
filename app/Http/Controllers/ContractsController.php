@@ -19,7 +19,34 @@ class ContractsController extends Controller
      */
     public function index()
     {
-        $contracts = Contract::paginate(100);
+        //$contracts = Contract::paginate(100);
+        if(request()->sort_by=='contract-id-asc')
+            $contracts = Contract::query()->orderBy('number', 'asc')->paginate(100);
+        else if(request()->sort_by=='contract-id-desc')
+            $contracts = Contract::query()->orderBy('number', 'desc')->paginate(100);
+        else if(request()->sort_by=='date-desc')
+            $contracts = Contract::query()->orderBy('issued_at', 'desc')->paginate(100);
+        else if(request()->sort_by=='date-asc')
+            $contracts = Contract::query()->orderBy('issued_at', 'asc')->paginate(100);
+        else if(request()->sort_by=='supplier-desc')
+            $contracts = Contract::sortBySupplier('desc')->paginate(100);
+        else if(request()->sort_by=='supplier-asc')
+            $contracts = Contract::sortBySupplier('asc')->paginate(100);
+        else if(request()->sort_by=='cost-desc')
+            $contracts = Contract::query()->orderBy('cost', 'desc')->paginate(100);
+        else if(request()->sort_by=='cost-asc')
+            $contracts = Contract::query()->orderBy('cost', 'asc')->paginate(100);
+        else if(request()->sort_by=='value-desc')
+            $contracts = Contract::query()->orderBy('total_cost', 'desc')->paginate(100);
+        else if(request()->sort_by=='value-asc')
+            $contracts = Contract::query()->orderBy('total_cost', 'asc')->paginate(100);
+        else if(request()->sort_by=='paid-asc')
+            $contracts = Contract::sortByPaid('asc')->paginate(100);
+        else if(request()->sort_by=='paid_desc')
+            $contracts = Contract::sortByPaid('desc')->paginate(100);
+        else
+            $contracts = Contract::paginate(100);
+
         return view('contracts.index', compact('contracts'));
     }
 

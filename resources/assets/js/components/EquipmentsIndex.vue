@@ -16,6 +16,9 @@
             <div v-else>
                 <vue-tree-list
                         @click="onClick"
+                        @drop="onDropNode"
+                        @drop-after="dropAfterNode"
+                        @drop-before="dropBeforeNode"
                         @change-name="onChangeName"
                         @delete-node="onDel"
                         @add-node="onAddNode"
@@ -26,7 +29,7 @@
                     <span class="icon-1">Hello?</span>
                     <span class="icon-1" slot="addTreeNode">Add Location</span>
                     <span class="icon-1" slot="addLeafNode">Add Equipment</span>
-                    <span class="icon-1" slot="editNode"><span class="fa fa-pencil"></span> Edit</span>
+                    <span class="icon-1" slot="editNode" ><span class="fa fa-pencil"></span> Edit</span>
                     <span class="icon-1" slot="delNode"><span class="fa fa-trash"></span> Delete</span>
                 </vue-tree-list>
             </div>
@@ -34,7 +37,7 @@
     </div>
 </template>
 <script>
-  import { VueTreeList, Tree, TreeNode } from 'vue-tree-list'
+  import { VueTreeList, Tree, TreeNode } from 'vue-tree-list';
   export default {
     components: {
       VueTreeList
@@ -51,13 +54,6 @@
       this.getTree();
     },
     methods: {
-      getTree() {
-        this.data = null;
-        axios.get(this.apiUrl() + '/equipment/get-tree')
-          .then(response => {
-            this.data = new Tree(response.data);
-          })
-      },
       onDel (node) {
         console.log(node)
         axios.delete(this.apiUrl() + '/equipment/'+node.name+'/delete')
@@ -69,50 +65,97 @@
           })
       },
 
-      saveChangeName() {
-        axios.post(this.apiUrl() + '/equipment/change-node', {
-          old_name: this.oldName,
-          new_name: this.newName,
+      // This will fire when a node is dropped into another node.
+      onDropNode(params) {
+        if (params.target.id != params.src.id) {
+          axios.post(this.apiUrl()+'/equipment/drop-node', {
+          id: params.node.id, 
+          pid: params.target.id ? params.target.id : '',
         })
           .then(response => {
             this.$toast.open({
-              message: 'Saved: '+this.newName,
+              message: 'Moved: '+ params.node.name,
             });
-          })
+          });
+        }   
+      },
+
+      dropBeforeNode(params) {
+        if (params.target.pid != params.src.id) {
+          axios.post(this.apiUrl()+'/equipment/drop-node', {
+          id: params.node.id, 
+          pid: params.target.pid ? params.target.pid : '',
+        })
+          .then(response => {
+            this.$toast.open({
+              message: 'Moved: '+ params.node.name,
+            });
+          });
+        }   
+      },
+
+      dropAfterNode(params) {
+        if (params.target.pid != params.src.id) {
+          axios.post(this.apiUrl()+'/equipment/drop-node', {
+          id: params.node.id, 
+          pid: params.target.pid ? params.target.pid : '',
+        })
+          .then(response => {
+            this.$toast.open({
+              message: 'Moved: '+ params.node.name,
+            });
+          });
+        }   
+      },
+
+      saveChangeName() {
+        axios.post(this.apiUrl() + '/equipment/change-node', {
+          id: this.id,
+          new_name: this.newName,
+        })
+
       },
 
       onChangeName(params) {
-        this.oldName = params.oldName;
+        this.id = params.id;
         this.newName = params.newName;
-        debugger;
         setTimeout(() => {
           this.saveChangeName();
-        }, 500);
+        }, 3000);
       },
 
       onAddNode (params) {
-        console.log(params)
+        console.log(params.isLeaf)
         axios.post(this.apiUrl()+'/equipment/add-node', {
+          id: params.id, 
           leaf: params.isLeaf,
           name: params.name,
-          parent: params.parent ? params.parent.name : '',
+          pid: params.pid ? params.pid : '',
         })
           .then(response => {
             this.$toast.open({
               message: 'Saved: '+params.name,
             });
-          })
+          });
       },
 
-      onClick (params) {
-        console.log(params)
+      onClick (node) {
+        console.log(node)
       },
 
       addNode () {
         var node = new TreeNode({ name: 'new location', isLeaf: false })
         if (!this.data.children) this.data.children = []
         this.data.addChildren(node)
-        this.onAddNode({'parent': '', 'name': 'new location', 'isLeaf': false});
+        this.onAddNode({'parent': '', 'name': 'new location', 'isLeaf': false, 'id': node.id});
+      },
+      getTree() {
+        this.data = null; 
+        axios.get(this.apiUrl() + '/equipment/get-tree')
+          .then(response => {
+            console.log(response.data);
+            this.data = new Tree(response.data);
+          })
       },
 
       getNewTree () {

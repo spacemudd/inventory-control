@@ -50,18 +50,63 @@
                 <col>
                 <col style="width:10%;">
                 <col style="width:10%;">
+                <col style="width:12%;">
                 <col style="width:10%;">
-                <col style="width:10%;">
-                <col style="width:10%;">
+                <col style="width:0%;">
             </colgroup>
             <thead>
-                <th>Contract</th>
-                <th>Date</th>
-                <th>Supplier</th>
-                <th>Cost</th>
-                <th>Frequency</th>
-                <th>Contract value</th>
-                <th>Paid so far</th>
+                <th>    @if (request()->has('sort_by') && request()->sort_by === 'contract-id-desc')
+                            <a href="?tab={{request()->tab}}&sort_by=contract-id-asc">Contract <i class="fa fa-arrow-down"></i></a>
+                        @elseif(request()->has('sort_by') && request()->sort_by === 'contract-id-asc')
+                            <a href="?tab={{request()->tab}}&sort_by=contract-id-desc">Contract<i class="fa fa-arrow-up"></i></a>                        
+                        @else
+                            <a href="?tab={{request()->tab}}&sort_by=contract-id-asc">Contract </a>  
+                        @endif
+                </th>
+                <th>    @if (request()->has('sort_by') && request()->sort_by === 'date-desc')
+                            <a href="?tab={{request()->tab}}&sort_by=date-asc">Date <i class="fa fa-arrow-down"></i></a>
+                        @elseif(request()->has('sort_by') && request()->sort_by === 'date-asc')
+                            <a href="?tab={{request()->tab}}&sort_by=date-desc">Date<i class="fa fa-arrow-up"></i></a>                        
+                        @else
+                            <a href="?tab={{request()->tab}}&sort_by=date-asc">Date</a>  
+                        @endif
+                </th>
+                <th>    @if (request()->has('sort_by') && request()->sort_by === 'supplier-desc')
+                            <a href="?tab={{request()->tab}}&sort_by=supplier-asc">Supplier <i class="fa fa-arrow-down"></i></a>
+                        @elseif(request()->has('sort_by') && request()->sort_by === 'supplier-asc')
+                            <a href="?tab={{request()->tab}}&sort_by=supplier-desc">Supplier<i class="fa fa-arrow-up"></i></a>                        
+                        @else
+                            <a href="?tab={{request()->tab}}&sort_by=supplier-asc">Supplier </a>  
+                        @endif
+                </th>
+                <th>    @if (request()->has('sort_by') && request()->sort_by === 'cost-desc')
+                            <a href="?tab={{request()->tab}}&sort_by=cost-asc">Cost <i class="fa fa-arrow-down"></i></a>
+                        @elseif(request()->has('sort_by') && request()->sort_by === 'cost-asc')
+                            <a href="?tab={{request()->tab}}&sort_by=cost-desc">Cost<i class="fa fa-arrow-up"></i></a>                        
+                        @else
+                            <a href="?tab={{request()->tab}}&sort_by=cost-asc">Cost </a>  
+                        @endif
+                </th>
+                <th>    
+                    Frequency
+                </th>
+                <th>    @if (request()->has('sort_by') && request()->sort_by === 'value-desc')
+                            <a href="?tab={{request()->tab}}&sort_by=value-asc">Contract Value <i class="fa fa-arrow-down"></i></a>
+                        @elseif(request()->has('sort_by') && request()->sort_by === 'value-asc')
+                            <a href="?tab={{request()->tab}}&sort_by=value-desc">Contract Value<i class="fa fa-arrow-up"></i></a>                        
+                        @else
+                            <a href="?tab={{request()->tab}}&sort_by=value-asc">Contract Value </a>  
+                        @endif
+                </th>
+                <th>    
+                        @if (request()->has('sort_by') && request()->sort_by === 'paid-desc')
+                            <a href="?tab={{request()->tab}}&sort_by=paid-asc">Paid So Far <i class="fa fa-arrow-down"></i></a>
+                        @elseif(request()->has('sort_by') && request()->sort_by === 'paid-asc')
+                            <a href="?tab={{request()->tab}}&sort_by=paid-desc">Paid So Far<i class="fa fa-arrow-up"></i></a>                        
+                        @else
+                            <a href="?tab={{request()->tab}}&sort_by=paid-asc">Paid So Far </a>  
+                        @endif
+                </th>
                 <th></th>
             </thead>
             <tbody>

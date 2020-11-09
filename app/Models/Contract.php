@@ -118,4 +118,21 @@ class Contract extends Model
     {
         return route('contracts.show', $this->id);
     }
+
+
+    public static function SortBySupplier($sortType='asc')
+    {
+    	return static::join('vendors', 'vendor_id', '=', 'vendors.id')->select('contracts.*')->orderBy('vendors.name', $sortType);
+    }
+
+    public static function SortbyPaid($sortType='asc')
+    {
+        $contractPayments = ContractPayment::selectRaw('sum(cost)')
+            ->whereColumn('contract_id', 'contracts.id')
+            ->groupBy('contract_id')
+            ->getQuery();
+        
+        return Contract::select('contracts.*')->selectSub($contractPayments, 'contract_payments')->groupBy('contracts.id')->orderBy('contract_payments', $sortType);
+    }
+
 }
