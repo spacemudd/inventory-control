@@ -303,7 +303,7 @@
                                 <td>{{ equipment.name }}</td>
                                 <td></td>
                             </tr>
-                            <tr v-if="equipment_general">
+                            <tr v-if="equipment_general == 1">
                                 <td colspan="2">General</td>
                             </tr>
                             </tbody>
