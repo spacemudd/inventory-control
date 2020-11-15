@@ -6,6 +6,7 @@ use App\Models\Equipment;
 use App\Models\EquipmentDisabled;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class EquipmentsController extends Controller
 {
@@ -27,14 +28,13 @@ class EquipmentsController extends Controller
             'leaf' => 'boolean',
         ]);
         
-        $type = ($request->leaf != False ? 'location' : 'equipment');
-
+        DB::unprepared('SET IDENTITY_INSERT inv_equipments ON');
+        $type = ($request->leaf != False ? 'equipment' : 'location');
         if ($request->pid) {
             $parent = Equipment::where('id', (int)$request->pid)->first();
             $child =  new Equipment();
             $child->name = $request->name;
             $child->id = (int)$request->id;
-            $child->is_leaf = $request->leaf;
             $child->parent_id = (int)$request->pid;
             $child->type = $type;
             $parent->children()->save($child);
@@ -43,7 +43,6 @@ class EquipmentsController extends Controller
                 'id' => (int)$request->id,
                 'name' => $request->name,
                 'type' => $type,
-                'is_leaf' => $request->leaf,
             ]);
         }
 
@@ -86,10 +85,10 @@ class EquipmentsController extends Controller
 
     public function toJsTree()
     {
-        $eq = Equipment::get(['is_leaf as isLeaf', 'equipments.*'])->toTree()->toArray();
+        $eq = Equipment::get(['equipments.*'])->toTree()->toArray();
         
         if (request()->has('disabled')) {
-            return $eq = EquipmentDisabled::get()->toTree()->toArray();
+            $eq = EquipmentDisabled::get(['equipments.*'])->toTree()->toArray();
         }
 
         return $eq;

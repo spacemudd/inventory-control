@@ -55,7 +55,6 @@
     },
     methods: {
       onDel (node) {
-        console.log(node)
         axios.delete(this.apiUrl() + '/equipment/'+node.name+'/delete')
           .then(response => {
             this.$toast.open({
@@ -117,24 +116,29 @@
       },
 
       onChangeName(params) {
+        console.log(params)
         this.id = params.id;
         this.newName = params.newName;
         setTimeout(() => {
           this.saveChangeName();
-        }, 3000);
+        }, 0);
       },
 
-      onAddNode (params) {
-        console.log(params.isLeaf)
+      onAddNode (node) {
+        if (node.pid != 0) {
+          var orignialNodeId = node.id;
+        var modifiedNodeId = orignialNodeId.toString().slice(5,13);
+        node.id = parseInt(modifiedNodeId);
+        }
         axios.post(this.apiUrl()+'/equipment/add-node', {
-          id: params.id, 
-          leaf: params.isLeaf,
-          name: params.name,
-          pid: params.pid ? params.pid : '',
+          id: node.id, 
+          leaf: node.isLeaf,
+          name: node.name,
+          pid: node.pid ? node.pid : '',
         })
           .then(response => {
             this.$toast.open({
-              message: 'Saved: '+params.name,
+              message: 'Saved: '+node.name,
             });
           });
       },
@@ -145,15 +149,18 @@
 
       addNode () {
         var node = new TreeNode({ name: 'new location', isLeaf: false })
+        var orignialNodeId = node.id;
+        var modifiedNodeId = orignialNodeId.toString().slice(5,13);
+        node.id = parseInt(modifiedNodeId);
         if (!this.data.children) this.data.children = []
-        this.data.addChildren(node)
-        this.onAddNode({'parent': '', 'name': 'new location', 'isLeaf': false, 'id': node.id});
+        this.data.addChildren(node);
+        node.isLeaf = false;
+        this.onAddNode(node);
       },
       getTree() {
         this.data = null; 
         axios.get(this.apiUrl() + '/equipment/get-tree')
           .then(response => {
-            console.log(response.data);
             this.data = new Tree(response.data);
           })
       },
@@ -179,7 +186,6 @@
         }
 
         vm.newTree = _dfs(vm.data)
-        console.log(vm.newTree);
       },
 
     }
