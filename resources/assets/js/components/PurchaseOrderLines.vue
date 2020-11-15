@@ -3,6 +3,7 @@
         <table class="table is-fullwidth is-narrow is-size-7">
             <colgroup>
                 <col style="width:10px;">
+                <col style="width:100px;">
                 <col>
                 <col style="width:100px;">
                 <col style="width:130px;">
@@ -12,6 +13,7 @@
             <thead>
             <tr>
                 <th>No.</th>
+                <th>Quote #</th>
                 <th>Description</th>
                 <th>Unit Price</th>
                 <th>Quantity</th>
@@ -22,6 +24,7 @@
             <tbody>
             <tr class="item" v-for="(item, index) in items">
                 <td>{{index+1}}</td>
+                <td><input disabled class="input is-small" type="number" v-model="item.quote_no" /></td>
                 <td><input disabled class="input is-small" v-model="item.description" /></td>
                 <td><input disabled class="input is-small" type="number" v-model="item.unit_price" /></td>
                 <td>
@@ -35,7 +38,16 @@
             </tr>
             <tr class="newItem" v-if="isAdding">
                 <td></td>
+                <td>
+                    <select class="select is-small" v-model="newItem.quote_no">
+                        <option></option>
+                          <option v-for="approver in quotesList" :value="approver.quotation_number">
+                            {{ approver.quotation_number }}
+                          </option>
+                        </select>
+                </td>
                 <td><input class="input is-small" v-model="newItem.description" /></td>
+                
                 <td><input class="input is-small" type="number" v-model="newItem.unit_price" /></td>
                 <td class="is-flex">
                     <div style="width:50px;height:27px;">
@@ -97,13 +109,17 @@
       createdAt: {
         required: false,
         type: String,
+      },
+      quotesList: {
+        required: false,
+        
       }
     },
     data () {
       return {
         savingItemLoading: false,
         items: [],
-        newItem: { purchase_order_id: null, description: "", qty: 1, unit_price: 0, lump_sum: false },
+        newItem: { purchase_order_id: null, description: "", quote_no: "", qty: 1, unit_price: 0, lump_sum: false },
         isAdding: false,
       }
     },

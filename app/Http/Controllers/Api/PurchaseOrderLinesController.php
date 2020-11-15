@@ -26,6 +26,7 @@ class PurchaseOrderLinesController extends Controller
             'description' => 'required|string|max:255',
             'unit_price' => 'required|numeric',
             'quantity' => 'nullable|numeric',
+        	'quote_no' => 'required'
         ]);
 
         $line = $request->toArray();

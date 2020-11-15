@@ -47,7 +47,7 @@
 									@endif
 								</h1>
 								<p class="subtitle is-6">
-									Purchase Order Number
+									Purchase Order Numberx
 									@if(!$purchase_order->number)
 										<b-tooltip label="Generated when saved"><span class="icon is-small"><i class="fa fa-question-circle"></i></span></b-tooltip>
 									@endif
@@ -269,6 +269,7 @@
 						<purchase-order-lines :lines="{{ json_encode($purchase_order->lines()->get()->toArray()) }}"
 											  :editable="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
 											  :purchase-order-id="{{ $purchase_order->id }}"
+											  :quotes-list="{{json_encode($purchase_order->adhoc_quotations)}}"
 											  created-at="{{ $purchase_order->created_at }}">
 						</purchase-order-lines>
 					</div>
@@ -303,7 +304,8 @@
 							<hr>
 							<purchase-order-invoice-lines :lines="{{ json_encode($purchase_order->lines()->get()->toArray()) }}"
 														  :purchase-order-id="{{ $purchase_order->id }}"
-														   created-at="{{ $purchase_order->created_at }}">
+														  
+														  created-at="{{ $purchase_order->created_at }}">
 							</purchase-order-invoice-lines>
 						</div>
 					</div>
