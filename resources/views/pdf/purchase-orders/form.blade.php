@@ -14,17 +14,17 @@
     <div class="col-12-sm">
         <p style="font-size:20px;"><b>Sir,</b></p>
         @if ($data->adhoc_quotations()->count())
-            @if ($data->adhoc_quotations()->count() > 1)
-                <p style="font-size:20px;">With reference to your quotations:</p>
-                <ul>
-                    @foreach ($data->adhoc_quotations()->get() as $aq)
-                        <li>{{ $aq->quotation_number }}</li>
-                    @endforeach
-                </ul>
-                <p style="font-size:20px;">for the below mentioned we confirm the acceptance for your offer amounting as follows,</p>
-            @else
-                <p style="font-size:20px;">With reference to your quotation <b>{{ $data->adhoc_quotations()->first()->quotation_number }}</b> for the below mentioned we confirm the acceptance for your offer amounting as follows,</p>
-            @endif
+{{--            @if ($data->adhoc_quotations()->count() > 1)--}}
+{{--                <p style="font-size:20px;">With reference to your quotations:</p>--}}
+{{--                <ul>--}}
+{{--                    @foreach ($data->adhoc_quotations()->get() as $aq)--}}
+{{--                        <li>{{ $aq->quotation_number }}</li>--}}
+{{--                    @endforeach--}}
+{{--                </ul>--}}
+{{--                <p style="font-size:20px;">For the below mentioned we confirm the acceptance for your offer amounting as follows,</p>--}}
+{{--            @else--}}
+                <p style="font-size:20px;">With reference to your quotation <b>{{ $data->adhoc_quotations()->pluck('quotation_number')->implode(', ') }}</b> for the below mentioned we confirm the acceptance for your offer amounting as follows,</p>
+{{--            @endif--}}
         @else
             @if ($data->quotation)
             <p style="font-size:20px;">With reference to your quotation <b>{{ $data->quotation->vendor_quotation_number }}</b> for the below mentioned we confirm the acceptance for your offer amounting as follows,</p>
