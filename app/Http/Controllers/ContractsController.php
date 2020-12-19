@@ -145,11 +145,17 @@ class ContractsController extends Controller
         $request->validate([
             'date_from' => 'nullable',
             'date_to' => 'nullable',
+            'type' => 'required',
         ]);
-
-        $contracts = Contract::whereHas('payments', function($q) use ($request) {
-            $q->whereBetween('proceeded_date', [Carbon::parse($request->date_from), Carbon::parse($request->date_to)]);
-        })->get();
+        
+        if ($request->type == "contracts_date" ) {
+            $contracts = Contract::whereBetween('issued_at', [Carbon::parse($request->date_from), Carbon::parse($request->date_to)])->orWhereBetween('expires_at',[Carbon::parse($request->date_from), Carbon::parse($request->date_to)])->get();
+        } elseif ($request->type == "invoices_date") {
+            $contracts = Contract::whereHas('payments', function($q) use ($request) {
+                $q->whereBetween('proceeded_date', [Carbon::parse($request->date_from), Carbon::parse($request->date_to)]);
+            })->get();
+        }
+        
 
         $excel = Excel::create(now()->format('Y-m-d').'-contracts', function($excel) use ($contracts, $request) {
             $excel->sheet('Sheet', function ($sheet) use ($contracts, $request) {

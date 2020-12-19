@@ -29,9 +29,49 @@
         <div class="column">
             <p class="title is-5">Selection</p>
 
+            <p class="title is-5">Contracts Date</p>
+
+            <form action="{{ route('contracts.export.excel') }}" method="post">
+                {{ @csrf_field() }}
+                <input type="hidden" value="contracts_date" name="type">
+                <div class="columns">
+                    <div class="column is-3">
+                        <div class="field">
+                            <label class="label has-text-weight-normal">Date from</label>
+                            <div class="control">
+                                <input name="date_from" class="input is-small" value="{{ now()->firstOfMonth()->format('Y-m-d') }}" type="date">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-3">
+                        <div class="field">
+                            <label class="label has-text-weight-normal">Date to</label>
+                            <div class="control">
+                                <input name="date_to" class="input is-small" value="{{ now()->endofMonth()->format('Y-m-d') }}" type="date">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- -- Form done. --}}
+                <div class="column is-6 has-text-right">
+                    <a class="button is-text" href="{{ route('contracts.index') }}">Cancel</a>
+                    <button type="submit" class="button is-primary">Download</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <hr>
+    <div class="columns">
+        <div class="column">
+            <p class="title is-5">Selection</p>
+
+            <p class="title is-5">Payments Date</p>
+
             <form action="{{ route('contracts.export.excel') }}" method="post">
                 {{ @csrf_field() }}
                 <div class="columns">
+                    <input type="hidden" value="invoices_date" name="type">
                     <div class="column is-3">
                         <div class="field">
                             <label class="label has-text-weight-normal">Date from</label>
