@@ -80,6 +80,8 @@ class PermissionsTableSeeder extends Seeder
             'upload-purchase-orders',
             'void-purchase-orders',
 
+            'edit-completed-job-order',
+
             'view-purchase-requisitions',
             'create-purchase-requisitions',
             'update-purchase-requisitions',

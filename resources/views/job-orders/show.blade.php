@@ -1,5 +1,8 @@
 @extends('layouts.app', ['title' => $jobOrder->job_order_number.' - Job orders'])
-
+<?php $editPermission = False ?>
+@can('edit-completed-job-order')
+<?php $editPermission = True ?>
+@endcan
 @section('header')
     <nav class="breadcrumb" aria-label="breadcrumbs">
         <ul>
@@ -30,6 +33,7 @@
             <div class="box">
                 <job-order-show-form :id.number="{{ $jobOrder->id }}"
                                      :can-change-equipment="{{ $jobOrder->isCompleted() ? 'false' : 'true' }}"
+                                     :edit-permission="{{$editPermission  ? 'true' : 'false'}}"
                 ></job-order-show-form>
             </div>
         </div>

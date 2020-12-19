@@ -132,14 +132,12 @@
                                         <span>View</span>
                                 </a>
                                 
-                                @if(!isset($type)) 
                                 <a href="{{ route('job-orders.pdf', $jobOrder->job_order_number) }}"
                                  style="height:20px; margin-top: 5px;" class="button is-small">
                                 
                                         <span class="icon"><i class="fa fa-print"></i></span>
                                         <span>Print</span>
                                 </a>
-                                @endif
                             </td>
                         </tr>
                     @endforeach

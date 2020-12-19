@@ -35,7 +35,8 @@
                                 v-model="date"
                                 size="is-small"
                                 placeholder="Click to select..."
-                                required>
+                                required
+                                :disabled="!editPermission">
                         </b-datepicker>
                     </div>
 
@@ -47,7 +48,8 @@
                                         size="is-small"
                                         :data="filteredCostCenters"
                                         @select="option => cost_center = option"
-                                        :loading="$isLoading('FETCHING_COST_CENTERS')">
+                                        :loading="$isLoading('FETCHING_COST_CENTERS')"
+                                        :disabled="!editPermission">
                             <template slot="empty">No results found</template>
                         </b-autocomplete>
                         <!-- When selected -->
@@ -56,7 +58,8 @@
                                class="input is-small"
                                :value="cost_center.code + ' - ' + cost_center.description"
                                @click="emptyCostCenter"
-                               readonly>
+                               readonly
+                               :disabled="!editPermission">
                     </b-field>
 
                     <b-field label="Ext">
@@ -67,11 +70,12 @@
 <!--                        <b-input v-model="job_description" maxlength="200" type="textarea" size="is-small" required></b-input>-->
                         <job-order-description @job-description:selected="(res) => job_description = res"
                                                :job-description-existing="job_description"
+                                               :disabled="!editPermission"
                         ></job-order-description>
                     </div>
 
                     <b-field label="Remark">
-                        <textarea class="textarea" size="is-small" v-model="remark" rows="2" cols="2"></textarea>
+                        <textarea class="textarea" size="is-small" v-model="remark" rows="2" cols="2" :disabled="!editPermission"></textarea>
                     </b-field>
                 </div>
 
@@ -84,7 +88,8 @@
                                         size="is-small"
                                         :data="filteredEmployees"
                                         @select="option => employee = option"
-                                        :loading="$isLoading('FETCHING_EMPLOYEES')">
+                                        :loading="$isLoading('FETCHING_EMPLOYEES')"
+                                        :disabled="!editPermission">
                             <template slot="empty">No results found</template>
                         </b-autocomplete>
                         <!-- When selected -->
@@ -97,7 +102,8 @@
                     </b-field>
 
                     <location-selector :location="location"
-                                       @select:address="updateLocation">
+                                       @select:address="updateLocation"
+                                       :disabled="!editPermission">
                     </location-selector>
 
                     <div class="field">
@@ -105,22 +111,26 @@
                         <div class="block">
                             <b-radio v-model="requested_through_type"
                                      size="is-small"
-                                     native-value="email">
+                                     native-value="email"
+                                     :disabled="!editPermission">
                                 Email
                             </b-radio>
                             <b-radio v-model="requested_through_type"
                                      size="is-small"
-                                     native-value="phone_call">
+                                     native-value="phone_call"
+                                     :disabled="!editPermission">
                                 Phone Call
                             </b-radio>
                             <b-radio v-model="requested_through_type"
                                      size="is-small"
-                                     native-value="breakdown">
+                                     native-value="breakdown"
+                                     :disabled="!editPermission">
                                 Breakdown
                             </b-radio>
                             <b-radio v-model="requested_through_type"
                                      size="is-small"
-                                     native-value="ppm">
+                                     native-value="ppm"
+                                     :disabled="!editPermission">
                                 PPM
                             </b-radio>
                         </div>
@@ -144,14 +154,15 @@
                                          v-model="time_start"
                                          placeholder="Select start time"
                                          size="is-small"
-                                         required>
+                                         required
+                                         :disabled="!editPermission">
                                 </b-input>
                             </div>
                             <div class="column">
                                 <b-input type="time"
                                          v-model="time_end"
                                          size="is-small"
-                                         placeholder="Select end time">
+                                         placeholder="Select end time" :disabled="!editPermission">
                                 </b-input>
                             </div>
                         </div>
@@ -168,7 +179,8 @@
                         </div>
                         <button class="button is-small is-primary is-outlined"
                                 style="height: 22px;font-size: 10px;width: 85px;"
-                                @click.prevent="isAddingMaterial=true">
+                                @click.prevent="isAddingMaterial=true"
+                                :disabled="!editPermission">
                             + Add Material
                         </button>
                         <table class="table is-narrow is-size-7 is-fullwidth is-striped">
@@ -314,7 +326,8 @@
                         <label class="label anb-label">Technicians</label>
                         <button class="button is-small is-primary is-outlined"
                                 style="height: 22px;font-size: 10px;width: 85px;"
-                                @click.prevent="isAddingTechnician=true">
+                                @click.prevent="isAddingTechnician=true"
+                                :disabled="!editPermission">
                             + Add Technician
                         </button>
                         <table class="table is-narrow is-size-7 is-fullwidth">
@@ -424,6 +437,11 @@
         type: Boolean,
         required: false,
         default: true,
+      },
+      editPermission: {
+        type: Boolean,
+        required: false,
+        default: false,
       }
     },
     data() {
@@ -605,6 +623,14 @@
             this.technicians = jo.technicians;
 
             this.jobOrder = response.data;
+
+            if (!this.jobOrder.is_completed) {
+              this.editPermission = true
+            } else if (this.jobOrder.is_completed && this.editPermission) {
+              this.editPermission = true
+            } else {
+              this.editPermission = false
+            }
           })
       },
       asyncRequest: debounce(function(q, data) {

@@ -187,6 +187,21 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="column is-12">
+			<div class="panel">
+				<p class="panel-heading">
+					Job Orders
+				</p>
+				<div class="panel-block">
+					<toggle-permission :role-id.number="{{ $role->id }}"
+									   :enabled-prop.number="{{ $role->hasPermissionTo('edit-completed-job-order') ? 'true' : 'false' }}"
+									   permission-name="edit-completed-job-order">
+						Edit Completed Job Order
+					</toggle-permission>
+				</div>
+			</div>
+		</div>
 		
 		
 
