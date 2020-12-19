@@ -402,7 +402,7 @@
                 </div>
             </div>
 
-            <div class="columns is-centered" v-if="!jobOrder.is_completed">
+            <div class="columns is-centered" v-if="editPermission">
                 <div class="column">
                     <button type="submit"
                             :class="{'is-loading': $isLoading('UPDATING_JOB_ORDER')}"
