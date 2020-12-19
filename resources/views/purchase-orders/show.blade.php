@@ -318,10 +318,10 @@
 								 resource-id.number="{{ $purchase_order->id }}"
 				>
 				</notes-container>
-
 				{{-- Uploads section --}}
 				<uploads-container url="{{ route('api.purchase-orders.uploads', ['id' => $purchase_order->id]) }}"
 								   resource-id.number="{{ $purchase_order->id }}"
+								   :can-delete-invoice-attachments="{{ $purchase_order->can_delete_invoice_attachments ? 'true' : 'false' }}"
 				>
 				</uploads-container>
 			</div>

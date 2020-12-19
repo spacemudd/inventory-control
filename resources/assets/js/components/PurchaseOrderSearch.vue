@@ -5,6 +5,7 @@
                 <option value="po_number">Search by PO Number</option>
                 <option value="vendor">Search by Vendor</option>
                 <option value="location">Search by Location</option>
+                <option value="cost_center_code">Search by Cost Center Code</option>
             </select>
         </div>
 
@@ -155,7 +156,7 @@ export default {
               //  vm.results = response.data.data;
                 vm.loading = false;
             })
-        }, 500),
+        }, 1000),
 
      
 

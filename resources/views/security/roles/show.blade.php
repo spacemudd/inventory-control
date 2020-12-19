@@ -162,6 +162,13 @@
 						Edit Invoices
 					</toggle-permission>
 				</div>
+				<div class="panel-block">
+					<toggle-permission :role-id.number="{{ $role->id }}"
+									   :enabled-prop.number="{{ $role->hasPermissionTo('delete-invoice-attachments') ? 'true' : 'false' }}"
+									   permission-name="delete-invoice-attachments">
+						Delete Invoice attachments
+					</toggle-permission>
+				</div>
 			</div>
 		</div>
 		
