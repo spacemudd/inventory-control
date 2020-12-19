@@ -84,7 +84,7 @@ class JobOrderController extends Controller
        
 
 		session(['jo-tab'=>'completed']);
-        return view('job-orders.index', compact('jobOrders'));
+        return view('job-orders.index', compact('jobOrders'))->with('type','completed');
     }
 
     /**
