@@ -132,7 +132,7 @@
                                         <span>View</span>
                                 </a>
                                 
-                                @if($type != 'completed') 
+                                @if(!isset($type)) 
                                 <a href="{{ route('job-orders.pdf', $jobOrder->job_order_number) }}"
                                  style="height:20px; margin-top: 5px;" class="button is-small">
                                 

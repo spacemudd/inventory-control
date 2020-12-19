@@ -148,7 +148,7 @@
 												<string-token :id.number="{{ $purchase_order->id }}"
 															  :auto-save="true"
 															  name="subject"
-															  :can-multiple-edit="{{auth()->user()->hasPermissionTo('edit-po-subject-after-approval')==1 ? 'true' : 'false'}}"
+															  :can-multiple-edit={{auth()->user()->hasPermissionTo('edit-po-subject-after-approval')==1 ? 'true' : 'false'}}
 															  value="{{ $purchase_order->subject }}"
 															  :highlighted="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
 															  placeholder="SUBJECT"
@@ -309,7 +309,7 @@
 					</div>
 				</div>
 			@endif
-
+		
 		</div>
 		<transition enter-active-class="animated fadeInRight" mode="out-in">
 			<div class="column" v-if="showNotesAndFilesSidebar">
@@ -318,10 +318,13 @@
 								 resource-id.number="{{ $purchase_order->id }}"
 				>
 				</notes-container>
+				@can('delete-invoice-attachments')
+				<?php $can_delete_invoice_attachments=True?> 
+				@endcan
 				{{-- Uploads section --}}
 				<uploads-container url="{{ route('api.purchase-orders.uploads', ['id' => $purchase_order->id]) }}"
 								   resource-id.number="{{ $purchase_order->id }}"
-								   :can-delete-invoice-attachments="{{ $purchase_order->can_delete_invoice_attachments ? 'true' : 'false' }}"
+								   :can-delete="{{ $can_delete_invoice_attachments ? 'true' : 'false'}}"
 				>
 				</uploads-container>
 			</div>
