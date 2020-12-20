@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p class="is-size-7" :class="{'transparent-highlighter-bg': canEdit}" @click="edit">
+        <p class="is-size-7" :class="{'transparent-highlighter-bg': !canEdit}" @click="edit">
             {{ old_value }}
             <span v-if="!old_value"><i>[{{ placeholder }}]</i></span>
         </p>
@@ -18,11 +18,12 @@
                                 @click="save">Save</button>
                     </div>
                 </div>
+                <div v-else class="field">
+                  <p class="help">Insufficient Role access to edit/modify existing value. </p> <button class="button is-small is-text" @click="rollback">{{ $t('words.cancel') }}</button>
+                </div>
             </template>
 
-            <div v-else class="field">
-                <p class="help">Insufficient Role access to edit/modify existing value. </p> <button class="button is-small is-text" @click="rollback">{{ $t('words.cancel') }}</button>
-            </div>
+            
         </div>
     </div>
 </template>
@@ -132,7 +133,7 @@
                   type: 'is-success',
                 });
               })
-          }, 200),
+          }, 300),
             save() {
                 this.$startLoading('SAVING_QUOTE_REF_TOKEN');
 

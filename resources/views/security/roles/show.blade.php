@@ -162,6 +162,13 @@
 						Edit Invoices
 					</toggle-permission>
 				</div>
+				<div class="panel-block">
+					<toggle-permission :role-id.number="{{ $role->id }}"
+									   :enabled-prop.number="{{ $role->hasPermissionTo('delete-invoice-attachments') ? 'true' : 'false' }}"
+									   permission-name="delete-invoice-attachments">
+						Delete Invoice attachments
+					</toggle-permission>
+				</div>
 			</div>
 		</div>
 		
@@ -176,6 +183,21 @@
 									   :enabled-prop.number="{{ $role->hasPermissionTo('show-stock-movement-reference') ? 'true' : 'false' }}"
 									   permission-name="show-stock-movement-reference">
 						Show Stocks Reference <span class="help">Allow user to see reference on the Stocks Movement.</span>
+					</toggle-permission>
+				</div>
+			</div>
+		</div>
+
+		<div class="column is-12">
+			<div class="panel">
+				<p class="panel-heading">
+					Job Orders
+				</p>
+				<div class="panel-block">
+					<toggle-permission :role-id.number="{{ $role->id }}"
+									   :enabled-prop.number="{{ $role->hasPermissionTo('edit-completed-job-order') ? 'true' : 'false' }}"
+									   permission-name="edit-completed-job-order">
+						Edit Completed Job Order
 					</toggle-permission>
 				</div>
 			</div>

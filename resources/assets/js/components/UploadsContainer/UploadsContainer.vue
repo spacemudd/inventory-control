@@ -34,7 +34,7 @@
                                 </time>
                                 &#8226;
                                 <button class="button is-small is-text has-text-link" :class="{'is-loading': $isLoading('DOWNLOADING_FILE_' + upload.id)}" @click="downloadFile(upload.id)">Download</button>
-                                <button class="button is-small is-danger is-pulled-right has-icon" @click="confirmDelete(upload.id)">
+                                <button v-if="canDelete" class="button is-small is-danger is-pulled-right has-icon" @click="confirmDelete(upload.id) ">
                                     <span class="icon"><i class="fa fa-trash"></i></span>
                                 </button>
                             </small>
@@ -60,6 +60,11 @@
     import * as fileUtil from '../../utils/file.js'
     export default {
         props: {
+            canDelete: {
+            type: Boolean,
+            required: false,
+            default: false
+                },
             /**
              * The ID of the mediable resource.
              */
@@ -97,6 +102,7 @@
                 axios.get(this.url)
                     .then(response => {
                         console.log(response.data)
+                        console.log(this.canDelete)
                         this.uploads = response.data;
                     });
             },

@@ -132,7 +132,29 @@ class PurchaseOrderController extends Controller
     			$res[] = (object)$res_row;
     			
     		}
-    	}
+        }
+
+        else if($searchtype=='cost_center_code')
+    	{
+    		$resx = PurchaseOrder::query()
+    		->join('departments', 'purchase_orders.cost_center_id', '=', 'departments.id')
+    		->where('departments.code', 'LIKE', '%' . $search . '%')
+    		->select('purchase_orders.*')
+    		->get();
+    		
+    		foreach ($resx as $row)
+    		{
+    			$res_row = PurchaseOrder::where('id', '=', $row->id)
+    			->with('location')
+    			->with('vendor')
+    			->get();
+    			
+    			$res[] = (object)$res_row;
+    			
+    		}
+        }
+        
+        
     	
     	
 

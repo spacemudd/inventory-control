@@ -398,4 +398,5 @@
         'dispatched' => 'Dispatched',
         'un-dispatched' => 'Undispatched',
         'cost-approvals' => 'Cost approvals',
+        'delete-invoice-attachments' => 'Delete invoice attachments',
 	];

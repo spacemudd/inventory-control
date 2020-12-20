@@ -80,6 +80,8 @@ class PermissionsTableSeeder extends Seeder
             'upload-purchase-orders',
             'void-purchase-orders',
 
+            'edit-completed-job-order',
+
             'view-purchase-requisitions',
             'create-purchase-requisitions',
             'update-purchase-requisitions',
@@ -121,10 +123,12 @@ class PermissionsTableSeeder extends Seeder
         	'create-sales-taxes',
 
             'edit-invoices',
+            'delete-invoice-attachments',
             'show-stock-movement-reference',
+            
         ];
 
-        // Creating a super admin role.
+        // Creating a super admin role.h
         $superAdmin = \Spatie\Permission\Models\Role::firstOrCreate([
             'name' => 'Super Admin',
             'guard_name' => 'web'

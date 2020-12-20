@@ -131,6 +131,7 @@
                                         <span class="icon"><i class="fa fa-eye"></i></span>
                                         <span>View</span>
                                 </a>
+                                
                                 <a href="{{ route('job-orders.pdf', $jobOrder->job_order_number) }}"
                                  style="height:20px; margin-top: 5px;" class="button is-small">
                                 

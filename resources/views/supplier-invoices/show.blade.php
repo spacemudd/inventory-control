@@ -90,7 +90,7 @@
 											<td><strong>Option</strong></td>
 											<td>@can('edit-invoices')
 						                        	<a @click="$store.commit('SupplierInvoices/showEditInvoiceUpdateModal', true); $store.commit('SupplierInvoices/id', {{json_encode(['number'=>$newval, 'uid'=>$invoice->id])}});" class="button is-small">Edit</a>
-						                        	
+												
 						                        	<form  class="is-inline-block" method="post" action="{{ route('supplier-invoices.destroy', ['id' => $invoice->id]) }}">
 							                        	{{ @csrf_field() }}
 							                        	
@@ -109,8 +109,10 @@
 									                        </confirmation-prompt>
 							                        
 							                        	<button style="display:none;"  id="{{$idx}}" href="{{ route('supplier-invoices.destroy', ['id' => $invoice->id]) }}" class="button is-small is-danger">Delete</button>
-							                        	</form>
-						                         @endcan</td>
+														</form>
+													
+													@endcan	
+						                         </td>
 										</tr>
 										
 										

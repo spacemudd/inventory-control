@@ -145,14 +145,17 @@ class PurchaseOrderController extends Controller
 		/*
 		 *  Enabled other user roles temporarily to allow other users access this page
 		 */
+
     	
         $purchase_order = $this->service->show($id);
+        
+        
 
         if($purchase_order->purchase_order_main_id) return abort(404);
 
         $purchaseTermsTypes = PurchaseTermsType::get();
 
-        return view('purchase-orders.show', compact('purchase_order', 'purchaseTermsTypes'));
+        return view('purchase-orders.show', compact('purchase_order', 'purchaseTermsTypes'))->with('can_delete_invoice_attachments', FALSE);
     }
 
     /**
