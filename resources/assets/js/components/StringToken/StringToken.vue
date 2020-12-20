@@ -6,7 +6,8 @@
         </p>
         <div v-if="is_editing" style="margin-top:20px">
             <div  v-if="!isFieldDisabled()" class="field">
-                <b-input :disabled="isFieldDisabled()" v-model="loadedValue" size="is-small" @keyup.enter="save"></b-input>
+                <b-input placeholder="Press Enter to save" :disabled="isFieldDisabled()" v-model="loadedValue" size="is-small" @keyup.enter.native="save"></b-input>
+                <p class="help">Press Enter to save</p>
             </div>
             <template v-if="!autoSave">
                 <div v-if="!isFieldDisabled()" class="field">
@@ -76,11 +77,11 @@
           }
         },
       watch: {
-        loadedValue() {
-          if (this.autoSave) {
-            this.saveAuto();
-          }
-        }
+        // loadedValue() {
+        //   if (this.autoSave) {
+        //     this.saveAuto();
+        //   }
+        // }
       },
         data() {
             return {

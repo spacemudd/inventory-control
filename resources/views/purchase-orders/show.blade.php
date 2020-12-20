@@ -64,11 +64,19 @@
 
 								@can('create-purchase-orders')
 									@if($purchase_order->is_draft)
-										<a class="button is-small" href="{{ route('purchase-orders.edit', ['id' => $purchase_order->id]) }}">
-											Edit
-										</a>
+										@if(auth()->user()->hasPermissionTo('edit-po-subject-after-approval'))
+											<a class="button is-small" href="{{ route('purchase-orders.edit', ['id' => $purchase_order->id]) }}">
+												Edit
+											</a>
+										@endif
 									@endif
 								@endcan
+
+								@if(auth()->user()->hasPermissionTo('edit-po-subject-after-approval') && !$purchase_order->is_draft)
+									<a class="button is-small" href="{{ route('purchase-orders.edit', ['id' => $purchase_order->id]) }}">
+										Edit
+									</a>
+								@endif
 
 								@can('create-purchase-orders')
 									@if($purchase_order->is_saved && !$purchase_order->supplier_invoice)
@@ -143,12 +151,12 @@
 											<td class="is-capitalized">{{ optional($purchase_order->cost_center)->display_name }}</td>
 										</tr>
 										<tr>
-											<td><strong>Subject {{$purchase_order->cost_approval_id}}</strong></td>
+											<td><strong>Subject</strong></td>
 											<td>
 												<string-token :id.number="{{ $purchase_order->id }}"
 															  :auto-save="true"
 															  name="subject"
-															  :can-multiple-edit={{auth()->user()->hasPermissionTo('edit-po-subject-after-approval')==1 ? 'true' : 'false'}}
+															  :can-multiple-edit="{{auth()->user()->hasPermissionTo('edit-po-subject-after-approval')==1 ? 'true' : 'false'}}"
 															  value="{{ $purchase_order->subject }}"
 															  :highlighted="{{ $purchase_order->is_draft ? 'true' : 'false' }}"
 															  placeholder="SUBJECT"
