@@ -1,6 +1,15 @@
 <div style="font-family:Calibri;">
     <div class="row" style="margin-top:15px;">
         <div class="col-4-sm">
+            @if (now()->isBefore(now()->setDate(2021, 6, 9)))
+                <p style="font-size:11px;padding-bottom:50px;font-family: Calibri">Prepared by:</p>
+                <div class="center" style="border-top:2px solid black;width:100%;font-size:10px;">
+                    <strong style="font-family:Calibri;">
+                        Ashraf Saeed<br/>
+                        Premises Centre
+                    </strong>
+                </div>
+            @else
             <p style="font-size:11px;padding-bottom:50px;font-family: Calibri">Noted by:</p>
             <div class="center" style="border-top:2px solid black;width:100%;font-size:10px;">
                 <strong style="font-family:Calibri;">
@@ -8,6 +17,7 @@
                     Head of Premises Centre
                 </strong>
             </div>
+            @endif
         </div>
         @if ($data->approver_two_id)
             <div class="col-4-sm"></div>
