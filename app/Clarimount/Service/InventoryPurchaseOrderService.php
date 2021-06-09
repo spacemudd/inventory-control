@@ -26,8 +26,8 @@ class InventoryPurchaseOrderService
 
         $poRequest = $request->except('_token');
         $poRequest['status'] = PurchaseOrder::NEW;
-        $poRequest['approver_one_id'] = optional(Employee::where('name', 'LIKE', '%Saleh N. Al-Zunaidi%')->first())->id;
-        $poRequest['approver_two_id'] = optional(Employee::where('name', 'LIKE', 'Ashraf Saeed')->first())->id;
+        $poRequest['approver_one_id'] = optional(Employee::where('name', 'LIKE', '%Waleed Al Shubeyan%')->first())->id;
+        $poRequest['approver_two_id'] = optional(Employee::where('name', 'LIKE', 'Haitham AbdulRahman Al Koblan')->first())->id;
         $poRequest['created_by_id'] = auth()->user()->id;
 
         return PurchaseOrder::create($poRequest);
