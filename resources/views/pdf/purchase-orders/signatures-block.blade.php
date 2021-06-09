@@ -5,21 +5,21 @@
             <div class="col-4-sm" style="margin-left:0;padding-left:0;">
                 <div style="width:100%;font-size:20px;white-space: nowrap">
                     <strong style="font-family:Calibri;">{{ optional($data->approver_one)->name }}</strong><br/>
-                    {{ optional($data->approver_one)->designation }}
+                    {!! optional($data->approver_one)->designation !!}
                 </div>
             </div>
         @endif
-        <div class="col-4-sm center">
-        </div>
+{{--        <div class="col-3-sm center">--}}
+{{--        </div>--}}
         @if ($data->approver_two)
-            <div class="col-4-sm" style="margin-right: 0;padding-right:0;float:right;">
+            <div class="col-5-sm" style="margin-right: 0;padding-right:0;float:right;background-color:red;">
                 @if (optional($data->approver_two)->name === 'Ashraf Saeed')
                 <div style="font-size:20px;display:inline-block;float:right;padding-right:0;width:140px;">
                 @else
                 <div style="font-size:20px;display:inline-block;float:right;padding-right:0;">
                 @endif
                     <strong style="font-family:Calibri;">{{ optional($data->approver_two)->name }}</strong><br/>
-                    {{ optional($data->approver_two)->designation }}
+                    {!! optional($data->approver_two)->designation !!}
                 </div>
             </div>
         @endif

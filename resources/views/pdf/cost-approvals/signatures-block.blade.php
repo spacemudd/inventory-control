@@ -1,11 +1,11 @@
 <div style="font-family:Calibri;">
     <div class="row" style="margin-top:15px;">
         <div class="col-4-sm">
-            <p style="font-size:11px;padding-bottom:50px;font-family: Calibri">Prepared by:</p>
+            <p style="font-size:11px;padding-bottom:50px;font-family: Calibri">Noted by:</p>
             <div class="center" style="border-top:2px solid black;width:100%;font-size:10px;">
                 <strong style="font-family:Calibri;">
-                    Ashraf Saeed<br/>
-                    Premises Centre
+                    Engr. Haitham AbdulRahman Al Koblan<br/>
+                    Head of Premises Centre
                 </strong>
             </div>
         </div>
@@ -16,7 +16,7 @@
                     <strong style="font-family:Calibri;">
                         {{ $data->approver_two->name }}
                         <br/>
-                        {{ $data->approver_two->designation }}
+                        {!! $data->approver_two->designation !!}
                     </strong>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                     <strong style="font-family:Calibri">
                         {{ $data->approver_one->name }}
                         <br/>
-                        {{ $data->approver_one->designation }}
+                        {!! $data->approver_one->designation !!}
                     </strong>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                     <strong style="font-family:Calibri">
                         {{ $data->approver_three->name }}
                         <br/>
-                        {{ $data->approver_three->designation }}
+                        {!! $data->approver_three->designation !!}
                     </strong>
                 </div>
             </div>
