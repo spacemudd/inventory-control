@@ -154,7 +154,6 @@ return [
         Adldap\Laravel\AdldapServiceProvider::class,
         Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider::class,
         MartinLindhe\VueInternationalizationGenerator\GeneratorProvider::class,
-        Nexmo\Laravel\NexmoServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
         TeamTNT\Scout\TNTSearchScoutServiceProvider::class,

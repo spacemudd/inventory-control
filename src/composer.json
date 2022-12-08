@@ -28,7 +28,6 @@
         "maatwebsite/excel": "~2.1.0",
         "martinlindhe/laravel-vue-i18n-generator": "^0.1.18",
         "mcamara/laravel-localization": "^1.2",
-        "nexmo/laravel": "^0.4.0",
         "nwidart/laravel-modules": "^3.0",
         "owen-it/laravel-auditing": "^6.0",
         "sofa/eloquence-base": "^5.5",
