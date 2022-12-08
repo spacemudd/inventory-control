@@ -26,8 +26,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
-        URL::forceScheme('https');
-        $this->app['request']->server->set('HTTPS','on');
+        if (env('APP_ENV') != 'local') {
+            URL::forceScheme('https');
+            $this->app['request']->server->set('HTTPS','on');
+        }
         DB::getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
     }
 

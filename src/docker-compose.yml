@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+
+  backend:
+    build: ./
+    working_dir: /var/www
+    ports:
+      - 8000:9000
+    volumes:
+      - ./:/var/www/html
+    environment:
+      - DB_PORT=3306
+      - DB_HOST=${DB_HOST}
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+
+  db-service:
+    image: mysql:5.7
+    command: '--innodb-flush-method=fsync'
+    volumes:
+      - ./inventory-db:/var/lib/mysql
+    ports:
+      - 33077:3306
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+
+  npm:
+   command: "npm install"
+   build:
+     context: .
+     dockerfile: npm.dockerfile
+   working_dir: /var/www/backend
+   volumes:
+     - ./:/var/www
+   ports:
+     - "6001:6001"
+
