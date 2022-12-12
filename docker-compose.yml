@@ -78,7 +78,7 @@ services:
       - laravel
 
   npm:
-    image: node:lts-alpine
+    image: node:14-alpine
     volumes:
       - ./src:/var/www/html
     ports:
