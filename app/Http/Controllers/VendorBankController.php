@@ -25,7 +25,7 @@ class VendorBankController extends Controller
      */
     public function create($vendor_id)
     {
-        $this->authorize('create-vendor-bank');
+        //$this->authorize('create-vendor-bank');
 
         $vendor = $this->vendorService->show($vendor_id);
 
@@ -44,7 +44,7 @@ class VendorBankController extends Controller
      */
     public function store()
     {
-        $this->authorize('create-vendor-bank');
+        //$this->authorize('create-vendor-bank');
 
         $vendor = $this->vendorService->show(request()->input('vendor_id'));
         if($vendor->bank) return abort(404);
@@ -64,7 +64,7 @@ class VendorBankController extends Controller
      */
     public function edit($vendor_id, $id)
     {
-        $this->authorize('update-vendor-bank');
+        //$this->authorize('update-vendor-bank');
 
         $vendorBank = $this->service->show($id);
 
@@ -82,7 +82,7 @@ class VendorBankController extends Controller
      */
     public function update($vendor_id, $id)
     {
-        $this->authorize('update-vendor-bank');
+        //$this->authorize('update-vendor-bank');
 
         $this->service->update($id);
 
@@ -98,7 +98,7 @@ class VendorBankController extends Controller
      */
     public function destroy($vendor_id, $id)
     {
-        $this->authorize('delete-vendor-bank');
+        //$this->authorize('delete-vendor-bank');
         
         $this->service->destroy($id);
         //return redirect()->back();
