@@ -62,3 +62,20 @@ if(permissions) {
 //     broadcaster: 'pusher',
 //     key: 'your-pusher-key'
 // });
+
+  $(document).ready(function(){
+    
+    $("#clear_br").on('click', function(){
+    
+        $("#vd_edit input[name=name]").val('');
+        $("#vd_edit input[name=address]").val('');
+        $("#vd_edit input[name=beneficiary_name]").val('');
+        $("#vd_edit input[name=account_number]").val('');
+        $("#vd_edit input[name=iban_code]").val('');
+        $("#vd_edit input[name=swift_code]").val('');
+        $("#vd_edit input[name=sort_code]").val('');
+        $("#vd_edit input[name=currency]").val('');
+      
+    });
+     
+  });

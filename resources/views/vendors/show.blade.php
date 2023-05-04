@@ -153,6 +153,17 @@
                                 <i class="fa fa-pencil" aria-hidden="true"></i>
                             </span>
                         </a>
+
+        
+                        <form method="post" action="{{ route('vendor-bank.destroy', ['vendor_id' => $vendor->id, 'id' => $vendor->bank->id ] ) }}">
+                            {{ csrf_field() }}
+                            <input type="hidden" name="_method" value="delete">
+                            <button type="submit" class="card-header-icon czbtn">
+                                <span class="icon "><i class="fa fa-trash"></i></span>
+                            </button>
+                        </form>
+                       
+
                     @else
                         <a href="{{ route('vendor-bank.create', ['vendor_id' => $vendor->id]) }}" class="card-header-icon">
                             <span class="icon">

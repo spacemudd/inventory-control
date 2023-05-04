@@ -25,6 +25,8 @@ class QuotationItem extends Model implements AuditableContract
         'total_price_inc_vat',
     ];
 
+    protected $dateFormat = 'Y-m-d H:i:s.u';
+
     public function getDisplayNameAttribute()
     {
         return $this->quotation->vendor_quotation_number;

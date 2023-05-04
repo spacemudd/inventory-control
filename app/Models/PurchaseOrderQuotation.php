@@ -10,6 +10,8 @@ class PurchaseOrderQuotation extends Model
 	protected $fillable = [
 			'quotation_number',
 	];
+
+	//protected $dateFormat = 'Y-m-d H:i:s.u';
 	
 	public function purchase_order()
 	{

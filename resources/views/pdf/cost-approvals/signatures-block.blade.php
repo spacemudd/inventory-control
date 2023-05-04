@@ -14,7 +14,7 @@
             <div class="center" style="border-top:2px solid black;width:100%;font-size:10px;">
                 <strong style="font-family:Calibri;">
                     Engr. Haitham AbdulRahman Al Koblan<br/>
-                    Head of Premises Centre
+                    Head of Premises Department
                 </strong>
             </div>
             @endif

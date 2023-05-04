@@ -40,6 +40,8 @@ class MaterialRequest extends Model implements AuditableContract
         'purpose'
     ];
 
+    protected $dateFormat = 'Y-m-d H:i:s.u';
+
     /**
      * @var array
      */

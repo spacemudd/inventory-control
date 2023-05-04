@@ -31,6 +31,8 @@ class PurchaseRequisition extends Model implements AuditableContract
 
     protected $appends = ['status_name', 'link'];
 
+    //protected $dateFormat = 'Y-m-d H:i:s.u';
+
     public function getStatusNameAttribute()
     {
         switch($this->status) {

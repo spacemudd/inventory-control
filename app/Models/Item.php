@@ -27,6 +27,8 @@ class Item extends Model implements AuditableContract
         'default_unit_price',
     ];
 
+	protected $dateFormat = 'Y-m-d H:i:s.u';
+
 	public function stock()
 	{
 	    return $this->belongsTo(Stock::class);

@@ -15,5 +15,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Role extends \Spatie\Permission\Models\Role
 {
-    //
+     protected $dateFormat = 'Y-m-d H:i:s.u';
 }

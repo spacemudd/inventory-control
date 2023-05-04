@@ -18,4 +18,6 @@ class SystemPreference extends Model
     protected $fillable = [
       'name', 'slug', 'value'
     ];
+
+    protected $dateFormat = 'Y-m-d H:i:s.u';
 }

@@ -236,6 +236,7 @@
         "asset-templates" => "Asset Templates",
         "model-details" => "Model Details",
         "save" => "Save",
+        "clear" => "Clear",
         "warranty-type" => "Warranty Type",
         "year" => "Year",
         "month" => "Month",

@@ -32,6 +32,8 @@ class Contract extends Model
         'updated_at',
     ];
 
+    protected $dateFormat = 'Y-m-d H:i:s.u';
+
     protected $appends = [
         'show_url',
     ];

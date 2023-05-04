@@ -11,4 +11,6 @@ class Location extends Model
     ];
 
     protected $table = "locations";
+
+    protected $dateFormat = 'Y-m-d H:i:s.u';
 }

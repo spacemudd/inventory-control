@@ -22,6 +22,8 @@ class Address extends Model implements AuditableContract
         'email',
     ];
 
+    protected $dateFormat = 'Y-m-d H:i:s.u';
+
     const SHIPPING = 0;
     const BILLING = 1;
 

@@ -96,12 +96,12 @@ class VendorBankController extends Controller
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function destroy($id)
+    public function destroy($vendor_id, $id)
     {
         $this->authorize('delete-vendor-bank');
-
+        
         $this->service->destroy($id);
-
+        //return redirect()->back();
         return redirect()->route('vendors.index');
     }
 }

@@ -16,6 +16,8 @@ class SupplierInvoice extends Model
     	'date',
         'proceeded_date',
     ];
+
+    protected $dateFormat = 'Y-m-d H:i:s.u';
     
     public function vendors()
     {

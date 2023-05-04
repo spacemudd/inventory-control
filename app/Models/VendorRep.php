@@ -13,4 +13,6 @@ class VendorRep extends Model
         'number',
         'position',
     ];
+
+    protected $dateFormat = 'Y-m-d H:i:s.u';
 }

@@ -9,7 +9,8 @@
                             <div class="main-item">
                                 <a href="/" class="item">
                                     <span>
-                                        <img src="{{ asset('img/brand/sidebar_logo.svg') }}">
+                                        <!--img src="{{ asset('img/brand/sidebar_logo.svg') }}"-->
+                                        <img src="{{ asset('img/brand/anb_new_logo.jpg') }}">
                                     </span>
                                 </a>
                             </div>
@@ -53,7 +54,10 @@
                     <div class="wrapper">
                         <div class="logo">
                             <div class="logo-image">
-                                <img src="{{ asset('img/brand/sidebar_logo.svg') }}">
+                                <!--img src="{{ asset('img/brand/sidebar_logo.svg') }}"-->
+                                <img style="    max-width: 50px;
+    top: 5px;
+    position: relative;" src="{{ asset('img/brand/sidebar_new_logo.png') }}">
                                 <div style="height:90px;display: inline;">Maintenance Department</div>
                             </div>
                         </div>

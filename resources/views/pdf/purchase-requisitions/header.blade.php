@@ -11,7 +11,7 @@
 <div class="row big-font">
     <div class="col-2-sm">
         <div class="center" style="width: 80px; height: 50px;">
-            <img style="width: 80px;" src="{{ asset('img/brand/brand_pdf_logo.png') }}">
+            <img style="width: 80px;" src="{{ asset('img/brand/brand_pdf_new_logo.jpg') }}">
         </div>
     </div>
     <div class="col-7-sm">

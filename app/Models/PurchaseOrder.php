@@ -89,6 +89,8 @@ class PurchaseOrder extends Model implements AuditableContract
 
     protected $dates = ['date', 'delivery_date', 'quote_date'];
 
+    protected $dateFormat = 'Y-m-d H:i:s.u';
+
     protected $appends = ['date_human', 'delivery_date_human', 'link', 'date_string', 'delivery_date_string', 'status_name',
         'other_terms',
         'quote_date_string',

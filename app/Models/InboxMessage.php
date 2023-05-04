@@ -19,6 +19,8 @@ class InboxMessage extends Model
 
     protected $fillable = ['recipient_id', 'type', 'content'];
 
+    protected $dateFormat = 'Y-m-d H:i:s.u';
+
     public function scopeOwned($q)
     {
         return $q->where('recipient_id', auth()->user()->id);

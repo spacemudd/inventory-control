@@ -19,6 +19,7 @@ class SalesTax extends Model
     ];
 
     protected $appends = ['display_name'];
+    protected $dateFormat = 'Y-m-d H:i:s.u';
 
     public function getDisplayNameAttribute()
     {

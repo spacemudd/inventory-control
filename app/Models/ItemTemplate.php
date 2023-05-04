@@ -30,6 +30,8 @@ class ItemTemplate extends Model implements AuditableContract
         'default_unit_price_minor',
     ];
 
+    protected $dateFormat = 'Y-m-d H:i:s.u';
+
     protected $appends = ['link', 'display_name', 'unit_price'];
 
     public function manufacturer()

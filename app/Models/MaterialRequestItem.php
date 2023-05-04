@@ -17,6 +17,8 @@ class MaterialRequestItem extends Model implements AuditableContract
         'qty',
     ];
 
+    protected $dateFormat = 'Y-m-d H:i:s.u';
+
     public function materialRequest()
     {
         return $this->belongsTo(MaterialRequest::class);

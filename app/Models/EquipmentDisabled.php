@@ -15,6 +15,8 @@ class EquipmentDisabled extends Equipment
         'isLeaf',
     ];
 
+    protected $dateFormat = 'Y-m-d H:i:s.u';
+
     public function getIsLeafAttribute()
     {
         if ($this->type == "equipment") {
