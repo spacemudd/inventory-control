@@ -231,7 +231,7 @@
         "asset-templates" => "قوالب الأصول",
         "model-details" => "Model Details",
         "save" => "حفظ",
-        "clear" => "صافي",
+        "clear" => "الغاء",
         "warranty-type" => "نوع الضمان",
         "year" => "سنة",
         "month" => "شهر",
