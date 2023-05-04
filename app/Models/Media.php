@@ -24,6 +24,8 @@ class Media extends Model
 
     protected $appends = ['created_rss', 'created_w3c', 'created_at_human'];
 
+    protected $dateFormat = 'Y-m-d H:i:s.u';
+
     protected $dates = ['created_at', 'updated_at'];
 
     // protected $appends = ['download_link'];

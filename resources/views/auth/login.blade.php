@@ -9,7 +9,8 @@
                         <div class="box">
                             <div class="block has-text-centered">
                                 <a href="{{ url('/') }}" target="_blank" rel="noopener">
-                                    <img src="{{ asset('img/brand/brand_logo.svg') }}" alt="Clarimount" />
+                                    <!--img src="{{ asset('img/brand/brand_logo.svg') }}" alt="Clarimount" /-->
+                                    <img src="{{ asset('img/brand/anb_new_logo.jpg') }}" alt="Clarimount" />
                                 </a>
                             </div>
                             <form class="form-horizontal" role="form" method="POST" action="{{ route('login') }}">

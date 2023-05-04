@@ -10,7 +10,8 @@
     <div class="row big-font">
         <div class="col-sm-2">
             <div style="width: 100px; height: 70px;margin-top:10px;">
-                <img style="width: 100px;" src="{{ public_path('img/brand/brand_pdf_logo.png') }}">
+                <img style="width: 100px;" src="{{ asset('img/brand/brand_pdf_new_logo.jpg') }}">
+                
             </div>
         </div>
         <div class="col-8-sm center">

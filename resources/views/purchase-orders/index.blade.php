@@ -152,7 +152,7 @@
 									<span class="circle is-danger"></span>
 								@endif
 							</td>
-							<td>{{ $record->updated_at->format('Y-m-d') }}</td>
+							<td>{{  $record->updated_at->format('Y-m-d')  }}</td>
 							<td class="has-text-right"><a href="{{ $record->link }}" class="button is-small">Show</a></td>
 						</tr>
 					@endforeach

@@ -6,6 +6,7 @@ use App\Models\SupplierInvoice;
 use App\Models\Vendor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class SupplierInvoicesController extends Controller
 {
@@ -43,27 +44,50 @@ class SupplierInvoicesController extends Controller
 
     public function store(Request $request)
     {
-    	$request->validate([
-    		'po_number' => 'required',
-    		'vendor_id' => 'required|exists:vendors,id',
-    		'proceeded_date' => 'required',
-    		'number' => 'required',
-    		'remarks' => 'nullable',
-    		]);
+		
+			$validator = Validator::make($request->all(), [
+				'po_number' => 'required',
+				'vendor_id' => 'required|exists:vendors,id',
+				'proceeded_date' => 'required',
+				'number' => 'required',
+				'remarks' => 'nullable',
+			]);
 
-    	$date = Carbon::parse($request->proceeded_date);
+			$date = Carbon::parse($request->proceeded_date);
+	 
+			if ($validator->fails()) {
+				return redirect()->back()->withErrors($validator)->withInput();
+			}else{
 
-    	SupplierInvoice::create([
-    		'po_number' => $request->po_number,
-    		'vendor_id' => $request->vendor_id,
-    		'proceeded_date' => $date,
-    		'number' => $request->number,
-    		'remarks' => $request->remarks,
-    		]);
-    	//return redirect()->route('invoices.show');
+				if($this->checkInvoiceAgaintVendor($request)) {
+					$validator->getMessageBag()->add('number', 'The invoice number already exists under the same vendor name!');
+					return redirect()->back()->withErrors($validator)->withInput();
+				}else {
+					SupplierInvoice::create([
+						'po_number' => $request->po_number,
+						'vendor_id' => $request->vendor_id,
+						'proceeded_date' => $date,
+						'number' => $request->number,
+						'remarks' => $request->remarks,
+					]);
+				}
+
+
+			}
+
     	return redirect()->route('supplier-invoices.index');
     	
     }
+
+	public function checkInvoiceAgaintVendor(Request $request){
+
+		return SupplierInvoice::where('vendor_id', $request->vendor_id)
+		->where('number', $request->number)
+        ->exists();
+	}
+
+
+
     
     public function destroy($id)
     {

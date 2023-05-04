@@ -13,6 +13,8 @@ class Category extends Model
         'name',
     ];
 
+    protected $dateFormat = 'Y-m-d H:i:s.u';
+
     public function stocks()
     {
         return $this->hasMany(Stock::class);

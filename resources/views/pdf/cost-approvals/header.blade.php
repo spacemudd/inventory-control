@@ -10,14 +10,14 @@
 
 <div class="row big-font">
     <div class="col-2-sm">
-        <div class="center" style="width: 225px;">
-            <!--<img style="width: 150px;" src="{{ asset('img/brand/brand_pdf_logo.png') }}">-->
+        <div class="left" style="width:225px;">
+            <img style="width:150px;" src="{{ asset('img/brand/brand_pdf_new_logo.jpg') }}">
         </div>
     </div>
-    <div class="col-12-sm" style="text-align: right">
+    <div class="col-10-sm" style="text-align: right">
         <h3><span style="font-size:18px!important;">
         إدارة المباني والخدمـات الإدارية</span><br/>
-<span style="font-size:14px;">Premises & Admin. Services Dept.</span></h3>
+        <span style="font-size:14px;">Premises & Admin. Services Dept.</span></h3>
     </div>
 </div>
 

@@ -11,4 +11,5 @@ class Region extends Model implements AuditableContract
     use Auditable;
 
     protected $fillable = ['name'];
+    protected $dateFormat = 'Y-m-d H:i:s.u';
 }

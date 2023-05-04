@@ -22,6 +22,8 @@ class ContractPayment extends Model
         'issued_at',
     ];
 
+    protected $dateFormat = 'Y-m-d H:i:s.u';
+
     protected static function boot()
     {
         parent::boot();

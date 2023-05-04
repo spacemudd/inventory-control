@@ -37,7 +37,7 @@
                     <label for="po_number" class="label">P.O. #</label>
 
                     <div class="is-fullwidth">
-                        <input type="text" class="input" name="po_number" required>
+                        <input type="text" class="input" name="po_number" value="{{ old('po_number') }}" required>
                     </div>
                 </div>
 
@@ -48,10 +48,10 @@
                     <label for="vendor_id" class="label">Supplier</label>
 
                     <div class="select is-fullwidth">
-                        <select name="vendor_id" class="select is-fullwidth" required>
+                        <select name="vendor_id" class="select is-fullwidth"  value="{{ old('vendor_id') }}" required>
                             <option></option>
                             @foreach ($vendors as $vendor)
-                                <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
+                                <option value="{{ $vendor->id }}" {{ old("vendor_id") == $vendor->id ? "selected":"" }} >{{ $vendor->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -64,8 +64,13 @@
                     <label for="number" class="label">Invoice #</label>
 
                     <div class="is-fullwidth">
-                        <input type="text" class="input" name="number" required>
+                        <input type="text" class="input" name="number" value="{{ old('number') }}" required>
                     </div>
+                   
+                    @if ($errors->first('number'))
+                    <p class="has-text-danger">{{ $errors->first('number') }}</p>
+                    @endif
+                    
                 </div>
 
                 <hr>
@@ -75,8 +80,9 @@
                     <label for="date" class="label">Proceeded date</label>
 
                     <div class="control">
-                        <input type="date" class="input" name="proceeded_date" required>
+                        <input type="date" class="input" name="proceeded_date" value="{{ old('proceeded_date') }}" required>
                     </div>
+                   
                 </div>
 
                 <hr>
@@ -86,7 +92,7 @@
                     <label for="number" class="label">Remarks</label>
 
                     <div class="is-fullwidth">
-                        <input type="text" class="input" name="remarks" required>
+                        <input type="text" class="input" name="remarks" value="{{ old('remarks') }}" required>
                     </div>
                 </div>
 

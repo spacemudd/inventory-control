@@ -26,6 +26,8 @@ class Employee extends Model implements AuditableContract
 
 	protected $appends = ['link', 'edit_link', 'approver_link', 'display_name'];
 
+    protected $dateFormat = 'Y-m-d H:i:s.u';
+
 	public function department()
 	{
 		return $this->belongsTo(Department::class);

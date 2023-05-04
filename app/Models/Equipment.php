@@ -29,6 +29,8 @@ class Equipment extends Model implements AuditableContract
         'isLeaf',
     ];
 
+    protected $dateFormat = 'Y-m-d H:i:s.u';
+
     protected static function boot()
     {
         parent::boot();

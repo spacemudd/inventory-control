@@ -12,6 +12,8 @@ class ContractEquipment extends Model
         'location_id',
     ];
 
+    protected $dateFormat = 'Y-m-d H:i:s.u';
+    
     public function contract()
     {
         return $this->belongsTo(Contract::class);

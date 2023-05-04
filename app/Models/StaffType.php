@@ -16,4 +16,5 @@ use Illuminate\Database\Eloquent\Model;
 class StaffType extends Model
 {
     protected $guarded = ['id'];
+    protected $dateFormat = 'Y-m-d H:i:s.u';
 }

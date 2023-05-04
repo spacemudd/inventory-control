@@ -50,6 +50,8 @@ class User extends Authenticatable implements UserResolver, Auditable
         'full_name', 'display_name',
     ];
 
+    protected $dateFormat = 'Y-m-d H:i:s.u';
+
     public function getFullNameAttribute()
     {
         return $this->name;

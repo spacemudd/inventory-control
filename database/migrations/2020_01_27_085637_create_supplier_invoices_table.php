@@ -24,7 +24,6 @@ class CreateSupplierInvoicesTable extends Migration
             $table->date('proceeded_date')->nullable();
             $table->string('remarks')->nullable();
             $table->timestamps();
-
             $table->unique(['vendor_id', 'number']);
         });
     }

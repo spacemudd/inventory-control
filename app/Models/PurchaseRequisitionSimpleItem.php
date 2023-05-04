@@ -10,6 +10,8 @@ class PurchaseRequisitionSimpleItem extends Model
         'purchase_requisition_id', 'description', 'qty',
     ];
 
+    //protected $dateFormat = 'Y-m-d H:i:s.u';
+
     public function purchase_requisition()
     {
         return $this->belongsTo(PurchaseRequisition::class);

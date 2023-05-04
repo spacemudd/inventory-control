@@ -12,6 +12,8 @@ class Note extends Model
         'user_id',
     ];
 
+    protected $dateFormat = 'Y-m-d H:i:s.u';
+
     protected $hidden = ['notable_type'];
 
     protected $appends = ['created_rss', 'created_w3c', 'created_at_human'];

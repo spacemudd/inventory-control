@@ -34,6 +34,8 @@ class Quotation extends Model
         'region_id'
     ];
 
+    protected $dateFormat = 'Y-m-d H:i:s.u';
+
     protected $casts = [
         'vendor_quotation_number' => 'string',
     ];

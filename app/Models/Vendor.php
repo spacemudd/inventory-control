@@ -33,6 +33,8 @@ class Vendor extends Model implements AuditableContract
         'website',
     ];
 
+	protected $dateFormat = 'Y-m-d H:i:s.u';
+
 	protected $appends = ['link'];
 
 	public function getLinkAttribute()

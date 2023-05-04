@@ -11,6 +11,8 @@ class CostApprovalQuotation extends Model
         'quotation_number',
     ];
 
+    //protected $dateFormat = 'Y-m-d H:i:s.u';
+
     public function cost_approval()
     {
         return $this->belongsTo(CostApproval::class);

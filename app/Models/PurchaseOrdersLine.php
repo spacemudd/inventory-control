@@ -23,6 +23,8 @@ class PurchaseOrdersLine extends Model implements AuditableContract
         'received_at',
     ];
 
+    //protected $dateFormat = 'Y-m-d H:i:s.u';
+
     public function received_by()
     {
         return $this->hasOne(User::class, 'id', 'received_by_id');

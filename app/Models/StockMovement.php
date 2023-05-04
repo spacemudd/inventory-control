@@ -16,6 +16,8 @@ class StockMovement extends Model
         'out',
     ];
 
+    protected $dateFormat = 'Y-m-d H:i:s.u';
+
     public function stockable()
     {
         return $this->morphTo();

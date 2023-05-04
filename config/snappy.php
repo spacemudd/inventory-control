@@ -33,7 +33,10 @@ return array(
         'enabled' => true,
         'binary'  => env('SNAPPY_PDF_PATH') ?: $base_path_pdf,
         'timeout' => false,
-        'options' => array(),
+        'options' => [
+            'enable-local-file-access' => true,
+            'encoding' => 'UTF-8',
+        ],
         'env'     => array(),
     ),
     'image' => array(

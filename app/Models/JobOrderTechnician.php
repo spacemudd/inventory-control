@@ -16,4 +16,6 @@ class JobOrderTechnician extends Model
         'time_start',
         'time_end',
     ];
+
+    protected $dateFormat = 'Y-m-d H:i:s.u';
 }

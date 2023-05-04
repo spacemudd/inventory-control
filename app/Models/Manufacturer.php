@@ -26,6 +26,8 @@ class Manufacturer extends Model implements AuditableContract
 
     protected $appends = ['link'];
 
+    protected $dateFormat = 'Y-m-d H:i:s.u';
+
     public function assets()
     {
     	return $this->hasMany(Item::class);

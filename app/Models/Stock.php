@@ -21,6 +21,8 @@ class Stock extends Model
         'recommended_qty',
     ];
 
+    protected $dateFormat = 'Y-m-d H:i:s.u';
+
     protected $casts = [
         'rack_number' => 'integer',
     ];

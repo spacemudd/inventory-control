@@ -13,4 +13,6 @@ class SupplierInvoiceLine extends Model
     	'tag_number',
     	'remarks',
     ];
+
+	protected $dateFormat = 'Y-m-d H:i:s.u';
 }

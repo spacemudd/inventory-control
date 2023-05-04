@@ -11,6 +11,8 @@ class Project extends Model
         'cost_center_id',
     ];
 
+    protected $dateFormat = 'Y-m-d H:i:s.u';
+
     public function cost_center()
     {
         return $this->belongsTo(Department::class);

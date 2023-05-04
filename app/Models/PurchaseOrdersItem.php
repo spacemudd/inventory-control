@@ -48,6 +48,8 @@ class PurchaseOrdersItem extends Model implements AuditableContract
         'discounts',
     ];
 
+    protected $dateFormat = 'Y-m-d H:i:s.u';
+
 	protected $dates = ['created_at', 'updated_at', 'date', 'received_at', 'warranty_expires_at'];
 
     // protected $hidden = ['unit_price_minor', 'total_minor'];

@@ -28,7 +28,7 @@
 @section('content')
 	<div class="columns">
 		<div class="column is-8 is-offset-2">
-			<form class="form-horizontal form-groups-bordered" method="post" action="{{ route('vendor-bank.update', ['vendor_id' => $vendorBank->vendor->id, 'id' => $vendorBank->id]) }}">
+			<form class="form-horizontal form-groups-bordered"  id="vd_edit" method="post" action="{{ route('vendor-bank.update', ['vendor_id' => $vendorBank->vendor->id, 'id' => $vendorBank->id]) }}">
 				{{ csrf_field() }}
 				<input type="hidden" name="_method" value="put" class="input">
 				<input type="hidden" name="vendor_id" value="{{ $vendorBank->vendor->id }}">
@@ -185,7 +185,9 @@
 					</div>
 
 					<div class="column is-12 has-text-right">
+					
 						<a class="button is-text" href="{{ route('vendors.show', ['id' => $vendorBank->vendor->id]) }}">{{ __('words.cancel') }}</a>
+						<button type="button" id="clear_br" class="button is-success">{{ trans('words.clear') }}</button>
 						<button type="submit" class="button is-success">{{ trans('words.save') }}</button>
 					</div>
 
@@ -193,5 +195,8 @@
 			</form>
 		</div>
 	</div>
+	
 
 @endsection
+
+
