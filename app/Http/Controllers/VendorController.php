@@ -33,7 +33,7 @@ class VendorController extends Controller
      */
 	public function index()
 	{
-	    $this->authorize('view-vendor');
+	    //$this->authorize('view-vendor');
 
         $activeVendors = Vendor::get();
 
@@ -44,7 +44,7 @@ class VendorController extends Controller
 
 	public function all()
 	{
-        $this->authorize('view-vendor');
+        //$this->authorize('view-vendor');
 
         $vendors = Vendor::orderBy('name', 'asc')->get();
 
@@ -59,7 +59,7 @@ class VendorController extends Controller
      */
 	public function create()
 	{
-	    $this->authorize('create-vendor');
+	    //$this->authorize('create-vendor');
 
 		return view('vendors.create');
 	}
@@ -73,7 +73,7 @@ class VendorController extends Controller
      */
 	public function store(Request $request)
 	{
-        $this->authorize('create-vendor');
+        //$this->authorize('create-vendor');
 
 		$vendor = $this->service->store();
 
@@ -88,7 +88,7 @@ class VendorController extends Controller
 	 */
 	public function show($id)
 	{
-        $this->authorize('view-vendor');
+        //$this->authorize('view-vendor');
 
 	    $vendor = Vendor::findOrFail($id);
 
@@ -104,7 +104,7 @@ class VendorController extends Controller
      */
 	public function edit($id)
 	{
-        $this->authorize('update-vendor');
+        //$this->authorize('update-vendor');
 
         $vendor = $this->service->show($id);
 		return view('vendors.edit', compact('vendor'));
@@ -119,7 +119,7 @@ class VendorController extends Controller
      */
 	public function update($id)
 	{
-        $this->authorize('update-vendor');
+        //$this->authorize('update-vendor');
 
 		$this->service->update($id);
 
@@ -135,7 +135,7 @@ class VendorController extends Controller
      */
 	public function destroy($id)
 	{
-	    $this->authorize('delete-vendor');
+	    //$this->authorize('delete-vendor');
 
 		$this->service->destroy($id);
 

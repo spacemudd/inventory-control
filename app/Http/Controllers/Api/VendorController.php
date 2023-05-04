@@ -31,7 +31,7 @@ class VendorController extends Controller
 
     public function show($id)
     {
-        $this->authorize('view-vendor');
+        //$this->authorize('view-vendor');
 
         return $this->service->show($id);
     }
@@ -45,14 +45,14 @@ class VendorController extends Controller
 
     public function store()
     {
-        $this->authorize('create-vendor');
+        //$this->authorize('create-vendor');
 
         return $this->service->store();
     }
 
     public function updateAssociatedManufacturers()
     {
-        $this->authorize('update-vendor');
+        //$this->authorize('update-vendor');
 
         return $this->service->updateAssociatedManufacturers();
     }
