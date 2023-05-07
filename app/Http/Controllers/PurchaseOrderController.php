@@ -118,7 +118,7 @@ class PurchaseOrderController extends Controller
     {
         $this->authorize('create-purchase-orders');
 	
-        DB::beginTransaction();
+        //DB::beginTransaction();
         $po = $this->inventoryPoService->store($request);
 
         if ($request->quotation_numbers) {
@@ -127,7 +127,7 @@ class PurchaseOrderController extends Controller
             }
         }
         
-        DB::commit();
+        //DB::commit();
 
         return redirect()->route('purchase-orders.show', ['id' => $po->id]);
     }
