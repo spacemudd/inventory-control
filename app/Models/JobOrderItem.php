@@ -18,7 +18,7 @@ class JobOrderItem extends Model
         'dispatched_at'
     ];
 
-    protected $dateFormat = 'Y-m-d H:i:s.u';
+    //protected $dateFormat = 'Y-m-d H:i:s.u';
 
     public function jobOrder()
     {
