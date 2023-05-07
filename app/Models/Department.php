@@ -24,7 +24,7 @@ class Department extends Model implements AuditableContract
 
     protected $appends = ['department_human', 'link', 'edit_link', 'display_name'];
 
-    protected $dateFormat = 'Y-m-d H:i:s.u';
+    protected $dateFormat = 'Y-m-d H:i:s';
 
     public function employees()
     {
