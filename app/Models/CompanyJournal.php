@@ -13,7 +13,7 @@ class CompanyJournal extends Model
 
     protected $fillable = ['name', 'system_account'];
 
-    protected $dateFormat = 'Y-m-d H:i:s.u';
+    //protected $dateFormat = 'Y-m-d H:i:s.u';
 
     /**
      * Morph to Journal.
