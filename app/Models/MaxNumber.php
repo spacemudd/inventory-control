@@ -19,7 +19,7 @@ class MaxNumber extends Model
         'name', 'value',
     ];
 
-    protected $dateFormat = 'Y-m-d H:i:s.u';
+    protected $dateFormat = 'Y-m-d H:i:s';
 
     public function getCodeAttribute()
     {
