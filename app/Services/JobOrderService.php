@@ -46,7 +46,7 @@ class JobOrderService
      */
     public function save(Request $request)
     {
-        DB::beginTransaction();
+        //DB::beginTransaction();
 
         if($request->employee_id == null && $request->employeeName) {
             $department = Department::firstOrCreate([
@@ -97,7 +97,7 @@ class JobOrderService
 
         $jobOrder = JobOrder::create($jobData);
 
-        DB::commit();
+        //DB::commit();
 
         return $jobOrder;
     }
